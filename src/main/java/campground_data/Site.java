@@ -1,5 +1,40 @@
 package campground_data;
 
+<<<<<<< HEAD
+public class Site extends Plot {
+    private boolean serviced;
+    private type SiteType; //help
+
+    public Site (int SiteNum, boolean serviced, double price, Type type, boolean underReno, int occupancy){
+        super(price, underReno, occupancy);
+        this.serviced = serviced;
+        this.SiteType = type;
+
+    }
+
+    public boolean isServiced() {
+        return serviced;
+    }
+
+    public void setServiced(boolean serviced) {
+        this.serviced = serviced;
+    }
+
+    public type getSiteType() {
+        return SiteType;
+    }
+
+    public void setSiteType(type siteType) {
+        SiteType = siteType;
+    }
+
+    @Override
+    public String toString() {
+        return "Site{" +
+                "serviced=" + serviced +
+                ", SiteType=" + SiteType +
+                '}';
+=======
 public class Site extends Plot
 {
     private boolean serviced;
@@ -45,5 +80,6 @@ public class Site extends Plot
     public String toString()
     {
         
+>>>>>>> 997588a8933c5e2232b42b0a406e88d66140a52f
     }
 }
