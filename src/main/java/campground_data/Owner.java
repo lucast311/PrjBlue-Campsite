@@ -2,11 +2,21 @@ package campground_data;
 
 import org.json.simple.JSONObject;
 
-public class Owner {
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+
+public class Owner implements Serializable {
 
     private String firstName;
     private String lastName;
+
+    @Size(min = 2, max = 51, message = "UserID must be between 2 and 51 characters")
+    @Pattern(regexp = "^[a-z]{2,20}[.]{1}[a-z]{2,30}$", message = "UserID must be in the format firstname.fastname")
     private String userId;
+
+    @Size(min = 7, max = 30, message = "Password must be between 7 and 30 characters in length")
+    @Pattern(regexp = "^[0-9A-Z!@#$%^&*]{7,30}$/i", message = "Password can consist of letters, number and symbols but not spaces")
     private String password;
     private String phoneNumber;
     private String email;
