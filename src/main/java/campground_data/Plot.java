@@ -1,26 +1,28 @@
 package campground_data;
 
-public class Plot {
-    private String plotID;
+public abstract class Plot {
+    private int plotID;
     private int occupancy;
+    private double price;
     private boolean underReno;
     private boolean booked;
 
 
-    public Plot(String plotID, int occupancy, boolean underReno, boolean booked) {
+    public Plot(int plotID, int occupancy, double price, boolean underReno, boolean booked) {
         this.plotID = plotID;
         this.occupancy = occupancy;
+        this.price = price;
         this.underReno = underReno;
         this.booked = booked;
 
 
     }
 
-    public String getPlotID() {
+    public int getPlotID() {
         return plotID;
     }
 
-    public void setPlotID(String plotID) {
+    public void setPlotID(int plotID) {
         this.plotID = plotID;
     }
 
@@ -31,6 +33,10 @@ public class Plot {
     public void setOccupancy(int occupancy) {
         this.occupancy = occupancy;
     }
+
+    public double getPrice() { return price; }
+
+    public void setPrice(double price) { this.price = price; }
 
     public boolean isUnderReno() {
         return underReno;
