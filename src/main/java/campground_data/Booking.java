@@ -1,5 +1,6 @@
-package java;
+package campground_data;
 
+import java.bookingType;
 import java.util.Date;
 
 public class Booking 
@@ -32,7 +33,7 @@ public class Booking
 	public Booking()
 	{
 		this.nBookingID=1;
-		this.sGuestID="Test";
+		this.sGuestID="";
 		this.nPlotID=0;
 		this.startDate=new Date();
 		this.endDate=new Date();
