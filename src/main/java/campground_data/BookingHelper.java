@@ -1,11 +1,15 @@
 package campground_data;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
-public class BookingHelper {
+public class BookingHelper extends Booking{
 
     private ArrayList<Booking> bookings;
+    private Booking searchbooking;
 
     public BookingHelper() {
         this.bookings = new ArrayList<Booking>();
@@ -35,7 +39,7 @@ public class BookingHelper {
 
     }
 
-    public Booking search(String guestID)
+    public Booking searchBookingID(String guestID)
     {
 
     }
@@ -43,5 +47,6 @@ public class BookingHelper {
 
 
 
+    }
 
 }
