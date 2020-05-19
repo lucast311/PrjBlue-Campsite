@@ -12,7 +12,13 @@ public class Address
 
     public Address(int streetNum, String aptNum, String streetName, String city, String state, String country, String postal)
     {
-
+        this.streetNum = streetNum;
+        this.aptNum = aptNum;
+        this.streetName = streetName;
+        this.city_Town = city;
+        this.province = state;
+        this.country = country;
+        this.postalCode = postal;
     }
 
     public Address()
