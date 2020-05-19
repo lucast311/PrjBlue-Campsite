@@ -46,6 +46,7 @@ public class PlotHelper
 
         public void removePlot(Plot plot)
         {
+                plots.remove(plot);
 
         }
 
