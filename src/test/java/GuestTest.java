@@ -5,9 +5,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.util.HashMap;
 import java.util.Set;
-import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -53,7 +51,7 @@ public class GuestTest {
         guest.setEmail("jsmith@hotmail.com");
         guest.setPaymentMethod(PaymentType.Credit);
         guest.setPhoneNumber("3061111111");
-        guest.setAddress(new Address(111, "23B", "Street", "Saskatoon", "SK", "Canada", "111111"));
+        guest.setAddress(new Address(111, 111, "Street", "Saskatoon", "SK", "Canada", "111111"));
 
     }
 
@@ -68,69 +66,131 @@ public class GuestTest {
 
         assertInvalid(guest, "firstName", "First name must be greater than 0 characters", "");
 
-
-/*
-
-        //set 1 field invalid - all other fields are populated with valid data by setUpValidGuest
-        guest.setFirstName("");
-
-        // use the helper function that will run 4 asserts
-        //pass in the property/attribute name, the EXACT expected error message, and the set invalid value
-        assertInvalid(guest, "firstName","First name can not be empty", "" );
-*/
-
     }
 
     /***
-     * INVALID: manufacturer 26 characters is too long
+     * INVALID: First Name 21 characters is too long
      */
     @Test
     public void testFirstNameIsTooLong() {
-/*
 
-        //create an invalid string with 26 characters -too long
-        String invalid = repeatM(26);
+        String invalid = repeatM(21);
 
-        //set value to invalid string
         guest.setFirstName(invalid);
 
-        //use the helper function that will run 4 asserts
-        // pass in the property/attribute name, the EXACT expected error message, and the set invalid value
-        assertInvalid(guest,"firstName","First name can have at most 25 characters", invalid );
-*/
+        assertInvalid(guest, "firstName", "First name must be shorter than or equal to 20 characters", invalid);
 
     }
 
     /***
-     * VALID: manufacturer 25 characters upper bound
+     * INVALID: Last Name is null
      */
     @Test
-    public void testManufacturerUpperBound() {
-/*
+    public void testLastNameIsEmpty() {
 
-        //set value to valid 25 character string - upper bound
-        guest.setFirstName(repeatM(25));
+        guest.setLastName("");
 
-        //run validator on car object and count how many violations - should be 0 - no violations
-        assertEquals( 0, validator.validate( guest ).size() );
+        assertInvalid(guest, "lastName", "Last name must be greater than 0 characters", "");
 
-*/
     }
 
     /***
-     * VALID: manufacturer 5 characters within range
+     * INVALID: Last Name is 31 characters too long
      */
     @Test
-    public void testManufacturerValid() {
-/*
+    public void testLastNameIsTooLong(){
+        String invalid = repeatM(31);
+        guest.setLastName(invalid);
+        assertInvalid(guest, "lastName", "Last name must be less than or equal to 30 characters", invalid);
+    }
 
-        //set value to valid 25 character string
-        guest.setFirstName(repeatM(5));
+    /***
+     * INVALID: Email is null
+     */
+    @Test
+    public void testEmailIsEmpty() {
 
-        //run validator on car object and count how many violations - should be 0 - no violations
-        assertEquals( 0, validator.validate( guest ).size() );
+        guest.setEmail("");
+        assertInvalid(guest, "email", "Email must be greater than 0 characters", "");
 
-*/
+    }
+
+    /***
+     * INVALID: Email is 51 characters too long
+     */
+    @Test
+    public void testEmailIsTooLong() {
+        String invalid = repeatM(51);
+        guest.setEmail(invalid);
+        assertInvalid(guest, "email", "Email must be less than or equal to 50 characters", invalid);
+    }
+
+    /***
+     * INVALID: Phone number is null
+     */
+    @Test
+    public void testPhoneNumberIsEmpty() {
+        guest.setPhoneNumber("");
+        assertInvalid(guest, "phoneNumber", "Phone number must be greater than 0 characters", "");
+    }
+
+    /***
+     * INVALID: Phone number is 11 characters too long
+     */
+    @Test
+    public void testPhoneNumberIsTooLong() {
+        String invalid = repeatM(11);
+        guest.setPhoneNumber(invalid);
+        assertInvalid(guest, "phoneNumber", "Phone number must be less than or equal to 10 characters", invalid);
+    }
+
+    /***
+     * VALID: First name is 10 characters
+     */
+    @Test
+    public void testFirstNameIsValid() {
+        guest.setFirstName(repeatM(10));
+
+        assertEquals(0, validator.validate(guest).size());
+
+    }
+
+    /***
+     * VALID: Last name is 20 characters
+     */
+    @Test
+    public void testLastNameIsValid() {
+        guest.setLastName(repeatM(20));
+
+        assertEquals(0, validator.validate(guest).size());
+    }
+
+    /***
+     * VALID: email is 25 characters
+     */
+    @Test
+    public void testEmailIsValid() {
+        guest.setEmail(repeatM(25));
+
+        assertEquals(0, validator.validate(guest).size());
+    }
+
+    /***
+     * VALID: phone number is 10 characters
+     */
+    @Test
+    public void testPhoneNumberIsValid() {
+        guest.setPhoneNumber(repeatM(10));
+        assertEquals(0, validator.validate(guest).size());
+    }
+
+    /***
+     * VALID: Credit card number is 16 characters
+     */
+    @Test
+    public void testCreditCardNumIsValid() {
+        guest.setCreditCardNum(repeatM(16));
+        assertEquals(0, validator.validate(guest).size());
     }
 
     /***
