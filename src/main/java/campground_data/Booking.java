@@ -1,5 +1,6 @@
 package campground_data;
 
+import java.bookingType;
 import java.util.Date;
 import java.bookingType;
 

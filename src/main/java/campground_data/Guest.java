@@ -10,28 +10,91 @@ import javax.validation.constraints.*;
  */
 public class Guest  implements Serializable {
 
-    public Guest() {
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phoneNumber;
+    private PaymentType paymentMethod;
+    private long creditCardNum;
+    private Address address;
+
+    public Guest(String firstName, String lastName, String email, String phoneNumber, PaymentType paymentMethod,
+                 long creditCardNum, Address address) {
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.paymentMethod = paymentMethod;
+        this.creditCardNum = creditCardNum;
+        this.address = address;
+
     }
 
-/*
+    public Guest() {
+
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public PaymentType getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public long getCreditCardNum() {
+        return creditCardNum;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setPaymentMethod(PaymentType paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public void setCreditCardNum(int creditCardNum) {
+        this.creditCardNum = creditCardNum;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("guestID",this.guestID);
-        jsonObject.put("firstName",this.firstName);
-        return jsonObject.toString();
+        return "Name:" + this.firstName + " " + this.lastName + "\nEmail: " + this.email + "\nPhone Number: " + this.phoneNumber + "\nPayment Method: " + this.paymentMethod
+                    + "\nCredit Card Num: " + this.creditCardNum + "\nAddress: " + this.address.toString();
     }
 
-    @PositiveOrZero(message = "Guest ID must be postive number or zero")
-    private int guestID;
-    public int getGuestID() {return guestID;}
-    public void setGuestID(int guestID) {this.guestID = guestID;}
-
-    @NotEmpty(message = "First name can not be empty" )
-    @Size(max = 25, message="First name can have at most 25 characters")
-    private String firstName;
-    public String getFirstName() {return firstName;}
-    public void setFirstName(String firstName) {this.firstName = firstName;}
-
- */
 }
