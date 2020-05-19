@@ -2,6 +2,7 @@ package campground_data;
 
 import java.bookingType;
 import java.util.Date;
+import java.bookingType;
 
 public class Booking 
 {
@@ -66,22 +67,54 @@ public class Booking
 	
 	public void setMemberCount(int nMemberCount)
 	{
-		this.nMemberCount=nMemberCount;
+		if(nMemberCount<=0)
+		{
+			System.out.println("That member count is invalid");
+		}
+		else
+		{
+			this.nMemberCount=nMemberCount;
+		}
+
 	}
 	
 	public void setPlotID(int nPlotID)
 	{
-		this.nPlotID=nPlotID;
+		if(nPlotID<=0 || nPlotID>=5)
+		{
+			System.out.println("That plot ID is invalid");
+		}
+		else
+		{
+			this.nPlotID=nPlotID;
+		}
+
 	}
 	
 	public void setTotal(double dTotal)
 	{
-		this.dTotal=dTotal;
+		if(dTotal<0)
+		{
+			System.out.println("That total is invalid");
+		}
+		else
+		{
+			this.dTotal=dTotal;
+		}
+
 	}
 	
 	public void setDiscount(double dDiscount)
 	{
-		this.dDiscountRate=dDiscount;
+		if(dDiscount<0 || dDiscount>100)
+		{
+			System.out.println("That discount is invalid");
+		}
+		else
+		{
+			this.dDiscountRate=dDiscount;
+		}
+
 	}
 	
 	public String getGuestID()
