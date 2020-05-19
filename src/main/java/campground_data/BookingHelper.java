@@ -8,7 +8,7 @@ public class BookingHelper {
     private ArrayList<Booking> bookings;
 
     public BookingHelper() {
-        this.bookings = new ArrayList<Booking>();
+        this.bookings = new ArrayList<>();
     }
 
     public boolean addBooking(Booking booking) {
@@ -20,25 +20,24 @@ public class BookingHelper {
         return this.bookings.remove(booking);
     }
 
-    public boolean changeBookingDate(int bookingID, Date startDate, Date endDate)
-    {
-
-    }
+//    public boolean changeBookingDate(int bookingID, Date startDate, Date endDate)
+//    {
+//    }
 
     public ArrayList<Booking> getBookingList()
     {
         return this.bookings;
     }
 
-    public ArrayList<Booking> getBookingList(int year)
-    {
+//    public ArrayList<Booking> getBookingList(int year)
+//    {
+//
+//    }
 
-    }
-
-    public Booking search(String guestID)
-    {
-
-    }
+//    public Booking search(String guestID)
+//    {
+//
+//    }
 
 
 
