@@ -46,7 +46,10 @@ public class PlotHelper
 
         public void removePlot(Plot plot)
         {
+<<<<<<< HEAD
                 plots.remove(plot);
+=======
+>>>>>>> remotes/origin/master
 
         }
 

@@ -1,5 +1,6 @@
 package campground_data;
 
+<<<<<<< HEAD
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +11,14 @@ public class BookingHelper extends Booking{
 
     private ArrayList<Booking> bookings;
     private Booking searchbooking;
+=======
+import java.util.ArrayList;
+import java.util.Date;
+
+public class BookingHelper {
+
+    private ArrayList<Booking> bookings;
+>>>>>>> remotes/origin/master
 
     public BookingHelper() {
         this.bookings = new ArrayList<Booking>();
@@ -39,7 +48,11 @@ public class BookingHelper extends Booking{
 
     }
 
+<<<<<<< HEAD
     public Booking searchBookingID(String guestID)
+=======
+    public Booking search(String guestID)
+>>>>>>> remotes/origin/master
     {
 
     }
@@ -47,6 +60,9 @@ public class BookingHelper extends Booking{
 
 
 
+<<<<<<< HEAD
     }
+=======
+>>>>>>> remotes/origin/master
 
 }

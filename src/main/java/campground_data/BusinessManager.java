@@ -1,8 +1,11 @@
 package campground_data;
 
+<<<<<<< HEAD
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+=======
+>>>>>>> remotes/origin/master
 public class BusinessManager {
 
     private Owner currUser;
@@ -10,7 +13,10 @@ public class BusinessManager {
     private PlotHelper plotHelper;
     private OwnerHelper ownerHelper;
     private GuestHelper guestHelper;
+<<<<<<< HEAD
     private Booking searchbooking;
+=======
+>>>>>>> remotes/origin/master
 
     public void LogIn()
     {}
@@ -24,6 +30,7 @@ public class BusinessManager {
     public Object search(Object obVal)
     {}
 
+<<<<<<< HEAD
     public void managebooking()
     {
 
@@ -64,4 +71,6 @@ public class BusinessManager {
             return searchbooking.getTotal();
         }
 
+=======
+>>>>>>> remotes/origin/master
 }
