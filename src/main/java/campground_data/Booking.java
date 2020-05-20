@@ -1,11 +1,14 @@
 package campground_data;
 
 import campground_data.BookingType;
+
+import java.io.Serializable;
 import java.util.Date;
 
 
-public class Booking 
+public class Booking implements Serializable
 {
+	private static final long serialVersionUID = 1L;
 	private int nBookingID;
 	private String sGuestID;
 	private int nPlotID;

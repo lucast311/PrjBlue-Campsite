@@ -1,6 +1,7 @@
 
 import static org.junit.Assert.*;
 
+import campground_data.BookingHelper;
 import campground_data.BookingType;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,7 +17,7 @@ public class BookingTests
 	@Test
 	public void testCreateBookingHelper() 
 	{
-		//return type tested will beArrayList<Booking> since this creates the list upon creation
+		//this creates the list upon creation by reading from the bookings.obj file using DatabaseFile
 		
 		
 	}
@@ -42,13 +43,41 @@ public class BookingTests
 	@Test
 	public void testGetBookingListBlank()
 	{
-		
+		BookingHelper helper=new BookingHelper();
+		ArrayList<Booking> obBookingList;
+		Date startDate= new Date(2020,7,20);
+		Date endDate= new Date(2020,7,25);
+		Booking obNew=new Booking(2,"TestGuestID",startDate,
+				endDate, BookingType.Cabin,4);
+
+		helper.addBooking(obNew);
+		obBookingList=helper.getBookingList();
+
+		assertEquals(obBookingList.get(0),obNew);
+
 	}
 	
 	@Test
 	public void testGetBookingListByYear()
 	{
-		
+		BookingHelper helper=new BookingHelper();
+		ArrayList<Booking> obBookingList;
+		Date startDate2020= new Date(2020,7,20);
+		Date endDate2020= new Date(2020,7,25);
+		Date startDate2019= new Date(2019,7,20);
+		Date endDate2019= new Date(2019,7,25);
+
+		Booking obNew2020=new Booking(2,"TestGuestID",startDate2020,
+				endDate2020, BookingType.Cabin,4);
+
+		Booking obNew2019=new Booking(2,"TestGuestID",startDate2019,
+				endDate2019, BookingType.Cabin,4);
+
+		helper.addBooking(obNew2019);
+		helper.addBooking(obNew2020);
+		obBookingList=helper.getBookingList(2019);
+
+		assertEquals(obBookingList.contains(obNew2019),true);
 	}
 	
 	@Test
