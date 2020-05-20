@@ -2,6 +2,7 @@ package campground_data;
 
 import org.json.simple.JSONObject;
 import java.io.Serializable;
+import java.util.Scanner;
 import javax.validation.constraints.*;
 
 
@@ -105,10 +106,51 @@ public class Guest  implements Serializable {
         this.address = address;
     }
 
+//    public void changeInfo() {
+//
+//        Scanner obIn = new Scanner(System.in);
+//
+//        System.out.println("Change Actions: [F]irst Name, [L]ast Name, [E]mail, [P]hone number," +
+//                " Payment [M]ethod, [C]redit card number, [A]ddress, Enter any other key to go back");
+//
+//        switch (obIn.nextLine().toUpperCase())
+//        {
+//            case "F":
+//                this.setFirstName(stringChange("First name must be less or equal to 20 characters", 20));
+//                break;
+//            case "L":
+//                this.setLastName(stringChange("Last name must be less than or equal to 30 characters", 30));
+//        }
+//
+//        obIn.close();
+//
+//    }
+//
+//    private String stringChange(String error, int length)
+//    {
+//        Scanner obIn = new Scanner(System.in);
+//        String sVal = "";
+//        boolean bValid = false;
+//        while (!bValid) {
+//            System.out.println("Enter a value to change to: ");
+//            sVal = obIn.nextLine();
+//            if (sVal.length() > length) {
+//                System.out.println(error);
+//            } else
+//            {
+//                bValid = true;
+//                System.out.println("Success");
+//                obIn.close();
+//            }
+//        }
+//        return sVal;
+//    }
+
     @Override
     public String toString() {
         return "Name:" + this.firstName + " " + this.lastName + "\nEmail: " + this.email + "\nPhone Number: " + this.phoneNumber + "\nPayment Method: " + this.paymentMethod
-                    + "\nCredit Card Num: " + this.creditCardNum + "\nAddress: " + this.address.toString();
+                    + "\nCredit Card Num: " + this.creditCardNum + "\nAddress: " + this.address.getStreetNum() + " " + this.address.getStreetName() + " " + this.address.getCity_Town() +
+                    " " + this.address.getProvince() + " " + this.address.getCountry() + " " + this.address.getPostalCode();
     }
 
 }

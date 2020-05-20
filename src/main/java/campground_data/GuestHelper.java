@@ -4,23 +4,24 @@ import java.util.ArrayList;
 
 public class GuestHelper {
 
-    private ArrayList<Guest> guestAccounts;
+    private ArrayList<Guest> guestAccounts = new ArrayList<>();
 
     public GuestHelper() {
 
     }
 
-    public Guest addGuest(Guest newGuest) {
-
+    public void addGuest(Guest newGuest) {
         guestAccounts.add(newGuest);
-        return newGuest;
-
     }
 
     public void removeGuest(Guest guestToRemove) {
 
         guestAccounts.remove(guestToRemove);
 
+    }
+
+    public ArrayList<Guest> getGuestAccounts() {
+        return this.guestAccounts;
     }
 
     public Guest searchGuest(String phoneNumber)
