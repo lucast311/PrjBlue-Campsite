@@ -1,11 +1,9 @@
 package campground_data;
 
-<<<<<<< HEAD
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-=======
->>>>>>> remotes/origin/master
 public class BusinessManager {
 
     private Owner currUser;
@@ -13,64 +11,61 @@ public class BusinessManager {
     private PlotHelper plotHelper;
     private OwnerHelper ownerHelper;
     private GuestHelper guestHelper;
-<<<<<<< HEAD
+
     private Booking searchbooking;
-=======
->>>>>>> remotes/origin/master
 
-    public void LogIn()
-    {}
 
-    public boolean validateId(String userID)
-    {}
+    public void LogIn() {
+    }
 
-    public boolean validatePassword(String password)
-    {}
-
-    public Object search(Object obVal)
-    {}
-
-<<<<<<< HEAD
-    public void managebooking()
-    {
+    public boolean validateId(String userID) {
 
     }
 
-    public Booking cancellbooking(String phoneNum)
-    {
-        searchbooking = BookingHelper.searchBookingID(phoneNum);
-        return BookingHelper.searchBookingID(phoneNum);
+    public boolean validatePassword(String password) {
+
     }
 
-    public void cancelConfirm(boolean answer)
-    {
-        if (answer == true){
+    public Object search(Object obVal) {
+
+    }
+
+
+    public void managebooking() {
+
+    }
+
+    public Booking cancellbooking(String phoneNum) {
+        searchbooking = BookingHelper.search(phoneNum);
+        return BookingHelper.search(phoneNum);
+    }
+
+    public void cancelConfirm(boolean answer) {
+        if (answer == true) {
             //go to the next
-        }else {
+        } else {
 
         }
 
     }
 
-    public double refundconfirm(boolean answer)
-    {
+    public double refundconfirm(boolean answer) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date1 = new Date();
         Date date2 = searchbooking.getEndDate();
-        int  price;
+        int price;
         price = PlotHelper.searchPlot(searchbooking.getPlotID()).getPrice();
 
 
-
-        int ratething = (int)(date1.getDay() - date2.getDay());
+        int ratething = (int) (date1.getDay() - date2.getDay());
         ratething = ratething * price;
 
-        if (answer == true){
+        if (answer == true) {
             return (searchbooking.getTotal() - ratething);
-        }else {
+        } else {
             return searchbooking.getTotal();
         }
-
-=======
->>>>>>> remotes/origin/master
+    }
 }
+
+
