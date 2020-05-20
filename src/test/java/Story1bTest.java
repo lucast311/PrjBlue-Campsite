@@ -1,6 +1,5 @@
-import campground_data.Booking;
-import campground_data.BookingHelper;
-import campground_data.Cabin;
+import campground_data.*;
+
 import org.junit.Test;
 
 import java.bookingType;
@@ -13,7 +12,9 @@ public class Story1bTest
 {
 
     static Booking booking1 = new Booking(1,"0000001", new Date(2020,5,25), new Date(2020,5,27), bookingType.Cabin, 3);
-    static Booking booking2 = new Booking(2,"0000002", new Date(2020,6,4), new Date(2020,6,7), bookingType.Cabin, 2);
+    static Booking booking2 = new Booking(2,"0000002", new Date(2020,6,4), new Date(2020,6,7), bookingType.Site, 2);
+    static Guest guest1 = new Guest("John", "Doe", "johndoe@gmail.com", "3069999999", PaymentType.Credit, "4456777777777777", new Address());
+    static Guest guest2 = new Guest("Loki", "Odinson", "godofthunder@gmail.com", "3067777777", PaymentType.Cash, "4456555555555555", new Address());
 
 
     /**
@@ -31,23 +32,25 @@ public class Story1bTest
         BookingHelper bookingHelper = new BookingHelper();
         bookingHelper.removeBooking(booking1);
 
-        assertTrue(!bookings.contains(booking1));
+        assertFalse(bookings.contains(booking1));
 
     }
 
     /**
-     * Test for inputting valid guest phone number for reservation search
+     * Test for inputting valid guest phone number for guest search
      */
     @Test
-    public void reservationSearch()
+    public void reservationGuestSearch()
     {
-        ArrayList<Booking> bookings = new ArrayList<>();
-        bookings.add(booking1);
-        bookings.add(booking2);
+        ArrayList<Guest> guests = new ArrayList<>();
+        guests.add(guest1);
+        guests.add(guest2);
 
-        BookingHelper bookingHelper = new BookingHelper();
-        //Will complete soon
+        GuestHelper guestHelper = new GuestHelper();
 
+
+        assertTrue(guests.contains(guestHelper.searchGuest("3069999999")));
+        assertFalse(guests.contains(guestHelper.searchGuest("1234567890")));
 
 
     }
@@ -64,15 +67,11 @@ public class Story1bTest
         bookings.add(booking1);
         bookings.add(booking2);
 
-
-
         BookingHelper bookingHelper = new BookingHelper();
-        bookingHelper.searchBookingId(1);
 
-        assertTrue(bookingHelper.searchBookingId(1).equals(booking1));
-        assertTrue(bookingHelper.searchBookingId(5).equals(null));
-        assertTrue(bookingHelper.searchBookingId(-1).equals(null));
-
+        assertEquals(bookingHelper.searchBookingId(1), booking1);
+        assertNull(bookingHelper.searchBookingId(5));
+        assertNull(bookingHelper.searchBookingId(-1));
 
     }
 
@@ -83,6 +82,11 @@ public class Story1bTest
     public void confirmationInputTest()
     {
 
+        BookingHelper bookingHelper = new BookingHelper();
+
+        assertTrue(bookingHelper.confirmRemove("yes"));
+        assertFalse(bookingHelper.confirmRemove("no"));
+//        assertTrue(bookingHelper.confirmRemove("nsaduasgdfyfjsd") == false);
 
     }
 

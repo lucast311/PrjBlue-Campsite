@@ -15,11 +15,11 @@ public class Guest  implements Serializable {
     private String email;
     private String phoneNumber;
     private PaymentType paymentMethod;
-    private long creditCardNum;
+    private String creditCardNum;
     private Address address;
 
     public Guest(String firstName, String lastName, String email, String phoneNumber, PaymentType paymentMethod,
-                 long creditCardNum, Address address) {
+                 String creditCardNum, Address address) {
 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -55,7 +55,7 @@ public class Guest  implements Serializable {
         return paymentMethod;
     }
 
-    public long getCreditCardNum() {
+    public String getCreditCardNum() {
         return creditCardNum;
     }
 
@@ -83,7 +83,7 @@ public class Guest  implements Serializable {
         this.paymentMethod = paymentMethod;
     }
 
-    public void setCreditCardNum(int creditCardNum) {
+    public void setCreditCardNum(String creditCardNum) {
         this.creditCardNum = creditCardNum;
     }
 
