@@ -56,6 +56,7 @@ public class GuestTest {
     }
 
     /***
+     * Test A1.1
      * INVALID: FirstName null
      */
     @Test
@@ -69,6 +70,7 @@ public class GuestTest {
     }
 
     /***
+     * Test A1.2
      * INVALID: First Name 21 characters is too long
      */
     @Test
@@ -78,11 +80,12 @@ public class GuestTest {
 
         guest.setFirstName(invalid);
 
-        assertInvalid(guest, "firstName", "First name must be shorter than or equal to 20 characters", invalid);
+        assertInvalid(guest, "firstName", "First name must be less than or equal to 20 characters", invalid);
 
     }
 
     /***
+     * Test A1.3
      * INVALID: Last Name is null
      */
     @Test
@@ -95,6 +98,7 @@ public class GuestTest {
     }
 
     /***
+     * Test A1.4
      * INVALID: Last Name is 31 characters too long
      */
     @Test
@@ -105,6 +109,7 @@ public class GuestTest {
     }
 
     /***
+     * Test A1.5
      * INVALID: Email is null
      */
     @Test
@@ -116,6 +121,7 @@ public class GuestTest {
     }
 
     /***
+     * Test A1.6
      * INVALID: Email is 51 characters too long
      */
     @Test
@@ -127,6 +133,7 @@ public class GuestTest {
 
 
     /***
+     * Test A1.7
      * VALID: First name lowerbound is 1 character
      */
     @Test
@@ -138,6 +145,7 @@ public class GuestTest {
     }
 
     /***
+     * Test A1.8
      * VALID: First name upperbound is 20 characters
      */
     @Test
@@ -149,6 +157,7 @@ public class GuestTest {
     }
 
     /***
+     * Test A1.8
      * VALID: Last name lowerbound is 1 character
      */
     @Test
@@ -159,7 +168,8 @@ public class GuestTest {
     }
 
     /***
-     * VALID: Last name lowerbound is 30 characters
+     * Test A1.9
+     * VALID: Last name upperbound is 30 characters
      */
     @Test
     public void testLastNameUpperBound() {
@@ -170,6 +180,7 @@ public class GuestTest {
     }
 
     /***
+     * Test A2.1
      * VALID: email lowerbound is 1 character
      */
     @Test
@@ -180,6 +191,7 @@ public class GuestTest {
     }
 
     /***
+     * Test A2.2
      * VALID: email upperbound is 50 characters
      */
     @Test
@@ -190,6 +202,7 @@ public class GuestTest {
     }
 
     /***
+     * Test A2.3
      * VALID: phone number is 10 digits
      */
     @Test
@@ -206,7 +219,8 @@ public class GuestTest {
     }
 
     /***
-     * VALID: phone number is 10 characters
+     * Test A2.4
+     * VALID: phone number is invalid with non digits
      */
     @Test
     public void testPhoneNumberIsInvalid() {
@@ -222,7 +236,7 @@ public class GuestTest {
     }
 
 
-    /***
+    /*** Test A2.5
      * INVALID: Credit card Invalid pattern
      */
     @Test
@@ -232,7 +246,21 @@ public class GuestTest {
         for (String invalidCard : invalid)
         {
             guest.setCreditCardNum(invalidCard);
-            assertInvalid(guest, "creditCardNum", "Credit card number must only contain digits", invalidCard);
+            assertInvalid(guest, "creditCardNum", "Credit card number must only contain digits and be 16 digits long", invalidCard);
+        }
+    }
+
+    /*** Test A2.6
+     * INVALID: Credit card valid pattern
+     */
+    @Test
+    public void testCreditCardPatternValid() {
+        String[] valid = {"1234567891123456", "9876543212345678", "4567893215698856", "1547896532154789"};
+
+        for (String validCard : valid)
+        {
+            guest.setCreditCardNum(validCard);
+            assertEquals(0, validator.validate(guest).size());
         }
     }
 

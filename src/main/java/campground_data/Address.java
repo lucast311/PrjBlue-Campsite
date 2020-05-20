@@ -7,7 +7,7 @@ public class Address
     @Min(value = 1, message = "Street number must be at least 1")
     private int streetNum;
 
-    @Min(value = 0, message = "Apt number must be at least 1, 0 means it does not exist")
+    @Min(value = 0, message = "Apt number must be at least 0, 0 means it does not exist")
     private int aptNum;
 
     @Size(max = 30, message = "The street name must be less than or equal to 30 characters")

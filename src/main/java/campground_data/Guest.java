@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 public class Guest  implements Serializable {
 
     @NotEmpty(message = "First name must be greater than 0 characters")
-    @Size(max=20, message = "First name must be shorter than or equal to 20 characters")
+    @Size(max=20, message = "First name must be less than or equal to 20 characters")
     private String firstName;
 
     @NotEmpty(message = "Last name must be greater than 0 characters")
@@ -27,7 +27,7 @@ public class Guest  implements Serializable {
 
     private PaymentType paymentMethod;
 
-    @Pattern(regexp = "^\\d{16}$", message = "Credit card number must only contain digits")
+    @Pattern(regexp = "^\\d{16}$", message = "Credit card number must only contain digits and be 16 digits long")
     private String creditCardNum;
 
     private Address address;

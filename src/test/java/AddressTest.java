@@ -51,28 +51,29 @@ public class AddressTest {
     }
 
     /***
+     * Test B1.1
      * INVALID: StreetNum is 0
      */
     @Test
     public void testStreetNumIsZero() {
 
-        //Setting first name to null
         address.setStreetNum(0);
         assertInvalid(address, "streetNum", "Street number must be at least 1", 0);
     }
 
     /***
+     * Test B1.2
      * INVALID: AptNum is less than 0
      */
     @Test
     public void testAptNumIsLessThanZero() {
 
-        //Setting first name to null
         address.setAptNum(-1);
-        assertInvalid(address, "aptNum", "Apt number must be at least 1, 0 means it does not exist", -1);
+        assertInvalid(address, "aptNum", "Apt number must be at least 0, 0 means it does not exist", -1);
     }
 
     /***
+     * Test B1.3
      * INVALID: Street name is 31 characters too long
      */
     @Test
@@ -86,6 +87,7 @@ public class AddressTest {
 
 
     /***
+     * Test B1.4
      * INVALID: Street Name is null
      */
     @Test
@@ -95,6 +97,7 @@ public class AddressTest {
     }
 
     /***
+     * Test B1.5
      * INVALID: City_town is 31 characters too long
      */
     @Test
@@ -107,6 +110,7 @@ public class AddressTest {
     }
 
     /***
+     * Test B1.6
      * INVALID: City_Town is null
      */
     @Test
@@ -116,6 +120,7 @@ public class AddressTest {
     }
 
     /***
+     * Test B1.7
      * INVALID: Province is 31 characters too long
      */
     @Test
@@ -128,6 +133,7 @@ public class AddressTest {
     }
 
     /***
+     * Test B1.8
      * INVALID: Province is null
      */
     @Test
@@ -138,6 +144,7 @@ public class AddressTest {
 
 
     /***
+     * Test B1.9
      * INVALID: Country is 31 characters too long
      */
     @Test
@@ -150,6 +157,7 @@ public class AddressTest {
     }
 
     /***
+     * Test B2.1
      * INVALID: Country is null
      */
     @Test
@@ -160,6 +168,7 @@ public class AddressTest {
 
 
     /***
+     * Test B2.2
      * INVALID: Invalid postal code
      */
     @Test
@@ -175,6 +184,7 @@ public class AddressTest {
     }
 
     /***
+     * Test B2.3
      * VALID: Valid postal code
      */
     @Test
@@ -191,6 +201,7 @@ public class AddressTest {
 
 
     /***
+     * Test B2.4
      * VALID: Streetnumber lowerbound is 1 characters
      */
     @Test
@@ -203,7 +214,8 @@ public class AddressTest {
     }
 
     /***
-     * VALID: Aptnumber upperbound is 0 characters
+     * Test B2.5
+     * VALID: Aptnumber lowerbound is 0
      */
     @Test
     public void testAptNumberLowerBound() {
@@ -215,7 +227,8 @@ public class AddressTest {
     }
 
     /***
-     * VALID: Streetnumber lowerbound is 1 character
+     * Test B2.6
+     * VALID: StreetName lowerbound is 1 character
      */
     @Test
     public void testStreetNameLowerBound() {
@@ -228,6 +241,7 @@ public class AddressTest {
     }
 
     /***
+     * Test B2.7
      * VALID: Streetnumber upperbound is 30 characters
      */
     @Test
@@ -241,6 +255,7 @@ public class AddressTest {
     }
 
     /***
+     * Test B2.8
      * VALID: CityTown lowerbound is 1 character
      */
     @Test
@@ -254,6 +269,7 @@ public class AddressTest {
     }
 
     /***
+     * Test B2.9
      * VALID: CityTown upperbound is 30 characters
      */
     @Test
@@ -267,6 +283,7 @@ public class AddressTest {
     }
 
     /***
+     * Test B3.1
      * VALID: Province lowerbound is 1 character
      */
     @Test
@@ -280,6 +297,7 @@ public class AddressTest {
     }
 
     /***
+     * Test B3.2
      * VALID: Province upperbound is 30 characters
      */
     @Test
@@ -293,6 +311,7 @@ public class AddressTest {
     }
 
     /***
+     * Test B3.3
      * VALID: Country lowerbound is 1 character
      */
     @Test
@@ -306,6 +325,7 @@ public class AddressTest {
     }
 
     /***
+     * Test B3.4
      * VALID: Country upperbound is 30 characters
      */
     @Test
