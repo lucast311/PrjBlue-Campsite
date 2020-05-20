@@ -142,9 +142,9 @@ public class SiteTest {
      */
     @Test
     public void testOccupancyIsGreaterThanEight() {
-        site.setOccupancy(8);
+        site.setOccupancy(9);
 
-        assertInvalid(site, "occupancy", "Occupancy must be less than or equal to 8", 0);
+        assertInvalid(site, "occupancy", "Occupancy must be less than or equal to 8", 9);
 
     }
 
