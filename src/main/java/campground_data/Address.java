@@ -1,8 +1,9 @@
 package campground_data;
 
 import javax.validation.constraints.*;
+import java.io.Serializable;
 
-public class Address
+public class Address implements Serializable
 {
     @Min(value = 1, message = "Street number must be at least 1")
     private int streetNum;
