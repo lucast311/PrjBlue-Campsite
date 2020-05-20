@@ -15,11 +15,14 @@ public class Owner implements Serializable {
     @Pattern(regexp = "^[a-z]{2,20}[.]{1}[a-z]{2,30}$", message = "UserID must be in the format firstname.fastname")
     private String userId;
 
-    @Size(min = 7, max = 30, message = "Password must be between 7 and 30 characters in length")
-    @Pattern(regexp = "^[0-9A-Z!@#$%^&*]{7,30}$/i", message = "Password can consist of letters, number and symbols but not spaces")
+    @Size(min = 8, max = 30, message = "Password must be between 8 and 30 characters in length")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,30}$/i", message = "Password can consist of letters, number and symbols but not spaces")
     private String password;
+
     private String phoneNumber;
     private String email;
+
+    @Size(min = 1, max = 3, message = "User permissions can be 1-3, 1 being read-only; 3 being full-control")
     private int permissions;
     private Boolean onSite;
 
