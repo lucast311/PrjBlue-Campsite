@@ -1,10 +1,10 @@
-package java;
+package campground_data;
 
 import java.util.Date;
 
 public class Booking 
 {
-	private int nBookingID;
+	private int nBookingID = 1;
 	private String sGuestID;
 	private int nPlotID;
 	private Date startDate;
@@ -17,8 +17,8 @@ public class Booking
 	
 	public Booking(int plotID, String guestID, Date startDate, Date endDate, bookingType type, int memberCount)
 	{
-		this.nBookingID=1;
-		this.sGuestID="Test";
+		this.nBookingID++;
+		this.sGuestID=guestID;
 		this.nPlotID=plotID;
 		this.startDate=startDate;
 		this.endDate=endDate;
@@ -31,8 +31,8 @@ public class Booking
 	
 	public Booking()
 	{
-		this.nBookingID=1;
-		this.sGuestID="Test";
+		this.nBookingID++;
+		this.sGuestID="Test" + this.nBookingID++;
 		this.nPlotID=0;
 		this.startDate=new Date();
 		this.endDate=new Date();
@@ -77,6 +77,8 @@ public class Booking
 	{
 		this.dTotal=dTotal;
 	}
+
+	public void setBookingID(int ID){ this.nBookingID =  ID; }
 	
 	public void setDiscount(double dDiscount)
 	{
@@ -126,6 +128,11 @@ public class Booking
 	public int getPlotID()
 	{
 		return this.nPlotID;
+	}
+
+	public int getBookingID()
+	{
+		return this.nBookingID;
 	}
 	
 	@Override

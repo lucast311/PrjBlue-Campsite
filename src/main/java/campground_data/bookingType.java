@@ -1,4 +1,4 @@
-package java;
+package campground_data;
 
 public enum bookingType {
 	Cabin,
