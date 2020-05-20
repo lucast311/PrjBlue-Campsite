@@ -5,6 +5,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
@@ -16,7 +17,9 @@ public class OwnerTest {
     private static ValidatorFactory vf;
     private static Validator validator;
 
-    private Owner owner;
+    private ArrayList<Owner> owners;
+    private Owner owner1;
+    private Owner owner2;
 
 
     /***
@@ -47,81 +50,142 @@ public class OwnerTest {
     @Before
     public void setUpValidOwner()
     {
+        owners = new ArrayList<>();
+        owner1 = new Owner("harry", "louis", "Pa$$w0rd", "555-555-5555", "testaccount@gmail.com", 3, false);
+        owner2 = new Owner("mary", "louis", "f1uffyCat$", "555-555-5555", "testaccount@hotmail.com", 3, true);
 
-        owner = new Owner();
-        owner.setUserId("harry.louis");
-        owner.changePassword("Pa$$w0rd");
-
-
-    }
-
-    /***
-     * INVALID: FirstName null
-     */
-    @Test
-    public void testUserIdIsInvalid() {
-
-
-        //set 1 field invalid - all other fields are populated with valid data by setUpValidGuest
-        owner.setUserId("harrylouis");
-
-        // use the helper function that will run 4 asserts
-        //pass in the property/attribute name, the EXACT expected error message, and the set invalid value
-        assertInvalid(owner, "userId","That is not a valid UserID", "harrylouis" );
-
+        owners.add(owner1);
+        owners.add(owner2);
 
     }
 
     /***
-     * INVALID: manufacturer 26 characters is too long
+     * VALID: UserID is created properly from the Owner constructor
      */
     @Test
-    public void testFirstNameIsTooLong() {
-/*
+    public void testUserIdIsCreatedFromConstructor() {
 
-        //create an invalid string with 26 characters -too long
-        String invalid = repeatM(26);
-
-        //set value to invalid string
-        guest.setFirstName(invalid);
-
-        //use the helper function that will run 4 asserts
-        // pass in the property/attribute name, the EXACT expected error message, and the set invalid value
-        assertInvalid(guest,"firstName","First name can have at most 25 characters", invalid );
-*/
+        assertEquals(owner1.getUserId(), "harry.louis");
+        assertEquals(owner2.getUserId(), "mary.louis");
 
     }
 
     /***
-     * VALID: manufacturer 25 characters upper bound
+     * INVALID: UserId entered does not exist in the system
      */
     @Test
-    public void testManufacturerUpperBound() {
-/*
+    public void testUserIdDoesNotExist() {
 
-        //set value to valid 25 character string - upper bound
-        guest.setFirstName(repeatM(25));
+        String userInput = "harrylouis";
 
-        //run validator on car object and count how many violations - should be 0 - no violations
-        assertEquals( 0, validator.validate( guest ).size() );
+        boolean validUser = false;
+        for(Owner user : owners)
+        {
+            if(user.getUserId().compareTo(userInput) == 0)
+            {
+                validUser = true;
+            }
+        }
+        assertEquals(validUser, false);
 
-*/
     }
 
     /***
-     * VALID: manufacturer 5 characters within range
+     * INVALID: UserId entered does not exist in the system
      */
     @Test
-    public void testManufacturerValid() {
-/*
+    public void testUserIdExists() {
 
-        //set value to valid 25 character string
-        guest.setFirstName(repeatM(5));
+        String userInput = "harry.louis";
 
-        //run validator on car object and count how many violations - should be 0 - no violations
-        assertEquals( 0, validator.validate( guest ).size() );
+        boolean validUser = false;
+        for(Owner user : owners)
+        {
+            if(user.getUserId().compareTo(userInput) == 0)
+            {
+                validUser = true;
+            }
+        }
+        assertTrue(validUser);
 
-*/
+    }
+
+    /***
+     * VALID: password exists in the Owner object that is logging in
+     */
+    @Test
+    public void testPasswordExists() {
+        String userInput = "Pa$$w0rd";
+        boolean validPass = false;
+        for (Owner owner : owners) {
+            if (owner.getUserId().equalsIgnoreCase("harry.louis")) {
+                if (userInput.equals(owner.getPassword())) {
+                    validPass = true;
+
+                } else {
+                    validPass = false;
+                }
+            }
+            assertTrue(validPass);
+        }
+    }
+
+    /***
+     * VALID: password exists in the Owner object that is logging in
+     */
+    @Test
+    public void testPasswordInvalid() {
+        String userInput = "Pa$$w0rd";
+        boolean validPass = false;
+        for (Owner owner : owners) {
+            if (owner.getUserId().equalsIgnoreCase("mary.louis")) {
+                if (userInput.equals(owner.getPassword())) {
+                    validPass = true;
+
+                } else {
+                    validPass = false;
+                }
+            }
+            assertFalse(validPass);
+        }
+    }
+
+    /***
+     * VALID: password 8 characters lower bound
+     */
+    @Test
+    public void testPasswordLowerBound() {
+        boolean validPass = false;
+        for(Owner owner : owners)
+        {
+            if(owner.getPassword().length() > 7)
+            {
+                validPass = true;
+            } else {
+                validPass = false;
+            }
+        }
+
+        assertTrue(validPass);
+    }
+
+    /***
+     * VALID: password 30 character upperbound
+     */
+    @Test
+    public void testPasswordUpperBound() {
+        owner1.changePassword(repeatM(30));
+        boolean validPass = false;
+        for(Owner owner : owners)
+        {
+            if(owner.getPassword().length() < 31)
+            {
+                validPass = true;
+            } else {
+                validPass = false;
+            }
+        }
+        assertTrue(validPass);
     }
 
     /***

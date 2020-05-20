@@ -73,6 +73,8 @@ public class Owner implements Serializable {
         this.password = password;
     }
 
+    public String getPassword() { return this.password; }
+
     public String getFirstName()
     {
         return this.firstName;
