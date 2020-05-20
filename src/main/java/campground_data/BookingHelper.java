@@ -20,25 +20,25 @@ public class BookingHelper {
         return this.bookings.remove(booking);
     }
 
-    public boolean changeBookingDate(int bookingID, Date startDate, Date endDate)
-    {
-
-    }
+//    public boolean changeBookingDate(int bookingID, Date startDate, Date endDate)
+//    {
+//
+//    }
 
     public ArrayList<Booking> getBookingList()
     {
         return this.bookings;
     }
 
-    public ArrayList<Booking> getBookingList(int year)
-    {
-
-    }
-
-    public Booking search(String guestID)
-    {
-
-    }
+//    public ArrayList<Booking> getBookingList(int year)
+//    {
+//
+//    }
+//
+//    public Booking search(String guestID)
+//    {
+//
+//    }
 
 
 

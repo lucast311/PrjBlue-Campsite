@@ -22,13 +22,12 @@ public class Guest  implements Serializable {
     @Size(max = 50, message = "Email must be less than or equal to 50 characters")
     private String email;
 
-    @NotEmpty(message = "Phone number must be greater than 0 characters")
-    @Size(max = 10, message = "Phone number must be less than or equal to 10 characters")
+    @Pattern(regexp = "^(\\d{10})", message = "Phone number must be exactly 10 digits")
     private String phoneNumber;
 
     private PaymentType paymentMethod;
 
-    @Size(max = 16, message = "Credit card number must be less than or equal to 16 digits")
+    @Pattern(regexp = "^\\d{16}$", message = "Credit card number must only contain digits")
     private String creditCardNum;
 
     private Address address;

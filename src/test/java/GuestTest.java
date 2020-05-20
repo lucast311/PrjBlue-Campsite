@@ -125,72 +125,115 @@ public class GuestTest {
         assertInvalid(guest, "email", "Email must be less than or equal to 50 characters", invalid);
     }
 
-    /***
-     * INVALID: Phone number is null
-     */
-    @Test
-    public void testPhoneNumberIsEmpty() {
-        guest.setPhoneNumber("");
-        assertInvalid(guest, "phoneNumber", "Phone number must be greater than 0 characters", "");
-    }
 
     /***
-     * INVALID: Phone number is 11 characters too long
+     * VALID: First name lowerbound is 1 character
      */
     @Test
-    public void testPhoneNumberIsTooLong() {
-        String invalid = repeatM(11);
-        guest.setPhoneNumber(invalid);
-        assertInvalid(guest, "phoneNumber", "Phone number must be less than or equal to 10 characters", invalid);
-    }
-
-    /***
-     * VALID: First name is 10 characters
-     */
-    @Test
-    public void testFirstNameIsValid() {
-        guest.setFirstName(repeatM(10));
+    public void testFirstNameLowerBound() {
+        guest.setFirstName(repeatM(1));
 
         assertEquals(0, validator.validate(guest).size());
 
     }
 
     /***
-     * VALID: Last name is 20 characters
+     * VALID: First name upperbound is 20 characters
      */
     @Test
-    public void testLastNameIsValid() {
-        guest.setLastName(repeatM(20));
+    public void testFirstNameUpperBound() {
+        guest.setFirstName(repeatM(20));
+
+        assertEquals(0, validator.validate(guest).size());
+
+    }
+
+    /***
+     * VALID: Last name lowerbound is 1 character
+     */
+    @Test
+    public void testLastNameLowerBound() {
+        guest.setLastName(repeatM(1));
 
         assertEquals(0, validator.validate(guest).size());
     }
 
     /***
-     * VALID: email is 25 characters
+     * VALID: Last name lowerbound is 30 characters
      */
     @Test
-    public void testEmailIsValid() {
-        guest.setEmail(repeatM(25));
+    public void testLastNameUpperBound() {
+        guest.setLastName(repeatM(30));
 
         assertEquals(0, validator.validate(guest).size());
+
+    }
+
+    /***
+     * VALID: email lowerbound is 1 character
+     */
+    @Test
+    public void testEmailLowerBound() {
+        guest.setEmail(repeatM(1));
+
+        assertEquals(0, validator.validate(guest).size());
+    }
+
+    /***
+     * VALID: email upperbound is 50 characters
+     */
+    @Test
+    public void testEmailUpperBound() {
+        guest.setEmail(repeatM(50));
+
+        assertEquals(0, validator.validate(guest).size());
+    }
+
+    /***
+     * VALID: phone number is 10 digits
+     */
+    @Test
+    public void testPhoneNumberIsValid() {
+
+        String[] valid = { "1234567891", "9874563215", "5488796542"};
+
+        for (String validPhone : valid)
+        {
+            guest.setPhoneNumber(validPhone);
+            assertEquals(0, validator.validate(guest).size());
+        }
+
     }
 
     /***
      * VALID: phone number is 10 characters
      */
     @Test
-    public void testPhoneNumberIsValid() {
-        guest.setPhoneNumber(repeatM(10));
-        assertEquals(0, validator.validate(guest).size());
+    public void testPhoneNumberIsInvalid() {
+
+        String[] invalid = { "asdewqfsas", "12s356f489", "123", "saff554812"};
+
+        for (String invalidPhone : invalid)
+        {
+            guest.setPhoneNumber(invalidPhone);
+            assertInvalid(guest, "phoneNumber", "Phone number must be exactly 10 digits", invalidPhone);
+        }
+
     }
 
+
     /***
-     * VALID: Credit card number is 16 characters
+     * INVALID: Credit card Invalid pattern
      */
     @Test
-    public void testCreditCardNumIsValid() {
-        guest.setCreditCardNum(repeatM(16));
-        assertEquals(0, validator.validate(guest).size());
+    public void testCreditCardPatternInvalid() {
+        String[] invalid = {"a12s4f58995422sgdaa", "123456789112345s", "123456478978998789789999999", "asdqwewqradgagasg"};
+
+        for (String invalidCard : invalid)
+        {
+            guest.setCreditCardNum(invalidCard);
+            assertInvalid(guest, "creditCardNum", "Credit card number must only contain digits", invalidCard);
+        }
     }
 
     /***

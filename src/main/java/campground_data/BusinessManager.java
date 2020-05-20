@@ -11,13 +11,13 @@ public class BusinessManager {
     public void LogIn()
     {}
 
-    public boolean validateId(String userID)
-    {}
-
-    public boolean validatePassword(String password)
-    {}
-
-    public Object search(Object obVal)
-    {}
+//    public boolean validateId(String userID)
+//    {}
+//
+//    public boolean validatePassword(String password)
+//    {}
+//
+//    public Object search(Object obVal)
+//    {}
 
 }
