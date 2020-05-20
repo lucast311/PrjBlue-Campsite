@@ -1,6 +1,6 @@
 package campground_data;
 
-import campground_data.bookingType;
+import campground_data.BookingType;
 import java.util.Date;
 
 
@@ -11,13 +11,13 @@ public class Booking
 	private int nPlotID;
 	private Date startDate;
 	private Date endDate;
-	private bookingType type;
+	private BookingType type;
 	private boolean bPaid;
 	private double dTotal;
 	private double dDiscountRate;
 	private int nMemberCount;
 	
-	public Booking(int plotID, String guestID, Date startDate, Date endDate, bookingType type, int memberCount)
+	public Booking(int plotID, String guestID, Date startDate, Date endDate, BookingType type, int memberCount)
 	{
 		this.nBookingID=1;
 		this.sGuestID=guestID;
@@ -44,8 +44,8 @@ public class Booking
 		this.dDiscountRate=0;
 		this.nMemberCount=1;
 	}
-	
-	public void changeStart(Date newStart)
+
+    public void changeStart(Date newStart)
 	{
 		this.startDate=newStart;
 	}
@@ -55,7 +55,7 @@ public class Booking
 		this.endDate=newEnd;
 	}
 	
-	public void setType(bookingType type)
+	public void setType(BookingType type)
 	{
 		this.type=type;
 	}
@@ -137,7 +137,7 @@ public class Booking
 		return this.endDate;
 	}
 	
-	public bookingType getType()
+	public BookingType getType()
 	{
 		return this.type;
 	}
@@ -170,7 +170,7 @@ public class Booking
 	@Override
 	public String toString()
 	{
-		return String.format("BookingID: %d, GuestID: %s, Plot ID: %d, Paid?: %b, Total: %d, Members: %d",
+		return String.format("BookingID: %d, GuestID: %s, Plot ID: %d, Paid?: %b, Total: %f, Members: %d",
 				this.nBookingID, this.sGuestID, this.nPlotID, this.bPaid, this.dTotal, this.nMemberCount);
 	}
 }

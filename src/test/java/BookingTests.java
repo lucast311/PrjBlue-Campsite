@@ -1,7 +1,7 @@
 
 import static org.junit.Assert.*;
 
-import campground_data.bookingType;
+import campground_data.BookingType;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -65,13 +65,13 @@ public class BookingTests
 		Date startDate= new Date(2020,7,20);
 		Date endDate= new Date(2020,7,25);
 		Booking obBooking=new Booking(2,"TestGuestID",startDate,
-				endDate, bookingType.Cabin,4);
+				endDate, BookingType.Cabin,4);
 
 		assertEquals(2,obBooking.getPlotID());
 		assertEquals("TestGuestID",obBooking.getGuestID());
 		assertEquals(startDate,obBooking.getStartDate());
 		assertEquals(endDate,obBooking.getEndDate());
-		assertEquals(bookingType.Cabin,obBooking.getType());
+		assertEquals(BookingType.Cabin,obBooking.getType());
 		assertEquals(4,obBooking.getMemberCount());
 	}
 	
@@ -94,14 +94,14 @@ public class BookingTests
 		Date startDate= new Date(2020,7,20);
 		Date endDate= new Date(2020,7,25);
 		Booking obBooking=new Booking(2,"TestGuestID",startDate,
-				endDate, bookingType.Cabin,4);
+				endDate, BookingType.Cabin,4);
 
 		assertEquals(1,obBooking.getBookingID());
 		assertEquals(2,obBooking.getPlotID());
 		assertEquals("TestGuestID",obBooking.getGuestID());
 		assertEquals(startDate,obBooking.getStartDate());
 		assertEquals(endDate,obBooking.getEndDate());
-		assertEquals(bookingType.Cabin,obBooking.getType());
+		assertEquals(BookingType.Cabin,obBooking.getType());
 		assertEquals(4,obBooking.getMemberCount());
 		assertEquals(false,obBooking.getPaid());
 		assertEquals(0,obBooking.getTotal(),0.001);
@@ -116,9 +116,9 @@ public class BookingTests
 		Date startDate= new Date(2020,7,20);
 		Date endDate= new Date(2020,7,25);
 		Booking obBooking=new Booking(2,"TestGuestID",startDate,
-				endDate, bookingType.Cabin,4);
+				endDate, BookingType.Cabin,4);
 
-		obBooking.setType(bookingType.Site);
+		obBooking.setType(BookingType.Site);
 		obBooking.setPlotID(3);
 		obBooking.setPaid(true);
 		obBooking.setDiscount(50);
@@ -126,7 +126,7 @@ public class BookingTests
 		obBooking.setTotal(150.0);
 
 		assertEquals(3,obBooking.getPlotID());
-		assertEquals(bookingType.Site,obBooking.getType());
+		assertEquals(BookingType.Site,obBooking.getType());
 		assertEquals(6,obBooking.getMemberCount());
 		assertEquals(true,obBooking.getPaid());
 		assertEquals(150,obBooking.getTotal(),0.001);
@@ -142,7 +142,7 @@ public class BookingTests
 		Date newEnd= new Date(2020,8,10);
 
 		Booking obBooking=new Booking(2,"TestGuestID",startDate,
-				endDate, bookingType.Cabin,4);
+				endDate, BookingType.Cabin,4);
 
 
 		obBooking.changeStart(newStart);
