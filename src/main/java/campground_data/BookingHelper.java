@@ -35,10 +35,17 @@ public class BookingHelper {
 
     }
 
-    public Booking search(String guestID)
+    public Booking searchGuestID(String guestID)
     {
 
     }
+
+    public Booking searchBookingId(int bookingID)
+    {
+
+        return null;
+    }
+
 
 
 

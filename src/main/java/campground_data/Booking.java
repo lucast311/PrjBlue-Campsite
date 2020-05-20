@@ -116,6 +116,13 @@ public class Booking
 		}
 
 	}
+
+	public void setBookingID(int nBookingID)
+	{
+		//For testing purposes only
+		this.nBookingID = nBookingID;
+
+	}
 	
 	public String getGuestID()
 	{
@@ -161,6 +168,10 @@ public class Booking
 	{
 		return this.nPlotID;
 	}
+
+	public int getBookingID() {return this.nBookingID;}
+
+
 	
 	@Override
 	public String toString()
