@@ -37,34 +37,54 @@ public class BusinessManager {
 
     public Booking cancellbooking(String phoneNum) {
         searchbooking = BookingHelper.search(phoneNum);
+        //needs validation for error
         return BookingHelper.search(phoneNum);
     }
 
-    public void cancelConfirm(boolean answer) {
-        if (answer == true) {
+    public void cancelConfirm(String answer ) {
+        if (answer.equals("y") || answer.equals("yes")) {
             //go to the next
-        } else {
+            // if passed start date
+            Date date1 = new Date();
+            Date date2 = searchbooking.getStartDate();
+            if (date2.getDate() - date1.getDate() > 0 ){
+                if (date2.getMonth() - date1.getMonth() >= 0){
+                    //move to refund confirm
+                }else {
+                    //cancel successful
+                    bookingHelper.removeBooking(searchbooking);
+                }
+
+            }else{
+                //cancel successful
+                bookingHelper.removeBooking(searchbooking);
+            }
+        } else if (answer.equals("n") || answer.equals("no") || answer.equals("nope")) {
+            //go back to current booking
 
         }
+            //error message
+
 
     }
 
-    public double refundconfirm(boolean answer) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    public double refundconfirm(String answer) {
+        //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date1 = new Date();
         Date date2 = searchbooking.getEndDate();
         int price;
         price = PlotHelper.searchPlot(searchbooking.getPlotID()).getPrice();
 
-
-        int ratething = (int) (date1.getDay() - date2.getDay());
+        int ratething = (int) (date1.getDate() - date2.getDate());
         ratething = ratething * price;
 
-        if (answer == true) {
+        if (answer.equals("y") || answer.equals("yes")) {
             return (searchbooking.getTotal() - ratething);
-        } else {
+        } else if (answer.equals("n") || answer.equals("no") || answer.equals("nope")){
             return searchbooking.getTotal();
         }
+            //error message
+        return 0;
     }
 }
 
