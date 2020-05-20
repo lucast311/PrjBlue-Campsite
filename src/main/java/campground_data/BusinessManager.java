@@ -15,6 +15,7 @@ public class BusinessManager {
     private Booking searchbooking;
 
 
+
     public void LogIn() {
     }
 
@@ -35,7 +36,7 @@ public class BusinessManager {
 
     }
 
-    public Booking cancellbooking(String phoneNum) {
+    public Booking cancelbooking(String phoneNum) {
         searchbooking = BookingHelper.search(phoneNum);
         //needs validation for error
         return BookingHelper.search(phoneNum);
