@@ -61,7 +61,7 @@ public class CabinTest {
      */
     @Before
     public void setUpValidCabin() {
-        cabin = new Cabin(1, 4, CabinType.Deluxe, 150.55, false, false);
+        cabin = new Cabin(1, 4, Cabin.CabinType.Deluxe, 150.55, false);
     }
 
     /***
@@ -209,9 +209,9 @@ public class CabinTest {
      */
     @Test
     public void testTypeDeluxe() {
-        cabin.setCabinType(CabinType.Deluxe);
+        cabin.setCabinType(Cabin.CabinType.Deluxe);
 
-        assertEquals(CabinType.Deluxe, cabin.getCabinType());
+        assertEquals(Cabin.CabinType.Deluxe, cabin.getCabinType());
     }
 
     /**
@@ -220,9 +220,9 @@ public class CabinTest {
      */
     @Test
     public void testTypeBasic() {
-        cabin.setCabinType(CabinType.Basic);
+        cabin.setCabinType(Cabin.CabinType.Basic);
 
-        assertEquals(CabinType.Basic, cabin.getCabinType());
+        assertEquals(Cabin.CabinType.Basic, cabin.getCabinType());
     }
 
     /***

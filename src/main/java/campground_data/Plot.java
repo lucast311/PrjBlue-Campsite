@@ -28,6 +28,10 @@ public abstract class Plot {
 
     }
 
+    public Plot() {
+
+    }
+
     public int getPlotID() {
         return plotID;
     }

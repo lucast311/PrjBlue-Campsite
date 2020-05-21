@@ -1,48 +1,329 @@
 package campground_data;
 
+import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
 
 public class BusinessManager {
 
-    private Owner currUser;
-    private BookingHelper bookingHelper;
-    private PlotHelper plotHelper;
-    private OwnerHelper ownerHelper = new OwnerHelper();
-    private GuestHelper guestHelper;
+    private static Owner currUser;
+    private static BookingHelper bookingHelper = new BookingHelper();
+    private static PlotHelper plotHelper = new PlotHelper();
+    private static OwnerHelper ownerHelper = new OwnerHelper();
+    private static GuestHelper guestHelper = new GuestHelper();
     private static ArrayList<Owner> ownerList = OwnerHelper.getOwnerList();
 
     private static Scanner obIn = new Scanner(System.in);
 
-    public Booking searchbooking;
+
+    private static Booking searchbooking;
+
 
     public static void main(String[] args) {
 
         Owner harry = new Owner("harry", "louis", "Pa$$w0rd", "555-555-5555", "test@gmail.com", 3, true);
         ownerList.add(harry);
         LogIn();
+
+        homeScreen();
+    }
+
+    public static void homeScreen()
+    {
         boolean quit = false;
-        do {
-            System.out.print("Actions:[L]ist Something, [A]dd Something, [Q]uit: "); // figure out where to put in the menus
-            switch (obIn.nextLine().toUpperCase()) {
-                case "L":
-//                    listSomething();
+
+        do{
+            System.out.print("Home: [1]Booking Manager [2]Guest Manager [3]Plot Manager [4]Owner Manager [5]Quit:");
+            switch (obIn.nextLine()) {
+                case "1":
+                    bookingManagerScreen();
                     break;
-                case "A":
-//                    inputSomething();
+                case "2":
+                    guestManagerScreen();
+                    break;
+                case "3":
+                    plotManagerScreen();
+                    break;
+                case "4":
+                    ownerManagerScreen();
+                    break;
+                case "5":
+                    quit = true;
                     break;
                 default:
-                    quit = true;
+                    System.out.println("Invalid option, please try again");
+                    homeScreen();
                     break;
             }
             System.out.println("");
             System.out.println("");
         } while (!quit);
         System.out.println("Quit Application");
+        System.exit(0);
     }
 
-    public static void LogIn() {
+    public static void bookingManagerScreen()
+    {
+        boolean back = false;
+        do{
+            System.out.print("Booking Manager: [1]Add Booking [2]Cancel Booking [3]Modify Booking [4]Find Booking [5]Back:");
+            switch (obIn.nextLine()) {
+                case "1":
+                    addBookingScreen();
+                    break;
+                case "2":
+                    cancelbooking();
+                    break;
+                case "3":
+                    ;
+                    break;
+                case "4":
+                    ;
+                    break;
+                case "5":
+                    back = true;
+                    break;
+                default:
+                    System.out.println("Invalid option, please try again");
+                    bookingManagerScreen();
+                    break;
+            }
+            System.out.println("");
+            System.out.println("");
+        } while (!back);
+        System.out.println("Back to home screen");
+        homeScreen();
+    }
+
+    public static void addBookingScreen()
+    {
+        String sGuestID = "";
+        Date startDate = null;
+        Date endDate = null;
+        BookingType type = null;
+        int memberCount = 0;
+        int plotID = 0;
+
+        boolean bGuestID = false;
+        do{
+            System.out.print("Please enter a GuestID:");
+            sGuestID = obIn.nextLine();
+            //ADD GUEST VERIFICATION
+            bGuestID = true;
+
+        } while (!bGuestID);
+
+        boolean bStartDate = false;
+        do{
+            System.out.print("Please enter a Start Date in the format (dd/mm/yyyy):");
+            String[] sFields = obIn.nextLine().split("/");
+            try{
+                startDate = new Date(Integer.parseInt(sFields[2]),Integer.parseInt(sFields[1])-1, Integer.parseInt(sFields[0]));
+                bStartDate = true;
+            }catch (Exception e)
+            {
+                System.out.println("Invalid Date");
+            }
+        } while (!bStartDate);
+
+        boolean bEndDate = false;
+        do{
+            System.out.print("Please enter an End Date in the format (dd/mm/yyyy):");
+            String[] sFields = obIn.nextLine().split("/");
+            try{
+                endDate = new Date(Integer.parseInt(sFields[2]),Integer.parseInt(sFields[1])-1, Integer.parseInt(sFields[0]));
+                bEndDate = true;
+            }catch (Exception e)
+            {
+                System.out.println("Invalid Date");
+            }
+        } while (!bEndDate);
+
+        boolean bPlotType = false;
+        do{
+            System.out.print("Please enter a plot type (Cabin/Site):");
+            switch (obIn.nextLine().toUpperCase()) {
+                case "CABIN":
+                    type = BookingType.Cabin;
+                    bPlotType = true;
+                    break;
+                case "SITE":
+                    type = BookingType.Site;
+                    bPlotType = true;
+                    break;
+                default:
+                    System.out.println("Invalid Plot Type");
+                    break;
+            }
+        } while (!bPlotType);
+
+        boolean bMemberCount = false;
+        do{
+            System.out.print("Please enter the amount of members staying on the plot:");
+            int sVal = Integer.parseInt(obIn.nextLine());
+            if(sVal >= 1 || sVal <=8)
+            {
+                memberCount = sVal;
+                bMemberCount = true;
+            }
+            else
+            {
+                System.out.println("Member count must be from 1 to 8 members");
+            }
+
+        } while (!bMemberCount);
+
+        boolean bPlotID = false;
+        do{
+            System.out.print("Please enter the PlotID:");
+            int nVal = Integer.parseInt(obIn.nextLine());
+            //ADD PLOT ID LIST FOR CRITERIA, AND PLOT ID VERIFICATION
+            plotID = nVal;
+            bPlotID = true;
+        } while (!bPlotID);
+
+        boolean bConfirm = false;
+        do{
+            System.out.println("Confirm Booking? (Y/N)");
+            System.out.println("GuestID = " + sGuestID);
+            System.out.println("Start Date = " + startDate);
+            System.out.println("End Date = " + endDate);
+            System.out.println("Booking Type = " + type);
+            System.out.println("Member Count = " + memberCount);
+            System.out.println("PlotID = " + plotID);
+
+            switch (obIn.nextLine().toUpperCase()) {
+                case "Y":
+                    Booking booking = new Booking(plotID, sGuestID, startDate, endDate, type, memberCount);
+                    if(bookingHelper.addBooking(booking))
+                    {
+                        System.out.println("Successfully added booking");
+                    }
+                    else
+                    {
+                        System.out.println("Unsuccessful booking");
+                    }
+
+                    bConfirm = true;
+                    break;
+                case "N":
+                    System.out.println("Booking not added");
+                    bConfirm = true;
+                    break;
+                default:
+                    System.out.println("Invalid Option");
+                    break;
+            }
+        } while (!bConfirm);
+
+
+
+    }
+
+    public static void guestManagerScreen()
+    {
+        boolean back = false;
+        do{
+            System.out.print("Guest Manager: [1]Add Guest [2]Remove Guest [3]Edit Guest [4]Find Guest [5]Back:");
+            switch (obIn.nextLine()) {
+                case "1":
+                    ;
+                    break;
+                case "2":
+                    ;
+                    break;
+                case "3":
+                    ;
+                    break;
+                case "4":
+                    ;
+                    break;
+                case "5":
+                    back = true;
+                    break;
+                default:
+                    System.out.println("Invalid option, please try again");
+                    guestManagerScreen();
+                    break;
+            }
+            System.out.println("");
+            System.out.println("");
+        } while (!back);
+        System.out.println("Back to home screen");
+        homeScreen();
+    }
+
+    public static void plotManagerScreen()
+    {
+        boolean back = false;
+        do{
+            System.out.print("Plot Manager: [1]Add Plot [2]Remove Plot [3]Modify Plot [4]Find Plot [5]Back:");
+            switch (obIn.nextLine()) {
+                case "1":
+                    ;
+                    break;
+                case "2":
+                    ;
+                    break;
+                case "3":
+                    ;
+                    break;
+                case "4":
+                    ;
+                    break;
+                case "5":
+                    back = true;
+                    break;
+                default:
+                    System.out.println("Invalid option, please try again");
+                    plotManagerScreen();
+                    break;
+            }
+            System.out.println("");
+            System.out.println("");
+        } while (!back);
+        System.out.println("Back to home screen");
+        homeScreen();
+    }
+
+
+    public static void ownerManagerScreen()
+    {
+        boolean back = false;
+        do{
+            System.out.print("Owner Manager: [1]Add Owner [2]Remove Owner [3]Modify Owner [4]Find Owner [5]Back:");
+            switch (obIn.nextLine()) {
+                case "1":
+                    ;
+                    break;
+                case "2":
+                    ;
+                    break;
+                case "3":
+                    ;
+                    break;
+                case "4":
+                    ;
+                    break;
+                case "5":
+                    back = true;
+                    break;
+                default:
+                    System.out.println("Invalid option, please try again");
+                    ownerManagerScreen();
+                    break;
+            }
+            System.out.println("");
+            System.out.println("");
+        } while (!back);
+        System.out.println("Back to home screen");
+        homeScreen();
+    }
+
+    public static void LogIn()
+    {
+
         boolean user = false;
         boolean pass = false;
         while (!user) {
@@ -107,7 +388,8 @@ public class BusinessManager {
         return false;
     }
 
-    public void cancelbooking() {
+
+    public static void cancelbooking() {
         System.out.print("input booking id");
         searchbooking = BookingHelper.search(obIn.nextLine().toUpperCase());
         //needs validation for error
@@ -122,7 +404,7 @@ public class BusinessManager {
 //    public static Object search(Object obVal)
 //    {}
 
-    public void cancelConfirm() {
+    public static void cancelConfirm() {
         //go to the next
         // if passed start date
         Date date1 = new Date();
@@ -161,7 +443,7 @@ public class BusinessManager {
         }
     }
 
-        public void refundConfirm(){
+        public static void refundConfirm(){
             //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             System.out.print("Actions: Refund for remaining days?");
             Date date3 = new Date();
@@ -310,6 +592,11 @@ public class BusinessManager {
 
             }
         }
+
+
+    public static PlotHelper getPlotHelper()
+    {
+        return plotHelper;
     }
 
 

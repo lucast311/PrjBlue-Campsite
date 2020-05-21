@@ -63,29 +63,24 @@ public class BookingHelper extends Booking{
         return temp.get(0);
     }
 
-    public boolean changeBookingDate(int bookingID, Date newStartDate, Date newEndDate)
-    {
+    public boolean changeBookingDate(int bookingID, Date newStartDate, Date newEndDate) {
         Booking booking = findBooking(bookingID);
-        if (findBooking(bookingID) == null)
-        {
+        if (findBooking(bookingID) == null) {
             System.out.println("The booking you want to change is not in the system. Please enter a valid booking ID.");
             return false;
         }
 
-        if (booking.getStartDate().compareTo(newStartDate) >= 0)
-        {
+        if (booking.getStartDate().compareTo(newStartDate) >= 0) {
             System.out.println("Please enter a  start date that is not earlier than the previous start date.");
             return false;
         }
 
-        if (booking.getEndDate().compareTo(newStartDate) <= 0)
-        {
+        if (booking.getEndDate().compareTo(newStartDate) <= 0) {
             System.out.println("Please enter a start date that is not after the end date.");
             return false;
         }
 
-        if (booking.getStartDate().compareTo(newEndDate) >= 0)
-        {
+        if (booking.getStartDate().compareTo(newEndDate) >= 0) {
             System.out.println("Please enter an end date not earlier than the start date.");
             return false;
         }
@@ -95,6 +90,7 @@ public class BookingHelper extends Booking{
         booking.changeEnd(newEndDate);
         System.out.println("The booking dates have been changed.");
         return true;
+    }
 
 
     public ArrayList<Booking> getBookingList() //help
@@ -123,7 +119,9 @@ public class BookingHelper extends Booking{
     }
 
     public Booking searchBookingId(int bookingID)
-        Booking bookingToReturn;
+    {
+        Booking bookingToReturn = null;
+
 
 
         if(bookingID < 1)
@@ -137,7 +135,7 @@ public class BookingHelper extends Booking{
             {
                 if(bookingitem.getBookingID() == bookingID)
                 {
-                    bookingToReturn = booking;
+                    bookingToReturn = bookingitem;
                 }
             }
         }
