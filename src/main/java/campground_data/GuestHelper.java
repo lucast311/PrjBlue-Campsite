@@ -1,5 +1,6 @@
 package campground_data;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 
 public class GuestHelper {
@@ -13,6 +14,7 @@ public class GuestHelper {
     public void addGuest(Guest newGuest) {
         guestAccounts.add(newGuest);
     }
+
 
     public void removeGuest(Guest guestToRemove) {
 
