@@ -62,7 +62,7 @@ public class BookingHelper {
 
         booking.changeStart(newStartDate);
         booking.changeEnd(newEndDate);
-
+        System.out.println("The booking dates have been changed.");
         return true;
 
 
