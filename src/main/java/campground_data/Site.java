@@ -10,7 +10,7 @@ public class Site extends Plot {
     }
 
     public Site(int SiteNum, boolean serviced, double price, SiteType type, boolean underReno, int occupancy) {
-        super(Integer.toString(SiteNum), occupancy, underReno, false);
+        super(SiteNum, occupancy, price, underReno, false);
         this.serviced = serviced;
         this.type = type;
 

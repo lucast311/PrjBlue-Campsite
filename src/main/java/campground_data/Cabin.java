@@ -9,7 +9,7 @@ public class Cabin extends Plot {
     }
 
     public Cabin(int cabinNum, int occupancy, CabinType type, double price, boolean underReno) {
-        super(Integer.toString(cabinNum), occupancy, underReno, false);
+        super(cabinNum, occupancy, price, underReno, false);
         this.type = type;
     }
 

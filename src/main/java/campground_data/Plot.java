@@ -14,8 +14,6 @@ public abstract class Plot {
         this.price = price;
         this.underReno = underReno;
         this.booked = booked;
-
-
     }
 
     public int getPlotID() {

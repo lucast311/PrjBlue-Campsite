@@ -7,14 +7,17 @@ import java.util.Iterator;
 public class BookingHelper {
 
     private ArrayList<Booking> bookings;
+    private DatabaseFile DBFile;
 
     public BookingHelper() {
-        this.bookings = new ArrayList<>();
+        DBFile=new DatabaseFile();
+        this.bookings = DBFile.readBookings();
     }
 
-    public boolean addBooking(Booking booking)
-    {
-        return this.bookings.add(booking);
+    public boolean addBooking(Booking booking) {
+        this.bookings.add(booking);
+        DBFile.saveRecords(bookings);
+        return this.bookings.contains(booking);
     }
 
     public boolean removeBooking(Booking booking)
@@ -103,7 +106,6 @@ public class BookingHelper {
             return false;
         }
     }
-
 
 
 

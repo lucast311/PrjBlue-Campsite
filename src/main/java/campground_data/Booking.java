@@ -190,7 +190,7 @@ public class Booking implements Serializable
 	@Override
 	public String toString()
 	{
-		return String.format("BookingID: %d, GuestID: %s, Plot ID: %d, Paid?: %b, Total: %d, Members: %d",
+		return String.format("BookingID: %d, GuestID: %s, Plot ID: %d, Paid?: %b, Total: %f, Members: %d",
 				this.nBookingID, this.sGuestID, this.nPlotID, this.bPaid, this.dTotal, this.nMemberCount);
 	}
 }
