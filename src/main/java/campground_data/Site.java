@@ -9,8 +9,8 @@ public class Site extends Plot {
         Individual;
     }
 
-    public Site(int SiteNum, boolean serviced, double price, SiteType type, boolean underReno, int occupancy) {
-        super(SiteNum, occupancy, price, underReno, false);
+    public Site(int siteNum, boolean serviced, double price, SiteType type, boolean underReno, int occupancy) {
+        super(siteNum, occupancy, price, underReno, false);
         this.serviced = serviced;
         this.type = type;
 
