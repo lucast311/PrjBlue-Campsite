@@ -1,38 +1,26 @@
 package campground_data;
 
-public class Cabin extends Plot
-{
-    public enum CabinType
-    {
-        Deluxe,
-        Basic;
+public class Cabin extends Plot {
+    private CabinType type; //help
+
+    public Cabin(int cabinNum, int occupancy, CabinType CabinType, double price, boolean underReno, boolean booked) {
+        super(cabinNum, occupancy, price, underReno, booked);
+        this.type = CabinType;
     }
 
-    public CabinType;
-
-    public Cabin(int plotID, int occupancy, CabinType Type, boolean underReno)
-    {
-
+    public CabinType getCabinType() {
+        return type;
     }
 
-    public Cabin()
-    {
-
-    }
-
-    public void setType()
-    {
-
-    }
-
-    public CabinType getType()
-    {
-
+    public void setCabinType(CabinType type) {
+        this.type = type;
     }
 
     @Override
-    public String toString()
-    {
-        return String.format();
+    public String toString() {
+        return "Cabin{" +
+                "CabinType=" + type +
+                '}';
     }
 }
+

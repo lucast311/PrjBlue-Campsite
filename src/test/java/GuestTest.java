@@ -16,7 +16,7 @@ public class GuestTest {
     private static ValidatorFactory vf;
     private static Validator validator;
 
-    //private Guest guest;
+    private Guest guest;
 
 
     /***
@@ -47,11 +47,13 @@ public class GuestTest {
     @Before
     public void setUpValidGuest()
     {
-/*
         guest = new Guest();
-        guest.setGuestID(0);
-        guest.setFirstName("Bob");
-*/
+        guest.setFirstName("John");
+        guest.setLastName("Smith");
+        guest.setEmail("jsmith@hotmail.com");
+        guest.setPaymentMethod(PaymentType.Credit);
+        guest.setPhoneNumber("3061111111");
+        guest.setAddress(new Address(111, "23B", "Street", "Saskatoon", "SK", "Canada", "111111"));
 
     }
 
@@ -60,6 +62,13 @@ public class GuestTest {
      */
     @Test
     public void testFirstNameIsEmpty() {
+
+        //Setting first name to null
+        guest.setFirstName("");
+
+        assertInvalid(guest, "firstName", "First name must be greater than 0 characters", "");
+
+
 /*
 
         //set 1 field invalid - all other fields are populated with valid data by setUpValidGuest

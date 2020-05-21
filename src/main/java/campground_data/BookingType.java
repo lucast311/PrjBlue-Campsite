@@ -1,6 +1,6 @@
 package campground_data;
 
-public enum bookingType {
+public enum BookingType {
 	Cabin,
-	Site;
+	Site
 }
