@@ -24,7 +24,7 @@ public class PlotHelper extends Plot {
                 return this.plots;
         }
 
-        public Plot searchPlot(int plotID) {
+        public static Plot searchPlot(int plotID) {
                 for (int i = 0; i < getPlotList().size(); i++) {
                         if (getPlotList().get(i).getPlotID() == (plotID)) {
                                 return getPlotList().get(i);

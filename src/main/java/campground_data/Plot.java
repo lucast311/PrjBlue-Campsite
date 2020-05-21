@@ -1,8 +1,15 @@
 package campground_data;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 public abstract class Plot {
+    @Min(value = 1, message = "ID must be greater than or equal to 1")
     private int plotID;
+    @Min(value = 1, message = "ID must be greater than or equal to 1")
+    @Max(value = 8, message = "Occupancy must be less than or equal to 8")
     private int occupancy;
+    @Min(value = 1, message = "ID must be greater than or equal to 1")
     private double price;
     private boolean underReno;
     private boolean booked;

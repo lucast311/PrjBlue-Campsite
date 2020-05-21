@@ -45,7 +45,7 @@ public class BookingHelper extends Booking{
 
 
 
-    public Booking search(String guestID)
+    public static Booking search(String guestID)
     {
         for(int i=0;i < bookings.size(); i++) {
             if (bookings.get(i).getGuestID().equals(guestID)) {

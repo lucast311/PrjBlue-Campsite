@@ -74,7 +74,7 @@ public class BusinessManager {
         Date date1 = new Date();
         Date date2 = searchbooking.getEndDate();
         int price;
-        price = PlotHelper.searchPlot(searchbooking.getPlotID()).getPrice();
+        price = (int) PlotHelper.searchPlot(searchbooking.getPlotID()).getPrice();
 
         int ratething = (int) (date1.getDate() - date2.getDate());
         ratething = ratething * price;

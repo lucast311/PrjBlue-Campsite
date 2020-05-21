@@ -1,6 +1,8 @@
 package campground_ui;
 
 import campground_data.*;
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.UUID;
@@ -12,13 +14,18 @@ public class MainConsole {
 
     //private static CampLedger campLedger = new CampLedger();
     private static Scanner read = new Scanner(System.in);
+    private static BusinessManager businessManager = new BusinessManager(); //wrong
+    private static Booking searchbooking;
 
     public static void main(String[] args) {
 
         boolean quit = false;
-        do{
-            System.out.print("Actions:[L]ist Something, [A]dd Something, [Q]uit: ");
+        do {
+            System.out.print("Actions:[M] Manage bookings [L]ist Something, [A]dd Something, [Q]uit: ");
             switch (read.nextLine().toUpperCase()) {
+                case "M":
+                    managebooking();
+                    break;
                 case "L":
                     listSomething();
                     break;
@@ -35,7 +42,7 @@ public class MainConsole {
         System.out.println("Quit Application");
     }
 
-    private static void listSomething(){
+    private static void listSomething() {
 /*
 
         if(campLedger.getGuests().values().size()>0) {
@@ -51,8 +58,8 @@ public class MainConsole {
 */
 
     }
-    private static void inputSomething()
-    {
+
+    private static void inputSomething() {
 /*
 
         Guest guest = new Guest();
@@ -76,4 +83,98 @@ public class MainConsole {
 
 
     }
+
+    public static void managebooking() {
+        //boolean quit = false;
+        System.out.print("Actions: [C] Cancel booking [N] go back");
+        switch (read.nextLine().toUpperCase()) {
+            case "C":
+                managebooking();
+                break;
+            case "N":
+
+                break;
+            default:
+
+                break;
+
+        }
+        System.out.println("");
+        System.out.println("");
+
+    }
+
+    public static void cancelbooking() {
+        System.out.print("Input bookingID");
+        searchbooking = businessManager.cancelbooking(read.nextLine().toUpperCase());
+
+
+    }
+
+    public static void cancelConfirm() {
+        System.out.print("Actions: is this the correct?");
+        switch (read.nextLine().toUpperCase()) {
+            case "Yes":
+                Date date1 = new Date();
+                Date date2 = searchbooking.getStartDate();
+                BookingHelper bookingHelper = null; //wrong
+                if (date2.getDate() - date1.getDate() > 0) {
+                    if (date2.getMonth() - date1.getMonth() >= 0) {
+                        //move to refund confirm
+
+                    } else {
+                        //cancel successful
+                        bookingHelper.removeBooking(searchbooking);
+                    }
+
+                } else {
+                    //cancel successful
+                    bookingHelper.removeBooking(searchbooking);
+                }
+                break;
+            case "Y":
+                Date date3 = new Date();
+                Date date4 = searchbooking.getStartDate();
+                BookingHelper bookingHelper2 = null; //wrong
+                if (date4.getDate() - date3.getDate() > 0) {
+                    if (date4.getMonth() - date3.getMonth() >= 0) {
+                        //move to refund confirm
+
+
+                    } else {
+                        //cancel successful
+                        bookingHelper2.removeBooking(searchbooking);
+                    }
+
+                } else {
+                    //cancel successful
+                    bookingHelper2.removeBooking(searchbooking);
+                }
+                break;
+            case "No":
+
+                break;
+            case "Nope":
+
+                break;
+            case "N":
+
+                break;
+            default:
+
+                break;
+
+        }
+        System.out.println("");
+        System.out.println("");
+    }
+
+    public static void refundConfirm() {
+        System.out.print("Actions: Refund for remaining days?");
+        double total = businessManager.refundconfirm(read.nextLine().toUpperCase());
+        System.out.print("Total amount refunded: " + total);
+
+
+    }
 }
+
