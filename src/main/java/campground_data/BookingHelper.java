@@ -19,7 +19,6 @@ public class BookingHelper {
     {
 
 
-
         return this.bookings.remove(booking);
     }
 
@@ -45,13 +44,47 @@ public class BookingHelper {
 
     public Booking searchBookingId(int bookingID)
     {
+        Booking bookingToReturn = null;
 
-        return null;
+        if(bookingID < 1)
+        {
+            System.out.println("Booking ID cannot be less than the number 1. Please enter a valid Booking ID");
+            //Insert routine to ask user again for Booking ID
+        }
+        else
+        {
+            for(Booking booking : bookings)
+            {
+                if(booking.getBookingID() == bookingID)
+                {
+                    bookingToReturn = booking;
+                }
+            }
+        }
+
+
+        return bookingToReturn;
     }
 
     public boolean confirmRemove(String sConfirm)
     {
-        return false;
+
+        //Will update this once I figure out the regex to handle all edge cases
+        if(sConfirm.trim().equals("yes"))
+        {
+            return true;
+        }
+        else if (sConfirm.trim().equals("no"))
+        {
+            return false;
+        }
+        else //when any other string is entered
+        {
+            System.out.println("Invalid response. Please answer with either \"yes\" or \"no\"");
+            return false;
+        }
+
+
     }
 
 

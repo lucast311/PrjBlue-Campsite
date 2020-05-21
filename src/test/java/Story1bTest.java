@@ -48,7 +48,6 @@ public class Story1bTest
 
         GuestHelper guestHelper = new GuestHelper();
 
-
         assertTrue(guests.contains(guestHelper.searchGuest("3069999999")));
         assertFalse(guests.contains(guestHelper.searchGuest("1234567890")));
 
@@ -73,6 +72,7 @@ public class Story1bTest
         assertNull(bookingHelper.searchBookingId(5));
         assertNull(bookingHelper.searchBookingId(-1));
 
+
     }
 
     /**
@@ -86,7 +86,7 @@ public class Story1bTest
 
         assertTrue(bookingHelper.confirmRemove("yes"));
         assertFalse(bookingHelper.confirmRemove("no"));
-//        assertTrue(bookingHelper.confirmRemove("nsaduasgdfyfjsd") == false);
+        assertFalse(bookingHelper.confirmRemove("nsaduasgdfyfjsd"));
 
     }
 
