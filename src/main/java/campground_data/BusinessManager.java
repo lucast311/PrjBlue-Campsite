@@ -64,7 +64,7 @@ public class BusinessManager {
     {
         boolean back = false;
         do{
-            System.out.print("Booking Manager: [1]Add Booking [2]Cancel Booking [3]Modify Booking [4]Find Booking [5]Back:");
+            System.out.print("Booking Manager: [1]Add Booking [2]Cancel Booking [3]Modify Booking [4]Find Booking [5]View Current Bookings [6]Back:");
             switch (obIn.nextLine()) {
                 case "1":
                     addBookingScreen();
@@ -79,6 +79,9 @@ public class BusinessManager {
                     ;
                     break;
                 case "5":
+                    viewCurrentBookingsScreen();
+                    break;
+                case "6":
                     back = true;
                     break;
                 default:
@@ -93,6 +96,35 @@ public class BusinessManager {
         homeScreen();
     }
 
+    public static void viewCurrentBookingsScreen()
+    {
+        ArrayList<Booking> obBookingList;
+        System.out.println("Please choose an option: [1]View All Bookings [2]View Bookings for a Certain Year");
+        switch (obIn.nextLine()) {
+            case "1":
+                obBookingList = bookingHelper.getBookingList();
+                for(Booking obVal: obBookingList)
+                {
+                    System.out.println(obVal.toString());
+                }
+                bookingManagerScreen();
+                break;
+            case "2":
+                System.out.println("Enter a year to view all bookings for that year:");
+                int nYear=obIn.nextInt();
+                obBookingList=bookingHelper.getBookingList(nYear);
+                for(Booking obVal: obBookingList)
+                {
+                    System.out.println(obVal.toString());
+                }
+                bookingManagerScreen();
+                break;
+            default:
+                System.out.println("Invalid option, please try again");
+                viewCurrentBookingsScreen();
+                break;
+        }
+    }
     public static void addBookingScreen()
     {
         String sGuestID = "";
