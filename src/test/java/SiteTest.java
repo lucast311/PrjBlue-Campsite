@@ -49,7 +49,7 @@ public class SiteTest {
      */
     @Before
     public void setUpValidSite() {
-        site = new Site(1, 4, SiteType.Group, 75.55, false, false, true);
+        site = new Site(1, true, 75.55, Site.SiteType.Group,false, 4);
     }
 
     /**
@@ -80,7 +80,7 @@ public class SiteTest {
      */
     @Test
     public void testTypeGroup() {
-        site.setSiteType(SiteType.Group);
+        site.setSiteType(Site.SiteType.Group);
 
         assertEquals(SiteType.Group, site.getSiteType());
     }
@@ -93,7 +93,7 @@ public class SiteTest {
      */
     @Test
     public void testTypeIndividual() {
-        site.setSiteType(SiteType.Individual);
+        site.setSiteType(Site.SiteType.Individual);
 
         assertEquals(SiteType.Individual, site.getSiteType());
     }
