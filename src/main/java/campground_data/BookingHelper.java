@@ -49,6 +49,19 @@ public class BookingHelper extends Booking{
 
     }
 
+    public Booking findBooking(int id)
+    {
+        ArrayList<Booking> temp = new ArrayList<>();
+        for (Booking obBooking : bookings)
+        {
+            if (obBooking.getBookingID() == id)
+            {
+                temp.add(obBooking);
+
+            }
+        }
+        return temp.get(0);
+    }
 
     public boolean changeBookingDate(int bookingID, Date newStartDate, Date newEndDate)
     {
@@ -84,24 +97,12 @@ public class BookingHelper extends Booking{
         return true;
 
 
-    public ArrayList<Booking> getBookingList()
+    public ArrayList<Booking> getBookingList() //help
     {
-        return this.bookings;
+        ArrayList<Booking> BookingTemp= this.bookings;
+        return BookingTemp;
     }
 
-    public Booking findBooking(int id)
-    {
-        ArrayList<Booking> temp = new ArrayList<>();
-        for (Booking obBooking : bookings)
-        {
-            if (obBooking.getBookingID() == id)
-            {
-                temp.add(obBooking);
-
-            }
-        }
-        return temp.get(0);
-    }
 
     public ArrayList<Booking> getBookingList(int year)
     {
@@ -122,7 +123,7 @@ public class BookingHelper extends Booking{
     }
 
     public Booking searchBookingId(int bookingID)
-        Booking bookingToReturn = null;
+        Booking bookingToReturn;
 
 
         if(bookingID < 1)
@@ -132,9 +133,9 @@ public class BookingHelper extends Booking{
         }
         else
         {
-            for(Booking booking : bookings)
+            for(Booking bookingitem : bookings)
             {
-                if(booking.getBookingID() == bookingID)
+                if(bookingitem.getBookingID() == bookingID)
                 {
                     bookingToReturn = booking;
                 }
@@ -161,11 +162,11 @@ public class BookingHelper extends Booking{
         }
     }
 
-    public static Booking search(String guestID)
+    public Booking search(String guestID) //help
     {
-        for(int i=0;i < bookings.size(); i++) {
-            if (bookings.get(i).getGuestID().equals(guestID)) {
-                return bookings.get(i);
+        for(int i=0;i < getBookingList().size(); i++) {
+            if (getBookingList().get(i).getGuestID().equals(guestID)) {
+                return getBookingList().get(i);
             }
         }
         return null;
