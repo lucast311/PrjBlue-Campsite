@@ -5,14 +5,14 @@ import java.util.ArrayList;
 
 public class DatabaseFile 
 {
-	private String filePathGuest="java/database/guest.obj";
-	private String filePathOwners="java/database/owners.obj";
-	private String filePathPlots="java/database/plots.obj";
-	private String filePathBookings="java/database/bookings.obj";
+	private String filePathGuest="src/main/java/database/guest.obj";
+	private String filePathOwners="src/main/java/database/owners.obj";
+	private String filePathPlots="src/main/java/database/plots.obj";
+	private String filePathBookings="src/main/java/database/bookings.obj";
 	
 	public DatabaseFile()
 	{
-
+		
 	}
 	
 	public ArrayList<Guest> readGuests()
@@ -32,11 +32,11 @@ public class DatabaseFile
 		}
 		catch(IOException exp)
 		{
-			exp.printStackTrace();
+			//exp.printStackTrace();
 		}
 		catch(ClassNotFoundException exp)
 		{
-			exp.printStackTrace();
+			//exp.printStackTrace();
 		}
 		return obGuestList;
 	}
@@ -58,11 +58,11 @@ public class DatabaseFile
 		}
 		catch(IOException exp)
 		{
-			exp.printStackTrace();
+			//exp.printStackTrace();
 		}
 		catch(ClassNotFoundException exp)
 		{
-			exp.printStackTrace();
+			//exp.printStackTrace();
 		}
 		return obOwnerList;
 	}
@@ -84,11 +84,11 @@ public class DatabaseFile
 		}
 		catch(IOException exp)
 		{
-			exp.printStackTrace();
+			//exp.printStackTrace();
 		}
 		catch(ClassNotFoundException exp)
 		{
-			exp.printStackTrace();
+			//exp.printStackTrace();
 		}
 		return obPlotList;
 	}
@@ -110,11 +110,11 @@ public class DatabaseFile
 		}
 		catch(IOException exp)
 		{
-			exp.printStackTrace();
+			//exp.printStackTrace();
 		}
 		catch(ClassNotFoundException exp)
 		{
-			exp.printStackTrace();
+			//exp.printStackTrace();
 		}
 		return obBookingList;
 	}

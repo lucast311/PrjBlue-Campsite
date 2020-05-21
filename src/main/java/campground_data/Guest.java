@@ -2,6 +2,7 @@ package campground_data;
 
 import org.json.simple.JSONObject;
 import java.io.Serializable;
+import java.util.Scanner;
 import javax.validation.constraints.*;
 
 
@@ -10,16 +11,30 @@ import javax.validation.constraints.*;
  */
 public class Guest  implements Serializable {
 
+    @NotEmpty(message = "First name must be greater than 0 characters")
+    @Size(max=20, message = "First name must be less than or equal to 20 characters")
     private String firstName;
+
+    @NotEmpty(message = "Last name must be greater than 0 characters")
+    @Size(max = 30, message = "Last name must be less than or equal to 30 characters")
     private String lastName;
+
+    @NotEmpty(message = "Email must be greater than 0 characters")
+    @Size(max = 50, message = "Email must be less than or equal to 50 characters")
     private String email;
+
+    @Pattern(regexp = "^(\\d{10})", message = "Phone number must be exactly 10 digits")
     private String phoneNumber;
+
     private PaymentType paymentMethod;
-    private long creditCardNum;
+
+    @Pattern(regexp = "^\\d{16}$", message = "Credit card number must only contain digits and be 16 digits long")
+    private String creditCardNum;
+
     private Address address;
 
     public Guest(String firstName, String lastName, String email, String phoneNumber, PaymentType paymentMethod,
-                 long creditCardNum, Address address) {
+                 String creditCardNum, Address address) {
 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -55,7 +70,7 @@ public class Guest  implements Serializable {
         return paymentMethod;
     }
 
-    public long getCreditCardNum() {
+    public String getCreditCardNum() {
         return creditCardNum;
     }
 
@@ -83,7 +98,7 @@ public class Guest  implements Serializable {
         this.paymentMethod = paymentMethod;
     }
 
-    public void setCreditCardNum(int creditCardNum) {
+    public void setCreditCardNum(String creditCardNum) {
         this.creditCardNum = creditCardNum;
     }
 
@@ -94,7 +109,8 @@ public class Guest  implements Serializable {
     @Override
     public String toString() {
         return "Name:" + this.firstName + " " + this.lastName + "\nEmail: " + this.email + "\nPhone Number: " + this.phoneNumber + "\nPayment Method: " + this.paymentMethod
-                    + "\nCredit Card Num: " + this.creditCardNum + "\nAddress: " + this.address.toString();
+                    + "\nCredit Card Num: " + this.creditCardNum + "\nAddress: " + this.address.getStreetNum() + " " + this.address.getStreetName() + " " + this.address.getCity_Town() +
+                    " " + this.address.getProvince() + " " + this.address.getCountry() + " " + this.address.getPostalCode();
     }
 
 }
