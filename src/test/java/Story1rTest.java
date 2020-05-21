@@ -1,10 +1,6 @@
 import campground_data.*;
-
 import org.junit.*;
-
-
 import java.util.*;
-
 import static org.junit.Assert.*;
 
 
@@ -13,6 +9,7 @@ public class Story1rTest extends BookingHelper
 {
     private Booking booking;
     private Booking booking2;
+    private Date invalidStartDate;
 
     @Before
     public void setUpBookingList()
@@ -25,20 +22,48 @@ public class Story1rTest extends BookingHelper
     }
 
 
-
+    /**
+     * A1.1
+     * Validate booking id input
+     */
     @Test
-    public void testChangeBookingDate()
+    public void testInvalidBookingID()
     {
         String bookingIDNotFound = "The booking you want to change is not in the system. Please enter a valid booking ID.";
-        String startDateInvalidMessage = "Please enter a  start date that is not earlier than the previous start date.";
-        String startDateInvalidMessage2 = "Please enter a start date that is not after the end date.";
-        String endDateInvalidMessage = "Please enter an end date not earlier than the start date.";
-        String bookingChanged = "The booking dates have been changed.";
+        assertFalse(bookingIDNotFound, changeBookingDate(10,  new Date(2020, 5, 20), new Date(2020, 6, 4)));
 
-        assertFalse(bookingIDNotFound, changeBookingDate(10, new Date(2020,5, 22), new Date(2020,6,4)));
+    }
+
+    /**
+     *
+     * B1.1 & B1.2 Validate start date input
+     */
+
+    public  void testInvalidStartDate()
+    {
+        String startDateInvalidMessage = "Please enter a  start date that is not earlier than the previous start date.";
         assertFalse(startDateInvalidMessage, changeBookingDate(2, new Date(2020,4, 20), new Date(2020,6,5)));
+
+
+        String startDateInvalidMessage2 = "Please enter a start date that is not after the end date.";
         assertFalse(startDateInvalidMessage2,changeBookingDate(2, new Date(2020,6, 20), new Date(2020,6,5)));
+    }
+
+    /**
+     * C1.1 Validate end date input
+     */
+    public void testInvalidEndDate()
+    {
+        String endDateInvalidMessage = "Please enter an end date not earlier than the start date.";
         assertFalse(endDateInvalidMessage,changeBookingDate(2, new Date(2020,5, 22), new Date(2020,5,19)));
+    }
+
+    /**
+     * D1.1 Validate date change
+     */
+    public void testDateChange()
+    {
+        String bookingChanged = "The booking dates have been changed.";
         assertTrue(bookingChanged,changeBookingDate(2, new Date(2020,5, 24), new Date(2020,6,4)));
     }
 }

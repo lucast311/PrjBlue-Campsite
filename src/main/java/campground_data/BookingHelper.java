@@ -1,20 +1,13 @@
 package campground_data;
 
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;
-import java.util.stream.Collectors;
 
 public class BookingHelper extends Booking{
 
     private ArrayList<Booking> bookings;
-
-    private static boolean found = false;
-
     private DatabaseFile DBFile;
     private Booking searchbooking;
 
@@ -53,7 +46,7 @@ public class BookingHelper extends Booking{
     public boolean changeBookingDate(int bookingID, Date newStartDate, Date newEndDate)
     {
         Booking booking = findBooking(bookingID);
-        if (findBooking(bookingID) == null)
+        if (booking == null)
         {
             System.out.println("The booking you want to change is not in the system. Please enter a valid booking ID.");
             return false;
@@ -82,6 +75,7 @@ public class BookingHelper extends Booking{
         booking.changeEnd(newEndDate);
         System.out.println("The booking dates have been changed.");
         return true;
+    }
 
 
     public ArrayList<Booking> getBookingList()
@@ -89,18 +83,17 @@ public class BookingHelper extends Booking{
         return this.bookings;
     }
 
-    public Booking findBooking(int id)
+    private Booking findBooking(int id)
     {
-        ArrayList<Booking> temp = new ArrayList<>();
         for (Booking obBooking : bookings)
         {
             if (obBooking.getBookingID() == id)
             {
-                temp.add(obBooking);
+                return obBooking;
 
             }
         }
-        return temp.get(0);
+        return null;
     }
 
     public ArrayList<Booking> getBookingList(int year)
@@ -122,6 +115,7 @@ public class BookingHelper extends Booking{
     }
 
     public Booking searchBookingId(int bookingID)
+    {
         Booking bookingToReturn = null;
 
 
@@ -161,7 +155,7 @@ public class BookingHelper extends Booking{
         }
     }
 
-    public static Booking search(String guestID)
+    public Booking search(String guestID)
     {
         for(int i=0;i < bookings.size(); i++) {
             if (bookings.get(i).getGuestID().equals(guestID)) {
