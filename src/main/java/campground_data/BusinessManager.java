@@ -53,7 +53,6 @@ public class BusinessManager {
                     break;
                 default:
                     System.out.println("Invalid option, please try again");
-                    homeScreen();
                     break;
             }
             System.out.println("");
@@ -86,7 +85,6 @@ public class BusinessManager {
                     break;
                 default:
                     System.out.println("Invalid option, please try again");
-                    bookingManagerScreen();
                     break;
             }
             System.out.println("");
@@ -98,7 +96,7 @@ public class BusinessManager {
 
     public static void addBookingScreen()
     {
-        String sGuestID = "";
+        int nGuestID = 0;
         Date startDate = null;
         Date endDate = null;
         BookingType type = null;
@@ -108,10 +106,19 @@ public class BusinessManager {
         boolean bGuestID = false;
         do{
             System.out.print("Please enter a GuestID:");
-            sGuestID = obIn.nextLine();
-            //ADD GUEST VERIFICATION
-            bGuestID = true;
+            nGuestID = Integer.valueOf(obIn.nextLine());
 
+            if(guestHelper.checkGuestId(nGuestID))
+            {
+                bGuestID = true;
+            }
+            else
+            {
+                System.out.println("Invalid Guest ID");
+            }
+
+            System.out.println("");
+            System.out.println("");
         } while (!bGuestID);
 
         boolean bStartDate = false;
@@ -120,11 +127,21 @@ public class BusinessManager {
             String[] sFields = obIn.nextLine().split("/");
             try{
                 startDate = new Date(Integer.parseInt(sFields[2]),Integer.parseInt(sFields[1])-1, Integer.parseInt(sFields[0]));
-                bStartDate = true;
+                if(startDate.compareTo(new Date()) > 0)
+                {
+                    bStartDate = true;
+                }
+                else
+                {
+                    System.out.println("Start date cannot be earlier than the current date");
+                }
             }catch (Exception e)
             {
                 System.out.println("Invalid Date");
             }
+
+            System.out.println("");
+            System.out.println("");
         } while (!bStartDate);
 
         boolean bEndDate = false;
@@ -133,11 +150,21 @@ public class BusinessManager {
             String[] sFields = obIn.nextLine().split("/");
             try{
                 endDate = new Date(Integer.parseInt(sFields[2]),Integer.parseInt(sFields[1])-1, Integer.parseInt(sFields[0]));
-                bEndDate = true;
+                if(endDate.compareTo(startDate) > 0)
+                {
+                    bEndDate = true;
+                }
+                else
+                {
+                    System.out.println("End Date cannot be on or before the Start Date");
+                }
             }catch (Exception e)
             {
                 System.out.println("Invalid Date");
             }
+
+            System.out.println("");
+            System.out.println("");
         } while (!bEndDate);
 
         boolean bPlotType = false;
@@ -156,11 +183,14 @@ public class BusinessManager {
                     System.out.println("Invalid Plot Type");
                     break;
             }
+
+            System.out.println("");
+            System.out.println("");
         } while (!bPlotType);
 
         boolean bMemberCount = false;
         do{
-            System.out.print("Please enter the amount of members staying on the plot:");
+            System.out.print("Please enter the amount of members staying on the plot (1-8):");
             int sVal = Integer.parseInt(obIn.nextLine());
             if(sVal >= 1 || sVal <=8)
             {
@@ -172,6 +202,8 @@ public class BusinessManager {
                 System.out.println("Member count must be from 1 to 8 members");
             }
 
+            System.out.println("");
+            System.out.println("");
         } while (!bMemberCount);
 
         boolean bPlotID = false;
@@ -181,12 +213,15 @@ public class BusinessManager {
             //ADD PLOT ID LIST FOR CRITERIA, AND PLOT ID VERIFICATION
             plotID = nVal;
             bPlotID = true;
+
+            System.out.println("");
+            System.out.println("");
         } while (!bPlotID);
 
         boolean bConfirm = false;
         do{
             System.out.println("Confirm Booking? (Y/N)");
-            System.out.println("GuestID = " + sGuestID);
+            System.out.println("GuestID = " + nGuestID);
             System.out.println("Start Date = " + startDate);
             System.out.println("End Date = " + endDate);
             System.out.println("Booking Type = " + type);
@@ -195,7 +230,7 @@ public class BusinessManager {
 
             switch (obIn.nextLine().toUpperCase()) {
                 case "Y":
-                    Booking booking = new Booking(plotID, sGuestID, startDate, endDate, type, memberCount);
+                    Booking booking = new Booking(plotID, nGuestID, startDate, endDate, type, memberCount);
                     if(bookingHelper.addBooking(booking))
                     {
                         System.out.println("Successfully added booking");
@@ -215,10 +250,10 @@ public class BusinessManager {
                     System.out.println("Invalid Option");
                     break;
             }
+
+            System.out.println("");
+            System.out.println("");
         } while (!bConfirm);
-
-
-
     }
 
     public static void guestManagerScreen()
@@ -398,6 +433,7 @@ public class BusinessManager {
         System.out.println("Success");
         System.out.print("Found: " + (searchbooking.getGuestID()));
         cancelConfirm();
+
     }
 
 
