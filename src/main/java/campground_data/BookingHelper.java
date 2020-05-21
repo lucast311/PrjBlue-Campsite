@@ -1,13 +1,19 @@
 package campground_data;
 
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
-public class BookingHelper {
+public class BookingHelper extends Booking{
 
     private ArrayList<Booking> bookings;
     private DatabaseFile DBFile;
+    private Booking searchbooking;
+
 
     public BookingHelper() {
         DBFile=new DatabaseFile();
@@ -68,8 +74,8 @@ public class BookingHelper {
     }
 
     public Booking searchBookingId(int bookingID)
-    {
         Booking bookingToReturn = null;
+
 
         if(bookingID < 1)
         {
@@ -107,8 +113,15 @@ public class BookingHelper {
         }
     }
 
-
-
+    public static Booking search(String guestID)
+    {
+        for(int i=0;i < bookings.size(); i++) {
+            if (bookings.get(i).getGuestID().equals(guestID)) {
+                return bookings.get(i);
+            }
+        }
+        return null;
+    }
 
 
 }

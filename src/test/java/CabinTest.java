@@ -11,6 +11,22 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 
+import campground_data.Cabin;
+import campground_data.CabinType;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+
+import javax.validation.ValidatorFactory;
+
+import java.util.Set;
+
+import static org.junit.Assert.*;
+//richies code
 public class CabinTest {
 
     private static ValidatorFactory vf;

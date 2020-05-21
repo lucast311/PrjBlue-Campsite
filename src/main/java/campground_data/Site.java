@@ -6,7 +6,7 @@ public class Site extends Plot {
 
     public enum SiteType {
         Group,
-        Individual;
+        Individual
     }
 
     public Site(int siteNum, boolean serviced, double price, SiteType type, boolean underReno, int occupancy) {

@@ -14,10 +14,7 @@ public abstract class Plot {
 
     @Min(value = 1, message = "Price must be greater than or equal to 1")
     private double price;
-
-
     private boolean underReno;
-
     private boolean booked;
 
 
@@ -27,6 +24,8 @@ public abstract class Plot {
         this.price = price;
         this.underReno = underReno;
         this.booked = booked;
+
+
     }
 
     public int getPlotID() {

@@ -15,8 +15,8 @@ import java.util.Set;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
+//richies code
 public class SiteTest {
-
     private static ValidatorFactory vf;
     private static Validator validator;
 
