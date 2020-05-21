@@ -1,16 +1,36 @@
 package campground_data;
 
-public class Address
+import javax.validation.constraints.*;
+import java.io.Serializable;
+
+public class Address implements Serializable
 {
+    @Min(value = 1, message = "Street number must be at least 1")
     private int streetNum;
-    private String aptNum;
+
+    @Min(value = 0, message = "Apt number must be at least 0, 0 means it does not exist")
+    private int aptNum;
+
+    @Size(max = 30, message = "The street name must be less than or equal to 30 characters")
+    @NotEmpty(message = "The street name must be greater than 0 characters")
     private String streetName;
+
+    @Size(max = 30, message = "The city or town must be less than or equal to 30 characters")
+    @NotEmpty(message = "The city or town must be greater than 0 characters")
     private String city_Town;
+
+    @Size(max = 30, message = "The province must be less than or equal to 30 characters")
+    @NotEmpty(message = "The province must be greater than 0 characters")
     private String province;
+
+    @Size(max = 30, message = "The country must be less than or equal to 30 characters")
+    @NotEmpty(message = "The country must be greater than 0 characters")
     private String country;
+
+    @Pattern(regexp = "^[A-Za-z]\\d[A-Za-z]\\d[A-Za-z]\\d$", message = "Postal code must be in the format A1A1A1")
     private String postalCode;
 
-    public Address(int streetNum, String aptNum, String streetName, String city, String state, String country, String postal)
+    public Address(int streetNum, int aptNum, String streetName, String city, String state, String country, String postal)
     {
         this.streetNum = streetNum;
         this.aptNum = aptNum;
@@ -30,7 +50,7 @@ public class Address
         return streetNum;
     }
 
-    public String getAptNum() {
+    public int getAptNum() {
         return aptNum;
     }
 
@@ -58,7 +78,7 @@ public class Address
         this.streetNum = streetNum;
     }
 
-    public void setAptNum(String aptNum) {
+    public void setAptNum(int aptNum) {
         this.aptNum = aptNum;
     }
 
