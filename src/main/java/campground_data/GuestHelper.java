@@ -11,8 +11,8 @@ public class GuestHelper {
 
     }
 
-    public void addGuest(Guest newGuest) {
-        guestAccounts.add(newGuest);
+    public boolean addGuest(Guest newGuest) {
+        return guestAccounts.add(newGuest);
     }
 
 

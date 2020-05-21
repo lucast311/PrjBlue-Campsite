@@ -24,6 +24,8 @@ public class BusinessManager {
         ownerList.add(harry);
         LogIn();
 
+        //Guest added for testing, ID will be 1
+        guestHelper.addGuest(new Guest());
         homeScreen();
     }
 
