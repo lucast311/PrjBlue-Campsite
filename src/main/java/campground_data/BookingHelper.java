@@ -2,6 +2,7 @@ package campground_data;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 
 public class BookingHelper {
 
@@ -11,15 +12,29 @@ public class BookingHelper {
         this.bookings = new ArrayList<>();
     }
 
-    public boolean addBooking(Booking booking) {
+    public boolean addBooking(Booking booking)
+    {
         return this.bookings.add(booking);
     }
 
+
     public boolean removeBooking(Booking booking)
     {
+        boolean bRemoved = false;
 
+        Iterator<Booking> it = bookings.iterator();
+        while (it.hasNext())
+        {
+            Booking args = it.next();
+            if (args.getBookingID() == booking.getBookingID())
+            {
+                it.remove();
+                bRemoved = true;
+            }
+        }
 
-        return this.bookings.remove(booking);
+        return bRemoved;
+
     }
 
     public boolean changeBookingDate(int bookingID, Date startDate, Date endDate)

@@ -1,8 +1,7 @@
 package campground_data;
 
-import java.bookingType;
 import java.util.Date;
-import java.bookingType;
+
 
 public class Booking 
 {
@@ -11,13 +10,13 @@ public class Booking
 	private int nPlotID;
 	private Date startDate;
 	private Date endDate;
-	private bookingType type;
+	private BookingType type;
 	private boolean bPaid;
 	private double dTotal;
 	private double dDiscountRate;
 	private int nMemberCount;
 	
-	public Booking(int plotID, String guestID, Date startDate, Date endDate, bookingType type, int memberCount)
+	public Booking(int plotID, String guestID, Date startDate, Date endDate, BookingType type, int memberCount)
 	{
 		this.nBookingID=1;
 		this.sGuestID="Test";
@@ -55,7 +54,7 @@ public class Booking
 		this.endDate=newEnd;
 	}
 	
-	public void setType(bookingType type)
+	public void setType(BookingType type)
 	{
 		this.type=type;
 	}
@@ -139,7 +138,7 @@ public class Booking
 		return this.endDate;
 	}
 	
-	public bookingType getType()
+	public BookingType getType()
 	{
 		return this.type;
 	}
