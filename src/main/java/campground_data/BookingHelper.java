@@ -158,11 +158,11 @@ public class BookingHelper extends Booking{
         }
     }
 
-    public Booking search(String guestID)
+    public Booking search(int guestID)
     {
         for(int i=0;i < bookings.size(); i++)
         {
-            if (bookings.get(i).getGuestID().equals(guestID)) {
+            if (bookings.get(i).getGuestID() == guestID) {
                 return bookings.get(i);
             }
         }
