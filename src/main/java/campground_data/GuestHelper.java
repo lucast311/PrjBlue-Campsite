@@ -27,14 +27,23 @@ public class GuestHelper {
     {
         Guest guestToReturn = null;
 
-        for (Guest guest : guestAccounts)
+
+        if (phoneNumber.length() != 10)
         {
-            if (guest.getPhoneNumber().equals(phoneNumber))
+            System.out.println("Invalid phone number length. Please enter a 10 digit phone number");
+            //insert routine to ask user again for phone number
+        }
+        else
+        {
+            for (Guest guest : guestAccounts)
             {
-                guestToReturn = guest;
+                if (guest.getPhoneNumber().equals(phoneNumber))
+                {
+                    guestToReturn = guest;
+                }
+
             }
         }
-        
         return guestToReturn;
     }
 

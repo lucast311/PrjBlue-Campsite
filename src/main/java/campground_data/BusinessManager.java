@@ -7,10 +7,10 @@ import java.util.regex.Pattern;
 public class BusinessManager {
 
     private Owner currUser;
-//    private BookingHelper bookingHelper;
-//    private PlotHelper plotHelper;
+    private BookingHelper bookingHelper;
+    private PlotHelper plotHelper;
     private OwnerHelper ownerHelper = new OwnerHelper();
-//    private GuestHelper guestHelper;
+    private GuestHelper guestHelper;
     private static ArrayList<Owner> ownerList = OwnerHelper.getOwnerList();
 
     private static Scanner obIn = new Scanner(System.in);

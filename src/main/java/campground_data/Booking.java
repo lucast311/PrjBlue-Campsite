@@ -111,18 +111,20 @@ public class Booking implements Serializable
 		{
 			this.nPlotID=nPlotID;
 		}
+
 	}
 	
 	public void setTotal(double dTotal)
 	{
 		if(dTotal<0)
 		{
-			System.out.println("Total cannot be set below 0");
+			System.out.println("That total is invalid");
 		}
 		else
 		{
 			this.dTotal=dTotal;
 		}
+
 	}
 	
 	public void setDiscount(double dDiscount)
@@ -136,12 +138,6 @@ public class Booking implements Serializable
 			this.dDiscountRate=dDiscount;
 		}
 	}
-
-	public int getBookingID()
-	{
-		return this.nBookingID;
-	}
-
 	public String getGuestID()
 	{
 		return this.sGuestID;
@@ -186,11 +182,15 @@ public class Booking implements Serializable
 	{
 		return this.nPlotID;
 	}
-	
+
+	public int getBookingID() {return this.nBookingID;}
+
+
+
 	@Override
 	public String toString()
 	{
-		return String.format("BookingID: %d, GuestID: %s, Plot ID: %d, Paid?: %b, Total: %f, Members: %d",
+		return String.format("BookingID: %d, GuestID: %s, Plot ID: %d, Paid?: %b, Total: %d, Members: %d",
 				this.nBookingID, this.sGuestID, this.nPlotID, this.bPaid, this.dTotal, this.nMemberCount);
 	}
 }
