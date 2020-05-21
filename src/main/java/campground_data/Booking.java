@@ -44,8 +44,8 @@ public class Booking implements Serializable
 		this.dDiscountRate=0;
 		this.nMemberCount=1;
 	}
-
-    public void changeStart(Date newStart)
+	
+	public void changeStart(Date newStart)
 	{
 		Date currentDate=new Date(); //Actual current date at the time of running this method
 		int nYear=1900+currentDate.getYear();
