@@ -6,13 +6,17 @@ import java.util.Date;
 public class BookingHelper {
 
     private ArrayList<Booking> bookings;
+    private DatabaseFile DBFile;
 
     public BookingHelper() {
-        this.bookings = new ArrayList<Booking>();
+        DBFile=new DatabaseFile();
+        this.bookings = DBFile.readBookings();
     }
 
     public boolean addBooking(Booking booking) {
-        return this.bookings.add(booking);
+        this.bookings.add(booking);
+        DBFile.saveRecords(bookings);
+        return this.bookings.contains(booking);
     }
 
     public boolean removeBooking(Booking booking)
@@ -20,10 +24,9 @@ public class BookingHelper {
         return this.bookings.remove(booking);
     }
 
-    public boolean changeBookingDate(int bookingID, Date startDate, Date endDate)
-    {
-
-    }
+//    public boolean changeBookingDate(int bookingID, Date startDate, Date endDate)
+//    {
+//    }
 
     public ArrayList<Booking> getBookingList()
     {
@@ -32,13 +35,21 @@ public class BookingHelper {
 
     public ArrayList<Booking> getBookingList(int year)
     {
-
+        ArrayList<Booking> BookingTemp=new ArrayList<>();
+        for(Booking obVal:bookings)
+        {
+            if(obVal.getStartDate().getYear()==year)
+            {
+                BookingTemp.add(obVal);
+            }
+        }
+        return BookingTemp;
     }
 
-    public Booking search(String guestID)
-    {
-
-    }
+//    public Booking search(String guestID)
+//    {
+//
+//    }
 
 
 
