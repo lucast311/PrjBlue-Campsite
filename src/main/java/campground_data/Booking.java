@@ -5,7 +5,9 @@ import java.util.Date;
 
 public class Booking implements Serializable
 {
-	private int nBookingID;
+
+	private int nBookingID = 1;
+	private static final long serialVersionUID = 1L;
 	private String sGuestID;
 	private int nPlotID;
 	private Date startDate;
@@ -18,7 +20,9 @@ public class Booking implements Serializable
 	
 	public Booking(int plotID, String guestID, Date startDate, Date endDate, BookingType type, int memberCount)
 	{
-		this.nBookingID=1;
+
+		this.nBookingID++;
+
 		this.sGuestID=guestID;
 		this.nPlotID=plotID;
 		this.startDate=startDate;
@@ -32,7 +36,7 @@ public class Booking implements Serializable
 	
 	public Booking()
 	{
-		this.nBookingID=1;
+		this.nBookingID++;
 		this.sGuestID="";
 		this.nPlotID=0;
 		this.startDate=new Date();
@@ -126,7 +130,9 @@ public class Booking implements Serializable
 		}
 
 	}
-	
+
+	public void setBookingID(int ID){ this.nBookingID =  ID; }
+
 	public void setDiscount(double dDiscount)
 	{
 		if(dDiscount<0 || dDiscount>100)
@@ -137,7 +143,14 @@ public class Booking implements Serializable
 		{
 			this.dDiscountRate=dDiscount;
 		}
+
 	}
+
+	public int getBookingID()
+	{
+		return this.nBookingID;
+	}
+
 	public String getGuestID()
 	{
 		return this.sGuestID;
@@ -182,11 +195,7 @@ public class Booking implements Serializable
 	{
 		return this.nPlotID;
 	}
-
-	public int getBookingID() {return this.nBookingID;}
-
-
-
+	
 	@Override
 	public String toString()
 	{
