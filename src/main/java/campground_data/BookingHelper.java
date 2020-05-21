@@ -6,17 +6,13 @@ import java.util.Date;
 public class BookingHelper {
 
     private ArrayList<Booking> bookings;
-    private DatabaseFile DBFile;
 
     public BookingHelper() {
-        DBFile=new DatabaseFile();
-        this.bookings = DBFile.readBookings();
+        this.bookings = new ArrayList<>();
     }
 
     public boolean addBooking(Booking booking) {
-        this.bookings.add(booking);
-        DBFile.saveRecords(bookings);
-        return this.bookings.contains(booking);
+        return this.bookings.add(booking);
     }
 
     public boolean removeBooking(Booking booking)
