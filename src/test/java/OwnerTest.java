@@ -91,7 +91,7 @@ public class OwnerTest {
     }
 
     /***
-     * INVALID: UserId entered does not exist in the system
+     * INVALID: UserId entered does exist in the system
      */
     @Test
     public void testUserIdExists() {
