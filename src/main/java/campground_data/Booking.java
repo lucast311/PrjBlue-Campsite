@@ -1,8 +1,8 @@
-package campground_data;
+package java;
 
 import java.util.Date;
 
-public class Booking 
+public class Booking implements Serializable
 {
 	private int nBookingID;
 	private String sGuestID;
@@ -32,7 +32,7 @@ public class Booking
 	public Booking()
 	{
 		this.nBookingID=1;
-		this.sGuestID="Test";
+		this.sGuestID="";
 		this.nPlotID=0;
 		this.startDate=new Date();
 		this.endDate=new Date();
@@ -40,17 +40,41 @@ public class Booking
 		this.bPaid=false;
 		this.dTotal=0;
 		this.dDiscountRate=0;
-		this.nMemberCount=0;
+		this.nMemberCount=1;
 	}
 
     public void changeStart(Date newStart)
 	{
-		this.startDate=newStart;
+		Date currentDate=new Date(); //Actual current date at the time of running this method
+		int nYear=1900+currentDate.getYear();
+		int nMonth=currentDate.getMonth();
+		int nDay=currentDate.getDate();
+		Date compareDate=new Date(nYear,nMonth,nDay); //Stripped down version of current date without the time
+		if(newStart.before(compareDate)) //checks if newStart comes before compareDate, which is not allowed
+		{
+			System.out.println("You cannot change the start date to a date before the current one");
+		}
+		else
+		{
+			this.startDate=newStart;
+		}
 	}
 	
 	public void changeEnd(Date newEnd)
 	{
-		this.endDate=newEnd;
+		//Check for end not being equal or before the start date
+		if(newEnd==this.startDate)
+		{
+			System.out.println("Invalid End Date! Choose a later date");
+		}
+		if(newEnd.before(this.startDate))
+		{
+			System.out.println("Invalid End Date! Choose a later date");
+		}
+		else
+		{
+			this.endDate=newEnd;
+		}
 	}
 	
 	public void setType(BookingType type)
@@ -65,24 +89,58 @@ public class Booking
 	
 	public void setMemberCount(int nMemberCount)
 	{
-		this.nMemberCount=nMemberCount;
+		if(nMemberCount<=0)
+		{
+			System.out.println("That member count is invalid");
+		}
+		else
+		{
+			this.nMemberCount=nMemberCount;
+		}
+
 	}
 	
 	public void setPlotID(int nPlotID)
 	{
-		this.nPlotID=nPlotID;
+		if(nPlotID<=0 || nPlotID>=5)
+		{
+			System.out.println("That plot ID is invalid");
+		}
+		else
+		{
+			this.nPlotID=nPlotID;
+		}
 	}
 	
 	public void setTotal(double dTotal)
 	{
-		this.dTotal=dTotal;
+		if(dTotal<0)
+		{
+			System.out.println("Total cannot be set below 0");
+		}
+		else
+		{
+			this.dTotal=dTotal;
+		}
 	}
 	
 	public void setDiscount(double dDiscount)
 	{
-		this.dDiscountRate=dDiscount;
+		if(dDiscount<0 || dDiscount>100)
+		{
+			System.out.println("That discount is invalid");
+		}
+		else
+		{
+			this.dDiscountRate=dDiscount;
+		}
 	}
-	
+
+	public int getBookingID()
+	{
+		return this.nBookingID;
+	}
+
 	public String getGuestID()
 	{
 		return this.sGuestID;
