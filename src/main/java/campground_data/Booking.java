@@ -1,11 +1,7 @@
 package campground_data;
 
-import campground_data.BookingType;
-
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
-
 
 public class Booking implements Serializable
 {
@@ -56,7 +52,7 @@ public class Booking implements Serializable
 		int nMonth=currentDate.getMonth();
 		int nDay=currentDate.getDate();
 		Date compareDate=new Date(nYear,nMonth,nDay); //Stripped down version of current date without the time
-		if(newStart.before(compareDate))
+		if(newStart.before(compareDate)) //checks if newStart comes before compareDate, which is not allowed
 		{
 			System.out.println("You cannot change the start date to a date before the current one");
 		}
@@ -64,12 +60,11 @@ public class Booking implements Serializable
 		{
 			this.startDate=newStart;
 		}
-
 	}
 	
 	public void changeEnd(Date newEnd)
 	{
-		//Check for end not being equal or less to start
+		//Check for end not being equal or before the start date
 		if(newEnd==this.startDate)
 		{
 			System.out.println("Invalid End Date! Choose a later date");
@@ -82,7 +77,6 @@ public class Booking implements Serializable
 		{
 			this.endDate=newEnd;
 		}
-
 	}
 	
 	public void setType(BookingType type)
@@ -118,7 +112,6 @@ public class Booking implements Serializable
 		{
 			this.nPlotID=nPlotID;
 		}
-
 	}
 	
 	public void setTotal(double dTotal)
@@ -131,7 +124,6 @@ public class Booking implements Serializable
 		{
 			this.dTotal=dTotal;
 		}
-
 	}
 	
 	public void setDiscount(double dDiscount)
@@ -144,7 +136,6 @@ public class Booking implements Serializable
 		{
 			this.dDiscountRate=dDiscount;
 		}
-
 	}
 
 	public int getBookingID()
