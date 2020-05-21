@@ -14,13 +14,15 @@ public class MainConsole {
 
     //private static CampLedger campLedger = new CampLedger();
     private static Scanner read = new Scanner(System.in);
-    private static BusinessManager businessManager = new BusinessManager(); //wrong
+    //help how do i move businessmanager?????????
+    private static BusinessManager businessManager = BusinessManager(); //wrong
     private static Booking searchbooking;
 
     public static void main(String[] args) {
 
         boolean quit = false;
         do {
+            //manage booking option
             System.out.print("Actions:[M] Manage bookings [L]ist Something, [A]dd Something, [Q]uit: ");
             switch (read.nextLine().toUpperCase()) {
                 case "M":
@@ -89,7 +91,7 @@ public class MainConsole {
         System.out.print("Actions: [C] Cancel booking [N] go back");
         switch (read.nextLine().toUpperCase()) {
             case "C":
-                managebooking();
+                cancelbooking();
                 break;
             case "N":
 
@@ -107,6 +109,8 @@ public class MainConsole {
     public static void cancelbooking() {
         System.out.print("Input bookingID");
         searchbooking = businessManager.cancelbooking(read.nextLine().toUpperCase());
+        //alot should be a switch case instead of through businessmanager
+        cancelConfirm();
 
 
     }
@@ -118,46 +122,61 @@ public class MainConsole {
                 Date date1 = new Date();
                 Date date2 = searchbooking.getStartDate();
                 BookingHelper bookingHelper = null; //wrong
+                //Date does not work??????
                 if (date2.getDate() - date1.getDate() > 0) {
                     if (date2.getMonth() - date1.getMonth() >= 0) {
                         //move to refund confirm
+                        refundConfirm();
 
                     } else {
                         //cancel successful
+                        System.out.println("Success:");
                         bookingHelper.removeBooking(searchbooking);
+                        //move to main
                     }
 
                 } else {
                     //cancel successful
+                    System.out.println("Success:");
                     bookingHelper.removeBooking(searchbooking);
+                    //move to main
                 }
                 break;
             case "Y":
                 Date date3 = new Date();
                 Date date4 = searchbooking.getStartDate();
                 BookingHelper bookingHelper2 = null; //wrong
+                //Date does not work??????
                 if (date4.getDate() - date3.getDate() > 0) {
                     if (date4.getMonth() - date3.getMonth() >= 0) {
                         //move to refund confirm
+                        refundConfirm();
 
 
                     } else {
                         //cancel successful
+                        System.out.println("Success:");
                         bookingHelper2.removeBooking(searchbooking);
+                        //move to main
                     }
 
                 } else {
                     //cancel successful
+                    System.out.println("Success:");
                     bookingHelper2.removeBooking(searchbooking);
+                    //move to main
                 }
                 break;
             case "No":
+                //move to main
 
                 break;
             case "Nope":
+                //move to main
 
                 break;
             case "N":
+                //move to main
 
                 break;
             default:
@@ -172,7 +191,28 @@ public class MainConsole {
     public static void refundConfirm() {
         System.out.print("Actions: Refund for remaining days?");
         double total = businessManager.refundconfirm(read.nextLine().toUpperCase());
+        //alot should be a switch case instead of through businessmanager
         System.out.print("Total amount refunded: " + total);
+        System.out.print("Actions: Done?");
+        switch (read.nextLine().toUpperCase()) {
+            case "Yes":
+                //move to main
+
+                break;
+            case "Y":
+                //move to main
+
+                break;
+            case "N":
+                refundConfirm();
+                break;
+            case "No":
+            refundConfirm();
+                    break;
+            case "Nope":
+                refundConfirm();
+                break;
+        }
 
 
     }

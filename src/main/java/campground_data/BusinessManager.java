@@ -48,6 +48,7 @@ public class BusinessManager {
             // if passed start date
             Date date1 = new Date();
             Date date2 = searchbooking.getStartDate();
+            //Date does not work??????
             if (date2.getDate() - date1.getDate() > 0 ){
                 if (date2.getMonth() - date1.getMonth() >= 0){
                     //move to refund confirm
@@ -62,6 +63,7 @@ public class BusinessManager {
             }
         } else if (answer.equals("n") || answer.equals("no") || answer.equals("nope")) {
             //go back to current booking
+            //move into mainconsole instead
 
         }
             //error message
