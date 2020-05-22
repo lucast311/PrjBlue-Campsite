@@ -1,7 +1,7 @@
 package campground_data;
 
 public class Cabin extends Plot {
-    private CabinType type; //help
+    private CabinType type;
 
     public Cabin(int cabinNum, int occupancy, CabinType CabinType, double price, boolean underReno, boolean booked) {
         super(cabinNum, occupancy, price, underReno, booked);
