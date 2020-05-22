@@ -39,9 +39,7 @@ public class GuestHelper {
             {
                     guestToReturn = guest;
             }
-
         }
-
         return guestToReturn;
     }
 

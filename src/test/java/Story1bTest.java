@@ -35,6 +35,7 @@ public class Story1bTest
     }
 
 
+
     /**
      * Test for inputting valid bookingID for Booking to be removed
      */
@@ -49,21 +50,6 @@ public class Story1bTest
         helper.addBooking(booking2);
 
         assertEquals(helper.search(2), booking2);
-
-    }
-
-    /**
-     * Test for input confirmation during booking deletion prompt
-     */
-    @Test
-    public void confirmationInputTest()
-    {
-
-        BookingHelper bookingHelper = new BookingHelper();
-
-        assertTrue(bookingHelper.confirmRemove("y"));
-        assertFalse(bookingHelper.confirmRemove("n"));
-        assertFalse(bookingHelper.confirmRemove("nsaduasgdfyfjsd"));
 
     }
 
