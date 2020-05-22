@@ -30,7 +30,7 @@ public class story1otest { //need date serializable??????
 
         //assertEquals(bookingHelper.searchGuestID("0000001"), booking1);
         //assertEquals(bookingHelper.searchGuestID("0000002"), booking2);
-        assertNull(bookingHelper.search("-1"));
+        assertNull(bookingHelper.search(-1));
         assertEquals(bookingHelper.searchBookingId(1), booking1);
     }
 
