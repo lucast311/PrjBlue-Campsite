@@ -43,6 +43,7 @@ public class BookingHelper {
             if (args.getBookingID() == booking.getBookingID())
             {
                 it.remove();
+                DBFile.saveRecords(bookings);
                 bRemoved = true;
             }
         }
@@ -193,21 +194,11 @@ public class BookingHelper {
     {
         Booking bookingToReturn = null;
 
-
-
-        if(bookingID < 1)
+        for(Booking booking : bookings)
         {
-            System.out.println("Booking ID cannot be less than the number 1. Please enter a valid Booking ID");
-            //Insert routine to ask user again for Booking ID
-        }
-        else
-        {
-            for(Booking bookingitem : bookings)
+            if(booking.getBookingID() == bookingID)
             {
-                if(bookingitem.getBookingID() == bookingID)
-                {
-                    bookingToReturn = bookingitem;
-                }
+                    bookingToReturn = booking;
             }
         }
         return bookingToReturn;
@@ -215,16 +206,15 @@ public class BookingHelper {
 
     public boolean confirmRemove(String sConfirm)
     {
-        //Will update this once I figure out the regex to handle all edge cases
-        if(sConfirm.trim().equals("yes"))
+        if(sConfirm.trim().equals("y"))
         {
             return true;
         }
-        else if (sConfirm.trim().equals("no"))
+        else if (sConfirm.trim().equals("n"))
         {
             return false;
         }
-        else //when any other string is entered
+        else
         {
             System.out.println("Invalid response. Please answer with either \"yes\" or \"no\"");
             return false;

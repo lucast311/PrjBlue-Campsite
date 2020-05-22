@@ -15,13 +15,49 @@ public class BookingTests
 	//BookingHelper Tests
 	
 	@Test
+	public void testCreateBookingHelper() 
+	{
+		//this creates the list upon creation by reading from the bookings.obj file using DatabaseFile
+		
+		
+	}
+	
+	@Test
+	public void testAddBooking()
+	{
+		
+	}
+	
+	@Test
+	public void testRemoveBooking()
+	{
+		BookingHelper helper = new BookingHelper();
+		ArrayList<Booking> obBookingList = new ArrayList<>();
+		Booking booking1 = new Booking(1,1, new Date(2020,5,25), new Date(2020,5,27), BookingType.Cabin, 3);
+		Booking booking2 = new Booking(2,1, new Date(2020,6,4), new Date(2020,6,7), BookingType.Site, 2);
+
+		helper.addBooking(booking1);
+		helper.addBooking(booking2);
+
+		helper.removeBooking(booking1);
+
+		assertFalse(obBookingList.contains(booking1));
+
+	}
+	
+	@Test
+	public void testChangeBookingDate()
+	{
+		
+	}
+	
+	@Test
 	public void testGetBookingListBlank()
 	{
 		BookingHelper helper=new BookingHelper();
 		ArrayList<Booking> obBookingList;
 		Date startDate= new Date(2020,7,20);
 		Date endDate= new Date(2020,7,25);
-
 		Booking obNew=new Booking(2,1,startDate,
 				endDate, BookingType.Cabin,4);
 
@@ -42,7 +78,6 @@ public class BookingTests
 		Date startDate2019= new Date(2019,7,20);
 		Date endDate2019= new Date(2019,7,25);
 
-
 		Booking obNew2020=new Booking(2,1,startDate2020,
 				endDate2020, BookingType.Cabin,4);
 
@@ -56,6 +91,12 @@ public class BookingTests
 		assertEquals(obBookingList.contains(obNew2019),true);
 	}
 	
+	@Test
+	public void testSearch()
+	{
+		
+	}
+	
 	//Booking Tests
 	
 	@Test
@@ -63,7 +104,6 @@ public class BookingTests
 	{
 		Date startDate= new Date(2020,7,20);
 		Date endDate= new Date(2020,7,25);
-
 		Booking obBooking=new Booking(2,1,startDate,
 				endDate, BookingType.Cabin,4);
 
@@ -114,7 +154,6 @@ public class BookingTests
 	{
 		Date startDate= new Date(2020,7,20);
 		Date endDate= new Date(2020,7,25);
-
 		Booking obBooking=new Booking(2,1,startDate,
 				endDate, BookingType.Cabin,4);
 

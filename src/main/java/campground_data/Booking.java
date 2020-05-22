@@ -19,6 +19,7 @@ public class Booking implements Serializable
 	
 	public Booking(int plotID, int guestID, Date startDate, Date endDate, BookingType type, int memberCount)
 	{
+
 		this.nBookingID++;
 
 		this.sGuestID=guestID;
@@ -113,6 +114,7 @@ public class Booking implements Serializable
 		{
 			this.nPlotID=nPlotID;
 		}
+
 	}
 	
 	public void setTotal(double dTotal)
@@ -125,6 +127,7 @@ public class Booking implements Serializable
 		{
 			this.dTotal=dTotal;
 		}
+
 	}
 
 	public void setBookingID(int ID){ nBookingID =  ID; }
@@ -139,6 +142,7 @@ public class Booking implements Serializable
 		{
 			this.dDiscountRate=dDiscount;
 		}
+
 	}
 
 	public int getBookingID()
