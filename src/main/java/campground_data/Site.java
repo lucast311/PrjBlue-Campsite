@@ -4,8 +4,13 @@ public class Site extends Plot {
     private boolean serviced;
     private SiteType type;
 
-    public Site(int siteNum, int occupancy, SiteType type, double price, boolean underReno, boolean booked, boolean serviced) {
-        super(siteNum, occupancy, price, underReno, booked);
+    public enum SiteType {
+        Group,
+        Individual
+    }
+
+    public Site(int siteNum, boolean serviced, double price, SiteType type, boolean underReno, int occupancy) {
+        super(siteNum, occupancy, price, underReno, false);
         this.serviced = serviced;
         this.type = type;
 
@@ -20,10 +25,12 @@ public class Site extends Plot {
     }
 
     public SiteType getSiteType() {
-        return type;
+        return this.type;
     }
 
-    public void setSiteType(SiteType siteType) { type = siteType; }
+    public void setSiteType(SiteType type) {
+         this.type = type;
+    }
 
     @Override
     public String toString() {

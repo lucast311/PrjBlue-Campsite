@@ -11,6 +11,22 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 
+import campground_data.Cabin;
+import campground_data.CabinType;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+
+import javax.validation.ValidatorFactory;
+
+import java.util.Set;
+
+import static org.junit.Assert.*;
+//richies code
 public class CabinTest {
 
     private static ValidatorFactory vf;
@@ -45,7 +61,7 @@ public class CabinTest {
      */
     @Before
     public void setUpValidCabin() {
-        cabin = new Cabin(1, 4, CabinType.Deluxe, 150.55, false, false);
+        cabin = new Cabin(1, 4, Cabin.CabinType.Deluxe, 150.55, false);
     }
 
     /***
@@ -193,9 +209,9 @@ public class CabinTest {
      */
     @Test
     public void testTypeDeluxe() {
-        cabin.setCabinType(CabinType.Deluxe);
+        cabin.setCabinType(Cabin.CabinType.Deluxe);
 
-        assertEquals(CabinType.Deluxe, cabin.getCabinType());
+        assertEquals(Cabin.CabinType.Deluxe, cabin.getCabinType());
     }
 
     /**
@@ -204,9 +220,9 @@ public class CabinTest {
      */
     @Test
     public void testTypeBasic() {
-        cabin.setCabinType(CabinType.Basic);
+        cabin.setCabinType(Cabin.CabinType.Basic);
 
-        assertEquals(CabinType.Basic, cabin.getCabinType());
+        assertEquals(Cabin.CabinType.Basic, cabin.getCabinType());
     }
 
     /***

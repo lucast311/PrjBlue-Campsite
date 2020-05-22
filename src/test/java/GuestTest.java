@@ -5,9 +5,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.util.HashMap;
 import java.util.Set;
-import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -53,11 +51,12 @@ public class GuestTest {
         guest.setEmail("jsmith@hotmail.com");
         guest.setPaymentMethod(PaymentType.Credit);
         guest.setPhoneNumber("3061111111");
-        guest.setAddress(new Address(111, "23B", "Street", "Saskatoon", "SK", "Canada", "111111"));
+        guest.setAddress(new Address(111, 111, "Street", "Saskatoon", "SK", "Canada", "111111"));
 
     }
 
     /***
+     * Test A1.1
      * INVALID: FirstName null
      */
     @Test
@@ -68,69 +67,201 @@ public class GuestTest {
 
         assertInvalid(guest, "firstName", "First name must be greater than 0 characters", "");
 
-
-/*
-
-        //set 1 field invalid - all other fields are populated with valid data by setUpValidGuest
-        guest.setFirstName("");
-
-        // use the helper function that will run 4 asserts
-        //pass in the property/attribute name, the EXACT expected error message, and the set invalid value
-        assertInvalid(guest, "firstName","First name can not be empty", "" );
-*/
-
     }
 
     /***
-     * INVALID: manufacturer 26 characters is too long
+     * Test A1.2
+     * INVALID: First Name 21 characters is too long
      */
     @Test
     public void testFirstNameIsTooLong() {
-/*
 
-        //create an invalid string with 26 characters -too long
-        String invalid = repeatM(26);
+        String invalid = repeatM(21);
 
-        //set value to invalid string
         guest.setFirstName(invalid);
 
-        //use the helper function that will run 4 asserts
-        // pass in the property/attribute name, the EXACT expected error message, and the set invalid value
-        assertInvalid(guest,"firstName","First name can have at most 25 characters", invalid );
-*/
+        assertInvalid(guest, "firstName", "First name must be less than or equal to 20 characters", invalid);
 
     }
 
     /***
-     * VALID: manufacturer 25 characters upper bound
+     * Test A1.3
+     * INVALID: Last Name is null
      */
     @Test
-    public void testManufacturerUpperBound() {
-/*
+    public void testLastNameIsEmpty() {
 
-        //set value to valid 25 character string - upper bound
-        guest.setFirstName(repeatM(25));
+        guest.setLastName("");
 
-        //run validator on car object and count how many violations - should be 0 - no violations
-        assertEquals( 0, validator.validate( guest ).size() );
+        assertInvalid(guest, "lastName", "Last name must be greater than 0 characters", "");
 
-*/
     }
 
     /***
-     * VALID: manufacturer 5 characters within range
+     * Test A1.4
+     * INVALID: Last Name is 31 characters too long
      */
     @Test
-    public void testManufacturerValid() {
-/*
+    public void testLastNameIsTooLong(){
+        String invalid = repeatM(31);
+        guest.setLastName(invalid);
+        assertInvalid(guest, "lastName", "Last name must be less than or equal to 30 characters", invalid);
+    }
 
-        //set value to valid 25 character string
-        guest.setFirstName(repeatM(5));
+    /***
+     * Test A1.5
+     * INVALID: Email is null
+     */
+    @Test
+    public void testEmailIsEmpty() {
 
-        //run validator on car object and count how many violations - should be 0 - no violations
-        assertEquals( 0, validator.validate( guest ).size() );
+        guest.setEmail("");
+        assertInvalid(guest, "email", "Email must be greater than 0 characters", "");
 
-*/
+    }
+
+    /***
+     * Test A1.6
+     * INVALID: Email is 51 characters too long
+     */
+    @Test
+    public void testEmailIsTooLong() {
+        String invalid = repeatM(51);
+        guest.setEmail(invalid);
+        assertInvalid(guest, "email", "Email must be less than or equal to 50 characters", invalid);
+    }
+
+
+    /***
+     * Test A1.7
+     * VALID: First name lowerbound is 1 character
+     */
+    @Test
+    public void testFirstNameLowerBound() {
+        guest.setFirstName(repeatM(1));
+
+        assertEquals(0, validator.validate(guest).size());
+
+    }
+
+    /***
+     * Test A1.8
+     * VALID: First name upperbound is 20 characters
+     */
+    @Test
+    public void testFirstNameUpperBound() {
+        guest.setFirstName(repeatM(20));
+
+        assertEquals(0, validator.validate(guest).size());
+
+    }
+
+    /***
+     * Test A1.8
+     * VALID: Last name lowerbound is 1 character
+     */
+    @Test
+    public void testLastNameLowerBound() {
+        guest.setLastName(repeatM(1));
+
+        assertEquals(0, validator.validate(guest).size());
+    }
+
+    /***
+     * Test A1.9
+     * VALID: Last name upperbound is 30 characters
+     */
+    @Test
+    public void testLastNameUpperBound() {
+        guest.setLastName(repeatM(30));
+
+        assertEquals(0, validator.validate(guest).size());
+
+    }
+
+    /***
+     * Test A2.1
+     * VALID: email lowerbound is 1 character
+     */
+    @Test
+    public void testEmailLowerBound() {
+        guest.setEmail(repeatM(1));
+
+        assertEquals(0, validator.validate(guest).size());
+    }
+
+    /***
+     * Test A2.2
+     * VALID: email upperbound is 50 characters
+     */
+    @Test
+    public void testEmailUpperBound() {
+        guest.setEmail(repeatM(50));
+
+        assertEquals(0, validator.validate(guest).size());
+    }
+
+    /***
+     * Test A2.3
+     * VALID: phone number is 10 digits
+     */
+    @Test
+    public void testPhoneNumberIsValid() {
+
+        String[] valid = { "1234567891", "9874563215", "5488796542"};
+
+        for (String validPhone : valid)
+        {
+            guest.setPhoneNumber(validPhone);
+            assertEquals(0, validator.validate(guest).size());
+        }
+
+    }
+
+    /***
+     * Test A2.4
+     * VALID: phone number is invalid with non digits
+     */
+    @Test
+    public void testPhoneNumberIsInvalid() {
+
+        String[] invalid = { "asdewqfsas", "12s356f489", "123", "saff554812"};
+
+        for (String invalidPhone : invalid)
+        {
+            guest.setPhoneNumber(invalidPhone);
+            assertInvalid(guest, "phoneNumber", "Phone number must be exactly 10 digits", invalidPhone);
+        }
+
+    }
+
+
+    /*** Test A2.5
+     * INVALID: Credit card Invalid pattern
+     */
+    @Test
+    public void testCreditCardPatternInvalid() {
+        String[] invalid = {"a12s4f58995422sgdaa", "123456789112345s", "123456478978998789789999999", "asdqwewqradgagasg"};
+
+        for (String invalidCard : invalid)
+        {
+            guest.setCreditCardNum(invalidCard);
+            assertInvalid(guest, "creditCardNum", "Credit card number must only contain digits and be 16 digits long", invalidCard);
+        }
+    }
+
+    /*** Test A2.6
+     * INVALID: Credit card valid pattern
+     */
+    @Test
+    public void testCreditCardPatternValid() {
+        String[] valid = {"1234567891123456", "9876543212345678", "4567893215698856", "1547896532154789"};
+
+        for (String validCard : valid)
+        {
+            guest.setCreditCardNum(validCard);
+            assertEquals(0, validator.validate(guest).size());
+        }
     }
 
     /***
