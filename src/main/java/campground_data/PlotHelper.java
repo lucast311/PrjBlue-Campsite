@@ -70,7 +70,10 @@ public class PlotHelper
         return false;
     }
 
-    public Plot searchPlot(int plotID) {
+
+
+    public static Plot searchPlot(int plotID) {
+
         for (int i = 0; i < getPlotList().size(); i++) {
                 if (getPlotList().get(i).getPlotID() == (plotID)) {
                         return plots.get(i);

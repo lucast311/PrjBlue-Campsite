@@ -2,12 +2,9 @@ package campground_data;
 
 import java.awt.print.Book;
 import java.text.SimpleDateFormat;
-import java.io.Console;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
-import java.util.logging.ConsoleHandler;
 
 public class BusinessManager {
 
@@ -22,17 +19,28 @@ public class BusinessManager {
 
     private static Scanner obIn = new Scanner(System.in);
 
+
     private static Booking searchbooking;
+    private static Date bookingstartDate = null;
+    private static Date refundendDate;
+    private static BookingType bookingtype;
+    private static int bookingmemberCount;
+    private static int bookingplotID;
+
 
     public static void main(String[] args) {
 
         LogIn();
+
+        //Guest added for testing, ID will be 1
+        guestHelper.addGuest(new Guest("Test", "Mctester", "mctester@gmail.com", "3060203345", PaymentType.Credit, "1563 1222 1589 5489", new Address(121, 0, "Test Cres.", "Saskatoon", "Saskatchewan", "Canada", "S1N2P3")));
         homeScreen();
     }
 
     public static void homeScreen()
     {
         boolean quit = false;
+
         do{
             System.out.print("Home: [1]Booking Manager [2]Guest Manager [3]Plot Manager [4]Owner Manager [5]Quit:");
             switch (obIn.nextLine()) {
@@ -72,10 +80,12 @@ public class BusinessManager {
                     addBookingScreen();
                     break;
                 case "2":
+
                     removeBookingScreen();
+
                     break;
                 case "3":
-                    ;
+                    ModifyBookingScreen();
                     break;
                 case "4":
                     ;
@@ -346,6 +356,235 @@ public class BusinessManager {
             System.out.println("");
         } while (!bConfirm);
     }
+    public static void ModifyBookingScreen() {
+        int nGuestID = 0;
+        String sGuestID;
+
+
+        boolean bGuestID = false;
+        do {
+            System.out.print("Please enter a GuestID:");
+            nGuestID = Integer.valueOf(obIn.nextLine());
+            sGuestID = (obIn.nextLine());
+
+            if (guestHelper.checkGuestId(nGuestID)) {
+                bGuestID = true;
+                searchbooking = bookingHelper.search(sGuestID);
+                bookingstartDate = searchbooking.getStartDate();
+                refundendDate = searchbooking.getEndDate();
+                bookingtype = searchbooking.getType();
+                bookingmemberCount = searchbooking.getMemberCount();
+                bookingplotID = searchbooking.getPlotID();
+            } else {
+                System.out.println("Invalid Guest ID");
+            }
+
+            System.out.println("");
+            System.out.println("");
+        } while (!bGuestID);
+
+        System.out.println("Modify which? ");
+        System.out.print("Home: [1]Start Date [2]End Date [3]Booking Type [4]Member Count [5]PlotID");
+        System.out.println("GuestID = " + nGuestID);
+        System.out.println("Start Date = " + bookingstartDate);
+        System.out.println("End Date = " + refundendDate);
+        System.out.println("Booking Type = " + bookingtype);
+        System.out.println("Member Count = " + bookingmemberCount);
+        System.out.println("PlotID = " + bookingplotID);
+        switch (obIn.nextLine()) {
+            case "1":
+                BookingstartdateScreen();
+                break;
+            case "2":
+                BookingenddateScreen();
+
+                break;
+            case "3":
+                BookingtypeScreen();
+
+                break;
+            case "4":
+                BookingmemberScreen();
+
+                break;
+            case "5":
+                BookingplotidScreen();
+
+                break;
+            default:
+                System.out.println("Invalid option, please try again");
+                break;
+        }
+
+        /*
+            boolean bConfirm = false;
+            do {
+                System.out.println("Confirm Booking? (Y/N)");
+                System.out.println("GuestID = " + nGuestID);
+                System.out.println("Start Date = " + refundstartDate);
+                System.out.println("End Date = " + bookingendDate);
+                System.out.println("Booking Type = " + bookingtype);
+                System.out.println("Member Count = " + bookingmemberCount);
+                System.out.println("PlotID = " + bookingplotID);
+
+                switch (obIn.nextLine().toUpperCase()) {
+                    case "Y":
+                        Booking booking = new Booking(bookingplotID, nGuestID, refundstartDate, bookingendDate, bookingtype, bookingmemberCount);
+                        if (bookingHelper.addBooking(booking)) {
+                            System.out.println("Successfully added booking");
+                        } else {
+                            System.out.println("Unsuccessful booking");
+                        }
+
+                        bConfirm = true;
+                        break;
+                    case "N":
+                        System.out.println("Booking not added");
+                        bConfirm = true;
+                        break;
+                    default:
+                        System.out.println("Invalid Option");
+                        break;
+                }
+
+                System.out.println("");
+                System.out.println("");
+            } while (!bConfirm);
+
+         */
+
+    }
+    public static void BookingstartdateScreen(){
+        boolean bStartDate = false;
+        do {
+            System.out.print("Please enter a Start Date in the format (dd/mm/yyyy):");
+            String[] sFields = obIn.nextLine().split("/");
+            try {
+                bookingstartDate = new Date(Integer.parseInt(sFields[2]), Integer.parseInt(sFields[1]) - 1, Integer.parseInt(sFields[0]));
+                if (bookingstartDate.compareTo(new Date()) > -1) { //might change this later
+                    bStartDate = true;
+                    searchbooking.changeStart(bookingstartDate);
+
+                } else {
+                    System.out.println("Start Date cannot be before current date ");
+
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid Date");
+            }
+
+            System.out.println("");
+            System.out.println("");
+        } while (!bStartDate);
+        System.out.print("Success");
+        //back to main
+        bookingManagerScreen();
+
+
+    }
+    public static void BookingenddateScreen(){ //refund
+        boolean bEndDate = false;
+        do {
+            System.out.print("Please enter an End Date in the format (dd/mm/yyyy):");
+            String[] sFields = obIn.nextLine().split("/");
+            try {
+                Date bookingenddate = refundendDate;
+                refundendDate = new Date(Integer.parseInt(sFields[2]), Integer.parseInt(sFields[1]) - 1, Integer.parseInt(sFields[0]));
+                if (refundendDate.compareTo(bookingstartDate) > 0) {
+                    if (refundendDate.compareTo(bookingenddate) < 0) {
+                        bEndDate = true;
+                        refundConfirm();
+                    }else {
+                        bEndDate = true;
+                        searchbooking.changeEnd(refundendDate);
+                        System.out.print("Success");
+                    }
+                }else {
+
+                    System.out.println("End Date cannot be on or before the Start Date");
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid Date");
+            }
+
+            System.out.println("");
+            System.out.println("");
+        } while (!bEndDate);
+
+        //back to main
+        bookingManagerScreen();
+
+    }
+    public static void BookingtypeScreen(){
+        boolean bPlotType = false;
+        do {
+            System.out.print("Please enter a plot type (Cabin/Site):");
+            switch (obIn.nextLine().toUpperCase()) {
+                case "CABIN":
+                    bookingtype = BookingType.Cabin;
+                    searchbooking.setType(bookingtype);
+                    bPlotType = true;
+                    break;
+                case "SITE":
+                    bookingtype = BookingType.Site;
+                    searchbooking.setType(bookingtype);
+                    bPlotType = true;
+                    break;
+                default:
+                    System.out.println("Invalid Plot Type");
+                    break;
+            }
+
+            System.out.println("");
+            System.out.println("");
+        } while (!bPlotType);
+        System.out.print("Success");
+        //back to main
+        bookingManagerScreen();
+    }
+    public static void BookingmemberScreen(){
+        boolean bMemberCount = false;
+        do {
+            System.out.print("Please enter the amount of members staying on the plot (1-8):");
+            int sVal = Integer.parseInt(obIn.nextLine());
+            if (sVal >= 1 || sVal <= 8) {
+                bookingmemberCount = sVal;
+                searchbooking.setMemberCount(bookingmemberCount);
+                bMemberCount = true;
+            } else {
+                System.out.println("Member count must be from 1 to 8 members");
+            }
+
+            System.out.println("");
+            System.out.println("");
+        } while (!bMemberCount);
+        System.out.print("Success");
+        //back to main
+        bookingManagerScreen();
+    }
+    public static void BookingplotidScreen(){
+        boolean bPlotID = false;
+        do {
+            System.out.print("Please enter the PlotID:");
+            int nVal = Integer.parseInt(obIn.nextLine());
+            //ADD PLOT ID LIST FOR CRITERIA, AND PLOT ID VERIFICATION
+            if( plotHelper.searchPlot(nVal) != null){
+                bookingplotID = nVal;
+                searchbooking.setPlotID(bookingplotID);
+                bPlotID = true;
+            }else{
+                System.out.println("invalid plotID");
+            }
+
+
+            System.out.println("");
+            System.out.println("");
+        } while (!bPlotID);
+        System.out.print("Success");
+        //back to main
+        bookingManagerScreen();
+    }
+
 
     public static void guestManagerScreen()
     {
@@ -412,6 +651,7 @@ public class BusinessManager {
         System.out.println("Back to home screen");
         homeScreen();
     }
+
 
     public static void modifyPlotTypesScreen() {
         System.out.println("Please select an option: [1]Change Plot Attributes  [2]Change Cabin Attributes  [3]Change Site Attributes  [4]Back");
@@ -676,6 +916,7 @@ public class BusinessManager {
         }
     }
 
+
     public static void ownerManagerScreen()
     {
         boolean back = false;
@@ -802,7 +1043,193 @@ public class BusinessManager {
         }
     }
 
+    public static void refundConfirm(){
+        //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        System.out.print("Actions: Refund for remaining days?");
+        Date date3 = new Date();
+        Date date4 = searchbooking.getEndDate();
+        int price;
+        int plotid = bookingplotID;
+        //plotHelper.searchPlot(plotid);
+        Plot priceplot = PlotHelper.searchPlot(plotid);//whyyyyyyyy
+        price = (int) priceplot.getPrice();
+        long startTime2 = date3.getTime();
+        long endTime2 = date4.getTime();
+        long diffTime2 = endTime2 - startTime2;
+        long diffDays2 = diffTime2 / (1000 * 60 * 60 * 24);
 
+        int ratething = (int) diffDays2;
+        ratething = price / ratething;
+
+        switch (obIn.nextLine().toUpperCase()) {
+            case "Yes":
+
+                if (searchbooking.getPaid() == true) {
+                    System.out.print("Total amount refunded: " + ratething);
+                    System.out.print("Done?");
+                    //if yes
+                    switch (obIn.nextLine().toUpperCase()) {
+                        case "Yes":
+
+                            //bookingHelper.removeBooking(searchbooking);
+                            searchbooking.setTotal((searchbooking.getTotal() - ratething));
+                            searchbooking.changeEnd(refundendDate);
+                            System.out.println("Success");
+                            //move to main
+                            bookingManagerScreen();
+
+                            break;
+                        case "Y":
+
+                            //bookingHelper.removeBooking(searchbooking);
+                            searchbooking.setTotal((searchbooking.getTotal() - ratething));
+                            searchbooking.changeEnd(refundendDate);
+                            System.out.println("Success");
+                            //move to main
+                            bookingManagerScreen();
+
+                            break;
+
+                        default:
+
+                            break;
+                    }
+
+                } else {
+                    System.out.print("Total amount refunded: " + (searchbooking.getTotal() - ratething));
+                    System.out.print("Done?");
+                    //if yes
+                    switch (obIn.nextLine().toUpperCase()) {
+                        case "Yes":
+
+                            //bookingHelper.removeBooking(searchbooking);
+                            searchbooking.setPaid(true);
+                            searchbooking.setTotal((searchbooking.getTotal() - ratething));
+                            searchbooking.changeEnd(refundendDate);
+                            System.out.println("Success");
+                            //move to main
+                            bookingManagerScreen();
+
+                            break;
+                        case "Y":
+
+                            //bookingHelper.removeBooking(searchbooking);
+                            searchbooking.setPaid(true);
+                            searchbooking.setTotal((searchbooking.getTotal() - ratething));
+                            searchbooking.changeEnd(refundendDate);
+                            System.out.println("Success");
+                            //move to main
+                            bookingManagerScreen();
+
+                            break;
+
+                        default:
+
+                            break;
+
+                    }
+                }
+
+
+                break;
+
+            case "Y":
+                if (searchbooking.getPaid() == true) {
+                    System.out.print("Total amount refunded: " + ratething);
+                    System.out.print("Actions: Done?");
+                    //if yes
+                    switch (obIn.nextLine().toUpperCase()) {
+                        case "Yes":
+
+                            //bookingHelper.removeBooking(searchbooking);
+                            searchbooking.setTotal((searchbooking.getTotal() - ratething));
+                            searchbooking.changeEnd(refundendDate);
+                            System.out.println("Success");
+                            //move to main
+                            bookingManagerScreen();
+
+                            break;
+                        case "Y":
+
+                            //bookingHelper.removeBooking(searchbooking);
+                            searchbooking.setTotal((searchbooking.getTotal() - ratething));
+                            searchbooking.changeEnd(refundendDate);
+                            System.out.println("Success");
+                            //move to main
+                            bookingManagerScreen();
+
+                            break;
+
+                        default:
+
+                            break;
+
+                    }
+                } else {
+                    System.out.print("Total amount refunded: " + (searchbooking.getTotal() - ratething));
+                    System.out.print("Actions: Done?");
+                    //if yes
+                    switch (obIn.nextLine().toUpperCase()) {
+                        case "Yes":
+
+                            //bookingHelper.removeBooking(searchbooking);
+                            searchbooking.setPaid(true);
+                            searchbooking.setTotal((searchbooking.getTotal() - ratething));
+                            searchbooking.changeEnd(refundendDate);
+                            System.out.println("Success");
+                            //move to main
+                            bookingManagerScreen();
+
+                            break;
+                        case "Y":
+
+                            //bookingHelper.removeBooking(searchbooking);
+                            searchbooking.setPaid(true);
+                            searchbooking.setTotal((searchbooking.getTotal() - ratething));
+                            searchbooking.changeEnd(refundendDate);
+                            System.out.println("Success");
+                            //move to main
+                            bookingManagerScreen();
+
+                            break;
+
+                        default:
+
+                            break;
+
+
+                    }
+                }
+
+                break;
+            case "N":
+                //refundConfirm();
+                System.out.print("Total amount: " + price);
+                searchbooking.setPaid(true);
+                searchbooking.changeEnd(refundendDate);
+                System.out.println("Success");
+                //move to main
+                bookingManagerScreen();
+
+                break;
+            case "No":
+                //refundConfirm();
+                System.out.print("Total amount: " + price);
+                searchbooking.setPaid(true);
+                searchbooking.changeEnd(refundendDate);
+                System.out.println("Success");
+                //move to main
+                bookingManagerScreen();
+                break;
+            default:
+                //error message
+                System.out.print("Please input yes,y or no,n");
+                refundConfirm();
+                break;
+
+
+        }
+    }
 
     public static void createOwners()
     {
@@ -874,7 +1301,10 @@ public class BusinessManager {
         sites.add(site25);
         dbfile.saveRecords(sites);
     }
-
+    public static PlotHelper getPlotHelper()
+    {
+        return plotHelper;
+    }
 }
 
 
