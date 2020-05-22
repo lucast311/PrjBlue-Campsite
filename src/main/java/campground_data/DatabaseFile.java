@@ -12,7 +12,7 @@ public class DatabaseFile
 	
 	public DatabaseFile()
 	{
-
+		
 	}
 	
 	public ArrayList<Guest> readGuests()
