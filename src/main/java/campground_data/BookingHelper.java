@@ -48,6 +48,19 @@ public class BookingHelper extends Booking{
 
     }
 
+    public Booking findBooking(int id)
+    {
+        ArrayList<Booking> temp = new ArrayList<>();
+        for (Booking obBooking : bookings)
+        {
+            if (obBooking.getBookingID() == id)
+            {
+                temp.add(obBooking);
+
+            }
+        }
+        return temp.get(0);
+    }
 
     public boolean changeBookingDate(int bookingID, Date newStartDate, Date newEndDate)
     {
@@ -108,9 +121,10 @@ public class BookingHelper extends Booking{
     }
 
 
-    public ArrayList<Booking> getBookingList()
+    public ArrayList<Booking> getBookingList() //help
     {
-        return this.bookings;
+        ArrayList<Booking> BookingTemp= this.bookings;
+        return BookingTemp;
     }
 
     public boolean findBooking(int id)
@@ -150,6 +164,7 @@ public class BookingHelper extends Booking{
         Booking bookingToReturn = null;
 
 
+
         if(bookingID < 1)
         {
             System.out.println("Booking ID cannot be less than the number 1. Please enter a valid Booking ID");
@@ -157,11 +172,11 @@ public class BookingHelper extends Booking{
         }
         else
         {
-            for(Booking booking : bookings)
+            for(Booking bookingitem : bookings)
             {
-                if(booking.getBookingID() == bookingID)
+                if(bookingitem.getBookingID() == bookingID)
                 {
-                    bookingToReturn = booking;
+                    bookingToReturn = bookingitem;
                 }
             }
         }
@@ -186,12 +201,13 @@ public class BookingHelper extends Booking{
         }
     }
 
-    public Booking search(int guestID)
+
+    public Booking search(String guestID)
     {
-        for(int i=0;i < bookings.size(); i++)
-        {
-            if (bookings.get(i).getGuestID() == guestID) {
-                return bookings.get(i);
+        for(int i=0;i < getBookingList().size(); i++) {
+            if ((getBookingList().get(i).getGuestID()) == (Integer.parseInt(guestID))) {
+                return getBookingList().get(i);
+
             }
         }
         return null;

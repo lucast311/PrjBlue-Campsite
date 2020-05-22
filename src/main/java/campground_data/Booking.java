@@ -6,7 +6,7 @@ import java.util.Date;
 public class Booking implements Serializable
 {
 
-	private int nBookingID = 1;
+	private static int nBookingID = 1;
 	private static final long serialVersionUID = 1L;
 	private int sGuestID;
 	private int nPlotID;
@@ -21,7 +21,7 @@ public class Booking implements Serializable
 	public Booking(int plotID, int guestID, Date startDate, Date endDate, BookingType type, int memberCount)
 	{
 
-		this.nBookingID++;
+		nBookingID++;
 
 		this.sGuestID=guestID;
 		this.nPlotID=plotID;
@@ -36,7 +36,8 @@ public class Booking implements Serializable
 	
 	public Booking()
 	{
-		this.nBookingID++;
+		nBookingID++;
+		
 		this.sGuestID=0;
 		this.nPlotID=0;
 		this.startDate=new Date();
@@ -131,7 +132,7 @@ public class Booking implements Serializable
 
 	}
 
-	public void setBookingID(int ID){ this.nBookingID =  ID; }
+	public void setBookingID(int ID){ nBookingID =  ID; }
 
 	public void setDiscount(double dDiscount)
 	{
@@ -199,7 +200,8 @@ public class Booking implements Serializable
 	@Override
 	public String toString()
 	{
-		return String.format("BookingID: %d, GuestID: %d, Plot ID: %d, Paid?: %b, Total: %f, Members: %d",
-				this.nBookingID, this.sGuestID, this.nPlotID, this.bPaid, this.dTotal, this.nMemberCount);
+		return String.format("BookingID: %d, GuestID: %d, Plot ID: %d, Paid?: %b, Total: %f, Members: %d Start Date: %s %d End Date: %s %d\n",
+				this.nBookingID, this.sGuestID, this.nPlotID, this.bPaid, this.dTotal, this.nMemberCount,
+				this.startDate.toString(),this.startDate.getYear(),this.endDate.toString(),this.endDate.getYear());
 	}
 }
