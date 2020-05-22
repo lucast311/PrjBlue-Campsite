@@ -23,7 +23,7 @@ public class Story1bTest
     {
 
         BookingHelper helper = new BookingHelper();
-        ArrayList<Booking> obBookingList = new ArrayList<>();
+        ArrayList<Booking> obBookingList = helper.getBookingList();
 
         helper.addBooking(booking1);
         helper.addBooking(booking2);
@@ -41,15 +41,14 @@ public class Story1bTest
     @Test
     public void selectBookingToBeRemoved()
     {
-        ArrayList<Booking> bookings = new ArrayList<>();
-
         BookingHelper helper = new BookingHelper();
+
+        ArrayList<Booking> bookings = helper.getBookingList();
 
         helper.addBooking(booking1);
         helper.addBooking(booking2);
 
-        assertEquals(helper.search(1), booking1);
-
+        assertEquals(helper.search(2), booking2);
 
     }
 
