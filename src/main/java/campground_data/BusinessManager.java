@@ -64,13 +64,13 @@ public class BusinessManager {
     {
         boolean back = false;
         do{
-            System.out.print("Booking Manager: [1]Add Booking [2]Cancel Booking [3]Modify Booking [4]Find Booking [5]View Current Bookings [6]Back:");
-            switch (obIn.nextLine()) {
+            System.out.print("Booking Manager: [1]Add Booking [2]Remove Booking [3]Modify Booking [4]Find Booking [5]View Current Bookings [6]Back:");
+            switch (obIn.next()) {
                 case "1":
                     addBookingScreen();
                     break;
                 case "2":
-                    ;
+                    removeBookingScreen();
                     break;
                 case "3":
                     ;
@@ -94,6 +94,47 @@ public class BusinessManager {
         } while (!back);
         System.out.println("Back to home screen");
         homeScreen();
+    }
+
+    public static void removeBookingScreen()
+    {
+        System.out.println("Please Enter a booking ID for removal: [0]Back ");
+        int bookingID=obIn.nextInt();
+        if(bookingID==0)
+        {
+            bookingManagerScreen();
+        }
+        else
+        {
+            Booking obFound=bookingHelper.searchBookingId(bookingID);
+            if(obFound!=null)
+            {
+                System.out.println("Found a booking with that ID!");
+                System.out.println(obFound.toString());
+                System.out.println("Do you wish to remove this booking from the records? [Y/N]");
+                switch(obIn.next())
+                {
+                    case "Y":
+                    case "y":
+                        bookingHelper.removeBooking(obFound);
+                        System.out.println("Booking removed");
+                        break;
+                    case "N":
+                    case "n":
+                        removeBookingScreen();
+                        break;
+                    default:
+                        System.out.println("Invalid option, please try again");
+                        removeBookingScreen();
+                        break;
+                }
+            }
+            else
+            {
+                System.out.println("No booking found with that ID. Try again");
+                removeBookingScreen();
+            }
+        }
     }
 
     public static void viewCurrentBookingsScreen()
