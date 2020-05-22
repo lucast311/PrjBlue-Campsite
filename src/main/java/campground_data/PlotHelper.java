@@ -4,83 +4,72 @@ import java.util.ArrayList;
 
 public class PlotHelper
 {
-    private static ArrayList<Plot> plots = new ArrayList<>();
-    private DatabaseFile DBFile;
+        private ArrayList<Plot> plots;
+        private DatabaseFile dbFile;
 
-    private static ArrayList<Cabin> cabins = new ArrayList<>();
-    private static ArrayList<Site> sites = new ArrayList<>();
-
-
-
-    public PlotHelper() {
-        DBFile = new DatabaseFile();
-        this.plots = DBFile.readPlots();
-        this.sites = DBFile.readSites();
-        this.cabins = DBFile.readCabins();
-    }
-
-    public boolean addSite(Site newSite)
-    {
-        this.sites.add(newSite);
-        DBFile.saveRecords(sites);
-        return sites.contains(newSite);
-    }
-
-    public boolean addCabin(Cabin newCabin)
-    {
-        cabins.add(newCabin);
-        DBFile.saveRecords(cabins);
-        return cabins.add(newCabin);
-    }
-
-    public boolean addPlot(Plot newPlot)
-    {
-        plots.add(newPlot);
-        DBFile.saveRecords(plots);
-        return plots.contains(newPlot);
-    }
-
-    public ArrayList<Site> getSiteList()
-    {
-        return this.sites;
-    }
-
-    public ArrayList<Cabin> getCabinList()
-    {
-        return this.cabins;
-    }
-
-    public static ArrayList<Plot> getPlotList() {
-        return plots;
-    }
-    public void removePlot(Plot plot) {
-
-        plots.remove(plot);
-    }
-
-    public boolean checkPlotId(int plotID)
-    {
-        for(Plot plot : plots)
+        public  PlotHelper()
         {
-            if(plot.getPlotID() == plotID)
-            {
-                return true;
-            }
+                dbFile = new DatabaseFile();
+                this.plots = dbFile.readPlots();
         }
-        return false;
-    }
 
+        public boolean addPlot(Plot newPlot)
+        {
+                this.plots.add(newPlot);
+                dbFile.saveRecords(plots);
+                return this.plots.contains(newPlot);
+        }
 
+        public void removePlot(Plot plot)
+        {
+                plots.remove(plot);
+        }
 
-    public static Plot searchPlot(int plotID) {
+        public ArrayList<Plot> getPlotList()
+        {
+            return this.plots;
+        }
 
-        for (int i = 0; i < getPlotList().size(); i++) {
-                if (getPlotList().get(i).getPlotID() == (plotID)) {
-                        return plots.get(i);
+        public Cabin searchCabin(int plotID)
+        {
+                Cabin plotToReturn = null;
+                for (Plot plot : plots)
+                {
+                        if (plot.getPlotID() == plotID)
+                        {
+                                plotToReturn = (Cabin) plot;
+                        }
                 }
-        }
-        return null;
-    }
 
+                return plotToReturn;
+        }
+
+        public Site searchSite(int plotID)
+        {
+                Site plotToReturn = null;
+                for (Plot plot : plots)
+                {
+                        if (plot.getPlotID() == plotID)
+                        {
+                                plotToReturn = (Site) plot;
+                        }
+                }
+
+                return plotToReturn;
+        }
+
+        public Plot searchPlot(int plotID)
+        {
+                Plot plotToReturn = null;
+                for (Plot plot : plots)
+                {
+                        if (plot.getPlotID() == plotID)
+                        {
+                                plotToReturn = plot;
+                        }
+                }
+
+                return plotToReturn;
+        }
 }
 

@@ -3,7 +3,7 @@ package campground_data;
 import java.io.Serializable;
 
 public class Cabin extends Plot implements Serializable {
-    private CabinType type; //help
+    private CabinType type;
 
     public enum CabinType {
         Deluxe,
@@ -25,8 +25,6 @@ public class Cabin extends Plot implements Serializable {
 
     @Override
     public String toString() {
-        return "Cabin{" +
-                "CabinType=" + this.type +
-                '}';
+        return String.format("%s\nType: %s", super.toString(), this.type);
     }
 }
