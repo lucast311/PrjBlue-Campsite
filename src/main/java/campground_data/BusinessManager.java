@@ -536,14 +536,12 @@ public class BusinessManager {
                     break;
                 case "5":
                     System.out.println("Is the cabin under renovation? [Y/N]");
-                    switch(obIn.next())
+                    switch(obIn.next().toUpperCase())
                     {
                         case "Y":
-                        case "y":
                             obFound.setUnderReno(true);
                             break;
                         case "N":
-                        case "n":
                             obFound.setUnderReno(false);
                             break;
                         default:
@@ -553,14 +551,12 @@ public class BusinessManager {
                     break;
                 case "6":
                     System.out.println("Is the cabin booked? [Y/N]");
-                    switch(obIn.next())
+                    switch(obIn.next().toUpperCase())
                     {
                         case "Y":
-                        case "y":
                             obFound.setBooked(true);
                             break;
                         case "N":
-                        case "n":
                             obFound.setBooked(false);
                             break;
                         default:
@@ -611,14 +607,12 @@ public class BusinessManager {
                     break;
                 case "5":
                     System.out.println("Is the site under renovation? [Y/N]");
-                    switch(obIn.next())
+                    switch(obIn.next().toUpperCase())
                     {
                         case "Y":
-                        case "y":
                             obFound.setUnderReno(true);
                             break;
                         case "N":
-                        case "n":
                             obFound.setUnderReno(false);
                             break;
                         default:
@@ -631,11 +625,9 @@ public class BusinessManager {
                     switch(obIn.next().toUpperCase())
                     {
                         case "Y":
-                        case "y":
                             obFound.setBooked(true);
                             break;
                         case "N":
-                        case "n":
                             obFound.setBooked(false);
                             break;
                         default:

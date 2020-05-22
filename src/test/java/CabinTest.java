@@ -108,7 +108,7 @@ public class CabinTest {
     public void testOccupancyIsGreaterThanEight() {
         cabin.setOccupancy(9);
 
-        assertInvalid(cabin, "occupancy", "Occupancy must be greater than or equal to 1", 0);
+        assertInvalid(cabin, "occupancy", "Occupancy must be less than or equal to 8", 9);
 
     }
 

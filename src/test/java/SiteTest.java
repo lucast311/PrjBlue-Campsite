@@ -82,7 +82,7 @@ public class SiteTest {
     public void testTypeGroup() {
         site.setSiteType(Site.SiteType.Group);
 
-        assertEquals(SiteType.Group, site.getSiteType());
+        assertEquals(Site.SiteType.Group, site.getSiteType());
     }
 
 
@@ -95,7 +95,7 @@ public class SiteTest {
     public void testTypeIndividual() {
         site.setSiteType(Site.SiteType.Individual);
 
-        assertEquals(SiteType.Individual, site.getSiteType());
+        assertEquals(Site.SiteType.Individual, site.getSiteType());
     }
 
     /***
