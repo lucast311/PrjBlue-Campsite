@@ -59,10 +59,16 @@ public class BookingHelper {
             if (obBooking.getBookingID() == id)
             {
                 temp.add(obBooking);
-
             }
         }
-        return temp.get(0);
+        if(temp.isEmpty())
+        {
+            return null;
+        }
+        else
+        {
+           return temp.get(0);
+        }
     }
 
 //    public boolean findBooking(int id)
