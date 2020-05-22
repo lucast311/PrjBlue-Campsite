@@ -5,13 +5,15 @@ import java.util.ArrayList;
 
 public class OwnerHelper {
 
-    private static ArrayList<Owner> ownerList;
+    private ArrayList<Owner> ownerList;
+    private DatabaseFile DBFile;
 
     public OwnerHelper() {
-
+        DBFile = new DatabaseFile();
+        this.ownerList = DBFile.readOwners();
     }
 
-    public static Owner addOwner(Owner newOwner) {
+    public Owner addOwner(Owner newOwner) {
         ownerList.add(newOwner);
         return newOwner;
     }
@@ -20,9 +22,9 @@ public class OwnerHelper {
 
     }
 
-    public static ArrayList<Owner> getOwnerList() {
-        ownerList = new ArrayList<Owner>();
-        return ownerList;
+    public ArrayList<Owner> getOwnerList() {
+//        ownerList = new ArrayList<Owner>();
+        return this.ownerList;
     }
 
     public Owner searchOwner(String userId) {

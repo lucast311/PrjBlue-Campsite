@@ -1,6 +1,8 @@
 package campground_data;
 
-public class Cabin extends Plot {
+import java.io.Serializable;
+
+public class Cabin extends Plot implements Serializable {
     private CabinType type; //help
 
     public enum CabinType {

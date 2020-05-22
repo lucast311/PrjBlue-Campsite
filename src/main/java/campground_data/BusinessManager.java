@@ -1,9 +1,12 @@
 package campground_data;
 
 import java.awt.print.Book;
+import java.io.Console;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
+import java.util.logging.ConsoleHandler;
 
 public class BusinessManager {
 
@@ -12,7 +15,9 @@ public class BusinessManager {
     private static PlotHelper plotHelper = new PlotHelper();
     private static OwnerHelper ownerHelper = new OwnerHelper();
     private static GuestHelper guestHelper = new GuestHelper();
-    private static ArrayList<Owner> ownerList = OwnerHelper.getOwnerList();
+    private static DatabaseFile dbfile = new DatabaseFile();
+    private static ArrayList<Owner> ownerList = ownerHelper.getOwnerList();
+    private static ArrayList<Site> sites = plotHelper.getSiteList();
 
     private static Scanner obIn = new Scanner(System.in);
 
@@ -20,11 +25,17 @@ public class BusinessManager {
 
     public static void main(String[] args) {
 
-        Owner harry = new Owner("harry", "louis", "Pa$$w0rd", "555-555-5555", "test@gmail.com", 3, true);
-        ownerList.add(harry);
-        LogIn();
+//        dbfile.saveRecords(sites);
 
-        homeScreen();
+//        System.out.printf("plot one is a %s", plots.get(0).getClass());
+
+        for(Site site : sites)
+        {
+            System.out.println(site.toString());
+        }
+//        LogIn();
+//
+//        homeScreen();
     }
 
     public static void homeScreen()
@@ -341,6 +352,7 @@ public class BusinessManager {
             if(validatePassword(userPass))
             {
                 pass = true;
+
                 System.out.println("Log In successful. Select from the following menu items");
                 System.out.println();
             }
@@ -350,7 +362,8 @@ public class BusinessManager {
             }
         }
     }
-    public void managebooking() {
+    public void managebooking()
+    {
     }
     public static boolean validateId(String userID)
     {

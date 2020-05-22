@@ -6,21 +6,50 @@ public class PlotHelper
 {
     private ArrayList<Plot> plots = new ArrayList<>();
 
+    private ArrayList<Cabin> cabins = new ArrayList<>();
+    private ArrayList<Site> sites = new ArrayList<>();
+
+    private DatabaseFile DBFile;
+
     public PlotHelper() {
+        DBFile = new DatabaseFile();
+        this.plots = DBFile.readPlots();
+
+        this.sites = DBFile.readSites();
+//        this.cabins = DBFile.readCabins();
     }
 
-    public void addPlot(ArrayList<Plot> plots) { //not done
-        this.plots = plots;
-    }
-    public void removePlot(ArrayList<Plot> plots) { //not done
-        this.plots = plots;
-    }
-    public boolean addPlot(Plot newPlot)
+    public Site addSite(Site newSite)
     {
-        return plots.add(newPlot);
+        this.sites.add(newSite);
+        return newSite;
     }
+
+    public boolean addCabin(Cabin newCabin)
+    {
+        return this.cabins.add(newCabin);
+    }
+
+    public Plot addPlot(Plot newPlot)
+    {
+        plots.add(newPlot);
+        return newPlot;
+
+    }
+
+    public ArrayList<Cabin> getCabinList()
+    {
+        return this.cabins;
+    }
+
+    public ArrayList<Site> getSiteList()
+    {
+        this.plots = DBFile.readPlots();
+        return this.sites;
+    }
+
     public ArrayList<Plot> getPlotList() {
-        return plots;
+        return this.plots;
     }
     public void removePlot(Plot plot) {
         plots.remove(plot);
