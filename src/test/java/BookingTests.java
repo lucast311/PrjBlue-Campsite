@@ -125,6 +125,7 @@ public class BookingTests
 	{
 		Date startDate= new Date(2020,7,20);
 		Date endDate= new Date(2020,7,25);
+		Booking obBooking=new Booking(2,2,startDate,
 
 		Booking obBooking=new Booking(2,1,startDate,
 				endDate, BookingType.Cabin,4);
@@ -198,6 +199,7 @@ public class BookingTests
 
 
 		Booking obBooking=new Booking(2,1,startDate,
+		Booking obBooking=new Booking(2,2,startDate,
 				endDate, BookingType.Cabin,4);
 
 		//Proper valid values tested

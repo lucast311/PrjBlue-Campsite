@@ -1,15 +1,14 @@
 package campground_data;
 
 
-import java.text.SimpleDateFormat;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.stream.Collectors;
 
-public class BookingHelper {
+public class BookingHelper extends Booking{
 
     private ArrayList<Booking> bookings;
 
@@ -49,47 +48,63 @@ public class BookingHelper {
 
     }
 
-    public Booking findBooking(int id)
+
+    public boolean changeBookingDate(int bookingID, Date newStartDate, Date newEndDate)
     {
-        ArrayList<Booking> temp = new ArrayList<>();
-        for (Booking obBooking : bookings)
-        {
-            if (obBooking.getBookingID() == id)
-            {
-                temp.add(obBooking);
 
-            }
-        }
-        return temp.get(0);
-    }
-
-    public boolean changeBookingDate(int bookingID, Date newStartDate, Date newEndDate) {
-        Booking booking = findBooking(bookingID);
-        if (findBooking(bookingID) == null) {
+        if (!findBooking(bookingID)) {
             System.out.println("The booking you want to change is not in the system. Please enter a valid booking ID.");
             return false;
         }
 
-        if (booking.getStartDate().compareTo(newStartDate) >= 0) {
+        Booking booking = searchBookingId(bookingID);
+
+        if (booking.getStartDate().compareTo(newStartDate) > 0) {
             System.out.println("Please enter a  start date that is not earlier than the previous start date.");
             return false;
         }
 
-        if (booking.getEndDate().compareTo(newStartDate) <= 0) {
+        if (booking.getEndDate().compareTo(newStartDate) < 0) {
             System.out.println("Please enter a start date that is not after the end date.");
             return false;
         }
 
-        if (booking.getStartDate().compareTo(newEndDate) >= 0) {
+        if (booking.getStartDate().compareTo(newEndDate) > 0) {
             System.out.println("Please enter an end date not earlier than the start date.");
             return false;
         }
 
 
-        booking.changeStart(newStartDate);
-        booking.changeEnd(newEndDate);
+        updateBookingDate(bookings, bookingID, newStartDate, newEndDate, "src/main/java/database/bookings.obj");
         System.out.println("The booking dates have been changed.");
         return true;
+    }
+
+    public void updateBookingDate(ArrayList<Booking> bookings, int bookingID, Date newStartDate, Date newEndDate, String sFile)
+    {
+        List<Booking> obBookingList = bookings.stream()
+                .map(x -> {
+                    if (x.getBookingID() == bookingID)
+                    {
+                        return new Booking(x.getPlotID(), x.getGuestID(),newStartDate,newEndDate,x.getType(), x.getMemberCount());
+                    }
+                    return x;
+                })
+                .collect(Collectors.toList());
+
+        try
+        {
+            FileOutputStream fileOut = new FileOutputStream(sFile);
+            ObjectOutputStream obOut = new ObjectOutputStream(fileOut);
+            for (Booking booking : obBookingList)
+            {
+                    obOut.writeObject(booking);
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
 
@@ -99,6 +114,19 @@ public class BookingHelper {
         return BookingTemp;
     }
 
+    public boolean findBooking(int id)
+    {
+
+        for (Booking obBooking : bookings)
+        {
+            if (obBooking.getBookingID() == id)
+            {
+                return true;
+
+            }
+        }
+        return false;
+    }
 
     public ArrayList<Booking> getBookingList(int year)
     {
