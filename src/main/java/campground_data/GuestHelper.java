@@ -36,8 +36,8 @@ public class GuestHelper {
         guest.setEmail(read.nextLine());
         System.out.print("Phone Number: ");
         guest.setPhoneNumber(read.nextLine());
-        System.out.print("Payment Method: Select [C]redit, [D]ebit, C[A]sh");
-        switch (read.nextLine())
+        System.out.print("Payment Method Select [C]redit, [D]ebit, C[A]sh: ");
+        switch (read.nextLine().toUpperCase())
         {
             case "C":
                 guest.setPaymentMethod(PaymentType.Credit);
@@ -52,12 +52,12 @@ public class GuestHelper {
                 System.out.print("You selected an invalid character, no changes made to payment method.\n");
                 break;
         }
-        System.out.print("Credit Card Number (If none enter all zeroes):");
+        System.out.print("Credit Card Number (If none enter all zeroes): ");
         guest.setCreditCardNum(read.nextLine());
         System.out.print("Street Number: ");
-        guest.getAddress().setStreetNum(read.nextInt());
+        guest.getAddress().setStreetNum(Integer.parseInt(read.nextLine()));
         System.out.print("Apt Number: ");
-        guest.getAddress().setAptNum(read.nextInt());
+        guest.getAddress().setAptNum(Integer.parseInt(read.nextLine()));
         System.out.print("Street Name: ");
         guest.getAddress().setStreetName(read.nextLine());
         System.out.print("City/Town: ");
