@@ -66,8 +66,8 @@ public class Story1bTest
 
         BookingHelper bookingHelper = new BookingHelper();
 
-        assertTrue(bookingHelper.confirmRemove("yes"));
-        assertFalse(bookingHelper.confirmRemove("no"));
+        assertTrue(bookingHelper.confirmRemove("y"));
+        assertFalse(bookingHelper.confirmRemove("n"));
         assertFalse(bookingHelper.confirmRemove("nsaduasgdfyfjsd"));
 
     }

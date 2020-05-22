@@ -136,11 +136,11 @@ public class BookingHelper {
 
     public boolean confirmRemove(String sConfirm)
     {
-        if(sConfirm.trim().equals("yes"))
+        if(sConfirm.trim().equals("y"))
         {
             return true;
         }
-        else if (sConfirm.trim().equals("no"))
+        else if (sConfirm.trim().equals("n"))
         {
             return false;
         }
