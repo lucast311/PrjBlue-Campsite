@@ -1,6 +1,7 @@
 package campground_data;
 
 import java.awt.print.Book;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
@@ -25,7 +26,7 @@ public class BusinessManager {
         LogIn();
 
         //Guest added for testing, ID will be 1
-        guestHelper.addGuest(new Guest());
+        guestHelper.addGuest(new Guest("Test", "Mctester", "mctester@gmail.com", "3060203345", PaymentType.Credit, "1563 1222 1589 5489", new Address(121, 0, "Test Cres.", "Saskatoon", "Saskatchewan", "Canada", "S1N2P3")));
         homeScreen();
     }
 
@@ -125,8 +126,9 @@ public class BusinessManager {
             System.out.print("Please enter a Start Date in the format (dd/mm/yyyy):");
             String[] sFields = obIn.nextLine().split("/");
             try{
-                startDate = new Date(Integer.parseInt(sFields[2]),Integer.parseInt(sFields[1])-1, Integer.parseInt(sFields[0]));
-                if(startDate.compareTo(new Date()) > 0)
+                SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
+                startDate = sdformat.parse(sFields[0] + "-" + sFields[1] + "-" + sFields[2] + "-23-59-59");
+                if(startDate.getTime() - new Date().getTime() >= 0)
                 {
                     bStartDate = true;
                 }
@@ -148,8 +150,9 @@ public class BusinessManager {
             System.out.print("Please enter an End Date in the format (dd/mm/yyyy):");
             String[] sFields = obIn.nextLine().split("/");
             try{
-                endDate = new Date(Integer.parseInt(sFields[2]),Integer.parseInt(sFields[1])-1, Integer.parseInt(sFields[0]));
-                if(endDate.compareTo(startDate) > 0)
+                SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
+                endDate = sdformat.parse(sFields[0] + "-" + sFields[1] + "-" + sFields[2] + "-00-00-00");
+                if(endDate.getTime() - startDate.getTime() > 0)
                 {
                     bEndDate = true;
                 }
@@ -221,6 +224,8 @@ public class BusinessManager {
         do{
             System.out.println("Confirm Booking? (Y/N)");
             System.out.println("GuestID = " + nGuestID);
+//            System.out.println("Start Date = " + startDate.getDate() + "/" + startDate.getMonth() + "/" + startDate.getYear());
+//            System.out.println("End Date = " + endDate.getDate() + "/" + endDate.getMonth() + "/" + endDate.getYear());
             System.out.println("Start Date = " + startDate);
             System.out.println("End Date = " + endDate);
             System.out.println("Booking Type = " + type);
