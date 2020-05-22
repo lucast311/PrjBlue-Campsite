@@ -15,32 +15,6 @@ public class BookingTests
 	//BookingHelper Tests
 	
 	@Test
-	public void testCreateBookingHelper() 
-	{
-		//this creates the list upon creation by reading from the bookings.obj file using DatabaseFile
-		
-		
-	}
-	
-	@Test
-	public void testAddBooking()
-	{
-		
-	}
-	
-	@Test
-	public void testRemoveBooking()
-	{
-		
-	}
-	
-	@Test
-	public void testChangeBookingDate()
-	{
-		
-	}
-	
-	@Test
 	public void testGetBookingListBlank()
 	{
 		BookingHelper helper=new BookingHelper();
@@ -78,12 +52,6 @@ public class BookingTests
 		obBookingList=helper.getBookingList(2019);
 
 		assertEquals(obBookingList.contains(obNew2019),true);
-	}
-	
-	@Test
-	public void testSearch()
-	{
-		
 	}
 	
 	//Booking Tests

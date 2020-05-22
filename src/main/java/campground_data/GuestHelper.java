@@ -33,7 +33,6 @@ public class GuestHelper {
     {
         Guest guestToReturn = null;
 
-        //Why is there phone number validation in here
         if (phoneNumber.length() != 10)
         {
             System.out.println("Invalid phone number length. Please enter a 10 digit phone number");
