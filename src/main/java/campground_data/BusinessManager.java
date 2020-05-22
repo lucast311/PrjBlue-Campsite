@@ -84,7 +84,7 @@ public class BusinessManager {
     {
         boolean back = false;
         do{
-            System.out.print("Booking Manager: [1]Add Booking [2]Remove Booking [3]Modify Booking [4]Find Booking [5]View Current Bookings [6] Change Booking Date [7]Back:");
+            System.out.print("Booking Manager: [1]Add Booking [2]Remove Booking [3]Modify Booking [4]Find Booking [5]View Current Bookings [6]Back:");
             switch (obIn.next()) {
                 case "1":
                     addBookingScreen();
@@ -103,10 +103,10 @@ public class BusinessManager {
                 case "5":
                     viewCurrentBookingsScreen();
                     break;
-                case"6":
-                    changeBookingDateScreen();
-                    break;
-                case "7":
+//                case"6":
+//                    changeBookingDateScreen();
+//                    break;
+                case "6":
                     back = true;
                     break;
                 default:
@@ -120,55 +120,55 @@ public class BusinessManager {
         homeScreen();
     }
 
-    public static void changeBookingDateScreen()
-    {
-        String guestID;
-        int bookingID;
-        Date newStartDate;
-        Date newEndDate;
-        boolean bChanged;
-        int answer;
-        do
-        {
-            bChanged = false;
-            System.out.println("Please enter a guest ID.");
-            guestID = obIn.nextLine();
-            System.out.println(bookingHelper.search(guestID));
-            System.out.println("Please enter a booking ID");
-            bookingID = Integer.parseInt(obIn.nextLine());
-            System.out.print("Please enter the new Start Date in the format (dd/mm/yyyy):");
-            String[] sFields = obIn.nextLine().split("/");
-            newStartDate = new Date(Integer.parseInt(sFields[0]), Integer.parseInt(sFields[1]), Integer.parseInt(sFields[2]));
-            System.out.print("Please enter the new Start Date in the format (dd/mm/yyyy):");
-            sFields = obIn.nextLine().split("/");
-            newEndDate = new Date(Integer.parseInt(sFields[0]), Integer.parseInt(sFields[1]), Integer.parseInt(sFields[2]));
-            bookingHelper.changeBookingDate(bookingID, newStartDate, newEndDate);
-            if (!bookingHelper.changeBookingDate(bookingID, newStartDate, newEndDate))
-            {
-                bChanged = true;
-
-            }
-            else
-            {
-                System.out.println("Please try again");
-            }
-
-
-        } while (!bChanged);
-
-        System.out.println(bookingHelper.searchBookingId(bookingID));
-        System.out.println("[1] Home screen [2] Change another booking's date");
-        answer = Integer.parseInt(obIn.nextLine());
-        if (answer == 1)
-        {
-            homeScreen();
-        }
-
-        if (answer == 2)
-        {
-            changeBookingDateScreen();
-        }
-    }
+//    public static void changeBookingDateScreen()
+//    {
+//        String guestID;
+//        int bookingID;
+//        Date newStartDate;
+//        Date newEndDate;
+//        boolean bChanged;
+//        int answer;
+//        do
+//        {
+//            bChanged = false;
+//            System.out.println("Please enter a guest ID.");
+//            guestID = obIn.nextLine();
+//            System.out.println(bookingHelper.search(guestID));
+//            System.out.println("Please enter a booking ID");
+//            bookingID = Integer.parseInt(obIn.nextLine());
+//            System.out.print("Please enter the new Start Date in the format (dd/mm/yyyy):");
+//            String[] sFields = obIn.nextLine().split("/");
+//            newStartDate = new Date(Integer.parseInt(sFields[0]), Integer.parseInt(sFields[1]), Integer.parseInt(sFields[2]));
+//            System.out.print("Please enter the new Start Date in the format (dd/mm/yyyy):");
+//            sFields = obIn.nextLine().split("/");
+//            newEndDate = new Date(Integer.parseInt(sFields[0]), Integer.parseInt(sFields[1]), Integer.parseInt(sFields[2]));
+//            bookingHelper.changeBookingDate(bookingID, newStartDate, newEndDate);
+//            if (!bookingHelper.changeBookingDate(bookingID, newStartDate, newEndDate))
+//            {
+//                bChanged = true;
+//
+//            }
+//            else
+//            {
+//                System.out.println("Please try again");
+//            }
+//
+//
+//        } while (!bChanged);
+//
+//        System.out.println(bookingHelper.searchBookingId(bookingID));
+//        System.out.println("[1] Home screen [2] Change another booking's date");
+//        answer = Integer.parseInt(obIn.nextLine());
+//        if (answer == 1)
+//        {
+//            homeScreen();
+//        }
+//
+//        if (answer == 2)
+//        {
+//            changeBookingDateScreen();
+//        }
+//    }
 
     public static void removeBookingScreen()
     {
