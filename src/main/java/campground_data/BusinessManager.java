@@ -28,6 +28,8 @@ public class BusinessManager {
         //Guest added for testing, ID will be 1
         guestHelper.addGuest(new Guest("Test", "Mctester", "mctester@gmail.com", "3060203345", PaymentType.Credit, "1563 1222 1589 5489", new Address(121, 0, "Test Cres.", "Saskatoon", "Saskatchewan", "Canada", "S1N2P3")));
         homeScreen();
+
+
     }
 
     public static void homeScreen()
@@ -362,7 +364,12 @@ public class BusinessManager {
                 case "3":
                     System.out.println("Enter phone number to find guest to edit: ");
                     Guest guestToEdit = guestHelper.searchGuest(obIn.nextLine());
-                    guestHelper.changeGuestInfo(guestToEdit);
+                    if (guestToEdit == null) {
+                        System.out.println("There is no guest found");
+                    }
+                    else {
+                        guestHelper.changeGuestInfo(guestToEdit);
+                    }
                     break;
                 case "4":
                     ;
