@@ -25,17 +25,17 @@ public class BusinessManager {
 
     public static void main(String[] args) {
 
-//        dbfile.saveRecords(sites);
+
 
 //        System.out.printf("plot one is a %s", plots.get(0).getClass());
 
-        for(Site site : sites)
-        {
-            System.out.println(site.toString());
-        }
-//        LogIn();
+//        for(Site site : sites)
+//        {
+//            System.out.println(site.toString());
+//        }
+        LogIn();
 //
-//        homeScreen();
+        homeScreen();
     }
 
     public static void homeScreen()
@@ -330,17 +330,15 @@ public class BusinessManager {
 
     public static void LogIn()
     {
-        boolean user = false;
         boolean pass = false;
-        while (!user)
+        while (currUser == null)
         {
             System.out.println("Enter your UserID");
             String userID = obIn.nextLine();
-            if(validateId(userID))
-            {
-                user = true;
-            }
-            else
+
+            currUser = validateId(userID);
+
+            if(currUser == null)
             {
                 System.out.println("UserID not found");
             }
@@ -349,7 +347,7 @@ public class BusinessManager {
         {
             System.out.println("Enter your password");
             String userPass = obIn.nextLine();
-            if(validatePassword(userPass))
+            if(validatePassword(currUser, userPass))
             {
                 pass = true;
 
@@ -365,28 +363,56 @@ public class BusinessManager {
     public void managebooking()
     {
     }
-    public static boolean validateId(String userID)
+    public static Owner validateId(String userID)
     {
         for (Owner owner : ownerList)
         {
             if(owner.getUserId().compareTo(userID) == 0)
             {
-                return true;
+                return owner;
             }
+        }
+        return null;
+    }
+
+    public static boolean validatePassword(Owner owner, String password)
+    {
+        if(owner.getPassword().compareTo(password) == 0)
+        {
+            if(password.equals(""))
+            {
+                forceChangePassword(owner);
+            }
+            return true;
         }
         return false;
     }
 
-    public static boolean validatePassword(String password)
+    public static void forceChangePassword(Owner owner)
     {
-        for (Owner owner : ownerList)
+        boolean changed = false;
+        while(!changed)
         {
-            if(owner.getPassword().compareTo(password) == 0)
+            System.out.println("Please change your password");
+            System.out.println("Enter new password");
+            String sPass = obIn.nextLine();
+            System.out.println("Enter new password again to confirm");
+            String sConfirm = obIn.nextLine();
+            if(sPass.equals(sConfirm))
             {
-                return true;
+                changed = true;
+                owner.changePassword(sPass);
+                Thread th1 = new Thread( () -> {
+                    dbfile.saveRecords(ownerList);
+                });
+                th1.start();
+                System.out.println("Password changed successfully");
+            }
+            else
+            {
+                System.out.println("The passwords do not match, change rejected");
             }
         }
-        return false;
     }
 
     public static Booking cancelbooking(String phoneNum) {

@@ -95,6 +95,34 @@ public class DatabaseFile
 		}
 		return obSiteList;
 	}
+
+	public ArrayList<Cabin> readCabins()
+	{
+		ArrayList<Cabin> obCabinList = new ArrayList<>();
+		try(ObjectInputStream obIn=new ObjectInputStream(new FileInputStream(filePathCabins)))
+		{
+			while(true)
+			{
+				Cabin obCabin =(Cabin) obIn.readObject();
+				obCabinList.add(obCabin);
+			}
+
+		}
+		catch(EOFException exp)
+		{
+			//This just means that all records have been read
+		}
+		catch(IOException exp)
+		{
+			//exp.printStackTrace();
+		}
+		catch(ClassNotFoundException exp)
+		{
+			//exp.printStackTrace();
+		}
+		return obCabinList;
+	}
+
 	public ArrayList<Plot> readPlots()
 	{
 		ArrayList<Plot> obPlotList=new ArrayList<>();
@@ -186,21 +214,21 @@ public class DatabaseFile
 					exp.printStackTrace();
 				}
 			}
-			if(obFirst instanceof Plot)
-			{
-				try(ObjectOutputStream obOut=new ObjectOutputStream(new FileOutputStream(filePathPlots)))
-				{
-					for(Object obVal:list)
-					{
-						obOut.writeObject(obVal);
-					}
-
-				}
-				catch(IOException exp)
-				{
-					exp.printStackTrace();
-				}
-			}
+//			if(obFirst instanceof Plot)
+//			{
+//				try(ObjectOutputStream obOut=new ObjectOutputStream(new FileOutputStream(filePathPlots)))
+//				{
+//					for(Object obVal:list)
+//					{
+//						obOut.writeObject(obVal);
+//					}
+//
+//				}
+//				catch(IOException exp)
+//				{
+//					exp.printStackTrace();
+//				}
+//			}
 			if(obFirst instanceof Site)
 			{
 				try(ObjectOutputStream obOut=new ObjectOutputStream(new FileOutputStream(filePathSites)))

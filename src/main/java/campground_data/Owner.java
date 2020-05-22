@@ -71,6 +71,7 @@ public class Owner implements Serializable {
     public void changePassword(String password)
     {
         this.password = password;
+
     }
 
     public String getPassword() { return this.password; }

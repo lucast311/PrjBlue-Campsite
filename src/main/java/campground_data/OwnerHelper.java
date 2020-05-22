@@ -23,7 +23,6 @@ public class OwnerHelper {
     }
 
     public ArrayList<Owner> getOwnerList() {
-//        ownerList = new ArrayList<Owner>();
         return this.ownerList;
     }
 

@@ -7,16 +7,15 @@ public class PlotHelper
     private ArrayList<Plot> plots = new ArrayList<>();
 
     private ArrayList<Cabin> cabins = new ArrayList<>();
-    private ArrayList<Site> sites = new ArrayList<>();
+    private ArrayList<Site> sites;
 
     private DatabaseFile DBFile;
 
     public PlotHelper() {
         DBFile = new DatabaseFile();
         this.plots = DBFile.readPlots();
-
         this.sites = DBFile.readSites();
-//        this.cabins = DBFile.readCabins();
+        this.cabins = DBFile.readCabins();
     }
 
     public Site addSite(Site newSite)
@@ -44,7 +43,6 @@ public class PlotHelper
 
     public ArrayList<Site> getSiteList()
     {
-        this.plots = DBFile.readPlots();
         return this.sites;
     }
 
