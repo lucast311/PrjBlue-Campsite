@@ -66,13 +66,13 @@ public class BusinessManager {
     {
         boolean back = false;
         do{
-            System.out.print("Booking Manager: [1]Add Booking [2]Cancel Booking [3]Modify Booking [4]Find Booking [5]Back:");
-            switch (obIn.nextLine()) {
+            System.out.print("Booking Manager: [1]Add Booking [2]Remove Booking [3]Modify Booking [4]Find Booking [5]View Current Bookings [6]Back:");
+            switch (obIn.next()) {
                 case "1":
                     addBookingScreen();
                     break;
                 case "2":
-                    ;
+                    removeBookingScreen();
                     break;
                 case "3":
                     ;
@@ -81,6 +81,9 @@ public class BusinessManager {
                     ;
                     break;
                 case "5":
+                    viewCurrentBookingsScreen();
+                    break;
+                case "6":
                     back = true;
                     break;
                 default:
@@ -94,6 +97,76 @@ public class BusinessManager {
         homeScreen();
     }
 
+    public static void removeBookingScreen()
+    {
+        System.out.println("Please Enter a booking ID for removal: [0]Back ");
+        int bookingID=obIn.nextInt();
+        if(bookingID==0)
+        {
+            bookingManagerScreen();
+        }
+        else
+        {
+            Booking obFound=bookingHelper.searchBookingId(bookingID);
+            if(obFound!=null)
+            {
+                System.out.println("Found a booking with that ID!");
+                System.out.println(obFound.toString());
+                System.out.println("Do you wish to remove this booking from the records? [Y/N]");
+                switch(obIn.next())
+                {
+                    case "Y":
+                    case "y":
+                        bookingHelper.removeBooking(obFound);
+                        System.out.println("Booking removed");
+                        break;
+                    case "N":
+                    case "n":
+                        removeBookingScreen();
+                        break;
+                    default:
+                        System.out.println("Invalid option, please try again");
+                        removeBookingScreen();
+                        break;
+                }
+            }
+            else
+            {
+                System.out.println("No booking found with that ID. Try again");
+                removeBookingScreen();
+            }
+        }
+    }
+
+    public static void viewCurrentBookingsScreen()
+    {
+        ArrayList<Booking> obBookingList;
+        System.out.println("Please choose an option: [1]View All Bookings [2]View Bookings for a Certain Year");
+        switch (obIn.nextLine()) {
+            case "1":
+                obBookingList = bookingHelper.getBookingList();
+                for(Booking obVal: obBookingList)
+                {
+                    System.out.println(obVal.toString());
+                }
+                bookingManagerScreen();
+                break;
+            case "2":
+                System.out.println("Enter a year to view all bookings for that year:");
+                int nYear=obIn.nextInt();
+                obBookingList=bookingHelper.getBookingList(nYear);
+                for(Booking obVal: obBookingList)
+                {
+                    System.out.println(obVal.toString());
+                }
+                bookingManagerScreen();
+                break;
+            default:
+                System.out.println("Invalid option, please try again");
+                viewCurrentBookingsScreen();
+                break;
+        }
+    }
     public static void addBookingScreen()
     {
         int nGuestID = 0;
@@ -320,7 +393,7 @@ public class BusinessManager {
                     ;
                     break;
                 case "3":
-                    ;
+                    modifyPlotTypesScreen();
                     break;
                 case "4":
                     ;
@@ -338,6 +411,269 @@ public class BusinessManager {
         } while (!back);
         System.out.println("Back to home screen");
         homeScreen();
+    }
+
+    public static void modifyPlotTypesScreen() {
+        System.out.println("Please select an option: [1]Change Plot Attributes  [2]Change Cabin Attributes  [3]Change Site Attributes  [4]Back");
+        switch (obIn.next()) {
+            case "1":
+                modifyPlotsScreen();
+                break;
+            case "2":
+                modifyCabinScreen();
+                break;
+            case "3":
+                modifySiteScreen();
+                break;
+            case "4":
+                plotManagerScreen();
+                break;
+            default:
+                System.out.println("Invalid option, please try again");
+                modifyPlotTypesScreen();
+                break;
+        }
+    }
+
+    public static void modifyPlotsScreen()
+    {
+        System.out.println("Please enter a Plot ID:");
+        int nPlotID=obIn.nextInt();
+        Plot obFound=plotHelper.searchPlot(nPlotID);
+        if(obFound!=null)
+        {
+            System.out.println("Plot Found!");
+            System.out.println("Please select an attribute to be changed: [1]PlotID  [2]Occupancy  [3]Price  [4]Under Renovation? [5]Booked? [6]Back");
+
+            switch(obIn.next())
+            {
+                case "1":
+                    System.out.println("Please enter a new plot ID: ");
+                    obFound.setPlotID(obIn.nextInt());
+                    break;
+                case "2":
+                    System.out.println("Please enter a new occupancy value: ");
+                    obFound.setOccupancy(obIn.nextInt());
+                    break;
+                case "3":
+                    System.out.println("Please enter a new price:");
+                    obFound.setPrice(obIn.nextDouble());
+                    break;
+                case "4":
+                    System.out.println("Is the plot under renovation? [Y/N]");
+                    switch(obIn.next())
+                    {
+                        case "Y":
+                        case "y":
+                            obFound.setUnderReno(true);
+                            break;
+                        case "N":
+                        case "n":
+                            obFound.setUnderReno(false);
+                            break;
+                        default:
+                            System.out.println("Invalid option, please try again");
+                            modifyPlotsScreen();
+                    }
+                    break;
+                case "5":
+                    System.out.println("Is the plot booked? [Y/N]");
+                    switch(obIn.next())
+                    {
+                        case "Y":
+                        case "y":
+                            obFound.setBooked(true);
+                            break;
+                        case "N":
+                        case "n":
+                            obFound.setBooked(false);
+                            break;
+                        default:
+                            System.out.println("Invalid option, please try again");
+                            modifyPlotsScreen();
+                    }
+                    break;
+                case "6":
+                    modifyPlotTypesScreen();
+                    break;
+                default:
+                    System.out.println("Invalid option, please try again");
+                    modifyPlotsScreen();
+                    break;
+            }
+        }
+        else
+        {
+            System.out.println("No Plot found with that ID. Try again");
+            modifyPlotsScreen();
+        }
+
+    }
+
+    public static void modifyCabinScreen()
+    {
+        System.out.println("Please enter a Cabin Number:");
+        int nCabinNum=obIn.nextInt();
+        Plot obFound=plotHelper.searchPlot(nCabinNum); //Needs to be changed to Cabin
+        if(obFound!=null)
+        {
+            System.out.println("Cabin Found!");
+            System.out.println("Please select an attribute to be changed: [1]Cabin Number  [2]Occupancy  [3]Type  [4]Price  [5]Under Renovation? [6]Booked? [7]Back");
+
+            switch(obIn.next())
+            {
+                case "1":
+                    System.out.println("Please enter a new cabin number: ");
+                    obFound.setPlotID(obIn.nextInt());
+                    break;
+                case "2":
+                    System.out.println("Please enter a new occupancy value: ");
+                    obFound.setOccupancy(obIn.nextInt());
+                    break;
+                case "4":
+                    System.out.println("Please enter a new price:");
+                    obFound.setPrice(obIn.nextDouble());
+                    break;
+                case "5":
+                    System.out.println("Is the cabin under renovation? [Y/N]");
+                    switch(obIn.next())
+                    {
+                        case "Y":
+                        case "y":
+                            obFound.setUnderReno(true);
+                            break;
+                        case "N":
+                        case "n":
+                            obFound.setUnderReno(false);
+                            break;
+                        default:
+                            System.out.println("Invalid option, please try again");
+                            modifyCabinScreen();
+                    }
+                    break;
+                case "6":
+                    System.out.println("Is the cabin booked? [Y/N]");
+                    switch(obIn.next())
+                    {
+                        case "Y":
+                        case "y":
+                            obFound.setBooked(true);
+                            break;
+                        case "N":
+                        case "n":
+                            obFound.setBooked(false);
+                            break;
+                        default:
+                            System.out.println("Invalid option, please try again");
+                            modifyCabinScreen();
+                    }
+                    break;
+                case "7":
+                    modifyPlotTypesScreen();
+                    break;
+                default:
+                    System.out.println("Invalid option, please try again");
+                    modifyCabinScreen();
+                    break;
+            }
+        }
+        else
+        {
+            System.out.println("No Cabin found with that number. Try again");
+            modifyCabinScreen();
+        }
+    }
+
+    public static void modifySiteScreen()
+    {
+        System.out.println("Please enter a Site Number:");
+        int nSiteNum=obIn.nextInt();
+        Plot obFound=plotHelper.searchPlot(nSiteNum);//Needs to be changed to Site
+        if(obFound!=null)
+        {
+            System.out.println("Site Found!");
+            System.out.println("Please select an attribute to be changed: [1]Site Number  [2]Occupancy  [3]Type  [4]Price  " +
+                    "[5]Under Renovation? [6]Booked? [7]Serviced? [8]Back");
+
+            switch(obIn.next())
+            {
+                case "1":
+                    System.out.println("Please enter a new site number: ");
+                    obFound.setPlotID(obIn.nextInt());
+                    break;
+                case "2":
+                    System.out.println("Please enter a new occupancy value: ");
+                    obFound.setOccupancy(obIn.nextInt());
+                    break;
+                case "4":
+                    System.out.println("Please enter a new price:");
+                    obFound.setPrice(obIn.nextDouble());
+                    break;
+                case "5":
+                    System.out.println("Is the site under renovation? [Y/N]");
+                    switch(obIn.next())
+                    {
+                        case "Y":
+                        case "y":
+                            obFound.setUnderReno(true);
+                            break;
+                        case "N":
+                        case "n":
+                            obFound.setUnderReno(false);
+                            break;
+                        default:
+                            System.out.println("Invalid option, please try again");
+                            modifySiteScreen();
+                    }
+                    break;
+                case "6":
+                    System.out.println("Is the site booked? [Y/N]");
+                    switch(obIn.next())
+                    {
+                        case "Y":
+                        case "y":
+                            obFound.setBooked(true);
+                            break;
+                        case "N":
+                        case "n":
+                            obFound.setBooked(false);
+                            break;
+                        default:
+                            System.out.println("Invalid option, please try again");
+                            modifySiteScreen();
+                    }
+                    break;
+                case "7":
+                    System.out.println("Is the site serviced? [Y/N]");
+                    switch(obIn.next())
+                    {
+                        case "Y":
+                        case "y":
+                            //obFound.setServiced(true);
+                            break;
+                        case "N":
+                        case "n":
+                            //obFound.setServiced(false);
+                            break;
+                        default:
+                            System.out.println("Invalid option, please try again");
+                            modifySiteScreen();
+                    }
+                    break;
+                case "8":
+                    modifyPlotTypesScreen();
+                    break;
+                default:
+                    System.out.println("Invalid option, please try again");
+                    modifySiteScreen();
+                    break;
+            }
+        }
+        else
+        {
+            System.out.println("No Cabin found with that number. Try again");
+            modifySiteScreen();
+        }
     }
 
     public static void ownerManagerScreen()
