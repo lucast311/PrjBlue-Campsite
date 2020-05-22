@@ -47,6 +47,7 @@ public class BookingTests
 		ArrayList<Booking> obBookingList;
 		Date startDate= new Date(2020,7,20);
 		Date endDate= new Date(2020,7,25);
+
 		Booking obNew=new Booking(2,1,startDate,
 				endDate, BookingType.Cabin,4);
 
@@ -66,6 +67,7 @@ public class BookingTests
 		Date endDate2020= new Date(2020,7,25);
 		Date startDate2019= new Date(2019,7,20);
 		Date endDate2019= new Date(2019,7,25);
+
 
 		Booking obNew2020=new Booking(2,1,startDate2020,
 				endDate2020, BookingType.Cabin,4);
@@ -93,6 +95,7 @@ public class BookingTests
 	{
 		Date startDate= new Date(2020,7,20);
 		Date endDate= new Date(2020,7,25);
+
 		Booking obBooking=new Booking(2,1,startDate,
 				endDate, BookingType.Cabin,4);
 
@@ -122,6 +125,7 @@ public class BookingTests
 	{
 		Date startDate= new Date(2020,7,20);
 		Date endDate= new Date(2020,7,25);
+
 		Booking obBooking=new Booking(2,1,startDate,
 				endDate, BookingType.Cabin,4);
 
@@ -144,6 +148,7 @@ public class BookingTests
 	{
 		Date startDate= new Date(2020,7,20);
 		Date endDate= new Date(2020,7,25);
+
 		Booking obBooking=new Booking(2,1,startDate,
 				endDate, BookingType.Cabin,4);
 
@@ -190,6 +195,7 @@ public class BookingTests
 
 		Date failStart=new Date(2019,4,3);
 		Date failEnd=new Date(2020,5,19);
+
 
 		Booking obBooking=new Booking(2,1,startDate,
 				endDate, BookingType.Cabin,4);
