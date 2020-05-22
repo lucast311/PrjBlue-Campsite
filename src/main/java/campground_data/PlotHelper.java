@@ -50,8 +50,8 @@ public class PlotHelper
         return this.cabins;
     }
 
-    public ArrayList<Plot> getPlotList() {
-        return this.plots;
+    public static ArrayList<Plot> getPlotList() {
+        return plots;
     }
     public void removePlot(Plot plot) {
 
