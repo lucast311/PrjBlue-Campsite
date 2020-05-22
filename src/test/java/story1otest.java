@@ -49,7 +49,7 @@ public class story1otest { //need date serializable??????
         BookingHelper bookingHelper = new BookingHelper();
         PlotHelper plotHelper = new PlotHelper();
 
-        assertEquals(bookingHelper.getPlotID(), booking1.getPlotID());
+        //assertEquals(bookingHelper.getPlotID(), booking1.getPlotID());
         //assertEquals(plotHelper.);
 
 
@@ -75,7 +75,7 @@ public class story1otest { //need date serializable??????
 
 
     @Test
-    public void testcancelwithrefund()
+    public void testcancelwithrefund() //workon
     {
         ArrayList<Booking> bookings = new ArrayList<>();
         bookings.add(booking1);
@@ -90,7 +90,7 @@ public class story1otest { //need date serializable??????
     }
 
     @Test
-    public void testrefundyes()
+    public void testrefundyes() //work on
     {
         ArrayList<Booking> bookings = new ArrayList<>();
         bookings.add(booking1);
@@ -152,33 +152,7 @@ public class story1otest { //need date serializable??????
         //assertEquals(businessManager.refundconfirm(), result);
     }
 
-    @Test
-    public void testvalidrefundconfirm()
-    {
-
-        BusinessManager businessManager = new BusinessManager();
-
-        //how do i test void
-        //how to i move to next thing
-        //assertEquals(businessManager.cancelConfirm("yes"), );
-        //assertEquals(businessManager.cancelConfirm("no"), );
-
-        //assertNull(businessManager.cancelConfirm("nsaduasgdfyfjsd"));
-    }
-
-    @Test
-    public void testvalidcancelconfirm()
-    {
-        BusinessManager businessManager = new BusinessManager();
-
-        //how do i test void
-        //how to i move back to current
-        //assertEquals(businessManager.cancelConfirm("yes"), );
-        //assertEquals(businessManager.cancelConfirm("no"), );
-
-        //assertNull(businessManager.cancelConfirm("nsaduasgdfyfjsd"));
 
 
-    }
 
 }

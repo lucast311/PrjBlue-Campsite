@@ -19,6 +19,8 @@ public class BusinessManager {
 
 
     private static Booking searchbooking;
+
+    private static int bookingguestid;
     private static Date bookingstartDate = null;
     private static Date refundendDate;
     private static BookingType bookingtype;
@@ -358,101 +360,77 @@ public class BusinessManager {
         } while (!bConfirm);
     }
     public static void ModifyBookingScreen() {
-        int nGuestID = 0;
-        String sGuestID;
 
-
-        boolean bGuestID = false;
+        boolean bbookingID = false;
         do {
-            System.out.print("Please enter a GuestID:");
-            nGuestID = Integer.valueOf(obIn.nextLine());
-            sGuestID = (obIn.nextLine());
-
-            if (guestHelper.checkGuestId(nGuestID)) {
-                bGuestID = true;
-                searchbooking = bookingHelper.search(sGuestID);
-                bookingstartDate = searchbooking.getStartDate();
-                refundendDate = searchbooking.getEndDate();
-                bookingtype = searchbooking.getType();
-                bookingmemberCount = searchbooking.getMemberCount();
-                bookingplotID = searchbooking.getPlotID();
+            System.out.print("Please enter a Booking ID: [0]Back");
+            int bookingID = obIn.nextInt();
+            if (bookingID == 0) {
+                bookingManagerScreen();
             } else {
-                System.out.println("Invalid Guest ID");
-            }
+                Booking obFound = bookingHelper.searchBookingId(bookingID);
+                if (obFound != null) {
+                    System.out.println("Found a booking with that ID!");
+                    System.out.println(obFound.toString());
+                    bbookingID = true;
+                    searchbooking = obFound;
+                    bookingguestid = searchbooking.getGuestID();
+                    bookingstartDate = searchbooking.getStartDate();
+                    refundendDate = searchbooking.getEndDate();
+                    bookingtype = searchbooking.getType();
+                    bookingmemberCount = searchbooking.getMemberCount();
+                    bookingplotID = searchbooking.getPlotID();
 
-            System.out.println("");
-            System.out.println("");
-        } while (!bGuestID);
+                    //int plotID, int guestID, Date startDate, Date endDate, BookingType type, int memberCount
+                    System.out.println("Modify which? ");
+                    System.out.print("Home: [1]Start Date [2]End Date [3]Booking Type [4]Member Count [5]PlotID [6]Back");
+                    System.out.println("GuestID = " + bookingguestid);
+                    System.out.println("Start Date = " + bookingstartDate);
+                    System.out.println("End Date = " + refundendDate);
+                    System.out.println("Booking Type = " + bookingtype);
+                    System.out.println("Member Count = " + bookingmemberCount);
+                    System.out.println("PlotID = " + bookingplotID);
+                    switch (obIn.nextInt()) {
+                        /*case 1:
+                            BookingstartdateScreen();
+                            break;
 
-        System.out.println("Modify which? ");
-        System.out.print("Home: [1]Start Date [2]End Date [3]Booking Type [4]Member Count [5]PlotID");
-        System.out.println("GuestID = " + nGuestID);
-        System.out.println("Start Date = " + bookingstartDate);
-        System.out.println("End Date = " + refundendDate);
-        System.out.println("Booking Type = " + bookingtype);
-        System.out.println("Member Count = " + bookingmemberCount);
-        System.out.println("PlotID = " + bookingplotID);
-        switch (obIn.nextLine()) {
-            case "1":
-                BookingstartdateScreen();
-                break;
-            case "2":
-                BookingenddateScreen();
+                         */
+                        case 1:
+                            BookingstartdateScreen();
+                            break;
+                        case 2:
+                            BookingenddateScreen();
 
-                break;
-            case "3":
-                BookingtypeScreen();
+                            break;
+                        case 3:
+                            BookingtypeScreen();
 
-                break;
-            case "4":
-                BookingmemberScreen();
+                            break;
+                        case 4:
+                            BookingmemberScreen();
 
-                break;
-            case "5":
-                BookingplotidScreen();
+                            break;
+                        case 5:
+                            BookingplotidScreen();
 
-                break;
-            default:
-                System.out.println("Invalid option, please try again");
-                break;
-        }
+                            break;
+                        case 6:
+                            bookingManagerScreen();
 
-        /*
-            boolean bConfirm = false;
-            do {
-                System.out.println("Confirm Booking? (Y/N)");
-                System.out.println("GuestID = " + nGuestID);
-                System.out.println("Start Date = " + refundstartDate);
-                System.out.println("End Date = " + bookingendDate);
-                System.out.println("Booking Type = " + bookingtype);
-                System.out.println("Member Count = " + bookingmemberCount);
-                System.out.println("PlotID = " + bookingplotID);
+                            break;
+                        default:
+                            System.out.println("Invalid option, please try again");
+                            break;
+                    }
 
-                switch (obIn.nextLine().toUpperCase()) {
-                    case "Y":
-                        Booking booking = new Booking(bookingplotID, nGuestID, refundstartDate, bookingendDate, bookingtype, bookingmemberCount);
-                        if (bookingHelper.addBooking(booking)) {
-                            System.out.println("Successfully added booking");
-                        } else {
-                            System.out.println("Unsuccessful booking");
-                        }
-
-                        bConfirm = true;
-                        break;
-                    case "N":
-                        System.out.println("Booking not added");
-                        bConfirm = true;
-                        break;
-                    default:
-                        System.out.println("Invalid Option");
-                        break;
+                } else {
+                    System.out.println("Invalid Booking ID");
                 }
+            }
+        } while (!bbookingID) ;
 
-                System.out.println("");
-                System.out.println("");
-            } while (!bConfirm);
 
-         */
 
     }
     public static void BookingstartdateScreen(){
