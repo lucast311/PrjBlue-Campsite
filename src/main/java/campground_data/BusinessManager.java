@@ -65,7 +65,7 @@ public class BusinessManager {
     {
         boolean back = false;
         do{
-            System.out.print("Booking Manager: [1]Add Booking [2]Cancel Booking [3]Modify Booking [4]Find Booking [5]Back:");
+            System.out.print("Booking Manager: [1]Add Booking [2]Cancel Booking [3]Modify Booking Date [4]Find Booking [5]Back:");
             switch (obIn.nextLine()) {
                 case "1":
                     addBookingScreen();
@@ -74,7 +74,7 @@ public class BusinessManager {
                     ;
                     break;
                 case "3":
-                    ;
+                    changeBookingDateScreen();
                     break;
                 case "4":
                     ;
@@ -91,6 +91,56 @@ public class BusinessManager {
         } while (!back);
         System.out.println("Back to home screen");
         homeScreen();
+    }
+
+    public static void changeBookingDateScreen()
+    {
+        int guestID;
+        int bookingID;
+        Date newStartDate;
+        Date newEndDate;
+        boolean bChanged;
+        String answer;
+        do
+        {
+            bChanged = false;
+            System.out.println("Please enter a guest ID.");
+            guestID = Integer.parseInt(obIn.nextLine());
+            System.out.println(bookingHelper.search(guestID));
+            System.out.println("Please enter a booking ID");
+            bookingID = Integer.parseInt(obIn.nextLine());
+            System.out.print("Please enter the new Start Date in the format (dd/mm/yyyy):");
+            String[] sFields = obIn.nextLine().split("/");
+            newStartDate = new Date(Integer.parseInt(sFields[0]), Integer.parseInt(sFields[1]), Integer.parseInt(sFields[2]));
+            System.out.print("Please enter the new Start Date in the format (dd/mm/yyyy):");
+            sFields = obIn.nextLine().split("/");
+            newEndDate = new Date(Integer.parseInt(sFields[0]), Integer.parseInt(sFields[1]), Integer.parseInt(sFields[2]));
+            bookingHelper.changeBookingDate(bookingID, newStartDate, newEndDate);
+            if (!bookingHelper.changeBookingDate(bookingID, newStartDate, newEndDate))
+            {
+                bChanged = true;
+
+            }
+            else
+            {
+                System.out.println("Please try again");
+            }
+
+
+        } while (!bChanged);
+
+        System.out.println(bookingHelper.searchBookingId(bookingID));
+        System.out.println("Do you want to go back to home screen or change another booking date? (Yes or No)");
+        answer = obIn.nextLine();
+        if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes"))
+        {
+            homeScreen();
+        }
+
+        if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no"))
+        {
+            changeBookingDateScreen();
+        }
     }
 
     public static void addBookingScreen()
