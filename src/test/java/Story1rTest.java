@@ -10,7 +10,7 @@ public class Story1rTest
     BookingHelper helper=new BookingHelper();
     private Booking booking;
     private Booking booking2;
-    private Date invalidStartDate;
+    
 
     @Before
     public void setUpBookingList()
@@ -68,7 +68,7 @@ public class Story1rTest
     public void testDateChange()
     {
         String bookingChanged = "The booking dates have been changed.";
-        assertTrue(bookingChanged,helper.changeBookingDate(2, new Date(2020,5, 24), new Date(2020,6,4)));
+        assertTrue(bookingChanged,helper.changeBookingDate(4, new Date(2020,5, 24), new Date(2020,6,4)));
     }
 }
 
