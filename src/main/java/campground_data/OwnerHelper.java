@@ -5,16 +5,17 @@ import java.util.ArrayList;
 
 public class OwnerHelper {
 
-    private ArrayList<Owner> ownerList;
-    private DatabaseFile DBFile;
+    private static ArrayList<Owner> ownerList;
+    private static DatabaseFile DBFile;
 
     public OwnerHelper() {
-        DBFile = new DatabaseFile();
-        this.ownerList = DBFile.readOwners();
+        DBFile=new DatabaseFile();
+        ownerList = DBFile.readOwners();
     }
 
-    public Owner addOwner(Owner newOwner) {
+    public static Owner addOwner(Owner newOwner) {
         ownerList.add(newOwner);
+        DBFile.saveRecords(ownerList);
         return newOwner;
     }
 
