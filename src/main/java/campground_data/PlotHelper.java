@@ -4,16 +4,20 @@ import java.util.ArrayList;
 
 public class PlotHelper
 {
-        private ArrayList<Plot> plots = new ArrayList<>();
+        private ArrayList<Plot> plots;
+        private DatabaseFile dbFile;
 
         public  PlotHelper()
         {
-
+                dbFile = new DatabaseFile();
+                this.plots = dbFile.readPlots();
         }
 
-        public Plot addPlot(Plot newPlot)
+        public boolean addPlot(Plot newPlot)
         {
-                return newPlot;
+                this.plots.add(newPlot);
+                dbFile.saveRecords(plots);
+                return this.plots.contains(newPlot);
         }
 
         public void removePlot(Plot plot)
@@ -24,6 +28,34 @@ public class PlotHelper
         public ArrayList<Plot> getPlotList()
         {
             return this.plots;
+        }
+
+        public Cabin searchCabin(int plotID)
+        {
+                Cabin plotToReturn = null;
+                for (Plot plot : plots)
+                {
+                        if (plot.getPlotID() == plotID)
+                        {
+                                plotToReturn = (Cabin) plot;
+                        }
+                }
+
+                return plotToReturn;
+        }
+
+        public Site searchSite(int plotID)
+        {
+                Site plotToReturn = null;
+                for (Plot plot : plots)
+                {
+                        if (plot.getPlotID() == plotID)
+                        {
+                                plotToReturn = (Site) plot;
+                        }
+                }
+
+                return plotToReturn;
         }
 
         public Plot searchPlot(int plotID)
