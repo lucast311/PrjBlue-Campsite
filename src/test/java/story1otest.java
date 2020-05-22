@@ -17,7 +17,7 @@ public class story1otest { //need date serializable??????
     static Booking booking2 = new Booking(2,2, new Date(2020,6,4), new Date(2020,6,7), BookingType.Site, 2);
     //static Plot Plot1 = new Plot(1, 4, 300, false, true);
     //Site(int siteNum, boolean serviced, double price, SiteType type, boolean underReno, int occupancy) {
-    static Site Site1 = new Site(1, true, 300, Site.SiteType.Group, false, 8);
+    static Site Site1 = new Site(1, 8, Site.SiteType.Group,300, false, false);
 
 
 
@@ -30,6 +30,7 @@ public class story1otest { //need date serializable??????
         BookingHelper bookingHelper = new BookingHelper(); //is this ok?
 
         //bookingHelper.search("0000002");
+
 
 
         assertEquals(bookingHelper.searchGuestID("0000001"), booking1);
@@ -51,6 +52,7 @@ public class story1otest { //need date serializable??????
 
         //assertEquals(bookingHelper.getPlotID(), booking1.getPlotID());
         //assertEquals(plotHelper.);
+
 
 
 

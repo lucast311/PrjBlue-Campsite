@@ -1,6 +1,8 @@
 package campground_data;
 
-public class Site extends Plot {
+import java.io.Serializable;
+
+public class Site extends Plot implements Serializable {
     private boolean serviced;
     private SiteType type; //help
 
@@ -9,7 +11,7 @@ public class Site extends Plot {
         Individual
     }
 
-    public Site(int siteNum, boolean serviced, double price, SiteType type, boolean underReno, int occupancy) {
+    public Site(int siteNum, int occupancy, SiteType type, double price, boolean serviced, boolean underReno) {
         super(siteNum, occupancy, price, underReno, false);
         this.serviced = serviced;
         this.type = type;
