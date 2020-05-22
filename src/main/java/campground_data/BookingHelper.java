@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class BookingHelper {
@@ -113,9 +114,31 @@ public class BookingHelper {
         return BookingTemp;
     }
 
-    public Booking searchGuestID(String guestID)
+    public Booking searchGuestID(int guestID)
     {
-        return null;
+        Booking bookingToReturn = null;
+        int guestIDtemp=guestID;
+        Scanner obIn=new Scanner(System.in);
+
+        if(guestID < 1)
+        {
+            System.out.println("Guest ID cannot be less than the number 1. Please enter a valid Booking ID");
+            //Insert routine to ask user again for Booking ID
+            System.out.println("Re-enter the guest ID: ");
+            guestIDtemp=obIn.nextInt();
+            searchGuestID(guestIDtemp);
+        }
+        else
+        {
+            for(Booking bookingitem : bookings)
+            {
+                if(bookingitem.getGuestID() == guestID)
+                {
+                    bookingToReturn = bookingitem;
+                }
+            }
+        }
+        return bookingToReturn;
     }
 
     public Booking searchBookingId(int bookingID)
