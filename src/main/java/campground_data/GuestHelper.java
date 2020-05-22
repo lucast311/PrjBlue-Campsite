@@ -6,13 +6,16 @@ import java.util.ArrayList;
 public class GuestHelper {
 
     private ArrayList<Guest> guestAccounts = new ArrayList<>();
+    private DatabaseFile DBFile;
 
     public GuestHelper() {
-
+        DBFile=new DatabaseFile();
+        this.guestAccounts = DBFile.readGuests();
     }
 
     public void addGuest(Guest newGuest) {
         guestAccounts.add(newGuest);
+        DBFile.saveRecords(guestAccounts);
     }
 
 
@@ -30,7 +33,7 @@ public class GuestHelper {
     {
         Guest guestToReturn = null;
 
-
+        //Why is there phone number validation in here
         if (phoneNumber.length() != 10)
         {
             System.out.println("Invalid phone number length. Please enter a 10 digit phone number");

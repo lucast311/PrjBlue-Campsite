@@ -12,11 +12,13 @@ public class story1otest { //need date serializable??????
 
     static Guest guest1 = new Guest("Jo", "wow", "jowow@gmail.com", "3069999999", PaymentType.Credit, "44567777", new Address());
     static Guest guest2 = new Guest("greg", "pop", "gregpop@gmail.com", "3068888888", PaymentType.Cash, "44565555", new Address());
-    static Booking booking1 = new Booking(1,30699999, new Date(2020,5,19), new Date(2020,5,27), BookingType.Cabin, 3);
-    static Booking booking2 = new Booking(2,30688888, new Date(2020,6,4), new Date(2020,6,7), BookingType.Site, 2);
+
+    static Booking booking1 = new Booking(1,1, new Date(2020,5,19), new Date(2020,5,27), BookingType.Cabin, 3);
+    static Booking booking2 = new Booking(2,2, new Date(2020,6,4), new Date(2020,6,7), BookingType.Site, 2);
     //static Plot Plot1 = new Plot(1, 4, 300, false, true);
     //Site(int siteNum, boolean serviced, double price, SiteType type, boolean underReno, int occupancy) {
     static Site Site1 = new Site(1, true, 300, Site.SiteType.Group, false, 8);
+
 
 
     @Test
@@ -28,6 +30,7 @@ public class story1otest { //need date serializable??????
         BookingHelper bookingHelper = new BookingHelper(); //is this ok?
 
         //bookingHelper.search("0000002");
+
 
         assertEquals(bookingHelper.searchGuestID("0000001"), booking1);
         assertEquals(bookingHelper.searchGuestID("0000002"), booking2);

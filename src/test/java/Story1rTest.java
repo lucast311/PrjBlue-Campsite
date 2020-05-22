@@ -18,7 +18,7 @@ public class Story1rTest extends BookingHelper
     public void setUpBookingList()
     {
         booking = new Booking();
-        booking2 = new Booking(1, "3060203923", new Date(2020, 5, 20), new Date(2020, 6, 5), BookingType.Site, 2);
+        booking2 = new Booking(1, 1, new Date(2020, 5, 20), new Date(2020, 6, 5), BookingType.Site, 2);
         BookingHelper bookingList = new BookingHelper();
         bookingList.addBooking(booking);
         bookingList.addBooking(booking2);

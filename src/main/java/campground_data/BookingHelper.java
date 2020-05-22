@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
-public class BookingHelper extends Booking{
+public class BookingHelper {
 
     private ArrayList<Booking> bookings;
 
