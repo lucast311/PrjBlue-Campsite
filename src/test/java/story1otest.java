@@ -22,12 +22,14 @@ public class story1otest { //need date serializable??????
         bookingHelper.addBooking(booking1);
         bookingHelper.addBooking(booking2);
 
+        BookingHelper bookingHelper = new BookingHelper(); //is this ok?
         //bookingHelper.search("0000002");
 
         assertEquals(bookingHelper.searchGuestID(100), booking1);
         assertEquals(bookingHelper.searchGuestID(200), booking2);
         //assertNull(bookingHelper.searchGuestID(-1)); Never returns null, this is considered passed if the prompt to reenter the guestID appears
     }
+
 
     @Test
     public void testcancelwithoutrefund()

@@ -49,7 +49,7 @@ public class SiteTest {
      */
     @Before
     public void setUpValidSite() {
-        site = new Site(1, true, 75.55, Site.SiteType.Group,false, 4);
+        site = new Site(1, 4, Site.SiteType.Group, 75.55,false, false);
     }
 
     /**

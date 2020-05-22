@@ -23,7 +23,7 @@ public class OwnerHelper {
 
     }
 
-    public static ArrayList<Owner> getOwnerList() {
+    public ArrayList<Owner> getOwnerList() {
         return ownerList;
     }
 
