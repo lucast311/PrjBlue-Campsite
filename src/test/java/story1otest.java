@@ -12,22 +12,45 @@ public class story1otest { //need date serializable??????
 
     static Guest guest1 = new Guest("Jo", "wow", "jowow@gmail.com", "3069999999", PaymentType.Credit, "44567777", new Address());
     static Guest guest2 = new Guest("greg", "pop", "gregpop@gmail.com", "3068888888", PaymentType.Cash, "44565555", new Address());
-    static Booking booking1 = new Booking(1,"0000001", new Date(2020,5,19), new Date(2020,5,27), BookingType.Cabin, 3);
-    static Booking booking2 = new Booking(2,"0000002", new Date(2020,6,4), new Date(2020,6,7), BookingType.Site, 2);
+    static Booking booking1 = new Booking(1,30699999, new Date(2020,5,19), new Date(2020,5,27), BookingType.Cabin, 3);
+    static Booking booking2 = new Booking(2,30688888, new Date(2020,6,4), new Date(2020,6,7), BookingType.Site, 2);
+    //static Plot Plot1 = new Plot(1, 4, 300, false, true);
+    //Site(int siteNum, boolean serviced, double price, SiteType type, boolean underReno, int occupancy) {
+    static Site Site1 = new Site(1, true, 300, Site.SiteType.Group, false, 8);
 
 
     @Test
-    public void testsearch(){
+    public void testsearchbooking(){
         ArrayList<Booking> bookings = new ArrayList<>();
         bookings.add(booking1);
         bookings.add(booking2);
 
         BookingHelper bookingHelper = new BookingHelper(); //is this ok?
+
         //bookingHelper.search("0000002");
 
-        assertEquals(bookingHelper.search("0000001"), booking1);
-        assertEquals(bookingHelper.search("0000002"), booking2);
+        assertEquals(bookingHelper.searchGuestID("0000001"), booking1);
+        assertEquals(bookingHelper.searchGuestID("0000002"), booking2);
         assertNull(bookingHelper.search("-1"));
+        assertEquals(bookingHelper.searchBookingId(1), booking1);
+    }
+
+    @Test
+    public void testsearchplotid(){
+        ArrayList<Booking> bookings = new ArrayList<>();
+        bookings.add(booking1);
+        bookings.add(booking2);
+        ArrayList<Plot> plots = new ArrayList<>();
+        plots.add(Site1);
+
+        BookingHelper bookingHelper = new BookingHelper();
+        PlotHelper plotHelper = new PlotHelper();
+
+        assertEquals(bookingHelper.getPlotID(), booking1.getPlotID());
+        //assertEquals(plotHelper.);
+
+
+
     }
 
 

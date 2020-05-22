@@ -77,14 +77,13 @@ public class BusinessManager {
                     addBookingScreen();
                     break;
                 case "2":
-                    ModifyBookingScreen();
-
+                    //cancelbooking?
                     break;
                 case "3":
-                    ;
+                    ModifyBookingScreen();
                     break;
                 case "4":
-                    ;
+
                     break;
                 case "5":
                     back = true;
