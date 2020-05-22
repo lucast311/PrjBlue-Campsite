@@ -170,6 +170,11 @@ public class BusinessManager {
 //        }
 //    }
 
+    //OneDrive Change Booking Screen
+    //Change Booking Date - This will prompt the owner to enter a guestID. The system will display a list of bookings for that specific ID.
+    // The system will prompt the owner for the bookingID, new start date, and new end date. If the system successfully changes the dates,
+    // the booking with the new dates will be displayed.
+
     public static void removeBookingScreen()
     {
         System.out.println("Please Enter a booking ID for removal: [0]Back ");
