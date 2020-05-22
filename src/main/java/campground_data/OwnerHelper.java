@@ -24,7 +24,7 @@ public class OwnerHelper {
     }
 
     public ArrayList<Owner> getOwnerList() {
-        return this.ownerList;
+        return ownerList;
     }
 
     public Owner searchOwner(String userId) {

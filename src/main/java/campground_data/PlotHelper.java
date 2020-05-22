@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class PlotHelper
 {
-    private ArrayList<Plot> plots = new ArrayList<>();
+    private static ArrayList<Plot> plots = new ArrayList<>();
     private DatabaseFile DBFile;
 
-    private ArrayList<Cabin> cabins = new ArrayList<>();
-    private ArrayList<Site> sites;
+    private static ArrayList<Cabin> cabins = new ArrayList<>();
+    private static ArrayList<Site> sites = new ArrayList<>();
 
-    private DatabaseFile DBFile;
+
 
     public PlotHelper() {
         DBFile = new DatabaseFile();
@@ -19,15 +19,18 @@ public class PlotHelper
         this.cabins = DBFile.readCabins();
     }
 
-    public Site addSite(Site newSite)
+    public boolean addSite(Site newSite)
     {
         this.sites.add(newSite);
-        return newSite;
+        DBFile.saveRecords(sites);
+        return sites.contains(newSite);
     }
 
     public boolean addCabin(Cabin newCabin)
     {
-        return this.cabins.add(newCabin);
+        cabins.add(newCabin);
+        DBFile.saveRecords(cabins);
+        return cabins.add(newCabin);
     }
 
     public boolean addPlot(Plot newPlot)
@@ -35,6 +38,16 @@ public class PlotHelper
         plots.add(newPlot);
         DBFile.saveRecords(plots);
         return plots.contains(newPlot);
+    }
+
+    public ArrayList<Site> getSiteList()
+    {
+        return this.sites;
+    }
+
+    public ArrayList<Cabin> getCabinList()
+    {
+        return this.cabins;
     }
 
     public ArrayList<Plot> getPlotList() {

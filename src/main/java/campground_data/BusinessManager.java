@@ -30,14 +30,14 @@ public class BusinessManager {
 
 //        System.out.printf("plot one is a %s", plots.get(0).getClass());
 
-//        for(Site site : sites)
+//        for(Owner owner : ownerList)
 //        {
-//            System.out.println(site.toString());
+//            System.out.println(owner.toString());
 //        }
         LogIn();
 
         //Guest added for testing, ID will be 1
-        guestHelper.addGuest(new Guest("Test", "Mctester", "mctester@gmail.com", "3060203345", PaymentType.Credit, "1563 1222 1589 5489", new Address(121, 0, "Test Cres.", "Saskatoon", "Saskatchewan", "Canada", "S1N2P3")));
+//        guestHelper.addGuest(new Guest("Test", "Mctester", "mctester@gmail.com", "3060203345", PaymentType.Credit, "1563 1222 1589 5489", new Address(121, 0, "Test Cres.", "Saskatoon", "Saskatchewan", "Canada", "S1N2P3")));
         homeScreen();
     }
 
@@ -700,7 +700,7 @@ public class BusinessManager {
                     ;
                     break;
                 case "3":
-                    ;
+                    forceChangePassword(currUser);
                     break;
                 case "4":
                     ;
@@ -792,13 +792,19 @@ public class BusinessManager {
             String sConfirm = obIn.nextLine();
             if(sPass.equals(sConfirm))
             {
-                changed = true;
-                owner.changePassword(sPass);
-                Thread th1 = new Thread( () -> {
-                    dbfile.saveRecords(ownerList);
-                });
-                th1.start();
-                System.out.println("Password changed successfully");
+
+                if(owner.changePassword(sPass)) {
+                    Thread th1 = new Thread(() -> {
+                        dbfile.saveRecords(ownerList);
+                    });
+                    th1.start();
+                    changed = true;
+                    System.out.println("Password changed successfully");
+                }
+                else
+                {
+                    System.out.println("New password must be at least 8 characters");
+                }
             }
             else
             {
@@ -807,69 +813,58 @@ public class BusinessManager {
         }
     }
 
-    public static Booking cancelbooking(String phoneNum) {
-        searchbooking = bookingHelper.search(phoneNum);
-    public static Booking cancelbooking(int guestId) {
-        searchbooking = bookingHelper.search(guestId);
-        //needs validation for error
-        return bookingHelper.search(guestId);
-    }
+//    public static Booking cancelbooking(String phoneNum) {
+//        searchbooking = bookingHelper.search(phoneNum);
+//    public static Booking cancelbooking(int guestId) {
+//        searchbooking = bookingHelper.search(guestId);
+//        //needs validation for error
+//        return bookingHelper.search(guestId);
+//    }
+//
+////    public static Object search(Object obVal)
+////    {}
+//
+//
+//
+//    public double refundconfirm(String answer) {
+//        //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//        Date date1 = new Date();
+//        Date date2 = searchbooking.getEndDate();
+//        int price;
+//        price = (int) plotHelper.searchPlot(searchbooking.getPlotID()).getPrice();
+//
+//        int ratething = (int) (date1.getDate() - date2.getDate());
+//        ratething = ratething * price;
+//
+//        if (answer.equals("y") || answer.equals("yes")) {
+//            return (searchbooking.getTotal() - ratething);
+//        } else if (answer.equals("n") || answer.equals("no") || answer.equals("nope")){
+//            return searchbooking.getTotal();
+//        }
+//            //error message
+//        return 0;
+//    }
+//
+//    public static PlotHelper getPlotHelper()
+//    {
+//        return plotHelper;
+//    }
 
-//    public static Object search(Object obVal)
-//    {}
-
-    public void cancelConfirm(String answer ) {
-        if (answer.equals("y") || answer.equals("yes")) {
-            //go to the next
-            // if passed start date
-            Date date1 = new Date();
-            Date date2 = searchbooking.getStartDate();
-            //Date does not work??????
-            if (date2.getDate() - date1.getDate() > 0 ){
-                if (date2.getMonth() - date1.getMonth() >= 0){
-                    //move to refund confirm
-                }else {
-                    //cancel successful
-                    bookingHelper.removeBooking(searchbooking);
-                }
-
-            }else{
-                //cancel successful
-                bookingHelper.removeBooking(searchbooking);
-            }
-        } else if (answer.equals("n") || answer.equals("no") || answer.equals("nope")) {
-            //go back to current booking
-            //move into mainconsole instead
-
-        }
-            //error message
-
-
-    }
-
-    public double refundconfirm(String answer) {
-        //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date date1 = new Date();
-        Date date2 = searchbooking.getEndDate();
-        int price;
-        price = (int) plotHelper.searchPlot(searchbooking.getPlotID()).getPrice();
-
-        int ratething = (int) (date1.getDate() - date2.getDate());
-        ratething = ratething * price;
-
-        if (answer.equals("y") || answer.equals("yes")) {
-            return (searchbooking.getTotal() - ratething);
-        } else if (answer.equals("n") || answer.equals("no") || answer.equals("nope")){
-            return searchbooking.getTotal();
-        }
-            //error message
-        return 0;
-    }
-
-    public static PlotHelper getPlotHelper()
+    public static void createOwners()
     {
-        return plotHelper;
+        Owner harry = new Owner("harry", "louis", "Mounta1nM@n", "555-555-5555", "hlouis@cestlake.ca", 3, true);
+        Owner mary = new Owner("mary", "louis", "F1uffyC@ts", "555-555-5555", "mlouis@cestlake.ca", 3, true);
+        Owner tom = new Owner("tom", "louis", "", "498-2772-7512", "tlouis@cestlake.ca", 2, false);
+        Owner sarah = new Owner("sarah", "louis", "", "872-848-1480", "slouis@cestlake.ca", 2, false);
+        Owner guest = new Owner("guest", "login", "Pa$$w0rd", "n/a", "info@cestlake.ca", 1, false);
+        ownerList.add(harry);
+        ownerList.add(mary);
+        ownerList.add(tom);
+        ownerList.add(sarah);
+        ownerList.add(guest);
+        dbfile.saveRecords(ownerList);
     }
+
 
 }
 

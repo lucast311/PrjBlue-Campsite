@@ -56,48 +56,48 @@ public class story1otest { //need date serializable??????
 
     }
 
-    @Test
-    public void testrefundyes()
-    {
-
-        BusinessManager businessManager = new BusinessManager(); //is this ok?
-        Date date1 = new Date();
-        Date date2 = booking1.getEndDate();
-        int price;
-        price = (int) BusinessManager.getPlotHelper().searchPlot(booking1.getPlotID()).getPrice();
-
-        int ratething = (int) (date1.getDate() - date2.getDate());
-        ratething = ratething * price;
-
-        double result = booking1.getTotal() - ratething;
-
-
-        assertEquals(businessManager.refundconfirm("yes"), result);
-    }
-
-    @Test
-    public void testrefundno()
-    {
-        BusinessManager businessManager = new BusinessManager();
-
-        double result = booking1.getTotal();
-
-        assertEquals(businessManager.refundconfirm("no"), result);
-    }
-
-    @Test
-    public void testvalidrefundconfirm()
-    {
-
-        BusinessManager businessManager = new BusinessManager();
-
-        //how do i test void
-        //how to i move to next thing
-        //assertEquals(businessManager.cancelConfirm("yes"), );
-        //assertEquals(businessManager.cancelConfirm("no"), );
-
-        //assertNull(businessManager.cancelConfirm("nsaduasgdfyfjsd"));
-    }
+//    @Test
+//    public void testrefundyes()
+//    {
+//
+//        BusinessManager businessManager = new BusinessManager(); //is this ok?
+//        Date date1 = new Date();
+//        Date date2 = booking1.getEndDate();
+//        int price;
+//        price = (int) BusinessManager.getPlotHelper().searchPlot(booking1.getPlotID()).getPrice();
+//
+//        int ratething = (int) (date1.getDate() - date2.getDate());
+//        ratething = ratething * price;
+//
+//        double result = booking1.getTotal() - ratething;
+//
+//
+//        assertEquals(businessManager.refundconfirm("yes"), result);
+//    }
+//
+//    @Test
+//    public void testrefundno()
+//    {
+//        BusinessManager businessManager = new BusinessManager();
+//
+//        double result = booking1.getTotal();
+//
+//        assertEquals(businessManager.refundconfirm("no"), result);
+//    }
+//
+//    @Test
+//    public void testvalidrefundconfirm()
+//    {
+//
+//        BusinessManager businessManager = new BusinessManager();
+//
+//        //how do i test void
+//        //how to i move to next thing
+//        //assertEquals(businessManager.cancelConfirm("yes"), );
+//        //assertEquals(businessManager.cancelConfirm("no"), );
+//
+//        //assertNull(businessManager.cancelConfirm("nsaduasgdfyfjsd"));
+//    }
 
     @Test
     public void testvalidcancelconfirm()
