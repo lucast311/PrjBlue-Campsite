@@ -103,6 +103,8 @@ public class BusinessManager {
         int memberCount = 0;
         int plotID = 0;
 
+        System.out.println("New Booking:");
+
         boolean bGuestID = false;
         do{
             System.out.print("Please enter a GuestID:");
@@ -193,15 +195,21 @@ public class BusinessManager {
         boolean bMemberCount = false;
         do{
             System.out.print("Please enter the amount of members staying on the plot (1-8):");
-            int sVal = Integer.parseInt(obIn.nextLine());
-            if(sVal >= 1 || sVal <=8)
-            {
-                memberCount = sVal;
-                bMemberCount = true;
+            try{
+                int sVal = Integer.parseInt(obIn.nextLine());
+                if(sVal >= 1 && sVal <=8)
+                {
+                    memberCount = sVal;
+                    bMemberCount = true;
+                }
+                else
+                {
+                    System.out.println("Member count must be from 1 to 8 members");
+                }
             }
-            else
+            catch(Exception e)
             {
-                System.out.println("Member count must be from 1 to 8 members");
+                System.out.println("Invalid member count");
             }
 
             System.out.println("");
@@ -211,10 +219,16 @@ public class BusinessManager {
         boolean bPlotID = false;
         do{
             System.out.print("Please enter the PlotID:");
-            int nVal = Integer.parseInt(obIn.nextLine());
-            //ADD PLOT ID LIST FOR CRITERIA, AND PLOT ID VERIFICATION
-            plotID = nVal;
-            bPlotID = true;
+            try{
+                int nVal = Integer.parseInt(obIn.nextLine());
+                //ADD PLOT ID LIST FOR CRITERIA, AND PLOT ID VERIFICATION
+                plotID = nVal;
+                bPlotID = true;
+            }
+            catch(Exception e)
+            {
+                System.out.println("Invalid PlotID");
+            }
 
             System.out.println("");
             System.out.println("");
@@ -247,7 +261,7 @@ public class BusinessManager {
                     bConfirm = true;
                     break;
                 case "N":
-                    System.out.println("Booking not added");
+                    System.out.println("Booking not created");
                     bConfirm = true;
                     break;
                 default:
