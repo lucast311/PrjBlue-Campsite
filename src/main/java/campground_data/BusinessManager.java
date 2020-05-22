@@ -26,18 +26,7 @@ public class BusinessManager {
 
     public static void main(String[] args) {
 
-
-
-//        System.out.printf("plot one is a %s", plots.get(0).getClass());
-
-//        for(Owner owner : ownerList)
-//        {
-//            System.out.println(owner.toString());
-//        }
         LogIn();
-
-        //Guest added for testing, ID will be 1
-//        guestHelper.addGuest(new Guest("Test", "Mctester", "mctester@gmail.com", "3060203345", PaymentType.Credit, "1563 1222 1589 5489", new Address(121, 0, "Test Cres.", "Saskatoon", "Saskatchewan", "Canada", "S1N2P3")));
         homeScreen();
     }
 
@@ -813,42 +802,7 @@ public class BusinessManager {
         }
     }
 
-//    public static Booking cancelbooking(String phoneNum) {
-//        searchbooking = bookingHelper.search(phoneNum);
-//    public static Booking cancelbooking(int guestId) {
-//        searchbooking = bookingHelper.search(guestId);
-//        //needs validation for error
-//        return bookingHelper.search(guestId);
-//    }
-//
-////    public static Object search(Object obVal)
-////    {}
-//
-//
-//
-//    public double refundconfirm(String answer) {
-//        //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-//        Date date1 = new Date();
-//        Date date2 = searchbooking.getEndDate();
-//        int price;
-//        price = (int) plotHelper.searchPlot(searchbooking.getPlotID()).getPrice();
-//
-//        int ratething = (int) (date1.getDate() - date2.getDate());
-//        ratething = ratething * price;
-//
-//        if (answer.equals("y") || answer.equals("yes")) {
-//            return (searchbooking.getTotal() - ratething);
-//        } else if (answer.equals("n") || answer.equals("no") || answer.equals("nope")){
-//            return searchbooking.getTotal();
-//        }
-//            //error message
-//        return 0;
-//    }
-//
-//    public static PlotHelper getPlotHelper()
-//    {
-//        return plotHelper;
-//    }
+
 
     public static void createOwners()
     {
@@ -865,7 +819,61 @@ public class BusinessManager {
         dbfile.saveRecords(ownerList);
     }
 
+    public static void createSites()
+    {
+        Site site1 = new Site(100, 4, Site.SiteType.Individual, 32.00, true, false);
+        Site site2 = new Site(101, 4, Site.SiteType.Individual, 32.00, true, false);
+        Site site3 = new Site(102, 4, Site.SiteType.Individual, 32.00, true, false);
+        Site site4 = new Site(103, 4, Site.SiteType.Individual, 32.00, true, false);
+        Site site5 = new Site(104, 4, Site.SiteType.Individual, 32.00, true, false);
+        Site site6 = new Site(105, 4, Site.SiteType.Individual, 20.00, false, false);
+        Site site7 = new Site(106, 4, Site.SiteType.Individual, 20.00, false, false);
+        Site site8 = new Site(107, 4, Site.SiteType.Individual, 20.00, false, false);
+        Site site9 = new Site(108, 4, Site.SiteType.Individual, 20.00, false, false);
+        Site site10 = new Site(109, 4, Site.SiteType.Individual, 20.00, false, false);
+        Site site11 = new Site(110, 4, Site.SiteType.Individual, 20.00, false, false);
+        Site site12 = new Site(111, 4, Site.SiteType.Individual, 20.00, false, false);
+        Site site13= new Site(112, 4, Site.SiteType.Individual, 20.00, false, false);
+        Site site14 = new Site(113, 4, Site.SiteType.Individual, 20.00, false, false);
+        Site site15 = new Site(114, 4, Site.SiteType.Individual, 20.00, false, false);
+        Site site16 = new Site(115, 8, Site.SiteType.Group, 64.00, true, false);
+        Site site17 = new Site(116, 8, Site.SiteType.Group, 64.00, true, false);
+        Site site18 = new Site(117, 8, Site.SiteType.Group, 64.00, true, false);
+        Site site19 = new Site(118, 8, Site.SiteType.Group, 64.00, true, false);
+        Site site20 = new Site(119, 8, Site.SiteType.Group, 64.00, true, false);
+        Site site21 = new Site(120, 8, Site.SiteType.Group, 40.00, false, false);
+        Site site22 = new Site(121, 8, Site.SiteType.Group, 40.00, false, false);
+        Site site23 = new Site(122, 8, Site.SiteType.Group, 40.00, false, false);
+        Site site24 = new Site(123, 8, Site.SiteType.Group, 40.00, false, false);
+        Site site25 = new Site(124, 8, Site.SiteType.Group, 40.00, false, false);
 
+        sites.add(site1);
+        sites.add(site2);
+        sites.add(site3);
+        sites.add(site4);
+        sites.add(site5);
+        sites.add(site6);
+        sites.add(site7);
+        sites.add(site8);
+        sites.add(site9);
+        sites.add(site10);
+        sites.add(site11);
+        sites.add(site12);
+        sites.add(site13);
+        sites.add(site14);
+        sites.add(site15);
+        sites.add(site16);
+        sites.add(site17);
+        sites.add(site18);
+        sites.add(site19);
+        sites.add(site20);
+        sites.add(site21);
+        sites.add(site22);
+        sites.add(site23);
+        sites.add(site24);
+        sites.add(site25);
+        dbfile.saveRecords(sites);
+    }
 
 }
 
