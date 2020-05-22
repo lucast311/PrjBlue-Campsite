@@ -15,9 +15,8 @@ public class PlotHelper extends Plot {
                 super(plotID, occupancy, price, underReno, booked);
         }
 
-    public void addPlot(ArrayList<Plot> plots) { //not done
-        this.plots = plots;
-    }
+    //public void addPlot(ArrayList<Plot> plots) { //not donethis.plots = plots;
+
     public void removePlot(ArrayList<Plot> plots) { //not done
         this.plots = plots;
     }
@@ -26,7 +25,9 @@ public class PlotHelper extends Plot {
         return plots.add(newPlot);
     }
     public ArrayList<Plot> getPlotList() {
-        return plots;
+        ArrayList<Plot> PlotTemp = this.plots;
+
+    return PlotTemp;
     }
 
     public void removePlot(Plot plot) {
