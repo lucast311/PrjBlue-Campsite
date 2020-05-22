@@ -53,4 +53,16 @@ public class GuestHelper {
         return guestToReturn;
     }
 
+    public boolean checkGuestId(int guestID)
+    {
+        for(Guest guest : guestAccounts)
+        {
+            if(guest.getGuestID() == guestID)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

@@ -15,7 +15,7 @@ public class Story1aTest {
     public void createBooking()
     {
         booking1 = new Booking();
-        booking2 = new Booking(1,"0000001",new Date(2020,5,20), new Date(2020,5,22), BookingType.Cabin, 2);
+        booking2 = new Booking(1,1,new Date(2020,5,20), new Date(2020,5,22), BookingType.Cabin, 2);
 
         BookingHelper bookingHelper = new BookingHelper();
         bookingHelper.addBooking(booking1);

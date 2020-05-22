@@ -1,6 +1,7 @@
 package campground_data;
 
 import java.awt.print.Book;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
@@ -24,6 +25,8 @@ public class BusinessManager {
         ownerList.add(harry);
         LogIn();
 
+        //Guest added for testing, ID will be 1
+        guestHelper.addGuest(new Guest("Test", "Mctester", "mctester@gmail.com", "3060203345", PaymentType.Credit, "1563 1222 1589 5489", new Address(121, 0, "Test Cres.", "Saskatoon", "Saskatchewan", "Canada", "S1N2P3")));
         homeScreen();
     }
 
@@ -50,7 +53,6 @@ public class BusinessManager {
                     break;
                 default:
                     System.out.println("Invalid option, please try again");
-                    homeScreen();
                     break;
             }
             System.out.println("");
@@ -86,7 +88,6 @@ public class BusinessManager {
                     break;
                 default:
                     System.out.println("Invalid option, please try again");
-                    bookingManagerScreen();
                     break;
             }
             System.out.println("");
@@ -168,7 +169,7 @@ public class BusinessManager {
     }
     public static void addBookingScreen()
     {
-        String sGuestID = "";
+        int nGuestID = 0;
         Date startDate = null;
         Date endDate = null;
         BookingType type = null;
@@ -178,10 +179,19 @@ public class BusinessManager {
         boolean bGuestID = false;
         do{
             System.out.print("Please enter a GuestID:");
-            sGuestID = obIn.nextLine();
-            //ADD GUEST VERIFICATION
-            bGuestID = true;
+            nGuestID = Integer.valueOf(obIn.nextLine());
 
+            if(guestHelper.checkGuestId(nGuestID))
+            {
+                bGuestID = true;
+            }
+            else
+            {
+                System.out.println("Invalid Guest ID");
+            }
+
+            System.out.println("");
+            System.out.println("");
         } while (!bGuestID);
 
         boolean bStartDate = false;
@@ -189,12 +199,23 @@ public class BusinessManager {
             System.out.print("Please enter a Start Date in the format (dd/mm/yyyy):");
             String[] sFields = obIn.nextLine().split("/");
             try{
-                startDate = new Date(Integer.parseInt(sFields[2]),Integer.parseInt(sFields[1])-1, Integer.parseInt(sFields[0]));
-                bStartDate = true;
+                SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
+                startDate = sdformat.parse(sFields[0] + "-" + sFields[1] + "-" + sFields[2] + "-23-59-59");
+                if(startDate.getTime() - new Date().getTime() >= 0)
+                {
+                    bStartDate = true;
+                }
+                else
+                {
+                    System.out.println("Start date cannot be earlier than the current date");
+                }
             }catch (Exception e)
             {
                 System.out.println("Invalid Date");
             }
+
+            System.out.println("");
+            System.out.println("");
         } while (!bStartDate);
 
         boolean bEndDate = false;
@@ -202,12 +223,23 @@ public class BusinessManager {
             System.out.print("Please enter an End Date in the format (dd/mm/yyyy):");
             String[] sFields = obIn.nextLine().split("/");
             try{
-                endDate = new Date(Integer.parseInt(sFields[2]),Integer.parseInt(sFields[1])-1, Integer.parseInt(sFields[0]));
-                bEndDate = true;
+                SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
+                endDate = sdformat.parse(sFields[0] + "-" + sFields[1] + "-" + sFields[2] + "-00-00-00");
+                if(endDate.getTime() - startDate.getTime() > 0)
+                {
+                    bEndDate = true;
+                }
+                else
+                {
+                    System.out.println("End Date cannot be on or before the Start Date");
+                }
             }catch (Exception e)
             {
                 System.out.println("Invalid Date");
             }
+
+            System.out.println("");
+            System.out.println("");
         } while (!bEndDate);
 
         boolean bPlotType = false;
@@ -226,11 +258,14 @@ public class BusinessManager {
                     System.out.println("Invalid Plot Type");
                     break;
             }
+
+            System.out.println("");
+            System.out.println("");
         } while (!bPlotType);
 
         boolean bMemberCount = false;
         do{
-            System.out.print("Please enter the amount of members staying on the plot:");
+            System.out.print("Please enter the amount of members staying on the plot (1-8):");
             int sVal = Integer.parseInt(obIn.nextLine());
             if(sVal >= 1 || sVal <=8)
             {
@@ -242,6 +277,8 @@ public class BusinessManager {
                 System.out.println("Member count must be from 1 to 8 members");
             }
 
+            System.out.println("");
+            System.out.println("");
         } while (!bMemberCount);
 
         boolean bPlotID = false;
@@ -251,12 +288,17 @@ public class BusinessManager {
             //ADD PLOT ID LIST FOR CRITERIA, AND PLOT ID VERIFICATION
             plotID = nVal;
             bPlotID = true;
+
+            System.out.println("");
+            System.out.println("");
         } while (!bPlotID);
 
         boolean bConfirm = false;
         do{
             System.out.println("Confirm Booking? (Y/N)");
-            System.out.println("GuestID = " + sGuestID);
+            System.out.println("GuestID = " + nGuestID);
+//            System.out.println("Start Date = " + startDate.getDate() + "/" + startDate.getMonth() + "/" + startDate.getYear());
+//            System.out.println("End Date = " + endDate.getDate() + "/" + endDate.getMonth() + "/" + endDate.getYear());
             System.out.println("Start Date = " + startDate);
             System.out.println("End Date = " + endDate);
             System.out.println("Booking Type = " + type);
@@ -265,7 +307,7 @@ public class BusinessManager {
 
             switch (obIn.nextLine().toUpperCase()) {
                 case "Y":
-                    Booking booking = new Booking(plotID, sGuestID, startDate, endDate, type, memberCount);
+                    Booking booking = new Booking(plotID, nGuestID, startDate, endDate, type, memberCount);
                     if(bookingHelper.addBooking(booking))
                     {
                         System.out.println("Successfully added booking");
@@ -285,10 +327,10 @@ public class BusinessManager {
                     System.out.println("Invalid Option");
                     break;
             }
+
+            System.out.println("");
+            System.out.println("");
         } while (!bConfirm);
-
-
-
     }
 
     public static void guestManagerScreen()
@@ -712,10 +754,10 @@ public class BusinessManager {
         return false;
     }
 
-    public static Booking cancelbooking(String phoneNum) {
-        searchbooking = bookingHelper.search(phoneNum);
+    public static Booking cancelbooking(int guestId) {
+        searchbooking = bookingHelper.search(guestId);
         //needs validation for error
-        return bookingHelper.search(phoneNum);
+        return bookingHelper.search(guestId);
     }
 
 //    public static Object search(Object obVal)

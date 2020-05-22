@@ -27,6 +27,18 @@ public class PlotHelper
         plots.remove(plot);
     }
 
+    public boolean checkPlotId(int plotID)
+    {
+        for(Plot plot : plots)
+        {
+            if(plot.getPlotID() == plotID)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Plot searchPlot(int plotID) {
         for (int i = 0; i < getPlotList().size(); i++) {
                 if (getPlotList().get(i).getPlotID() == (plotID)) {
