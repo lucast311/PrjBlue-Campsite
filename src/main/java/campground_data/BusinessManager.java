@@ -308,7 +308,7 @@ public class BusinessManager {
                     ;
                     break;
                 case "3":
-                    ;
+                    forceChangePassword(currUser);
                     break;
                 case "4":
                     ;
