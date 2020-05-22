@@ -99,6 +99,12 @@ public class BusinessManager {
 
     public static void removeBookingScreen()
     {
+        ArrayList<Booking> arBookingList = bookingHelper.getBookingList();
+        for (Booking args : arBookingList)
+        {
+            System.out.println(args.toString());
+        }
+
         System.out.println("Please Enter a booking ID for removal: [0]Back ");
         int bookingID=obIn.nextInt();
         if(bookingID==0)

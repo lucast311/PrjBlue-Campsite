@@ -50,7 +50,7 @@ public class Story1bTest
 
         BookingHelper bookingHelper = new BookingHelper();
 
-        assertTrue(bookingHelper.searchBookingId(1).equals(booking1));
+        assertEquals(bookingHelper.searchBookingId(1), booking1);
         assertNull(bookingHelper.searchBookingId(5));
         assertNull(bookingHelper.searchBookingId(-1));
 

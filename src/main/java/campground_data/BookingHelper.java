@@ -41,6 +41,7 @@ public class BookingHelper {
             if (args.getBookingID() == booking.getBookingID())
             {
                 it.remove();
+                DBFile.saveRecords(bookings);
                 bRemoved = true;
             }
         }
@@ -122,7 +123,6 @@ public class BookingHelper {
     {
         Booking bookingToReturn = null;
 
-
         for(Booking booking : bookings)
         {
             if(booking.getBookingID() == bookingID)
@@ -144,7 +144,7 @@ public class BookingHelper {
         {
             return false;
         }
-        else //when any other string is entered
+        else
         {
             System.out.println("Invalid response. Please answer with either \"yes\" or \"no\"");
             return false;
