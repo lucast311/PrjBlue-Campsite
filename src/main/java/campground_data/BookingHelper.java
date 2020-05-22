@@ -1,12 +1,11 @@
 package campground_data;
 
 
-import java.text.SimpleDateFormat;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class BookingHelper extends Booking{
@@ -50,12 +49,15 @@ public class BookingHelper extends Booking{
     }
 
 
-    public boolean changeBookingDate(int bookingID, Date newStartDate, Date newEndDate) {
-        Booking booking = findBooking(bookingID);
-        if (findBooking(bookingID) == null) {
+    public boolean changeBookingDate(int bookingID, Date newStartDate, Date newEndDate)
+    {
+
+        if (!findBooking(bookingID)) {
             System.out.println("The booking you want to change is not in the system. Please enter a valid booking ID.");
             return false;
         }
+
+        Booking booking = searchBookingId(bookingID);
 
         if (booking.getStartDate().compareTo(newStartDate) >= 0) {
             System.out.println("Please enter a  start date that is not earlier than the previous start date.");
@@ -73,10 +75,36 @@ public class BookingHelper extends Booking{
         }
 
 
-        booking.changeStart(newStartDate);
-        booking.changeEnd(newEndDate);
+        updateBookingDate(bookings, bookingID, newStartDate, newEndDate, "src/main/java/database/bookings.obj");
         System.out.println("The booking dates have been changed.");
         return true;
+    }
+
+    public void updateBookingDate(ArrayList<Booking> bookings, int bookingID, Date newStartDate, Date newEndDate, String sFile)
+    {
+        List<Booking> obBookingList = bookings.stream()
+                .map(x -> {
+                    if (x.getBookingID() == bookingID)
+                    {
+                        return new Booking(x.getPlotID(), x.getGuestID(),newStartDate,newEndDate,x.getType(), x.getMemberCount());
+                    }
+                    return x;
+                })
+                .collect(Collectors.toList());
+
+        try
+        {
+            FileOutputStream fileOut = new FileOutputStream(sFile);
+            ObjectOutputStream obOut = new ObjectOutputStream(fileOut);
+            for (Booking booking : obBookingList)
+            {
+                    obOut.writeObject(booking);
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
 
@@ -85,18 +113,18 @@ public class BookingHelper extends Booking{
         return this.bookings;
     }
 
-    public Booking findBooking(int id)
+    public boolean findBooking(int id)
     {
-        ArrayList<Booking> temp = new ArrayList<>();
+
         for (Booking obBooking : bookings)
         {
             if (obBooking.getBookingID() == id)
             {
-                temp.add(obBooking);
+                return true;
 
             }
         }
-        return temp.get(0);
+        return false;
     }
 
     public ArrayList<Booking> getBookingList(int year)
