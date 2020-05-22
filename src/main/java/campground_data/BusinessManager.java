@@ -74,7 +74,7 @@ public class BusinessManager {
     {
         boolean back = false;
         do{
-            System.out.print("Booking Manager: [1]Add Booking [2]Remove Booking [3]Modify Booking [4]Find Booking [5]View Current Bookings [6]Back:");
+            System.out.print("Booking Manager: [1]Add Booking [2]Remove Booking [3]Modify Booking [4]Find Booking [5]View Current Bookings [6] Change Booking Date [7]Back:");
             switch (obIn.next()) {
                 case "1":
                     addBookingScreen();
@@ -93,7 +93,10 @@ public class BusinessManager {
                 case "5":
                     viewCurrentBookingsScreen();
                     break;
-                case "6":
+                case"6":
+                    changeBookingDateScreen();
+                    break;
+                case "7":
                     back = true;
                     break;
                 default:
@@ -109,7 +112,7 @@ public class BusinessManager {
 
     public static void changeBookingDateScreen()
     {
-        int guestID;
+        String guestID;
         int bookingID;
         Date newStartDate;
         Date newEndDate;
@@ -119,7 +122,7 @@ public class BusinessManager {
         {
             bChanged = false;
             System.out.println("Please enter a guest ID.");
-            guestID = Integer.parseInt(obIn.nextLine());
+            guestID = obIn.nextLine();
             System.out.println(bookingHelper.search(guestID));
             System.out.println("Please enter a booking ID");
             bookingID = Integer.parseInt(obIn.nextLine());

@@ -48,19 +48,6 @@ public class BookingHelper extends Booking{
 
     }
 
-    public Booking findBooking(int id)
-    {
-        ArrayList<Booking> temp = new ArrayList<>();
-        for (Booking obBooking : bookings)
-        {
-            if (obBooking.getBookingID() == id)
-            {
-                temp.add(obBooking);
-
-            }
-        }
-        return temp.get(0);
-    }
 
     public boolean changeBookingDate(int bookingID, Date newStartDate, Date newEndDate)
     {
