@@ -35,23 +35,6 @@ public class Story1bTest
 
     }
 
-    /**
-     * Test for inputting valid guest phone number for guest search
-     */
-    @Test
-    public void reservationGuestSearch()
-    {
-        ArrayList<Guest> guests = new ArrayList<>();
-        guests.add(guest1);
-        guests.add(guest2);
-
-        GuestHelper guestHelper = new GuestHelper();
-
-        assertTrue(guests.contains(guestHelper.searchGuest("3069999999")));
-        assertFalse(guests.contains(guestHelper.searchGuest("1234567890")));
-
-
-    }
 
     /**
      * Test for inputting valid bookingID for Booking to be removed
@@ -67,7 +50,7 @@ public class Story1bTest
 
         BookingHelper bookingHelper = new BookingHelper();
 
-        assertEquals(bookingHelper.searchBookingId(1), booking1);
+        assertTrue(bookingHelper.searchBookingId(1).equals(booking1));
         assertNull(bookingHelper.searchBookingId(5));
         assertNull(bookingHelper.searchBookingId(-1));
 

@@ -117,32 +117,25 @@ public class BookingHelper {
         return null;
     }
 
+
     public Booking searchBookingId(int bookingID)
     {
         Booking bookingToReturn = null;
 
 
-        if(bookingID < 1)
+        for(Booking booking : bookings)
         {
-            System.out.println("Booking ID cannot be less than the number 1. Please enter a valid Booking ID");
-            //Insert routine to ask user again for Booking ID
-        }
-        else
-        {
-            for(Booking booking : bookings)
+            if(booking.getBookingID() == bookingID)
             {
-                if(booking.getBookingID() == bookingID)
-                {
                     bookingToReturn = booking;
-                }
             }
         }
+
         return bookingToReturn;
     }
 
     public boolean confirmRemove(String sConfirm)
     {
-        //Will update this once I figure out the regex to handle all edge cases
         if(sConfirm.trim().equals("yes"))
         {
             return true;
