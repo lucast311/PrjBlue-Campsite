@@ -100,7 +100,7 @@ public class BusinessManager {
         Date newStartDate;
         Date newEndDate;
         boolean bChanged;
-        String answer;
+        int answer;
         do
         {
             bChanged = false;
@@ -130,14 +130,14 @@ public class BusinessManager {
         } while (!bChanged);
 
         System.out.println(bookingHelper.searchBookingId(bookingID));
-        System.out.println("Do you want to go back to home screen or change another booking date? (Yes or No)");
-        answer = obIn.nextLine();
-        if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes"))
+        System.out.println("[1] Home screen [2] Change another booking's date");
+        answer = Integer.parseInt(obIn.nextLine());
+        if (answer == 1)
         {
             homeScreen();
         }
 
-        if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no"))
+        if (answer == 2)
         {
             changeBookingDateScreen();
         }
