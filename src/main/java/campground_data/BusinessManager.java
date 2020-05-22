@@ -32,6 +32,7 @@ public class BusinessManager {
 
     public static void main(String[] args) {
 
+        createOwners();
         LogIn();
 
         //Guest added for testing, ID will be 1
@@ -269,14 +270,14 @@ public class BusinessManager {
             System.out.print("Please enter a GuestID:");
             nGuestID = Integer.valueOf(obIn.nextLine());
 
-//            if(guestHelper.checkGuestId(nGuestID))
-//            {
-//                bGuestID = true;
-//            }
-//            else
-//            {
-//                System.out.println("Invalid Guest ID");
-//            }
+            if(guestHelper.checkGuestId(nGuestID))
+            {
+                bGuestID = true;
+            }
+            else
+            {
+                System.out.println("Invalid Guest ID");
+            }
 
             System.out.println("");
             System.out.println("");

@@ -224,12 +224,20 @@ public class BookingHelper {
 
     public Booking search(int guestID)
     {
-        for(int i=0;i < getBookingList().size(); i++) {
-            if ((getBookingList().get(i).getGuestID()) == guestID) {
-                return getBookingList().get(i);
-
+        for(Booking booking : bookings)
+        {
+            if(booking.getGuestID() == guestID)
+            {
+                return booking;
             }
         }
+
+//        for(int i=0;i < getBookingList().size(); i++) {
+//            if ((getBookingList().get(i).getGuestID()) == guestID) {
+//                return getBookingList().get(i);
+//
+//            }
+//        }
         return null;
     }
 

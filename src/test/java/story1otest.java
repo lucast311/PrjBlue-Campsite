@@ -1,4 +1,5 @@
 import campground_data.*;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -12,9 +13,11 @@ public class story1otest { //need date serializable??????
 
     static Guest guest1 = new Guest("Jo", "wow", "jowow@gmail.com", "3069999999", PaymentType.Credit, "44567777", new Address());
     static Guest guest2 = new Guest("greg", "pop", "gregpop@gmail.com", "3068888888", PaymentType.Cash, "44565555", new Address());
-    static Booking booking1 = new Booking(1,100, new Date(2020,5,19), new Date(2020,5,27), BookingType.Cabin, 3);
-    static Booking booking2 = new Booking(2,200, new Date(2020,6,4), new Date(2020,6,7), BookingType.Site, 2);
+    static Booking booking1 = new Booking(100,1, new Date(2020,5,19), new Date(2020,5,27), BookingType.Cabin, 3);
+    static Booking booking2 = new Booking(200,2, new Date(2020,6,4), new Date(2020,6,7), BookingType.Site, 2);
     BookingHelper bookingHelper=new BookingHelper();
+    PlotHelper plothelper = new PlotHelper();
+
 
     @Test
     public void testsearch(){
@@ -22,16 +25,14 @@ public class story1otest { //need date serializable??????
         bookingHelper.addBooking(booking1);
         bookingHelper.addBooking(booking2);
 
-        BookingHelper bookingHelper = new BookingHelper(); //is this ok?
-
         //bookingHelper.search("0000002");
 
 
 
-        //assertEquals(bookingHelper.searchGuestID("0000001"), booking1);
-        //assertEquals(bookingHelper.searchGuestID("0000002"), booking2);
+//        assertEquals(bookingHelper.searchGuestID(1), booking1);
+//        assertEquals(bookingHelper.searchGuestID(2), booking2);
         assertNull(bookingHelper.search(-1));
-        assertEquals(bookingHelper.searchBookingId(1), booking1);
+        assertEquals(bookingHelper.searchBookingId(booking1.getBookingID()), booking1);
     }
 
     @Test
@@ -90,14 +91,16 @@ public class story1otest { //need date serializable??????
     public void testrefundyes() //work on
     {
         ArrayList<Booking> bookings = new ArrayList<>();
+        Site site1 = new Site(100, 4,32.00, Site.SiteType.Individual, true, false);
+        plothelper.addPlot(site1);
+
         bookings.add(booking1);
         bookings.add(booking2);
 
-        BusinessManager businessManager = new BusinessManager(); //is this ok?
         Date date1 = new Date();
         Date date2 = booking1.getEndDate();
         int price;
-        price = (int) PlotHelper.searchPlot(booking1.getPlotID()).getPrice();
+        price = (int) plothelper.searchSite(booking1.getPlotID()).getPrice();
         long startTime2 = date1.getTime();
         long endTime2 = date2.getTime();
         long diffTime2 = endTime2 - startTime2;
@@ -114,9 +117,9 @@ public class story1otest { //need date serializable??????
     @Test
     public void testrefundyespaid()
     {
-        ArrayList<Booking> bookings = new ArrayList<>();
-        bookings.add(booking1);
-        bookings.add(booking2);
+        ArrayList<Booking> bookings = bookingHelper.getBookingList();
+//        bookings.add(booking1);
+//        bookings.add(booking2);
 
         BusinessManager businessManager = new BusinessManager(); //is this ok?
         Date date1 = new Date();

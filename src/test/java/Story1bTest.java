@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 
 public class Story1bTest
 {
-
+    BookingHelper helper = new BookingHelper();
     Booking booking1 = new Booking(1,1, new Date(2020,5,25), new Date(2020,5,27), BookingType.Cabin, 3);
     Booking booking2 = new Booking(2,2, new Date(2020,6,4), new Date(2020,6,7), BookingType.Site, 2);
 
@@ -22,7 +22,7 @@ public class Story1bTest
     public void removeBookingFromList()
     {
 
-        BookingHelper helper = new BookingHelper();
+
         ArrayList<Booking> obBookingList = helper.getBookingList();
 
         helper.addBooking(booking1);
@@ -42,13 +42,11 @@ public class Story1bTest
     @Test
     public void selectBookingToBeRemoved()
     {
-        BookingHelper helper = new BookingHelper();
-
-        ArrayList<Booking> bookings = helper.getBookingList();
 
         helper.addBooking(booking1);
         helper.addBooking(booking2);
 
+        //Actually passes, data base "bookings.obj" gets filled with entries that causes failure
         assertEquals(helper.search(2), booking2);
 
     }
