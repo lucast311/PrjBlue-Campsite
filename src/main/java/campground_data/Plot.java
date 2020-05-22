@@ -30,6 +30,10 @@ public abstract class Plot implements Serializable {
 
     }
 
+    public Plot() {
+
+    }
+
     public int getPlotID() {
         return plotID;
     }
