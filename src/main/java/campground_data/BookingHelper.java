@@ -1,13 +1,20 @@
 package campground_data;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 public class BookingHelper extends Booking{
 
     private ArrayList<Booking> bookings;
+
+    private static boolean found = false;
+
     private DatabaseFile DBFile;
     private Booking searchbooking;
 
@@ -43,29 +50,24 @@ public class BookingHelper extends Booking{
     }
 
 
-    public boolean changeBookingDate(int bookingID, Date newStartDate, Date newEndDate)
-    {
+    public boolean changeBookingDate(int bookingID, Date newStartDate, Date newEndDate) {
         Booking booking = findBooking(bookingID);
-        if (booking == null)
-        {
+        if (findBooking(bookingID) == null) {
             System.out.println("The booking you want to change is not in the system. Please enter a valid booking ID.");
             return false;
         }
 
-        if (booking.getStartDate().compareTo(newStartDate) >= 0)
-        {
+        if (booking.getStartDate().compareTo(newStartDate) >= 0) {
             System.out.println("Please enter a  start date that is not earlier than the previous start date.");
             return false;
         }
 
-        if (booking.getEndDate().compareTo(newStartDate) <= 0)
-        {
+        if (booking.getEndDate().compareTo(newStartDate) <= 0) {
             System.out.println("Please enter a start date that is not after the end date.");
             return false;
         }
 
-        if (booking.getStartDate().compareTo(newEndDate) >= 0)
-        {
+        if (booking.getStartDate().compareTo(newEndDate) >= 0) {
             System.out.println("Please enter an end date not earlier than the start date.");
             return false;
         }
@@ -83,17 +85,18 @@ public class BookingHelper extends Booking{
         return this.bookings;
     }
 
-    private Booking findBooking(int id)
+    public Booking findBooking(int id)
     {
+        ArrayList<Booking> temp = new ArrayList<>();
         for (Booking obBooking : bookings)
         {
             if (obBooking.getBookingID() == id)
             {
-                return obBooking;
+                temp.add(obBooking);
 
             }
         }
-        return null;
+        return temp.get(0);
     }
 
     public ArrayList<Booking> getBookingList(int year)
@@ -155,10 +158,11 @@ public class BookingHelper extends Booking{
         }
     }
 
-    public Booking search(String guestID)
+    public Booking search(int guestID)
     {
-        for(int i=0;i < bookings.size(); i++) {
-            if (bookings.get(i).getGuestID().equals(guestID)) {
+        for(int i=0;i < bookings.size(); i++)
+        {
+            if (bookings.get(i).getGuestID() == guestID) {
                 return bookings.get(i);
             }
         }

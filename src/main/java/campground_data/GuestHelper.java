@@ -11,8 +11,8 @@ public class GuestHelper {
 
     }
 
-    public void addGuest(Guest newGuest) {
-        guestAccounts.add(newGuest);
+    public boolean addGuest(Guest newGuest) {
+        return guestAccounts.add(newGuest);
     }
 
 
@@ -48,6 +48,18 @@ public class GuestHelper {
             }
         }
         return guestToReturn;
+    }
+
+    public boolean checkGuestId(int guestID)
+    {
+        for(Guest guest : guestAccounts)
+        {
+            if(guest.getGuestID() == guestID)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
