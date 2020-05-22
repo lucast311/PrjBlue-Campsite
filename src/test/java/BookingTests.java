@@ -47,13 +47,13 @@ public class BookingTests
 		ArrayList<Booking> obBookingList;
 		Date startDate= new Date(2020,7,20);
 		Date endDate= new Date(2020,7,25);
-		Booking obNew=new Booking(2,"TestGuestID",startDate,
+		Booking obNew=new Booking(2,1,startDate,
 				endDate, BookingType.Cabin,4);
 
 		helper.addBooking(obNew);
 		obBookingList=helper.getBookingList();
 
-		assertEquals(obBookingList.get(0),obNew);
+		assertEquals(obBookingList.get(obBookingList.size()-1),obNew);
 
 	}
 	
@@ -67,10 +67,10 @@ public class BookingTests
 		Date startDate2019= new Date(2019,7,20);
 		Date endDate2019= new Date(2019,7,25);
 
-		Booking obNew2020=new Booking(2,"TestGuestID",startDate2020,
+		Booking obNew2020=new Booking(2,1,startDate2020,
 				endDate2020, BookingType.Cabin,4);
 
-		Booking obNew2019=new Booking(2,"TestGuestID",startDate2019,
+		Booking obNew2019=new Booking(2,1,startDate2019,
 				endDate2019, BookingType.Cabin,4);
 
 		helper.addBooking(obNew2019);
@@ -93,11 +93,11 @@ public class BookingTests
 	{
 		Date startDate= new Date(2020,7,20);
 		Date endDate= new Date(2020,7,25);
-		Booking obBooking=new Booking(2,"TestGuestID",startDate,
+		Booking obBooking=new Booking(2,1,startDate,
 				endDate, BookingType.Cabin,4);
 
 		assertEquals(2,obBooking.getPlotID());
-		assertEquals("TestGuestID",obBooking.getGuestID());
+		assertEquals(1,obBooking.getGuestID());
 		assertEquals(startDate,obBooking.getStartDate());
 		assertEquals(endDate,obBooking.getEndDate());
 		assertEquals(BookingType.Cabin,obBooking.getType());
@@ -110,7 +110,7 @@ public class BookingTests
 		Booking obBooking=new Booking();
 
 		assertEquals(0,obBooking.getPlotID());
-		assertEquals("",obBooking.getGuestID());
+		assertEquals(0,obBooking.getGuestID());
 		assertEquals(new Date(),obBooking.getStartDate());
 		assertEquals(new Date(),obBooking.getEndDate());
 		assertNull(null,obBooking.getType());
@@ -122,12 +122,12 @@ public class BookingTests
 	{
 		Date startDate= new Date(2020,7,20);
 		Date endDate= new Date(2020,7,25);
-		Booking obBooking=new Booking(2,"TestGuestID",startDate,
+		Booking obBooking=new Booking(2,1,startDate,
 				endDate, BookingType.Cabin,4);
 
-		assertEquals(1,obBooking.getBookingID());
+		assertEquals(2,obBooking.getBookingID());
 		assertEquals(2,obBooking.getPlotID());
-		assertEquals("TestGuestID",obBooking.getGuestID());
+		assertEquals(1,obBooking.getGuestID());
 		assertEquals(startDate,obBooking.getStartDate());
 		assertEquals(endDate,obBooking.getEndDate());
 		assertEquals(BookingType.Cabin,obBooking.getType());
@@ -144,7 +144,7 @@ public class BookingTests
 	{
 		Date startDate= new Date(2020,7,20);
 		Date endDate= new Date(2020,7,25);
-		Booking obBooking=new Booking(2,"TestGuestID",startDate,
+		Booking obBooking=new Booking(2,1,startDate,
 				endDate, BookingType.Cabin,4);
 
 		//valid values
@@ -191,7 +191,7 @@ public class BookingTests
 		Date failStart=new Date(2019,4,3);
 		Date failEnd=new Date(2020,5,19);
 
-		Booking obBooking=new Booking(2,"TestGuestID",startDate,
+		Booking obBooking=new Booking(2,1,startDate,
 				endDate, BookingType.Cabin,4);
 
 		//Proper valid values tested
