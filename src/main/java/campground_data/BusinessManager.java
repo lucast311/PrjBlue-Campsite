@@ -183,14 +183,14 @@ public class BusinessManager {
             System.out.print("Please enter a GuestID:");
             nGuestID = Integer.valueOf(obIn.nextLine());
 
-            if(guestHelper.checkGuestId(nGuestID))
-            {
-                bGuestID = true;
-            }
-            else
-            {
-                System.out.println("Invalid Guest ID");
-            }
+//            if(guestHelper.checkGuestId(nGuestID))
+//            {
+//                bGuestID = true;
+//            }
+//            else
+//            {
+//                System.out.println("Invalid Guest ID");
+//            }
 
             System.out.println("");
             System.out.println("");
@@ -360,7 +360,9 @@ public class BusinessManager {
                     ;
                     break;
                 case "3":
-                    ;
+                    System.out.println("Enter phone number to find guest to edit: ");
+                    Guest guestToEdit = guestHelper.searchGuest(obIn.nextLine());
+                    guestHelper.changeGuestInfo(guestToEdit);
                     break;
                 case "4":
                     ;
