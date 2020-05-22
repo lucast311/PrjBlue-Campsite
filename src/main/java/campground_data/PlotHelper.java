@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class PlotHelper
 {
-        private ArrayList<Plot> plots;
+        private static ArrayList<Plot> plots;
         private DatabaseFile dbFile;
 
         public  PlotHelper()
@@ -58,7 +58,7 @@ public class PlotHelper
                 return plotToReturn;
         }
 
-        public Plot searchPlot(int plotID)
+        public static Plot searchPlot(int plotID)
         {
                 Plot plotToReturn = null;
                 for (Plot plot : plots)

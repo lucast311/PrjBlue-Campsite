@@ -68,9 +68,14 @@ public class Owner implements Serializable {
         this.onSite = onSite;
     }
 
-    public void changePassword(String password)
+    public boolean changePassword(String password)
     {
-        this.password = password;
+        if(password!=null)
+        {
+            this.password = password;
+            return true;
+        }
+        return false;
     }
 
     public String getPassword() { return this.password; }
