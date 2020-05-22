@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 public class PlotHelper extends Plot {
-        private ArrayList<Plot> plots;
+        private static ArrayList<Plot> plots;
 
 
     public PlotHelper() {
@@ -24,8 +24,8 @@ public class PlotHelper extends Plot {
     {
         return plots.add(newPlot);
     }
-    public ArrayList<Plot> getPlotList() {
-        ArrayList<Plot> PlotTemp = this.plots;
+    public static ArrayList<Plot> getPlotList() {
+        ArrayList<Plot> PlotTemp = plots;
 
     return PlotTemp;
     }
@@ -34,7 +34,7 @@ public class PlotHelper extends Plot {
         plots.remove(plot);
     }
 
-    public Plot searchPlot(int plotID) {
+    public static Plot searchPlot(int plotID) {
         for (int i = 0; i < getPlotList().size(); i++) {
                 if (getPlotList().get(i).getPlotID() == (plotID)) {
                         return getPlotList().get(i);
