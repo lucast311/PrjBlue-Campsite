@@ -59,17 +59,17 @@ public class BookingHelper extends Booking{
 
         Booking booking = searchBookingId(bookingID);
 
-        if (booking.getStartDate().compareTo(newStartDate) >= 0) {
+        if (booking.getStartDate().compareTo(newStartDate) > 0) {
             System.out.println("Please enter a  start date that is not earlier than the previous start date.");
             return false;
         }
 
-        if (booking.getEndDate().compareTo(newStartDate) <= 0) {
+        if (booking.getEndDate().compareTo(newStartDate) < 0) {
             System.out.println("Please enter a start date that is not after the end date.");
             return false;
         }
 
-        if (booking.getStartDate().compareTo(newEndDate) >= 0) {
+        if (booking.getStartDate().compareTo(newEndDate) > 0) {
             System.out.println("Please enter an end date not earlier than the start date.");
             return false;
         }
