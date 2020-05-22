@@ -23,9 +23,34 @@ public class story1otest { //need date serializable??????
         bookingHelper.addBooking(booking2);
 
         BookingHelper bookingHelper = new BookingHelper(); //is this ok?
+
         //bookingHelper.search("0000002");
 
-        
+
+
+        //assertEquals(bookingHelper.searchGuestID("0000001"), booking1);
+        //assertEquals(bookingHelper.searchGuestID("0000002"), booking2);
+        assertNull(bookingHelper.search("-1"));
+        assertEquals(bookingHelper.searchBookingId(1), booking1);
+    }
+
+    @Test
+    public void testsearchplotid(){
+        ArrayList<Booking> bookings = new ArrayList<>();
+        bookings.add(booking1);
+        bookings.add(booking2);
+        ArrayList<Plot> plots = new ArrayList<>();
+        //plots.add(Site1);
+
+        BookingHelper bookingHelper = new BookingHelper();
+        PlotHelper plotHelper = new PlotHelper();
+
+        //assertEquals(bookingHelper.getPlotID(), booking1.getPlotID());
+        //assertEquals(plotHelper.);
+
+
+
+
     }
 
 
@@ -47,7 +72,7 @@ public class story1otest { //need date serializable??????
 
 
     @Test
-    public void testcancelwithrefund()
+    public void testcancelwithrefund() //workon
     {
         ArrayList<Booking> bookings = new ArrayList<>();
         bookings.add(booking1);
@@ -62,7 +87,7 @@ public class story1otest { //need date serializable??????
     }
 
     @Test
-    public void testrefundyes()
+    public void testrefundyes() //work on
     {
         ArrayList<Booking> bookings = new ArrayList<>();
         bookings.add(booking1);
@@ -124,33 +149,7 @@ public class story1otest { //need date serializable??????
         //assertEquals(businessManager.refundconfirm(), result);
     }
 
-    @Test
-    public void testvalidrefundconfirm()
-    {
-
-        BusinessManager businessManager = new BusinessManager();
-
-        //how do i test void
-        //how to i move to next thing
-        //assertEquals(businessManager.cancelConfirm("yes"), );
-        //assertEquals(businessManager.cancelConfirm("no"), );
-
-        //assertNull(businessManager.cancelConfirm("nsaduasgdfyfjsd"));
-    }
-
-    @Test
-    public void testvalidcancelconfirm()
-    {
-        BusinessManager businessManager = new BusinessManager();
-
-        //how do i test void
-        //how to i move back to current
-        //assertEquals(businessManager.cancelConfirm("yes"), );
-        //assertEquals(businessManager.cancelConfirm("no"), );
-
-        //assertNull(businessManager.cancelConfirm("nsaduasgdfyfjsd"));
 
 
-    }
 
 }
