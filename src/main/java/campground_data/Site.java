@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 public class Site extends Plot implements Serializable {
     private boolean serviced;
-    private SiteType type; //help
+    private SiteType type;
 
     public enum SiteType {
         Group,
         Individual
     }
 
-    public Site(int siteNum, int occupancy, SiteType type, double price, boolean serviced, boolean underReno) {
+    public Site(int siteNum, int occupancy, double price, SiteType type, boolean underReno,  boolean serviced) {
         super(siteNum, occupancy, price, underReno, false);
         this.serviced = serviced;
         this.type = type;
@@ -36,9 +36,6 @@ public class Site extends Plot implements Serializable {
 
     @Override
     public String toString() {
-        return "Site{" +
-                "serviced=" + serviced +
-                ", SiteType=" + type +
-                '}';
+        return String.format("%s\nType: %s\nServiced: %s", super.toString(), this.type, serviced ? "True" : "False");
     }
 }
