@@ -21,6 +21,7 @@ public class BusinessManager {
 
 
     private static Booking searchbooking;
+    private static int bookingguestid;
     private static Date bookingstartDate = null;
     private static Date refundendDate;
     private static BookingType bookingtype;
@@ -83,7 +84,7 @@ public class BusinessManager {
     {
         boolean back = false;
         do{
-            System.out.print("Booking Manager: [1]Add Booking [2]Remove Booking [3]Modify Booking [4]Find Booking [5]View Current Bookings [6]Back:");
+            System.out.print("Booking Manager: [1]Add Booking [2]Remove Booking [3]Modify Booking [4]Find Booking [5]View Current Bookings [6] Change Booking Date [7]Back:");
             switch (obIn.next()) {
                 case "1":
                     addBookingScreen();
@@ -102,7 +103,10 @@ public class BusinessManager {
                 case "5":
                     viewCurrentBookingsScreen();
                     break;
-                case "6":
+                case"6":
+                    changeBookingDateScreen();
+                    break;
+                case "7":
                     back = true;
                     break;
                 default:
@@ -114,6 +118,56 @@ public class BusinessManager {
         } while (!back);
         System.out.println("Back to home screen");
         homeScreen();
+    }
+
+    public static void changeBookingDateScreen()
+    {
+        String guestID;
+        int bookingID;
+        Date newStartDate;
+        Date newEndDate;
+        boolean bChanged;
+        int answer;
+        do
+        {
+            bChanged = false;
+            System.out.println("Please enter a guest ID.");
+            guestID = obIn.nextLine();
+            System.out.println(bookingHelper.search(guestID));
+            System.out.println("Please enter a booking ID");
+            bookingID = Integer.parseInt(obIn.nextLine());
+            System.out.print("Please enter the new Start Date in the format (dd/mm/yyyy):");
+            String[] sFields = obIn.nextLine().split("/");
+            newStartDate = new Date(Integer.parseInt(sFields[0]), Integer.parseInt(sFields[1]), Integer.parseInt(sFields[2]));
+            System.out.print("Please enter the new Start Date in the format (dd/mm/yyyy):");
+            sFields = obIn.nextLine().split("/");
+            newEndDate = new Date(Integer.parseInt(sFields[0]), Integer.parseInt(sFields[1]), Integer.parseInt(sFields[2]));
+            bookingHelper.changeBookingDate(bookingID, newStartDate, newEndDate);
+            if (!bookingHelper.changeBookingDate(bookingID, newStartDate, newEndDate))
+            {
+                bChanged = true;
+
+            }
+            else
+            {
+                System.out.println("Please try again");
+            }
+
+
+        } while (!bChanged);
+
+        System.out.println(bookingHelper.searchBookingId(bookingID));
+        System.out.println("[1] Home screen [2] Change another booking's date");
+        answer = Integer.parseInt(obIn.nextLine());
+        if (answer == 1)
+        {
+            homeScreen();
+        }
+
+        if (answer == 2)
+        {
+            changeBookingDateScreen();
+        }
     }
 
     public static void removeBookingScreen()
@@ -330,8 +384,6 @@ public class BusinessManager {
         do{
             System.out.println("Confirm Booking? (Y/N)");
             System.out.println("GuestID = " + nGuestID);
-//            System.out.println("Start Date = " + startDate.getDate() + "/" + startDate.getMonth() + "/" + startDate.getYear());
-//            System.out.println("End Date = " + endDate.getDate() + "/" + endDate.getMonth() + "/" + endDate.getYear());
             System.out.println("Start Date = " + startDate);
             System.out.println("End Date = " + endDate);
             System.out.println("Booking Type = " + type);
@@ -365,64 +417,71 @@ public class BusinessManager {
             System.out.println("");
         } while (!bConfirm);
     }
+
     public static void ModifyBookingScreen() {
-        int nGuestID = 0;
-        String sGuestID;
-
-
-        boolean bGuestID = false;
+        boolean bbookingID = false;
         do {
-            System.out.print("Please enter a GuestID:");
-            nGuestID = Integer.valueOf(obIn.nextLine());
-            sGuestID = (obIn.nextLine());
-
-            if (guestHelper.checkGuestId(nGuestID)) {
-                bGuestID = true;
-                searchbooking = bookingHelper.search(sGuestID);
-                bookingstartDate = searchbooking.getStartDate();
-                refundendDate = searchbooking.getEndDate();
-                bookingtype = searchbooking.getType();
-                bookingmemberCount = searchbooking.getMemberCount();
-                bookingplotID = searchbooking.getPlotID();
+            System.out.print("Please enter a Booking ID: [0]Back");
+            int bookingID = obIn.nextInt();
+            if (bookingID == 0) {
+                bookingManagerScreen();
             } else {
-                System.out.println("Invalid Guest ID");
+                Booking obFound = bookingHelper.searchBookingId(bookingID);
+                if (obFound != null) {
+                    System.out.println("Found a booking with that ID!");
+                    System.out.println(obFound.toString());
+                    bbookingID = true;
+                    searchbooking = obFound;
+                    bookingguestid = searchbooking.getGuestID();
+                    bookingstartDate = searchbooking.getStartDate();
+                    refundendDate = searchbooking.getEndDate();
+                    bookingtype = searchbooking.getType();
+                    bookingmemberCount = searchbooking.getMemberCount();
+                    bookingplotID = searchbooking.getPlotID();
+
+                    //int plotID, int guestID, Date startDate, Date endDate, BookingType type, int memberCount
+                    System.out.println("Modify which? ");
+                    System.out.print("Home: [1]Start Date [2]End Date [3]Booking Type [4]Member Count [5]PlotID [6]Back");
+                    System.out.println("GuestID = " + bookingguestid);
+                    System.out.println("Start Date = " + bookingstartDate);
+                    System.out.println("End Date = " + refundendDate);
+                    System.out.println("Booking Type = " + bookingtype);
+                    System.out.println("Member Count = " + bookingmemberCount);
+                    System.out.println("PlotID = " + bookingplotID);
+                    switch (obIn.nextInt()) {
+                        case 1:
+                            BookingstartdateScreen();
+                            break;
+                        case 2:
+                            BookingenddateScreen();
+
+                            break;
+                        case 3:
+                            BookingtypeScreen();
+
+                            break;
+                        case 4:
+                            BookingmemberScreen();
+
+                            break;
+                        case 5:
+                            BookingplotidScreen();
+
+                            break;
+                        case 6:
+                            bookingManagerScreen();
+
+                            break;
+                        default:
+                            System.out.println("Invalid option, please try again");
+                            break;
+                    }
+
+                } else {
+                    System.out.println("Invalid Booking ID");
+                }
             }
-
-            System.out.println("");
-            System.out.println("");
-        } while (!bGuestID);
-
-        System.out.println("Modify which? ");
-        System.out.print("Home: [1]Start Date [2]End Date [3]Booking Type [4]Member Count [5]PlotID");
-        System.out.println("GuestID = " + nGuestID);
-        System.out.println("Start Date = " + bookingstartDate);
-        System.out.println("End Date = " + refundendDate);
-        System.out.println("Booking Type = " + bookingtype);
-        System.out.println("Member Count = " + bookingmemberCount);
-        System.out.println("PlotID = " + bookingplotID);
-        switch (obIn.nextLine()) {
-            case "1":
-                BookingstartdateScreen();
-                break;
-            case "2":
-                BookingenddateScreen();
-
-                break;
-            case "3":
-                BookingtypeScreen();
-
-                break;
-            case "4":
-                BookingmemberScreen();
-
-                break;
-            case "5":
-                BookingplotidScreen();
-
-                break;
-            default:
-                System.out.println("Invalid option, please try again");
-                break;
+        } while (!bbookingID) ;
         }
 
         /*
@@ -462,7 +521,6 @@ public class BusinessManager {
 
          */
 
-    }
     public static void BookingstartdateScreen(){
         boolean bStartDate = false;
         do {

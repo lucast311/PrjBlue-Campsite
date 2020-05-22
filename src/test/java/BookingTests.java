@@ -93,9 +93,7 @@ public class BookingTests
 	{
 		Date startDate= new Date(2020,7,20);
 		Date endDate= new Date(2020,7,25);
-
-		Booking obBooking=new Booking(2,1,startDate,
-				endDate, BookingType.Cabin,4);
+		Booking obBooking=new Booking(2,1,startDate,endDate, BookingType.Cabin,4);
 
 		assertEquals(2,obBooking.getBookingID());
 		assertEquals(2,obBooking.getPlotID());
@@ -164,9 +162,7 @@ public class BookingTests
 		Date failStart=new Date(2019,4,3);
 		Date failEnd=new Date(2020,5,19);
 
-
-		Booking obBooking=new Booking(2,1,startDate,
-				endDate, BookingType.Cabin,4);
+		Booking obBooking=new Booking(2,2,startDate, endDate, BookingType.Cabin,4);
 
 		//Proper valid values tested
 		obBooking.changeStart(newStart);
