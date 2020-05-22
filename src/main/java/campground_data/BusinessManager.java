@@ -99,21 +99,21 @@ public class BusinessManager {
 
     public static void removeBookingScreen()
     {
-        ArrayList<Booking> arBookingList = bookingHelper.getBookingList();
-        for (Booking args : arBookingList)
+        ArrayList<Guest> arGuestList = guestHelper.getGuestAccounts();
+        for (Guest args : arGuestList)
         {
             System.out.println(args.toString());
         }
+        System.out.println("Please enter a Guest ID to find booking to remove: [0]Back ");
 
-        System.out.println("Please Enter a booking ID for removal: [0]Back ");
-        int bookingID=obIn.nextInt();
-        if(bookingID==0)
+        int guestID=obIn.nextInt();
+        if(guestID==0)
         {
             bookingManagerScreen();
         }
         else
         {
-            Booking obFound=bookingHelper.searchBookingId(bookingID);
+            Booking obFound=bookingHelper.search(guestID);
             if(obFound!=null)
             {
                 System.out.println("Found a booking with that ID!");
