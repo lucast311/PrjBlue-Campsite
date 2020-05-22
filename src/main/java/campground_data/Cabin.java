@@ -3,13 +3,18 @@ package campground_data;
 public class Cabin extends Plot {
     private CabinType type; //help
 
-    public Cabin(int cabinNum, int occupancy, CabinType CabinType, double price, boolean underReno, boolean booked) {
-        super(cabinNum, occupancy, price, underReno, booked);
-        this.type = CabinType;
+    public enum CabinType {
+        Deluxe,
+        Basic;
+    }
+
+    public Cabin(int cabinNum, int occupancy, CabinType type, double price, boolean underReno) {
+        super(cabinNum, occupancy, price, underReno, false);
+        this.type = type;
     }
 
     public CabinType getCabinType() {
-        return type;
+        return this.type;
     }
 
     public void setCabinType(CabinType type) {
@@ -19,7 +24,7 @@ public class Cabin extends Plot {
     @Override
     public String toString() {
         return "Cabin{" +
-                "CabinType=" + type +
+                "CabinType=" + this.type +
                 '}';
     }
 }

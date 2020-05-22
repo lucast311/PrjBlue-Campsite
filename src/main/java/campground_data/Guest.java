@@ -11,6 +11,8 @@ import javax.validation.constraints.*;
  */
 public class Guest  implements Serializable {
 
+    private static int nGuestIdCount = 1;
+
     @NotEmpty(message = "First name must be greater than 0 characters")
     @Size(max=20, message = "First name must be less than or equal to 20 characters")
     private String firstName;
@@ -31,11 +33,14 @@ public class Guest  implements Serializable {
     @Pattern(regexp = "^\\d{16}$", message = "Credit card number must only contain digits and be 16 digits long")
     private String creditCardNum;
 
+    private int guestID;
+
     private Address address;
 
     public Guest(String firstName, String lastName, String email, String phoneNumber, PaymentType paymentMethod,
                  String creditCardNum, Address address) {
 
+        this.guestID = nGuestIdCount++;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -78,6 +83,8 @@ public class Guest  implements Serializable {
         return address;
     }
 
+    public int getGuestID() { return this.guestID; }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -105,7 +112,6 @@ public class Guest  implements Serializable {
     public void setAddress(Address address) {
         this.address = address;
     }
-
 
     @Override
     public String toString() {
