@@ -13,7 +13,9 @@ public class BusinessManager {
     private static PlotHelper plotHelper = new PlotHelper();
     private static OwnerHelper ownerHelper = new OwnerHelper();
     private static GuestHelper guestHelper = new GuestHelper();
-    private static ArrayList<Owner> ownerList = OwnerHelper.getOwnerList();
+    private static DatabaseFile dbfile = new DatabaseFile();
+    private static ArrayList<Owner> ownerList = ownerHelper.getOwnerList();
+    private static ArrayList<Plot> sites = plotHelper.getPlotList();
 
     private static Scanner obIn = new Scanner(System.in);
 
@@ -28,12 +30,17 @@ public class BusinessManager {
 
     public static void main(String[] args) {
 
-        Owner harry = new Owner("harry", "louis", "Pa$$w0rd", "555-555-5555", "test@gmail.com", 3, true);
-        ownerList.add(harry);
         LogIn();
 
         //Guest added for testing, ID will be 1
         guestHelper.addGuest(new Guest("Test", "Mctester", "mctester@gmail.com", "3060203345", PaymentType.Credit, "1563 1222 1589 5489", new Address(121, 0, "Test Cres.", "Saskatoon", "Saskatchewan", "Canada", "S1N2P3")));
+
+        //adding site for testing
+        plotHelper.addPlot(new Site(2, 4, 50, Site.SiteType.Group, true, true));
+
+        //adding cabin for testing
+        plotHelper.addPlot(new Cabin(1, 4, Cabin.CabinType.Deluxe, 100, false));
+
         homeScreen();
 
 
@@ -495,7 +502,7 @@ public class BusinessManager {
                 if (refundendDate.compareTo(bookingstartDate) > 0) {
                     if (refundendDate.compareTo(bookingenddate) < 0) {
                         bEndDate = true;
-                        refundConfirm();
+//                        refundConfirm();
                     }else {
                         bEndDate = true;
                         searchbooking.changeEnd(refundendDate);
@@ -632,21 +639,12 @@ public class BusinessManager {
     {
         boolean back = false;
         do{
-            System.out.print("Plot Manager: [1]Add Plot [2]Remove Plot [3]Modify Plot [4]Find Plot [5]Back:");
+            System.out.print("Plot Manager: [1]Modify Plot [2]Back:");
             switch (obIn.nextLine()) {
                 case "1":
-                    ;
-                    break;
-                case "2":
-                    ;
-                    break;
-                case "3":
                     modifyPlotTypesScreen();
                     break;
-                case "4":
-                    ;
-                    break;
-                case "5":
+                case "2":
                     back = true;
                     break;
                 default:
@@ -663,18 +661,18 @@ public class BusinessManager {
 
 
     public static void modifyPlotTypesScreen() {
-        System.out.println("Please select an option: [1]Change Plot Attributes  [2]Change Cabin Attributes  [3]Change Site Attributes  [4]Back");
-        switch (obIn.next()) {
+        System.out.println("Please select an option: [1]Change Cabin Attributes  [2]Change Site Attributes  [3]Back");
+        switch (obIn.nextLine()) {
+//            case "1":
+//                modifyPlotsScreen();
+//                break;
             case "1":
-                modifyPlotsScreen();
-                break;
-            case "2":
                 modifyCabinScreen();
                 break;
-            case "3":
+            case "2":
                 modifySiteScreen();
                 break;
-            case "4":
+            case "3":
                 plotManagerScreen();
                 break;
             default:
@@ -684,133 +682,100 @@ public class BusinessManager {
         }
     }
 
-    public static void modifyPlotsScreen()
-    {
-        System.out.println("Please enter a Plot ID:");
-        int nPlotID=obIn.nextInt();
-        Plot obFound=plotHelper.searchPlot(nPlotID);
-        if(obFound!=null)
-        {
-            System.out.println("Plot Found!");
-            System.out.println("Please select an attribute to be changed: [1]PlotID  [2]Occupancy  [3]Price  [4]Under Renovation? [5]Booked? [6]Back");
-
-            switch(obIn.next())
-            {
-                case "1":
-                    System.out.println("Please enter a new plot ID: ");
-                    obFound.setPlotID(obIn.nextInt());
-                    break;
-                case "2":
-                    System.out.println("Please enter a new occupancy value: ");
-                    obFound.setOccupancy(obIn.nextInt());
-                    break;
-                case "3":
-                    System.out.println("Please enter a new price:");
-                    obFound.setPrice(obIn.nextDouble());
-                    break;
-                case "4":
-                    System.out.println("Is the plot under renovation? [Y/N]");
-                    switch(obIn.next())
-                    {
-                        case "Y":
-                        case "y":
-                            obFound.setUnderReno(true);
-                            break;
-                        case "N":
-                        case "n":
-                            obFound.setUnderReno(false);
-                            break;
-                        default:
-                            System.out.println("Invalid option, please try again");
-                            modifyPlotsScreen();
-                    }
-                    break;
-                case "5":
-                    System.out.println("Is the plot booked? [Y/N]");
-                    switch(obIn.next())
-                    {
-                        case "Y":
-                        case "y":
-                            obFound.setBooked(true);
-                            break;
-                        case "N":
-                        case "n":
-                            obFound.setBooked(false);
-                            break;
-                        default:
-                            System.out.println("Invalid option, please try again");
-                            modifyPlotsScreen();
-                    }
-                    break;
-                case "6":
-                    modifyPlotTypesScreen();
-                    break;
-                default:
-                    System.out.println("Invalid option, please try again");
-                    modifyPlotsScreen();
-                    break;
-            }
-        }
-        else
-        {
-            System.out.println("No Plot found with that ID. Try again");
-            modifyPlotsScreen();
-        }
-
-    }
-
     public static void modifyCabinScreen()
     {
         System.out.println("Please enter a Cabin Number:");
-        int nCabinNum=obIn.nextInt();
-        Plot obFound=plotHelper.searchPlot(nCabinNum); //Needs to be changed to Cabin
+        int nCabinNum=Integer.parseInt(obIn.nextLine());
+        Cabin obFound=plotHelper.searchCabin(nCabinNum); //Needs to be changed to Cabin
         if(obFound!=null)
         {
             System.out.println("Cabin Found!");
             System.out.println("Please select an attribute to be changed: [1]Cabin Number  [2]Occupancy  [3]Type  [4]Price  [5]Under Renovation? [6]Booked? [7]Back");
 
-            switch(obIn.next())
+            switch(obIn.nextLine())
             {
                 case "1":
                     System.out.println("Please enter a new cabin number: ");
-                    obFound.setPlotID(obIn.nextInt());
+                    obFound.setPlotID(Integer.parseInt(obIn.nextLine()));
+                    //print toString to display changes
+                    System.out.println("Changes made:");
+                    System.out.println(obFound.toString());
                     break;
                 case "2":
                     System.out.println("Please enter a new occupancy value: ");
-                    obFound.setOccupancy(obIn.nextInt());
+                    obFound.setOccupancy(Integer.parseInt(obIn.nextLine()));
+                    //print toString to display changes
+                    System.out.println("Changes made:");
+                    System.out.println(obFound.toString());
                     break;
-                case "4":
-                    System.out.println("Please enter a new price:");
-                    obFound.setPrice(obIn.nextDouble());
-                    break;
-                case "5":
-                    System.out.println("Is the cabin under renovation? [Y/N]");
-                    switch(obIn.next())
+                case "3":
+                    System.out.println("Select: [B]asic [D]eluxe");
+                    switch (obIn.nextLine().toUpperCase())
                     {
-                        case "Y":
-                        case "y":
-                            obFound.setUnderReno(true);
+                        case "B":
+                            obFound.setCabinType(Cabin.CabinType.Basic);
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
                             break;
-                        case "N":
-                        case "n":
-                            obFound.setUnderReno(false);
+                        case "D":
+                            obFound.setCabinType(Cabin.CabinType.Deluxe);
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
                             break;
                         default:
                             System.out.println("Invalid option, please try again");
+                            //print toString to display changes
+                            System.out.println("Changes not made:");
+                            System.out.println(obFound.toString());
+                            modifyCabinScreen();
+                            break;
+                    }
+                case "4":
+                    System.out.println("Please enter a new price:");
+                    obFound.setPrice(Double.parseDouble(obIn.nextLine()));
+                    //print toString to display changes
+                    System.out.println("Changes made:");
+                    System.out.println(obFound.toString());
+                    break;
+                case "5":
+                    System.out.println("Is the cabin under renovation? [Y/N]");
+                    switch(obIn.nextLine().toUpperCase())
+                    {
+                        case "Y":
+                            obFound.setUnderReno(true);
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
+                            break;
+                        case "N":
+                            obFound.setUnderReno(false);
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
+                            break;
+                        default:
+                            System.out.println("Invalid option, please try again");
+
                             modifyCabinScreen();
                     }
                     break;
                 case "6":
                     System.out.println("Is the cabin booked? [Y/N]");
-                    switch(obIn.next())
+                    switch(obIn.nextLine().toUpperCase())
                     {
                         case "Y":
-                        case "y":
                             obFound.setBooked(true);
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
                             break;
                         case "N":
-                        case "n":
                             obFound.setBooked(false);
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
                             break;
                         default:
                             System.out.println("Invalid option, please try again");
@@ -819,12 +784,21 @@ public class BusinessManager {
                     break;
                 case "7":
                     modifyPlotTypesScreen();
+                    //print toString to display changes
+                    System.out.println("Changes made:");
+                    System.out.println(obFound.toString());
                     break;
                 default:
                     System.out.println("Invalid option, please try again");
+                    //print toString to display changes
+                    System.out.println("Changes not made:");
+                    System.out.println(obFound.toString());
                     modifyCabinScreen();
                     break;
             }
+
+            //print toString to display changes
+            System.out.println(obFound.toString());
         }
         else
         {
@@ -836,39 +810,76 @@ public class BusinessManager {
     public static void modifySiteScreen()
     {
         System.out.println("Please enter a Site Number:");
-        int nSiteNum=obIn.nextInt();
-        Plot obFound=plotHelper.searchPlot(nSiteNum);//Needs to be changed to Site
+        int nSiteNum=Integer.parseInt(obIn.nextLine());
+        Site obFound=plotHelper.searchSite(nSiteNum);
         if(obFound!=null)
         {
             System.out.println("Site Found!");
             System.out.println("Please select an attribute to be changed: [1]Site Number  [2]Occupancy  [3]Type  [4]Price  " +
                     "[5]Under Renovation? [6]Booked? [7]Serviced? [8]Back");
 
-            switch(obIn.next())
+            switch(obIn.nextLine())
             {
                 case "1":
                     System.out.println("Please enter a new site number: ");
-                    obFound.setPlotID(obIn.nextInt());
+                    obFound.setPlotID(Integer.parseInt(obIn.nextLine()));
+                    //print toString to display changes
+                    System.out.println("Changes made:");
+                    System.out.println(obFound.toString());
                     break;
                 case "2":
                     System.out.println("Please enter a new occupancy value: ");
-                    obFound.setOccupancy(obIn.nextInt());
+                    obFound.setOccupancy(Integer.parseInt(obIn.nextLine()));
+                    //print toString to display changes
+                    System.out.println("Changes made:");
+                    System.out.println(obFound.toString());
                     break;
+                case "3":
+                    System.out.println("Select: [G]roup [I]ndividual");
+                    switch (obIn.nextLine().toUpperCase())
+                    {
+                        case "G":
+                            obFound.setSiteType(Site.SiteType.Group);
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
+                            break;
+                        case "I":
+                            obFound.setSiteType(Site.SiteType.Individual);
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
+                            break;
+                        default:
+                            System.out.println("Invalid option, please try again");
+                            //print toString to display changes
+                            System.out.println("Changes not made:");
+                            System.out.println(obFound.toString());
+                            modifySiteScreen();
+                            break;
+                    }
                 case "4":
                     System.out.println("Please enter a new price:");
-                    obFound.setPrice(obIn.nextDouble());
+                    obFound.setPrice(Double.parseDouble(obIn.nextLine()));
+                    //print toString to display changes
+                    System.out.println("Changes made:");
+                    System.out.println(obFound.toString());
                     break;
                 case "5":
                     System.out.println("Is the site under renovation? [Y/N]");
-                    switch(obIn.next())
+                    switch(obIn.nextLine().toUpperCase())
                     {
                         case "Y":
-                        case "y":
                             obFound.setUnderReno(true);
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
                             break;
                         case "N":
-                        case "n":
                             obFound.setUnderReno(false);
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
                             break;
                         default:
                             System.out.println("Invalid option, please try again");
@@ -877,14 +888,18 @@ public class BusinessManager {
                     break;
                 case "6":
                     System.out.println("Is the site booked? [Y/N]");
-                    switch(obIn.next())
+                    switch(obIn.nextLine().toUpperCase())
                     {
                         case "Y":
-                        case "y":
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
                             obFound.setBooked(true);
                             break;
                         case "N":
-                        case "n":
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
                             obFound.setBooked(false);
                             break;
                         default:
@@ -894,15 +909,19 @@ public class BusinessManager {
                     break;
                 case "7":
                     System.out.println("Is the site serviced? [Y/N]");
-                    switch(obIn.next())
+                    switch(obIn.nextLine().toUpperCase())
                     {
                         case "Y":
-                        case "y":
-                            //obFound.setServiced(true);
+                            obFound.setServiced(true);
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
                             break;
                         case "N":
-                        case "n":
-                            //obFound.setServiced(false);
+                            obFound.setServiced(false);
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
                             break;
                         default:
                             System.out.println("Invalid option, please try again");
@@ -911,12 +930,20 @@ public class BusinessManager {
                     break;
                 case "8":
                     modifyPlotTypesScreen();
+                    //print toString to display changes
+                    System.out.println("Changes made:");
+                    System.out.println(obFound.toString());
                     break;
                 default:
                     System.out.println("Invalid option, please try again");
+                    //print toString to display changes
+                    System.out.println("Changes not made:");
+                    System.out.println(obFound.toString());
                     modifySiteScreen();
                     break;
             }
+
+
         }
         else
         {
@@ -939,7 +966,7 @@ public class BusinessManager {
                     ;
                     break;
                 case "3":
-                    ;
+                    forceChangePassword(currUser);
                     break;
                 case "4":
                     ;
@@ -961,58 +988,102 @@ public class BusinessManager {
 
     public static void LogIn()
     {
-
-        boolean user = false;
         boolean pass = false;
-        while (!user) {
+        while (currUser == null)
+        {
             System.out.println("Enter your UserID");
             String userID = obIn.nextLine();
-            if (validateId(userID)) {
-                user = true;
-            } else {
+
+            currUser = validateId(userID);
+
+            if(currUser == null)
+            {
                 System.out.println("UserID not found");
             }
         }
-        while (!pass) {
+        while (!pass)
+        {
             System.out.println("Enter your password");
             String userPass = obIn.nextLine();
-            if (validatePassword(userPass)) {
+            if(validatePassword(currUser, userPass))
+            {
                 pass = true;
+
                 System.out.println("Log In successful. Select from the following menu items");
                 System.out.println();
-            } else {
+            }
+            else
+            {
                 System.out.println("Password incorrect, try again");
             }
         }
     }
-
-
-    public static boolean validateId(String userID) {
-        for (Owner owner : ownerList) {
-            if (owner.getUserId().compareTo(userID) == 0) {
-                return true;
+    public void managebooking()
+    {
+    }
+    public static Owner validateId(String userID)
+    {
+        for (Owner owner : ownerList)
+        {
+            if(owner.getUserId().compareTo(userID) == 0)
+            {
+                return owner;
             }
+        }
+        return null;
+    }
+
+    public static boolean validatePassword(Owner owner, String password)
+    {
+        if(owner.getPassword().compareTo(password) == 0)
+        {
+            if(password.equals(""))
+            {
+                forceChangePassword(owner);
+            }
+            return true;
         }
         return false;
     }
 
-    public static boolean validatePassword(String password) {
-        for (Owner owner : ownerList) {
-            if (owner.getPassword().compareTo(password) == 0) {
-                return true;
+    public static void forceChangePassword(Owner owner)
+    {
+        boolean changed = false;
+        while(!changed)
+        {
+            System.out.println("Please change your password");
+            System.out.println("Enter new password");
+            String sPass = obIn.nextLine();
+            System.out.println("Enter new password again to confirm");
+            String sConfirm = obIn.nextLine();
+            if(sPass.equals(sConfirm))
+            {
+
+                if(owner.changePassword(sPass)) {
+                    Thread th1 = new Thread(() -> {
+                        dbfile.saveRecords(ownerList);
+                    });
+                    th1.start();
+                    changed = true;
+                    System.out.println("Password changed successfully");
+                }
+                else
+                {
+                    System.out.println("New password must be at least 8 characters");
+                }
+            }
+            else
+            {
+                System.out.println("The passwords do not match, change rejected");
             }
         }
-        return false;
     }
-
-
-
 
 //    public static Object search(Object obVal)
 //    {}
 
 
-        public static void refundConfirm(){
+        public static void refundConfirm() {
             //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             System.out.print("Actions: Refund for remaining days?");
             Date date3 = new Date();
@@ -1201,12 +1272,81 @@ public class BusinessManager {
         }
 
 
+    public static void createOwners()
+    {
+        Owner harry = new Owner("harry", "louis", "Mounta1nM@n", "555-555-5555", "hlouis@cestlake.ca", 3, true);
+        Owner mary = new Owner("mary", "louis", "F1uffyC@ts", "555-555-5555", "mlouis@cestlake.ca", 3, true);
+        Owner tom = new Owner("tom", "louis", "", "498-2772-7512", "tlouis@cestlake.ca", 2, false);
+        Owner sarah = new Owner("sarah", "louis", "", "872-848-1480", "slouis@cestlake.ca", 2, false);
+        Owner guest = new Owner("guest", "login", "Pa$$w0rd", "n/a", "info@cestlake.ca", 1, false);
+        ownerList.add(harry);
+        ownerList.add(mary);
+        ownerList.add(tom);
+        ownerList.add(sarah);
+        ownerList.add(guest);
+        dbfile.saveRecords(ownerList);
+    }
+
+    public static void createPlots()
+    {
+        Site site1 = new Site(100, 4,32.00, Site.SiteType.Individual, true, false);
+        Site site2 = new Site(101, 4,32.00, Site.SiteType.Individual,  true, false);
+        Site site3 = new Site(102, 4,32.00, Site.SiteType.Individual,  true, false);
+        Site site4 = new Site(103, 4,32.00, Site.SiteType.Individual,  true, false);
+        Site site5 = new Site(104, 4,32.00, Site.SiteType.Individual,  true, false);
+        Site site6 = new Site(105, 4,20.00, Site.SiteType.Individual,  false, false);
+        Site site7 = new Site(106, 4,20.00, Site.SiteType.Individual,  false, false);
+        Site site8 = new Site(107, 4,20.00, Site.SiteType.Individual,  false, false);
+        Site site9 = new Site(108, 4,20.00, Site.SiteType.Individual,  false, false);
+        Site site10 = new Site(109, 4,20.00, Site.SiteType.Individual,  false, false);
+        Site site11 = new Site(110, 4,20.00, Site.SiteType.Individual,  false, false);
+        Site site12 = new Site(111, 4,20.00, Site.SiteType.Individual,  false, false);
+        Site site13= new Site(112, 4,20.00, Site.SiteType.Individual,  false, false);
+        Site site14 = new Site(113, 4,20.00, Site.SiteType.Individual,  false, false);
+        Site site15 = new Site(114, 4,20.00, Site.SiteType.Individual,  false, false);
+        Site site16 = new Site(115, 8,64.00, Site.SiteType.Group,  true, false);
+        Site site17 = new Site(116, 8,64.00,  Site.SiteType.Group, true, false);
+        Site site18 = new Site(117, 8,64.00, Site.SiteType.Group,  true, false);
+        Site site19 = new Site(118, 8,64.00, Site.SiteType.Group,  true, false);
+        Site site20 = new Site(119, 8,64.00, Site.SiteType.Group,  true, false);
+        Site site21 = new Site(120, 8,40.00, Site.SiteType.Group,  false, false);
+        Site site22 = new Site(121, 8,40.00, Site.SiteType.Group, false, false);
+        Site site23 = new Site(122, 8,40.00, Site.SiteType.Group,  false, false);
+        Site site24 = new Site(123, 8,40.00, Site.SiteType.Group,  false, false);
+        Site site25 = new Site(124, 8,40.00, Site.SiteType.Group,  false, false);
+
+        sites.add(site1);
+        sites.add(site2);
+        sites.add(site3);
+        sites.add(site4);
+        sites.add(site5);
+        sites.add(site6);
+        sites.add(site7);
+        sites.add(site8);
+        sites.add(site9);
+        sites.add(site10);
+        sites.add(site11);
+        sites.add(site12);
+        sites.add(site13);
+        sites.add(site14);
+        sites.add(site15);
+        sites.add(site16);
+        sites.add(site17);
+        sites.add(site18);
+        sites.add(site19);
+        sites.add(site20);
+        sites.add(site21);
+        sites.add(site22);
+        sites.add(site23);
+        sites.add(site24);
+        sites.add(site25);
+        dbfile.saveRecords(sites);
+    }
+
     public static PlotHelper getPlotHelper()
     {
         return plotHelper;
     }
-
-
 }
 
 
