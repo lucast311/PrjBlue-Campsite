@@ -500,7 +500,7 @@ public class BusinessManager {
                 if (refundendDate.compareTo(bookingstartDate) > 0) {
                     if (refundendDate.compareTo(bookingenddate) < 0) {
                         bEndDate = true;
-                        refundConfirm();
+//                        refundConfirm();
                     }else {
                         bEndDate = true;
                         searchbooking.changeEnd(refundendDate);
@@ -630,21 +630,12 @@ public class BusinessManager {
     {
         boolean back = false;
         do{
-            System.out.print("Plot Manager: [1]Add Plot [2]Remove Plot [3]Modify Plot [4]Find Plot [5]Back:");
+            System.out.print("Plot Manager: [1]Modify Plot [2]Back:");
             switch (obIn.nextLine()) {
                 case "1":
-                    ;
-                    break;
-                case "2":
-                    ;
-                    break;
-                case "3":
                     modifyPlotTypesScreen();
                     break;
-                case "4":
-                    ;
-                    break;
-                case "5":
+                case "2":
                     back = true;
                     break;
                 default:
@@ -686,7 +677,7 @@ public class BusinessManager {
     {
         System.out.println("Please enter a Cabin Number:");
         int nCabinNum=Integer.parseInt(obIn.nextLine());
-        Plot obFound=plotHelper.searchCabin(nCabinNum); //Needs to be changed to Cabin
+        Cabin obFound=plotHelper.searchCabin(nCabinNum); //Needs to be changed to Cabin
         if(obFound!=null)
         {
             System.out.println("Cabin Found!");
@@ -708,6 +699,30 @@ public class BusinessManager {
                     System.out.println("Changes made:");
                     System.out.println(obFound.toString());
                     break;
+                case "3":
+                    System.out.println("Select: [B]asic [D]eluxe");
+                    switch (obIn.nextLine().toUpperCase())
+                    {
+                        case "B":
+                            obFound.setCabinType(Cabin.CabinType.Basic);
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
+                            break;
+                        case "D":
+                            obFound.setCabinType(Cabin.CabinType.Deluxe);
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
+                            break;
+                        default:
+                            System.out.println("Invalid option, please try again");
+                            //print toString to display changes
+                            System.out.println("Changes not made:");
+                            System.out.println(obFound.toString());
+                            modifyCabinScreen();
+                            break;
+                    }
                 case "4":
                     System.out.println("Please enter a new price:");
                     obFound.setPrice(Double.parseDouble(obIn.nextLine()));
@@ -810,6 +825,30 @@ public class BusinessManager {
                     System.out.println("Changes made:");
                     System.out.println(obFound.toString());
                     break;
+                case "3":
+                    System.out.println("Select: [G]roup [I]ndividual");
+                    switch (obIn.nextLine().toUpperCase())
+                    {
+                        case "G":
+                            obFound.setSiteType(Site.SiteType.Group);
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
+                            break;
+                        case "I":
+                            obFound.setSiteType(Site.SiteType.Individual);
+                            //print toString to display changes
+                            System.out.println("Changes made:");
+                            System.out.println(obFound.toString());
+                            break;
+                        default:
+                            System.out.println("Invalid option, please try again");
+                            //print toString to display changes
+                            System.out.println("Changes not made:");
+                            System.out.println(obFound.toString());
+                            modifySiteScreen();
+                            break;
+                    }
                 case "4":
                     System.out.println("Please enter a new price:");
                     obFound.setPrice(Double.parseDouble(obIn.nextLine()));
@@ -991,193 +1030,193 @@ public class BusinessManager {
 //    {}
 
 
-        public static void refundConfirm(){
-            //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            System.out.print("Actions: Refund for remaining days?");
-            Date date3 = new Date();
-            Date date4 = searchbooking.getEndDate();
-            int price;
-            int plotid = bookingplotID;
-            //plotHelper.searchPlot(plotid);
-            Plot priceplot = PlotHelper.searchPlot(plotid);//whyyyyyyyy
-                price = (int) priceplot.getPrice();
-            long startTime2 = date3.getTime();
-            long endTime2 = date4.getTime();
-            long diffTime2 = endTime2 - startTime2;
-            long diffDays2 = diffTime2 / (1000 * 60 * 60 * 24);
-
-            int ratething = (int) diffDays2;
-            ratething = price / ratething;
-
-            switch (obIn.nextLine().toUpperCase()) {
-                case "Yes":
-
-                    if (searchbooking.getPaid() == true) {
-                        System.out.print("Total amount refunded: " + ratething);
-                        System.out.print("Done?");
-                        //if yes
-                        switch (obIn.nextLine().toUpperCase()) {
-                            case "Yes":
-
-                                //bookingHelper.removeBooking(searchbooking);
-                                searchbooking.setTotal((searchbooking.getTotal() - ratething));
-                                searchbooking.changeEnd(refundendDate);
-                                System.out.println("Success");
-                                //move to main
-                                bookingManagerScreen();
-
-                                break;
-                            case "Y":
-
-                                //bookingHelper.removeBooking(searchbooking);
-                                searchbooking.setTotal((searchbooking.getTotal() - ratething));
-                                searchbooking.changeEnd(refundendDate);
-                                System.out.println("Success");
-                                //move to main
-                                bookingManagerScreen();
-
-                                break;
-
-                            default:
-
-                                break;
-                        }
-
-                    } else {
-                        System.out.print("Total amount refunded: " + (searchbooking.getTotal() - ratething));
-                        System.out.print("Done?");
-                        //if yes
-                        switch (obIn.nextLine().toUpperCase()) {
-                            case "Yes":
-
-                                //bookingHelper.removeBooking(searchbooking);
-                                searchbooking.setPaid(true);
-                                searchbooking.setTotal((searchbooking.getTotal() - ratething));
-                                searchbooking.changeEnd(refundendDate);
-                                System.out.println("Success");
-                                //move to main
-                                bookingManagerScreen();
-
-                                break;
-                            case "Y":
-
-                                //bookingHelper.removeBooking(searchbooking);
-                                searchbooking.setPaid(true);
-                                searchbooking.setTotal((searchbooking.getTotal() - ratething));
-                                searchbooking.changeEnd(refundendDate);
-                                System.out.println("Success");
-                                //move to main
-                                bookingManagerScreen();
-
-                                break;
-
-                            default:
-
-                                break;
-
-                        }
-                    }
-
-
-                    break;
-
-                case "Y":
-                    if (searchbooking.getPaid() == true) {
-                        System.out.print("Total amount refunded: " + ratething);
-                        System.out.print("Actions: Done?");
-                        //if yes
-                        switch (obIn.nextLine().toUpperCase()) {
-                            case "Yes":
-
-                                //bookingHelper.removeBooking(searchbooking);
-                                searchbooking.setTotal((searchbooking.getTotal() - ratething));
-                                searchbooking.changeEnd(refundendDate);
-                                System.out.println("Success");
-                                //move to main
-                                bookingManagerScreen();
-
-                                break;
-                            case "Y":
-
-                                //bookingHelper.removeBooking(searchbooking);
-                                searchbooking.setTotal((searchbooking.getTotal() - ratething));
-                                searchbooking.changeEnd(refundendDate);
-                                System.out.println("Success");
-                                //move to main
-                                bookingManagerScreen();
-
-                                break;
-
-                            default:
-
-                                break;
-
-                        }
-                    } else {
-                        System.out.print("Total amount refunded: " + (searchbooking.getTotal() - ratething));
-                        System.out.print("Actions: Done?");
-                        //if yes
-                        switch (obIn.nextLine().toUpperCase()) {
-                            case "Yes":
-
-                                //bookingHelper.removeBooking(searchbooking);
-                                searchbooking.setPaid(true);
-                                searchbooking.setTotal((searchbooking.getTotal() - ratething));
-                                searchbooking.changeEnd(refundendDate);
-                                System.out.println("Success");
-                                //move to main
-                                bookingManagerScreen();
-
-                                break;
-                            case "Y":
-
-                                //bookingHelper.removeBooking(searchbooking);
-                                searchbooking.setPaid(true);
-                                searchbooking.setTotal((searchbooking.getTotal() - ratething));
-                                searchbooking.changeEnd(refundendDate);
-                                System.out.println("Success");
-                                //move to main
-                                bookingManagerScreen();
-
-                                break;
-
-                            default:
-
-                                break;
-
-
-                        }
-                    }
-
-                    break;
-                case "N":
-                    //refundConfirm();
-                    System.out.print("Total amount: " + price);
-                    searchbooking.setPaid(true);
-                    searchbooking.changeEnd(refundendDate);
-                    System.out.println("Success");
-                    //move to main
-                    bookingManagerScreen();
-
-                    break;
-                case "No":
-                    //refundConfirm();
-                    System.out.print("Total amount: " + price);
-                    searchbooking.setPaid(true);
-                    searchbooking.changeEnd(refundendDate);
-                    System.out.println("Success");
-                    //move to main
-                    bookingManagerScreen();
-                    break;
-                default:
-                    //error message
-                    System.out.print("Please input yes,y or no,n");
-                    refundConfirm();
-                    break;
-
-
-            }
-        }
+//        public static void refundConfirm(){
+//            //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//            System.out.print("Actions: Refund for remaining days?");
+//            Date date3 = new Date();
+//            Date date4 = searchbooking.getEndDate();
+//            int price;
+//            int plotid = bookingplotID;
+//            //plotHelper.searchPlot(plotid);
+//            Plot priceplot = PlotHelper.searchPlot(plotid);//whyyyyyyyy
+//                price = (int) priceplot.getPrice();
+//            long startTime2 = date3.getTime();
+//            long endTime2 = date4.getTime();
+//            long diffTime2 = endTime2 - startTime2;
+//            long diffDays2 = diffTime2 / (1000 * 60 * 60 * 24);
+//
+//            int ratething = (int) diffDays2;
+//            ratething = price / ratething;
+//
+//            switch (obIn.nextLine().toUpperCase()) {
+//                case "Yes":
+//
+//                    if (searchbooking.getPaid() == true) {
+//                        System.out.print("Total amount refunded: " + ratething);
+//                        System.out.print("Done?");
+//                        //if yes
+//                        switch (obIn.nextLine().toUpperCase()) {
+//                            case "Yes":
+//
+//                                //bookingHelper.removeBooking(searchbooking);
+//                                searchbooking.setTotal((searchbooking.getTotal() - ratething));
+//                                searchbooking.changeEnd(refundendDate);
+//                                System.out.println("Success");
+//                                //move to main
+//                                bookingManagerScreen();
+//
+//                                break;
+//                            case "Y":
+//
+//                                //bookingHelper.removeBooking(searchbooking);
+//                                searchbooking.setTotal((searchbooking.getTotal() - ratething));
+//                                searchbooking.changeEnd(refundendDate);
+//                                System.out.println("Success");
+//                                //move to main
+//                                bookingManagerScreen();
+//
+//                                break;
+//
+//                            default:
+//
+//                                break;
+//                        }
+//
+//                    } else {
+//                        System.out.print("Total amount refunded: " + (searchbooking.getTotal() - ratething));
+//                        System.out.print("Done?");
+//                        //if yes
+//                        switch (obIn.nextLine().toUpperCase()) {
+//                            case "Yes":
+//
+//                                //bookingHelper.removeBooking(searchbooking);
+//                                searchbooking.setPaid(true);
+//                                searchbooking.setTotal((searchbooking.getTotal() - ratething));
+//                                searchbooking.changeEnd(refundendDate);
+//                                System.out.println("Success");
+//                                //move to main
+//                                bookingManagerScreen();
+//
+//                                break;
+//                            case "Y":
+//
+//                                //bookingHelper.removeBooking(searchbooking);
+//                                searchbooking.setPaid(true);
+//                                searchbooking.setTotal((searchbooking.getTotal() - ratething));
+//                                searchbooking.changeEnd(refundendDate);
+//                                System.out.println("Success");
+//                                //move to main
+//                                bookingManagerScreen();
+//
+//                                break;
+//
+//                            default:
+//
+//                                break;
+//
+//                        }
+//                    }
+//
+//
+//                    break;
+//
+//                case "Y":
+//                    if (searchbooking.getPaid() == true) {
+//                        System.out.print("Total amount refunded: " + ratething);
+//                        System.out.print("Actions: Done?");
+//                        //if yes
+//                        switch (obIn.nextLine().toUpperCase()) {
+//                            case "Yes":
+//
+//                                //bookingHelper.removeBooking(searchbooking);
+//                                searchbooking.setTotal((searchbooking.getTotal() - ratething));
+//                                searchbooking.changeEnd(refundendDate);
+//                                System.out.println("Success");
+//                                //move to main
+//                                bookingManagerScreen();
+//
+//                                break;
+//                            case "Y":
+//
+//                                //bookingHelper.removeBooking(searchbooking);
+//                                searchbooking.setTotal((searchbooking.getTotal() - ratething));
+//                                searchbooking.changeEnd(refundendDate);
+//                                System.out.println("Success");
+//                                //move to main
+//                                bookingManagerScreen();
+//
+//                                break;
+//
+//                            default:
+//
+//                                break;
+//
+//                        }
+//                    } else {
+//                        System.out.print("Total amount refunded: " + (searchbooking.getTotal() - ratething));
+//                        System.out.print("Actions: Done?");
+//                        //if yes
+//                        switch (obIn.nextLine().toUpperCase()) {
+//                            case "Yes":
+//
+//                                //bookingHelper.removeBooking(searchbooking);
+//                                searchbooking.setPaid(true);
+//                                searchbooking.setTotal((searchbooking.getTotal() - ratething));
+//                                searchbooking.changeEnd(refundendDate);
+//                                System.out.println("Success");
+//                                //move to main
+//                                bookingManagerScreen();
+//
+//                                break;
+//                            case "Y":
+//
+//                                //bookingHelper.removeBooking(searchbooking);
+//                                searchbooking.setPaid(true);
+//                                searchbooking.setTotal((searchbooking.getTotal() - ratething));
+//                                searchbooking.changeEnd(refundendDate);
+//                                System.out.println("Success");
+//                                //move to main
+//                                bookingManagerScreen();
+//
+//                                break;
+//
+//                            default:
+//
+//                                break;
+//
+//
+//                        }
+//                    }
+//
+//                    break;
+//                case "N":
+//                    //refundConfirm();
+//                    System.out.print("Total amount: " + price);
+//                    searchbooking.setPaid(true);
+//                    searchbooking.changeEnd(refundendDate);
+//                    System.out.println("Success");
+//                    //move to main
+//                    bookingManagerScreen();
+//
+//                    break;
+//                case "No":
+//                    //refundConfirm();
+//                    System.out.print("Total amount: " + price);
+//                    searchbooking.setPaid(true);
+//                    searchbooking.changeEnd(refundendDate);
+//                    System.out.println("Success");
+//                    //move to main
+//                    bookingManagerScreen();
+//                    break;
+//                default:
+//                    //error message
+//                    System.out.print("Please input yes,y or no,n");
+//                    refundConfirm();
+//                    break;
+//
+//
+//            }
+//        }
 
 
     public static PlotHelper getPlotHelper()
