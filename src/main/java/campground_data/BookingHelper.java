@@ -222,10 +222,10 @@ public class BookingHelper {
     }
 
 
-    public Booking search(String guestID)
+    public Booking search(int guestID)
     {
         for(int i=0;i < getBookingList().size(); i++) {
-            if ((getBookingList().get(i).getGuestID()) == (Integer.parseInt(guestID))) {
+            if ((getBookingList().get(i).getGuestID()) == guestID) {
                 return getBookingList().get(i);
 
             }

@@ -49,7 +49,7 @@ public class Story1bTest
         helper.addBooking(booking1);
         helper.addBooking(booking2);
 
-        assertEquals(helper.search("2"), booking2);
+        assertEquals(helper.search(2), booking2);
 
     }
 
