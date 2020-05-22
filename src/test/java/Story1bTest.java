@@ -2,6 +2,7 @@ import campground_data.*;
 
 import org.junit.Test;
 
+import javax.validation.constraints.AssertTrue;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -11,9 +12,7 @@ public class Story1bTest
 {
 
     Booking booking1 = new Booking(1,1, new Date(2020,5,25), new Date(2020,5,27), BookingType.Cabin, 3);
-    Booking booking2 = new Booking(2,1, new Date(2020,6,4), new Date(2020,6,7), BookingType.Site, 2);
-    Guest guest1 = new Guest("John", "Doe", "johndoe@gmail.com", "3069999999", PaymentType.Credit, "4456777777777777", new Address());
-    Guest guest2 = new Guest("Loki", "Odinson", "godofthunder@gmail.com", "3067777777", PaymentType.Cash, "4456555555555555", new Address());
+    Booking booking2 = new Booking(2,2, new Date(2020,6,4), new Date(2020,6,7), BookingType.Site, 2);
 
 
     /**
@@ -23,15 +22,15 @@ public class Story1bTest
     public void removeBookingFromList()
     {
 
-        ArrayList<Booking> bookings = new ArrayList<>();
-        bookings.add(booking1);
-        bookings.add(booking2);
+        BookingHelper helper = new BookingHelper();
+        ArrayList<Booking> obBookingList = new ArrayList<>();
 
+        helper.addBooking(booking1);
+        helper.addBooking(booking2);
 
-        BookingHelper bookingHelper = new BookingHelper();
-        bookingHelper.removeBooking(booking1);
+        helper.removeBooking(booking1);
 
-        assertFalse(bookings.contains(booking1));
+        assertFalse(obBookingList.contains(booking1));
 
     }
 
@@ -42,17 +41,14 @@ public class Story1bTest
     @Test
     public void selectBookingToBeRemoved()
     {
-        booking1.setBookingID(1);
-
         ArrayList<Booking> bookings = new ArrayList<>();
-        bookings.add(booking1);
-        bookings.add(booking2);
 
-        BookingHelper bookingHelper = new BookingHelper();
+        BookingHelper helper = new BookingHelper();
 
-        assertEquals(bookingHelper.searchBookingId(1), booking1);
-        assertNull(bookingHelper.searchBookingId(5));
-        assertNull(bookingHelper.searchBookingId(-1));
+        helper.addBooking(booking1);
+        helper.addBooking(booking2);
+
+        assertEquals(helper.search(1), booking1);
 
 
     }

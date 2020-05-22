@@ -131,8 +131,6 @@ public class Booking implements Serializable
 
 	}
 
-	public void setBookingID(int ID){ this.nBookingID =  ID; }
-
 	public void setDiscount(double dDiscount)
 	{
 		if(dDiscount<0 || dDiscount>100)

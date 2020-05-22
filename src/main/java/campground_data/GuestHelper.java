@@ -33,23 +33,15 @@ public class GuestHelper {
     {
         Guest guestToReturn = null;
 
-        //Why is there phone number validation in here
-        if (phoneNumber.length() != 10)
+        for (Guest guest : guestAccounts)
         {
-            System.out.println("Invalid phone number length. Please enter a 10 digit phone number");
-            //insert routine to ask user again for phone number
-        }
-        else
-        {
-            for (Guest guest : guestAccounts)
+            if (guest.getPhoneNumber().equals(phoneNumber))
             {
-                if (guest.getPhoneNumber().equals(phoneNumber))
-                {
                     guestToReturn = guest;
-                }
-
             }
+
         }
+
         return guestToReturn;
     }
 
