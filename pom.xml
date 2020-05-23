@@ -59,7 +59,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>campground_ui.MainConsole</mainClass>
+                            <mainClass>campground_data.BusinessManager</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
