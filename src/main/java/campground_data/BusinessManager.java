@@ -54,8 +54,8 @@ public class BusinessManager {
         boolean quit = false;
 
         do{
-            System.out.print("Home: [1]Booking Manager [2]Guest Manager [3]Plot Manager [4]Owner Manager [5]Quit:");
-            switch (obIn.nextLine()) {
+            System.out.println("Home: [1]Booking Manager [2]Guest Manager [3]Plot Manager [4]Owner Manager [5]Quit:");
+            switch (obIn.next()) {
                 case "1":
                     bookingManagerScreen();
                     break;
@@ -86,7 +86,7 @@ public class BusinessManager {
     {
         boolean back = false;
         do{
-            System.out.print("Booking Manager: [1]Add Booking [2]Remove Booking [3]Modify Booking [4]Find Booking [5]View Current Bookings [6]Back:");
+            System.out.println("Booking Manager: [1]Add Booking [2]Remove Booking [3]Modify Booking [4]Find Booking [5]View Current Bookings [6]Back:");
             switch (obIn.next()) {
                 case "1":
                     addBookingScreen();
@@ -135,15 +135,15 @@ public class BusinessManager {
 //        {
 //            bChanged = false;
 //            System.out.println("Please enter a guest ID.");
-//            guestID = obIn.nextLine();
+//            guestID = obIn.next();
 //            System.out.println(bookingHelper.search(guestID));
 //            System.out.println("Please enter a booking ID");
-//            bookingID = Integer.parseInt(obIn.nextLine());
-//            System.out.print("Please enter the new Start Date in the format (dd/mm/yyyy):");
-//            String[] sFields = obIn.nextLine().split("/");
+//            bookingID = Integer.parseInt(obIn.next());
+//            System.out.println("Please enter the new Start Date in the format (dd/mm/yyyy):");
+//            String[] sFields = obIn.next().split("/");
 //            newStartDate = new Date(Integer.parseInt(sFields[0]), Integer.parseInt(sFields[1]), Integer.parseInt(sFields[2]));
-//            System.out.print("Please enter the new Start Date in the format (dd/mm/yyyy):");
-//            sFields = obIn.nextLine().split("/");
+//            System.out.println("Please enter the new Start Date in the format (dd/mm/yyyy):");
+//            sFields = obIn.next().split("/");
 //            newEndDate = new Date(Integer.parseInt(sFields[0]), Integer.parseInt(sFields[1]), Integer.parseInt(sFields[2]));
 //            bookingHelper.changeBookingDate(bookingID, newStartDate, newEndDate);
 //            if (!bookingHelper.changeBookingDate(bookingID, newStartDate, newEndDate))
@@ -161,7 +161,7 @@ public class BusinessManager {
 //
 //        System.out.println(bookingHelper.searchBookingId(bookingID));
 //        System.out.println("[1] Home screen [2] Change another booking's date");
-//        answer = Integer.parseInt(obIn.nextLine());
+//        answer = Integer.parseInt(obIn.next());
 //        if (answer == 1)
 //        {
 //            homeScreen();
@@ -180,12 +180,8 @@ public class BusinessManager {
 
     public static void removeBookingScreen()
     {
-        ArrayList<Guest> arGuestList = guestHelper.getGuestAccounts();
-        for (Guest args : arGuestList)
-        {
-            System.out.println(args.toString());
-        }
-        System.out.println("Please enter a Guest ID to find booking to remove: [0]Back ");
+
+        System.out.println("Please enter a Guest ID to find booking to remove or [0]Back: ");
 
         int guestID=obIn.nextInt();
         if(guestID==0)
@@ -229,7 +225,7 @@ public class BusinessManager {
     {
         ArrayList<Booking> obBookingList;
         System.out.println("Please choose an option: [1]View All Bookings [2]View Bookings for a Certain Year");
-        switch (obIn.nextLine()) {
+        switch (obIn.next()) {
             case "1":
                 obBookingList = bookingHelper.getBookingList();
                 for(Booking obVal: obBookingList)
@@ -267,16 +263,21 @@ public class BusinessManager {
 
         boolean bGuestID = false;
         do{
-            System.out.print("Please enter a GuestID:");
-            nGuestID = Integer.valueOf(obIn.nextLine());
-
-            if(guestHelper.checkGuestId(nGuestID))
-            {
-                bGuestID = true;
+            System.out.println("Please enter a GuestID:");
+            try{
+                nGuestID = Integer.valueOf(obIn.next());
+                if(guestHelper.checkGuestId(nGuestID))
+                {
+                    bGuestID = true;
+                }
+                else
+                {
+                    System.out.println("Invalid Guest ID");
+                }
             }
-            else
+            catch(Exception e)
             {
-                System.out.println("Invalid Guest ID");
+                System.out.println("GuestID must be an number");
             }
 
             System.out.println("");
@@ -285,8 +286,8 @@ public class BusinessManager {
 
         boolean bStartDate = false;
         do{
-            System.out.print("Please enter a Start Date in the format (dd/mm/yyyy):");
-            String[] sFields = obIn.nextLine().split("/");
+            System.out.println("Please enter a Start Date in the format (dd/mm/yyyy):");
+            String[] sFields = obIn.next().split("/");
             try{
                 SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
                 startDate = sdformat.parse(sFields[0] + "-" + sFields[1] + "-" + sFields[2] + "-23-59-59");
@@ -309,8 +310,8 @@ public class BusinessManager {
 
         boolean bEndDate = false;
         do{
-            System.out.print("Please enter an End Date in the format (dd/mm/yyyy):");
-            String[] sFields = obIn.nextLine().split("/");
+            System.out.println("Please enter an End Date in the format (dd/mm/yyyy):");
+            String[] sFields = obIn.next().split("/");
             try{
                 SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
                 endDate = sdformat.parse(sFields[0] + "-" + sFields[1] + "-" + sFields[2] + "-00-00-00");
@@ -333,8 +334,8 @@ public class BusinessManager {
 
         boolean bPlotType = false;
         do{
-            System.out.print("Please enter a plot type (Cabin/Site):");
-            switch (obIn.nextLine().toUpperCase()) {
+            System.out.println("Please enter a plot type (Cabin/Site):");
+            switch (obIn.next().toUpperCase()) {
                 case "CABIN":
                     type = BookingType.Cabin;
                     bPlotType = true;
@@ -354,9 +355,9 @@ public class BusinessManager {
 
         boolean bMemberCount = false;
         do{
-            System.out.print("Please enter the amount of members staying on the plot (1-8):");
+            System.out.println("Please enter the amount of members staying on the plot (1-8):");
             try{
-                int sVal = Integer.parseInt(obIn.nextLine());
+                int sVal = Integer.parseInt(obIn.next());
                 if(sVal >= 1 && sVal <=8)
                 {
                     memberCount = sVal;
@@ -378,9 +379,9 @@ public class BusinessManager {
 
         boolean bPlotID = false;
         do{
-            System.out.print("Please enter the PlotID:");
+            System.out.println("Please enter the PlotID:");
             try{
-                int nVal = Integer.parseInt(obIn.nextLine());
+                int nVal = Integer.parseInt(obIn.next());
                 //ADD PLOT ID LIST FOR CRITERIA, AND PLOT ID VERIFICATION
                 plotID = nVal;
                 bPlotID = true;
@@ -404,7 +405,7 @@ public class BusinessManager {
             System.out.println("Member Count = " + memberCount);
             System.out.println("PlotID = " + plotID);
 
-            switch (obIn.nextLine().toUpperCase()) {
+            switch (obIn.next().toUpperCase()) {
                 case "Y":
                     Booking booking = new Booking(plotID, nGuestID, startDate, endDate, type, memberCount);
                     if(bookingHelper.addBooking(booking))
@@ -437,7 +438,7 @@ public class BusinessManager {
 
         boolean bbookingID = false;
         do {
-            System.out.print("Please enter a Booking ID: [0]Back");
+            System.out.println("Please enter a Booking ID or [0]Back:");
             int bookingID = obIn.nextInt();
             if (bookingID == 0) {
                 bookingManagerScreen();
@@ -457,7 +458,7 @@ public class BusinessManager {
 
                     //int plotID, int guestID, Date startDate, Date endDate, BookingType type, int memberCount
                     System.out.println("Modify which? ");
-                    System.out.print("Home: [1]Start Date [2]End Date [3]Booking Type [4]Member Count [5]PlotID [6]Back");
+                    System.out.println("Home: [1]Start Date [2]End Date [3]Booking Type [4]Member Count [5]PlotID [6]Back");
                     System.out.println("GuestID = " + bookingguestid);
                     System.out.println("Start Date = " + bookingstartDate);
                     System.out.println("End Date = " + refundendDate);
@@ -466,11 +467,6 @@ public class BusinessManager {
                     System.out.println("PlotID = " + bookingplotID);
                     switch (obIn.nextInt()) {
 
-                        /*case 1:
-                            BookingstartdateScreen();
-                            break;
-
-                         */
                         case 1:
                             BookingstartdateScreen();
                             break;
@@ -512,8 +508,8 @@ public class BusinessManager {
     public static void BookingstartdateScreen(){
         boolean bStartDate = false;
         do {
-            System.out.print("Please enter a Start Date in the format (dd/mm/yyyy):");
-            String[] sFields = obIn.nextLine().split("/");
+            System.out.println("Please enter a Start Date in the format (dd/mm/yyyy):");
+            String[] sFields = obIn.next().split("/");
             try {
                 bookingstartDate = new Date(Integer.parseInt(sFields[2]), Integer.parseInt(sFields[1]) - 1, Integer.parseInt(sFields[0]));
                 if (bookingstartDate.compareTo(new Date()) > -1) { //might change this later
@@ -531,7 +527,7 @@ public class BusinessManager {
             System.out.println("");
             System.out.println("");
         } while (!bStartDate);
-        System.out.print("Success");
+        System.out.println("Success");
         //back to main
         bookingManagerScreen();
 
@@ -540,8 +536,8 @@ public class BusinessManager {
     public static void BookingenddateScreen(){ //refund
         boolean bEndDate = false;
         do {
-            System.out.print("Please enter an End Date in the format (dd/mm/yyyy):");
-            String[] sFields = obIn.nextLine().split("/");
+            System.out.println("Please enter an End Date in the format (dd/mm/yyyy):");
+            String[] sFields = obIn.next().split("/");
             try {
                 Date bookingenddate = refundendDate;
                 refundendDate = new Date(Integer.parseInt(sFields[2]), Integer.parseInt(sFields[1]) - 1, Integer.parseInt(sFields[0]));
@@ -552,7 +548,7 @@ public class BusinessManager {
                     }else {
                         bEndDate = true;
                         searchbooking.changeEnd(refundendDate);
-                        System.out.print("Success");
+                        System.out.println("Success");
                     }
                 }else {
 
@@ -573,8 +569,8 @@ public class BusinessManager {
     public static void BookingtypeScreen(){
         boolean bPlotType = false;
         do {
-            System.out.print("Please enter a plot type (Cabin/Site):");
-            switch (obIn.nextLine().toUpperCase()) {
+            System.out.println("Please enter a plot type (Cabin/Site):");
+            switch (obIn.next().toUpperCase()) {
                 case "CABIN":
                     bookingtype = BookingType.Cabin;
                     searchbooking.setType(bookingtype);
@@ -593,15 +589,15 @@ public class BusinessManager {
             System.out.println("");
             System.out.println("");
         } while (!bPlotType);
-        System.out.print("Success");
+        System.out.println("Success");
         //back to main
         bookingManagerScreen();
     }
     public static void BookingmemberScreen(){
         boolean bMemberCount = false;
         do {
-            System.out.print("Please enter the amount of members staying on the plot (1-8):");
-            int sVal = Integer.parseInt(obIn.nextLine());
+            System.out.println("Please enter the amount of members staying on the plot (1-8):");
+            int sVal = Integer.parseInt(obIn.next());
             if (sVal >= 1 || sVal <= 8) {
                 bookingmemberCount = sVal;
                 searchbooking.setMemberCount(bookingmemberCount);
@@ -613,15 +609,15 @@ public class BusinessManager {
             System.out.println("");
             System.out.println("");
         } while (!bMemberCount);
-        System.out.print("Success");
+        System.out.println("Success");
         //back to main
         bookingManagerScreen();
     }
     public static void BookingplotidScreen(){
         boolean bPlotID = false;
         do {
-            System.out.print("Please enter the PlotID:");
-            int nVal = Integer.parseInt(obIn.nextLine());
+            System.out.println("Please enter the PlotID:");
+            int nVal = Integer.parseInt(obIn.next());
             //ADD PLOT ID LIST FOR CRITERIA, AND PLOT ID VERIFICATION
             if( plotHelper.searchPlot(nVal) != null){
                 bookingplotID = nVal;
@@ -635,7 +631,7 @@ public class BusinessManager {
             System.out.println("");
             System.out.println("");
         } while (!bPlotID);
-        System.out.print("Success");
+        System.out.println("Success");
         //back to main
         bookingManagerScreen();
     }
@@ -645,8 +641,8 @@ public class BusinessManager {
     {
         boolean back = false;
         do{
-            System.out.print("Guest Manager: [1]Add Guest [2]Remove Guest [3]Edit Guest [4]Find Guest [5]Back:");
-            switch (obIn.nextLine()) {
+            System.out.println("Guest Manager: [1]Add Guest [2]Remove Guest [3]Edit Guest [4]Find Guest [5]Back:");
+            switch (obIn.next()) {
                 case "1":
                     ;
                     break;
@@ -655,7 +651,7 @@ public class BusinessManager {
                     break;
                 case "3":
                     System.out.println("Enter phone number to find guest to edit: ");
-                    Guest guestToEdit = guestHelper.searchGuest(obIn.nextLine());
+                    Guest guestToEdit = guestHelper.searchGuest(obIn.next());
                     if (guestToEdit == null) {
                         System.out.println("There is no guest found");
                     }
@@ -685,8 +681,8 @@ public class BusinessManager {
     {
         boolean back = false;
         do{
-            System.out.print("Plot Manager: [1]Modify Plot [2]Back:");
-            switch (obIn.nextLine()) {
+            System.out.println("Plot Manager: [1]Modify Plot [2]Back:");
+            switch (obIn.next()) {
                 case "1":
                     modifyPlotTypesScreen();
                     break;
@@ -708,7 +704,7 @@ public class BusinessManager {
 
     public static void modifyPlotTypesScreen() {
         System.out.println("Please select an option: [1]Change Cabin Attributes  [2]Change Site Attributes  [3]Back");
-        switch (obIn.nextLine()) {
+        switch (obIn.next()) {
 //            case "1":
 //                modifyPlotsScreen();
 //                break;
@@ -731,32 +727,32 @@ public class BusinessManager {
     public static void modifyCabinScreen()
     {
         System.out.println("Please enter a Cabin Number:");
-        int nCabinNum=Integer.parseInt(obIn.nextLine());
+        int nCabinNum=Integer.parseInt(obIn.next());
         Cabin obFound=plotHelper.searchCabin(nCabinNum); //Needs to be changed to Cabin
         if(obFound!=null)
         {
             System.out.println("Cabin Found!");
             System.out.println("Please select an attribute to be changed: [1]Cabin Number  [2]Occupancy  [3]Type  [4]Price  [5]Under Renovation? [6]Booked? [7]Back");
 
-            switch(obIn.nextLine())
+            switch(obIn.next())
             {
                 case "1":
                     System.out.println("Please enter a new cabin number: ");
-                    obFound.setPlotID(Integer.parseInt(obIn.nextLine()));
+                    obFound.setPlotID(Integer.parseInt(obIn.next()));
                     //print toString to display changes
                     System.out.println("Changes made:");
                     System.out.println(obFound.toString());
                     break;
                 case "2":
                     System.out.println("Please enter a new occupancy value: ");
-                    obFound.setOccupancy(Integer.parseInt(obIn.nextLine()));
+                    obFound.setOccupancy(Integer.parseInt(obIn.next()));
                     //print toString to display changes
                     System.out.println("Changes made:");
                     System.out.println(obFound.toString());
                     break;
                 case "3":
                     System.out.println("Select: [B]asic [D]eluxe");
-                    switch (obIn.nextLine().toUpperCase())
+                    switch (obIn.next().toUpperCase())
                     {
                         case "B":
                             obFound.setCabinType(Cabin.CabinType.Basic);
@@ -778,16 +774,17 @@ public class BusinessManager {
                             modifyCabinScreen();
                             break;
                     }
+                    break;
                 case "4":
                     System.out.println("Please enter a new price:");
-                    obFound.setPrice(Double.parseDouble(obIn.nextLine()));
+                    obFound.setPrice(Double.parseDouble(obIn.next()));
                     //print toString to display changes
                     System.out.println("Changes made:");
                     System.out.println(obFound.toString());
                     break;
                 case "5":
                     System.out.println("Is the cabin under renovation? [Y/N]");
-                    switch(obIn.nextLine().toUpperCase())
+                    switch(obIn.next().toUpperCase())
                     {
                         case "Y":
                             obFound.setUnderReno(true);
@@ -809,7 +806,7 @@ public class BusinessManager {
                     break;
                 case "6":
                     System.out.println("Is the cabin booked? [Y/N]");
-                    switch(obIn.nextLine().toUpperCase())
+                    switch(obIn.next().toUpperCase())
                     {
                         case "Y":
                             obFound.setBooked(true);
@@ -842,9 +839,6 @@ public class BusinessManager {
                     modifyCabinScreen();
                     break;
             }
-
-            //print toString to display changes
-            System.out.println(obFound.toString());
         }
         else
         {
@@ -856,7 +850,7 @@ public class BusinessManager {
     public static void modifySiteScreen()
     {
         System.out.println("Please enter a Site Number:");
-        int nSiteNum=Integer.parseInt(obIn.nextLine());
+        int nSiteNum=Integer.parseInt(obIn.next());
         Site obFound=plotHelper.searchSite(nSiteNum);
         if(obFound!=null)
         {
@@ -864,25 +858,25 @@ public class BusinessManager {
             System.out.println("Please select an attribute to be changed: [1]Site Number  [2]Occupancy  [3]Type  [4]Price  " +
                     "[5]Under Renovation? [6]Booked? [7]Serviced? [8]Back");
 
-            switch(obIn.nextLine())
+            switch(obIn.next())
             {
                 case "1":
                     System.out.println("Please enter a new site number: ");
-                    obFound.setPlotID(Integer.parseInt(obIn.nextLine()));
+                    obFound.setPlotID(Integer.parseInt(obIn.next()));
                     //print toString to display changes
                     System.out.println("Changes made:");
                     System.out.println(obFound.toString());
                     break;
                 case "2":
                     System.out.println("Please enter a new occupancy value: ");
-                    obFound.setOccupancy(Integer.parseInt(obIn.nextLine()));
+                    obFound.setOccupancy(Integer.parseInt(obIn.next()));
                     //print toString to display changes
                     System.out.println("Changes made:");
                     System.out.println(obFound.toString());
                     break;
                 case "3":
                     System.out.println("Select: [G]roup [I]ndividual");
-                    switch (obIn.nextLine().toUpperCase())
+                    switch (obIn.next().toUpperCase())
                     {
                         case "G":
                             obFound.setSiteType(Site.SiteType.Group);
@@ -904,16 +898,17 @@ public class BusinessManager {
                             modifySiteScreen();
                             break;
                     }
+                    break;
                 case "4":
                     System.out.println("Please enter a new price:");
-                    obFound.setPrice(Double.parseDouble(obIn.nextLine()));
+                    obFound.setPrice(Double.parseDouble(obIn.next()));
                     //print toString to display changes
                     System.out.println("Changes made:");
                     System.out.println(obFound.toString());
                     break;
                 case "5":
                     System.out.println("Is the site under renovation? [Y/N]");
-                    switch(obIn.nextLine().toUpperCase())
+                    switch(obIn.next().toUpperCase())
                     {
                         case "Y":
                             obFound.setUnderReno(true);
@@ -934,19 +929,19 @@ public class BusinessManager {
                     break;
                 case "6":
                     System.out.println("Is the site booked? [Y/N]");
-                    switch(obIn.nextLine().toUpperCase())
+                    switch(obIn.next().toUpperCase())
                     {
                         case "Y":
                             //print toString to display changes
+                            obFound.setBooked(true);
                             System.out.println("Changes made:");
                             System.out.println(obFound.toString());
-                            obFound.setBooked(true);
                             break;
                         case "N":
                             //print toString to display changes
+                            obFound.setBooked(false);
                             System.out.println("Changes made:");
                             System.out.println(obFound.toString());
-                            obFound.setBooked(false);
                             break;
                         default:
                             System.out.println("Invalid option, please try again");
@@ -955,7 +950,7 @@ public class BusinessManager {
                     break;
                 case "7":
                     System.out.println("Is the site serviced? [Y/N]");
-                    switch(obIn.nextLine().toUpperCase())
+                    switch(obIn.next().toUpperCase())
                     {
                         case "Y":
                             obFound.setServiced(true);
@@ -993,7 +988,7 @@ public class BusinessManager {
         }
         else
         {
-            System.out.println("No Cabin found with that number. Try again");
+            System.out.println("No Site found with that number. Try again");
             modifySiteScreen();
         }
     }
@@ -1003,8 +998,8 @@ public class BusinessManager {
     {
         boolean back = false;
         do{
-            System.out.print("Owner Manager: [1]Add Owner [2]Remove Owner [3]Modify Owner [4]Find Owner [5]Back:");
-            switch (obIn.nextLine()) {
+            System.out.println("Owner Manager: [1]Add Owner [2]Remove Owner [3]Modify Owner [4]Find Owner [5]Back:");
+            switch (obIn.next()) {
                 case "1":
                     ;
                     break;
@@ -1038,7 +1033,7 @@ public class BusinessManager {
         while (currUser == null)
         {
             System.out.println("Enter your UserID");
-            String userID = obIn.nextLine();
+            String userID = obIn.next();
 
             currUser = validateId(userID);
 
@@ -1050,7 +1045,7 @@ public class BusinessManager {
         while (!pass)
         {
             System.out.println("Enter your password");
-            String userPass = obIn.nextLine();
+            String userPass = obIn.next();
             if(validatePassword(currUser, userPass))
             {
                 pass = true;
@@ -1099,9 +1094,9 @@ public class BusinessManager {
         {
             System.out.println("Please change your password");
             System.out.println("Enter new password");
-            String sPass = obIn.nextLine();
+            String sPass = obIn.next();
             System.out.println("Enter new password again to confirm");
-            String sConfirm = obIn.nextLine();
+            String sConfirm = obIn.next();
             if(sPass.equals(sConfirm))
             {
 
@@ -1131,7 +1126,7 @@ public class BusinessManager {
 
         public static void refundConfirm() {
             //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            System.out.print("Actions: Refund for remaining days?");
+            System.out.println("Actions: Refund for remaining days?");
             Date date3 = new Date();
             Date date4 = searchbooking.getEndDate();
             int price;
@@ -1147,14 +1142,14 @@ public class BusinessManager {
             int ratething = (int) diffDays2;
             ratething = price / ratething;
 
-            switch (obIn.nextLine().toUpperCase()) {
+            switch (obIn.next().toUpperCase()) {
                 case "Yes":
 
                     if (searchbooking.getPaid() == true) {
-                        System.out.print("Total amount refunded: " + ratething);
-                        System.out.print("Done?");
+                        System.out.println("Total amount refunded: " + ratething);
+                        System.out.println("Done?");
                         //if yes
-                        switch (obIn.nextLine().toUpperCase()) {
+                        switch (obIn.next().toUpperCase()) {
                             case "Yes":
 
                                 //bookingHelper.removeBooking(searchbooking);
@@ -1182,10 +1177,10 @@ public class BusinessManager {
                         }
 
                     } else {
-                        System.out.print("Total amount refunded: " + (searchbooking.getTotal() - ratething));
-                        System.out.print("Done?");
+                        System.out.println("Total amount refunded: " + (searchbooking.getTotal() - ratething));
+                        System.out.println("Done?");
                         //if yes
-                        switch (obIn.nextLine().toUpperCase()) {
+                        switch (obIn.next().toUpperCase()) {
                             case "Yes":
 
                                 //bookingHelper.removeBooking(searchbooking);
@@ -1221,10 +1216,10 @@ public class BusinessManager {
 
                 case "Y":
                     if (searchbooking.getPaid() == true) {
-                        System.out.print("Total amount refunded: " + ratething);
-                        System.out.print("Actions: Done?");
+                        System.out.println("Total amount refunded: " + ratething);
+                        System.out.println("Actions: Done?");
                         //if yes
-                        switch (obIn.nextLine().toUpperCase()) {
+                        switch (obIn.next().toUpperCase()) {
                             case "Yes":
 
                                 //bookingHelper.removeBooking(searchbooking);
@@ -1252,10 +1247,10 @@ public class BusinessManager {
 
                         }
                     } else {
-                        System.out.print("Total amount refunded: " + (searchbooking.getTotal() - ratething));
-                        System.out.print("Actions: Done?");
+                        System.out.println("Total amount refunded: " + (searchbooking.getTotal() - ratething));
+                        System.out.println("Actions: Done?");
                         //if yes
-                        switch (obIn.nextLine().toUpperCase()) {
+                        switch (obIn.next().toUpperCase()) {
                             case "Yes":
 
                                 //bookingHelper.removeBooking(searchbooking);
@@ -1290,7 +1285,7 @@ public class BusinessManager {
                     break;
                 case "N":
                     //refundConfirm();
-                    System.out.print("Total amount: " + price);
+                    System.out.println("Total amount: " + price);
                     searchbooking.setPaid(true);
                     searchbooking.changeEnd(refundendDate);
                     System.out.println("Success");
@@ -1300,7 +1295,7 @@ public class BusinessManager {
                     break;
                 case "No":
                     //refundConfirm();
-                    System.out.print("Total amount: " + price);
+                    System.out.println("Total amount: " + price);
                     searchbooking.setPaid(true);
                     searchbooking.changeEnd(refundendDate);
                     System.out.println("Success");
@@ -1309,7 +1304,7 @@ public class BusinessManager {
                     break;
                 default:
                     //error message
-                    System.out.print("Please input yes,y or no,n");
+                    System.out.println("Please input yes,y or no,n");
                     refundConfirm();
                     break;
 
