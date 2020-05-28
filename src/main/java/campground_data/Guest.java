@@ -31,6 +31,8 @@ public class Guest  implements Serializable {
     @Pattern(regexp = "^\\d{16}$", message = "Credit card number must only contain digits and be 16 digits long")
     private String creditCardNum;
 
+    @Max(value = 8, message = "Member count must be less than or equal to 8")
+    @Min(value = 1, message = "Member count must be greater than or equal to 1")
     private int memberCount;
 
     private int guestID;

@@ -4,8 +4,13 @@ import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class EditGuestWindow extends Stage {
@@ -26,10 +31,32 @@ public class EditGuestWindow extends Stage {
     private TextField postalCodeField = new TextField();
     private TextField memberCountField = new TextField();
 
-    private ComboBox<PaymentType> paymentMethodBox = new ComboBox<>();
+    private Label firstNameLabel = new Label("First Name:\t");
+    private Label lastNameLabel = new Label("Last Name:\t");
+    private Label emailLabel = new Label("Email:\t");
+    private Label phoneNumberLabel = new Label("Phone Number:\t");
+    private Label creditCardNumLabel = new Label("Credit Card Number:\t");
+    private Label streetNumLabel = new Label("Street Number:\t");
+    private Label aptNumLabel = new Label("Apt Number:\t");
+    private Label streetNameLabel = new Label("Street Name:\t");
+    private Label cityTownLabel = new Label("City/Town:\t");
+    private Label provinceLabel = new Label("Province:\t");
+    private Label countryLabel = new Label("Country:\t");
+    private Label postalCodeLabel = new Label("Postal Code:\t");
+    private Label memberCountLabel = new Label("Member Count:\t");
 
-    private Button saveChanges;
-    private Button cancelChanges;
+    private Text txtContactInformation = new Text("Contact Information");
+    private Text txtPaymentInformation = new Text("Payment Information");
+    private Text txtAddressInformation = new Text("Address Information");
+    private Text txtCampingInformation = new Text("Camping Information");
+
+
+
+    private ComboBox<PaymentType> cboPaymentMethod = new ComboBox<>();
+    private Label paymentMethodLabel = new Label("Payment Method:\t");
+
+    private Button btnSaveChanges = new Button();
+    private Button btnCancelChanges = new Button();
 
     private Guest obGuest;
 
@@ -38,6 +65,9 @@ public class EditGuestWindow extends Stage {
     public EditGuestWindow(Guest guest)
     {
         this.obGuest = guest;
+
+        btnSaveChanges.setText("Save Changes");
+        btnCancelChanges.setText("Cancel Changes");
 
         firstNameField.setText(guest.getFirstName());
         lastNameField.setText(guest.getLastName());
@@ -53,26 +83,84 @@ public class EditGuestWindow extends Stage {
         postalCodeField.setText(guest.getAddress().getPostalCode());
         memberCountField.setText(String.valueOf(guest.getMemberCount()));
 
-        paymentMethodBox.getItems().setAll(FXCollections.observableArrayList(PaymentType.values()));
-        paymentMethodBox.setValue(guest.getPaymentMethod());
+        cboPaymentMethod.getItems().setAll(FXCollections.observableArrayList(PaymentType.values()));
+        cboPaymentMethod.setValue(guest.getPaymentMethod());
 
-        obPane.add(firstNameField, 0,0);
-        obPane.add(lastNameField, 0, 1);
-        obPane.add(emailField, 0, 2);
-        obPane.add(phoneNumberField, 0, 3);
-        obPane.add(creditCardNumField, 0, 4);
-        obPane.add(streetNumField, 0, 5);
-        obPane.add(aptNumField, 0, 6);
-        obPane.add(streetNameField, 0, 7);
-        obPane.add(cityTownField, 0, 8);
-        obPane.add(provinceField, 0,9);
-        obPane.add(countryField, 0, 10);
-        obPane.add(postalCodeField, 0, 11);
-        obPane.add(memberCountField, 1, 0);
-        obPane.add(paymentMethodBox, 0, 12);
+        txtContactInformation.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
+        txtAddressInformation.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
+        txtCampingInformation.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
+        txtPaymentInformation.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
 
-        this.setScene(new Scene(obPane, 450, 450));
+        obPane.add(txtContactInformation,0, 0);
 
+        obPane.add(firstNameLabel, 0, 1);
+        obPane.add(firstNameField, 1,1);
 
+        obPane.add(lastNameLabel, 0, 2);
+        obPane.add(lastNameField, 1, 2);
+
+        obPane.add(emailLabel, 0, 3);
+        obPane.add(emailField, 1, 3);
+
+        obPane.add(phoneNumberLabel, 0, 4);
+        obPane.add(phoneNumberField, 1, 4);
+
+        obPane.add(txtPaymentInformation, 0, 5);
+
+        obPane.add(paymentMethodLabel, 0, 6);
+        obPane.add(cboPaymentMethod, 1, 6);
+
+        obPane.add(creditCardNumLabel, 0, 7);
+        obPane.add(creditCardNumField, 1, 7);
+
+        obPane.add(txtAddressInformation, 0, 8);
+
+        obPane.add(streetNumLabel, 0, 9);
+        obPane.add(streetNumField, 1, 9);
+
+        obPane.add(aptNumLabel, 0, 10);
+        obPane.add(aptNumField, 1, 10);
+
+        obPane.add(streetNameLabel, 0, 11);
+        obPane.add(streetNameField, 1, 11);
+
+        obPane.add(cityTownLabel, 0, 12);
+        obPane.add(cityTownField, 1, 12);
+
+        obPane.add(provinceLabel, 2, 9);
+        obPane.add(provinceField, 3,9);
+
+        obPane.add(countryLabel, 2, 10);
+        obPane.add(countryField, 3, 10);
+
+        obPane.add(postalCodeLabel, 2, 11);
+        obPane.add(postalCodeField, 3, 11);
+
+        obPane.add(txtCampingInformation, 2, 0);
+
+        obPane.add(memberCountLabel, 2, 1);
+        obPane.add(memberCountField, 3, 1);
+
+        obPane.setHgap(10);
+        obPane.setVgap(5);
+
+        obPane.add(btnSaveChanges, 1, 17);
+        obPane.add(btnCancelChanges, 2, 17);
+
+        this.setTitle("Edit Guest - Cest Campgrounds and Cabins");
+        this.setResizable(false);
+        this.setScene(new Scene(obPane, 600, 450));
+
+        cboPaymentMethod.setOnAction(e -> {
+            if (cboPaymentMethod.getValue() != PaymentType.Credit)
+            {
+                creditCardNumField.setDisable(true);
+            }
+            else { creditCardNumField.setDisable(false); }
+        });
+
+        btnSaveChanges.setOnAction(e -> {
+
+        });
     }
 }

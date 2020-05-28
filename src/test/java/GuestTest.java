@@ -51,6 +51,7 @@ public class GuestTest {
         guest.setEmail("jsmith@hotmail.com");
         guest.setPaymentMethod(PaymentType.Credit);
         guest.setPhoneNumber("3061111111");
+        guest.setMemberCount(3);
         guest.setAddress(new Address(111, 111, "Street", "Saskatoon", "SK", "Canada", "111111"));
 
     }
@@ -262,6 +263,46 @@ public class GuestTest {
             guest.setCreditCardNum(validCard);
             assertEquals(0, validator.validate(guest).size());
         }
+    }
+
+    /*** Test A2.7
+     * VALID: Member count is 1
+     */
+    @Test
+    public void testMemberCountLowerBound() {
+        guest.setMemberCount(1);
+
+        assertEquals(0, validator.validate(guest).size());
+    }
+
+    /*** Test A2.8
+     * VALID: Member count is 8
+     */
+    @Test
+    public void testMemberCountUpperBound() {
+        guest.setMemberCount(8);
+
+        assertEquals(0, validator.validate(guest).size());
+    }
+
+    /*** Test A2.9
+     * VALID: Member count is 0
+     */
+    @Test
+    public void testMemberCountBelowLowerBound() {
+        guest.setMemberCount(0);
+
+        assertInvalid(guest, "memberCount", "Member count must be greater than or equal to 1", 0);
+    }
+
+    /*** Test A3.1
+     * VALID: Member count is 9
+     */
+    @Test
+    public void testMemberCountAboveLowerBound() {
+        guest.setMemberCount(9);
+
+        assertInvalid(guest, "memberCount", "Member count must be less than or equal to 8", 9);
     }
 
     /***
