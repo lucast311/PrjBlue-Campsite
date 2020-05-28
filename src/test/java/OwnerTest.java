@@ -112,7 +112,7 @@ public class OwnerTest {
     public void testPasswordInvalid() {
         String userInput = "Pa$$w0rd";
 
-        assertEquals(ownerHelper.validateUser("harry.louis", userInput), owner1);
+        assertEquals(ownerHelper.validateUser("harry.louis", userInput), null);
 
     }
 
