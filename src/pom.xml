@@ -6,7 +6,7 @@
 
     <groupId>blue</groupId>
     <artifactId>campground</artifactId>
-    <version>release1</version>
+    <version>release2</version>
     <packaging>jar</packaging>
 
     <repositories>
@@ -50,6 +50,18 @@
             <version>1.1.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>14.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>14.0.1</version>
+        </dependency>
+
 
     </dependencies>
     <build>
@@ -59,7 +71,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>campground_data.BusinessManager</mainClass>
+                            <mainClass>campground_data.MainWindow</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
