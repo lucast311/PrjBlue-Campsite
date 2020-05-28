@@ -1,8 +1,6 @@
 package campground_data;
 
-import org.json.simple.JSONObject;
 import java.io.Serializable;
-import java.util.Scanner;
 import javax.validation.constraints.*;
 
 
@@ -33,13 +31,15 @@ public class Guest  implements Serializable {
     @Pattern(regexp = "^\\d{16}$", message = "Credit card number must only contain digits and be 16 digits long")
     private String creditCardNum;
 
+    private int memberCount;
+
     private int guestID;
 
     private Address address;
 
     public Guest(String firstName, String lastName, String email, String phoneNumber, PaymentType paymentMethod,
-                 String creditCardNum, Address address) {
-
+                 String creditCardNum, int memberCount, Address address) {
+        this.memberCount = memberCount;
         this.guestID = nGuestIdCount++;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -79,6 +79,8 @@ public class Guest  implements Serializable {
         return creditCardNum;
     }
 
+    public int getMemberCount() { return memberCount; }
+
     public Address getAddress() {
         return address;
     }
@@ -108,6 +110,8 @@ public class Guest  implements Serializable {
     public void setCreditCardNum(String creditCardNum) {
         this.creditCardNum = creditCardNum;
     }
+
+    public void setMemberCount(int memberCount) { this.memberCount = memberCount; }
 
     public void setAddress(Address address) {
         this.address = address;
