@@ -1,0 +1,27 @@
+package campground_data;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+
+public class ViewBookingWindow extends Application {
+
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
+
+    @Override
+    public void start(Stage obStage)
+    {
+        BorderPane obBP=new BorderPane();
+        Button obBtn=new Button("Ok");
+        obBP.setCenter(obBtn);
+
+
+        obStage.setScene(new Scene(obBP,250,250));
+        obStage.setTitle("View Bookings");
+        obStage.show();
+    }
+}

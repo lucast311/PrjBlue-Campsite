@@ -4,8 +4,12 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import campground_data.Booking;
 import campground_data.BookingHelper;
-import org.junit.Before;
+import campground_data.ViewBookingWindow;
+import javafx.application.Application;
+import javafx.stage.Stage;
 import org.junit.Test;
+
+import javax.validation.constraints.AssertTrue;
 
 public class Story2hTest
 {
@@ -15,7 +19,9 @@ public class Story2hTest
    @Test
    public void testCreateViewBookingWindow()
    {
-
+       //Running this test should launch the ViewBookingWindow class.
+       //No way to test for anything other than if it launches or not
+       Application.launch(ViewBookingWindow.class);
    }
 
    @Test
