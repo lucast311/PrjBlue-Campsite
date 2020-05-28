@@ -69,7 +69,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>campground_data.BusinessManager</mainClass>
+                            <mainClass>campground_data.MainWindow</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
