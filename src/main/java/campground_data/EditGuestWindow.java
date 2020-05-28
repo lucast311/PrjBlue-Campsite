@@ -6,12 +6,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.util.HashMap;
 
 public class EditGuestWindow extends Stage {
 
@@ -85,6 +90,15 @@ public class EditGuestWindow extends Stage {
 
         cboPaymentMethod.getItems().setAll(FXCollections.observableArrayList(PaymentType.values()));
         cboPaymentMethod.setValue(guest.getPaymentMethod());
+
+        if (cboPaymentMethod.getValue() == PaymentType.Credit)
+        {
+            creditCardNumField.setDisable(false);
+        }
+        else
+        {
+            creditCardNumField.setDisable(true);
+        }
 
         txtContactInformation.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
         txtAddressInformation.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
@@ -160,7 +174,54 @@ public class EditGuestWindow extends Stage {
         });
 
         btnSaveChanges.setOnAction(e -> {
+            Address dummyAddress = new Address(Integer.parseInt(streetNumField.getText()), Integer.parseInt(aptNumField.getText()),
+                    streetNameField.getText(), cityTownField.getText(), provinceField.getText(), countryField.getText(), postalCodeField.getText());
 
+            Guest obGuestDummy = new Guest(firstNameField.getText(), lastNameField.getText(), emailField.getText(), phoneNumberField.getText(),
+                    cboPaymentMethod.getValue(), creditCardNumField.isDisabled() ? "0000000000000000" : creditCardNumField.getText(),
+                    Integer.parseInt(memberCountField.getText()), dummyAddress);
+
+            if (vh.isValid(obGuestDummy))
+            {
+                obGuest = obGuestDummy;
+                Stage newStage = new Stage();
+                BorderPane obPane = new BorderPane();
+                Text obText = new Text("Changes Saved!");
+                VBox vBox = new VBox();
+                obPane.setTop(vBox);
+                vBox.getChildren().add(obText);
+
+                newStage.setTitle("Success");
+                newStage.setScene(new Scene(obPane, 60, 60));
+                this.close();
+                newStage.show();
+            }
+            else
+            {
+                Stage newStage = new Stage();
+                BorderPane obPane = new BorderPane();
+                Text obText = new Text("");
+                String sVal = "";
+                VBox vBox = new VBox();
+                obPane.setTop(vBox);
+
+                HashMap<String, String> errors = vh.getErrors(obGuestDummy);
+                for (String error : errors.values())
+                {
+                    sVal += error + "\n";
+                }
+
+                obText.setText(sVal);
+                vBox.getChildren().add(obText);
+
+                newStage.setTitle("Error");
+                newStage.setScene(new Scene(obPane, 60, 60));
+                newStage.show();
+            }
+        });
+
+        btnCancelChanges.setOnAction(e -> {
+            this.close();
         });
     }
 }
