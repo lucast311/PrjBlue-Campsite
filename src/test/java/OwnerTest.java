@@ -20,7 +20,7 @@ public class OwnerTest {
     private ArrayList<Owner> owners;
     private Owner owner1;
     private Owner owner2;
-
+    private OwnerHelper ownerHelper = new OwnerHelper();
 
     /***
      * Run once at class creation to set up validator
@@ -51,8 +51,8 @@ public class OwnerTest {
     public void setUpValidOwner()
     {
         owners = new ArrayList<>();
-        owner1 = new Owner("harry", "louis", "Pa$$w0rd", "555-555-5555", "testaccount@gmail.com", 3, false);
-        owner2 = new Owner("mary", "louis", "f1uffyCat$", "555-555-5555", "testaccount@hotmail.com", 3, true);
+        owner1 = new Owner("harry", "louis", "Mounta1nM@n", "555-555-5555", "hlouis@cestlake.ca", 3, true);
+        owner2 = new Owner("mary", "louis", "F1uffyC@ts", "555-555-5555", "mlouis@cestlake.ca", 3, true);
 
         owners.add(owner1);
         owners.add(owner2);
@@ -78,15 +78,7 @@ public class OwnerTest {
 
         String userInput = "harrylouis";
 
-        boolean validUser = false;
-        for(Owner user : owners)
-        {
-            if(user.getUserId().compareTo(userInput) == 0)
-            {
-                validUser = true;
-            }
-        }
-        assertEquals(validUser, false);
+        assertEquals(ownerHelper.validateUser(userInput, "Mounta1nM@n"), null);
 
     }
 
@@ -98,15 +90,7 @@ public class OwnerTest {
 
         String userInput = "harry.louis";
 
-        boolean validUser = false;
-        for(Owner user : owners)
-        {
-            if(user.getUserId().compareTo(userInput) == 0)
-            {
-                validUser = true;
-            }
-        }
-        assertTrue(validUser);
+        assertEquals(ownerHelper.validateUser(userInput, "Mounta1nM@n"), owner1);
 
     }
 
@@ -115,19 +99,10 @@ public class OwnerTest {
      */
     @Test
     public void testPasswordExists() {
-        String userInput = "Pa$$w0rd";
-        boolean validPass = false;
-        for (Owner owner : owners) {
-            if (owner.getUserId().equalsIgnoreCase("harry.louis")) {
-                if (userInput.equals(owner.getPassword())) {
-                    validPass = true;
+        String userInput = "Mounta1nM@n";
 
-                } else {
-                    validPass = false;
-                }
-            }
-            assertTrue(validPass);
-        }
+            assertEquals(ownerHelper.validateUser("harry.louis", userInput), owner1);
+
     }
 
     /***
@@ -136,56 +111,9 @@ public class OwnerTest {
     @Test
     public void testPasswordInvalid() {
         String userInput = "Pa$$w0rd";
-        boolean validPass = false;
-        for (Owner owner : owners) {
-            if (owner.getUserId().equalsIgnoreCase("mary.louis")) {
-                if (userInput.equals(owner.getPassword())) {
-                    validPass = true;
 
-                } else {
-                    validPass = false;
-                }
-            }
-            assertFalse(validPass);
-        }
-    }
+        assertEquals(ownerHelper.validateUser("harry.louis", userInput), owner1);
 
-    /***
-     * VALID: password 8 characters lower bound
-     */
-    @Test
-    public void testPasswordLowerBound() {
-        boolean validPass = false;
-        for(Owner owner : owners)
-        {
-            if(owner.getPassword().length() > 7)
-            {
-                validPass = true;
-            } else {
-                validPass = false;
-            }
-        }
-
-        assertTrue(validPass);
-    }
-
-    /***
-     * VALID: password 30 character upperbound
-     */
-    @Test
-    public void testPasswordUpperBound() {
-        owner1.changePassword(repeatM(30));
-        boolean validPass = false;
-        for(Owner owner : owners)
-        {
-            if(owner.getPassword().length() < 31)
-            {
-                validPass = true;
-            } else {
-                validPass = false;
-            }
-        }
-        assertTrue(validPass);
     }
 
     /***
