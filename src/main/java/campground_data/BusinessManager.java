@@ -1384,6 +1384,30 @@ public class BusinessManager {
         dbfile.saveRecords(sites);
     }
 
+    private int refundConfirmInt(Plot priceplot2,Booking searchbooking2, Date newEnddate) { //may need to be moved but for now here it stays
+        //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        System.out.println("Actions: Refund for remaining days?");
+        Date newDate = newEnddate;
+        Date date4 = searchbooking2.getEndDate();
+        Date date5 = searchbooking2.getStartDate();
+        int price;
+        //int plotid = searchbooking2.getPlotID();
+        //Plot priceplot = PlotHelper.searchPlot(plotid); //help
+        price = (int) priceplot2.getPrice();
+        long startTime2 = newDate.getTime();//diff from old
+        long endTime2 = date4.getTime();
+        long startTime3 = date5.getTime(); // diff old start and old end
+        long endTime3 = date4.getTime();
+        long diffTime2 = endTime2 - startTime2;
+        long diffTime3 = endTime3 - startTime3;
+        long diffDays2 = diffTime2 / (1000 * 60 * 60 * 24);
+        long diffDays3 = diffTime3 / (1000 * 60 * 60 * 24);
+
+        int ratething2 = (int)  (diffDays2 / diffDays3);
+        ratething2 = price / ratething2;
+        return ratething2;
+    }
+
     public static PlotHelper getPlotHelper()
     {
         return plotHelper;

@@ -1,6 +1,9 @@
 package campground_ui;
 
 
+import campground_data.Booking;
+import campground_data.Plot;
+import campground_data.PlotHelper;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,8 +18,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.Date;
+
 public class RefundGui extends Application {
 
+    private static Booking searchbooking;
+    private int ratething;
     Button buttonyes;
     Button buttonno;
     Text confirm;
@@ -24,6 +31,9 @@ public class RefundGui extends Application {
     Button buttonsubmit;
     Button buttoncancel;
     TextField inputtext;
+    boolean yesclicked;
+    boolean nothingclicked = true;
+    Date newEnddate;
 
     //below is temporary for checking
     public static void main(String[] args) {
@@ -33,7 +43,7 @@ public class RefundGui extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception { //this window will only show if newEndDate is Startdate < newEndDate < oldEndDate
         primaryStage.setTitle("Modify Booking Refund");
 
         buttonyes = new Button();
@@ -59,16 +69,7 @@ public class RefundGui extends Application {
         remainder.setText("Remainder:");
 
         BorderPane borderPane = new BorderPane();
-
-        //HBox statusbar = new HBox();
-        //Node appContent = new AppContentNode();
-        //borderPane.setTop(confirm);
-        //borderPane.setCenter(buttonyes);
-        //borderPane.setCenter(buttonno);
-        //borderPane.setCenter(inputtext);
-        //borderPane.setCenter(remainder);
-        //borderPane.setBottom(buttonsubmit );
-        //borderPane.setBottom(buttoncancel );
+        //needs square for yes and no buttons to go into
 
         borderPane.setPadding(new Insets(50));
         VBox paneCenter = new VBox();
@@ -79,8 +80,7 @@ public class RefundGui extends Application {
         paneCenter.setSpacing(15);
         borderPane.setTop(paneCenter);
         borderPane.setCenter(centerbar);
-        //borderPane.setCenter(remainderbar);
-        //borderPane.setRight(remainderbar);
+
         borderPane.setBottom(buttonbar2);
         paneCenter.getChildren().add(confirm);
         buttonbar1.getChildren().add(buttonyes);
@@ -97,14 +97,53 @@ public class RefundGui extends Application {
         paneCenter.setAlignment(Pos.CENTER);
         buttonyes.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
+                //gotta do that
+                //refundConfirm(newEnddate);
+                //ratething = refundConfirmInt(priceplot,searchBooking,newEnddate);
+
+                inputtext.setText(String.valueOf(ratething) + "$");
+                yesclicked = true;
+                nothingclicked = false;
 
             }
         });
         buttonno.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
+                int price = (int) searchbooking.getTotal();
+                inputtext.setText(String.valueOf(price) + "$");
+                yesclicked = false;
+                nothingclicked = false;
 
             }
         });
+
+        buttonsubmit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(nothingclicked == true){
+                    //do error message
+                } else if(yesclicked == true){
+                    //message success for refund yes and changed end date
+                    searchbooking.setTotal((searchbooking.getTotal() - ratething));
+                    //gotta do that
+                    //searchbooking.changeEnd(newEnddate);
+                }else {
+                    //message success for refund no and changed end date
+                    //gotta do that
+                    //searchbooking.changeEnd(newEnddate);
+                }
+
+            }
+        });
+
+        buttoncancel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                //go back to booking manager
+            }
+        });
+
+
 
         //borderPane.getChildren().addAll(confirm,buttonyes, buttonno, buttonsubmit, buttoncancel, inputtext, remainder);
 
@@ -113,5 +152,53 @@ public class RefundGui extends Application {
         primaryStage.show();
 
     }
+    public void refundConfirm(Date newEnddate) { //may need to be moved but for now here it stays
+        //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        System.out.println("Actions: Refund for remaining days?");
+        Date newDate = newEnddate;
+        Date date4 = searchbooking.getEndDate();
+        Date date5 = searchbooking.getStartDate();
+        int price;
+        int plotid = searchbooking.getPlotID();
+        Plot priceplot = PlotHelper.searchPlot(plotid); //help
+        price = (int) priceplot.getPrice();
+        long startTime2 = newDate.getTime();//diff from old
+        long endTime2 = date4.getTime();
+        long startTime3 = date5.getTime(); // diff old start and old end
+        long endTime3 = date4.getTime();
+        long diffTime2 = endTime2 - startTime2;
+        long diffTime3 = endTime3 - startTime3;
+        long diffDays2 = diffTime2 / (1000 * 60 * 60 * 24);
+        long diffDays3 = diffTime3 / (1000 * 60 * 60 * 24);
+
+        ratething = (int)  (diffDays2 / diffDays3);
+        ratething = price / ratething;
+    }
+
+    public int refundConfirmInt(Plot priceplot2,Booking searchbooking2, Date newEnddate) { //may need to be moved but for now here it stays
+        //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        System.out.println("Actions: Refund for remaining days?");
+        Date newDate = newEnddate;
+        Date date4 = searchbooking2.getEndDate();
+        Date date5 = searchbooking2.getStartDate();
+        int price;
+        //int plotid = searchbooking2.getPlotID();
+        //Plot priceplot = PlotHelper.searchPlot(plotid); //help
+        price = (int) priceplot2.getPrice();
+        long startTime2 = newDate.getTime();//diff from old
+        long endTime2 = date4.getTime();
+        long startTime3 = date5.getTime(); // diff old start and old end
+        long endTime3 = date4.getTime();
+        long diffTime2 = endTime2 - startTime2;
+        long diffTime3 = endTime3 - startTime3;
+        long diffDays2 = diffTime2 / (1000 * 60 * 60 * 24);
+        long diffDays3 = diffTime3 / (1000 * 60 * 60 * 24);
+
+       int ratething2 = (int)  (diffDays2 / diffDays3);
+        ratething2 = price / ratething2;
+        return ratething2;
+    }
+
+
 
 }
