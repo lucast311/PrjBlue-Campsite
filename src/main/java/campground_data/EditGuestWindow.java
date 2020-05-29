@@ -3,10 +3,7 @@ package campground_data;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -16,10 +13,16 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * This class will be the window that opens up when edit guest is clicked on the guest manager window.
+ * This will effectively allow changes to be made a specific guest and will save those changes to the
+ * database.
+ */
 public class EditGuestWindow extends Stage {
 
     private GridPane obPane = new GridPane();
 
+    //Text fields
     private TextField firstNameField = new TextField();
     private TextField lastNameField = new TextField();
     private TextField emailField = new TextField();
@@ -34,6 +37,7 @@ public class EditGuestWindow extends Stage {
     private TextField postalCodeField = new TextField();
     private TextField memberCountField = new TextField();
 
+    //Labels for corresponding text fields
     private Label firstNameLabel = new Label("First Name:\t");
     private Label lastNameLabel = new Label("Last Name:\t");
     private Label emailLabel = new Label("Email:\t");
@@ -46,33 +50,44 @@ public class EditGuestWindow extends Stage {
     private Label provinceLabel = new Label("Province:\t");
     private Label countryLabel = new Label("Country:\t");
     private Label postalCodeLabel = new Label("Postal Code:\t");
-    private Label memberCountLabel = new Label("Member Count:\t");
 
+    //Titles for each section
     private Text txtContactInformation = new Text("Contact Information");
     private Text txtPaymentInformation = new Text("Payment Information");
     private Text txtAddressInformation = new Text("Address Information");
     private Text txtCampingInformation = new Text("Camping Information");
 
-
-
+    //Combobox and title for the payment method section
     private ComboBox<PaymentType> cboPaymentMethod = new ComboBox<>();
     private Label paymentMethodLabel = new Label("Payment Method:\t");
 
+    //Buttons to save and cancel
     private Button btnSaveChanges = new Button();
     private Button btnCancelChanges = new Button();
 
+    //Guest object that will be edited
     private Guest obGuest;
 
+    //Validation helper to assist in ensuring that the guest objects are valid
     private ValidationHelper vh = new ValidationHelper();
+
+    //Database file to write guest changes to
     private DatabaseFile dbfile = new DatabaseFile();
 
+    /**
+     * Constructor that puts together the window, as well as the event handlers for the buttons.
+     * @param guest - guest that is passed in from the form on the view guest list window
+     * @param nIndex - Index of the arraylist from the view guest list window
+     */
     public EditGuestWindow(Guest guest, int nIndex)
     {
         this.obGuest = guest;
 
+        //Assigning labels to the buttons
         btnSaveChanges.setText("Save Changes");
         btnCancelChanges.setText("Cancel Changes");
 
+        //Setting default text to the text fields from the passed in guest
         firstNameField.setText(guest.getFirstName());
         lastNameField.setText(guest.getLastName());
         emailField.setText(guest.getEmail());
@@ -86,9 +101,13 @@ public class EditGuestWindow extends Stage {
         countryField.setText(guest.getAddress().getCountry());
         postalCodeField.setText(guest.getAddress().getPostalCode());
 
+        //Populating the combobox
         cboPaymentMethod.getItems().setAll(FXCollections.observableArrayList(PaymentType.values()));
+        //Setting the default selected value to the value that was passed in from the guest
         cboPaymentMethod.setValue(guest.getPaymentMethod());
 
+        //If the payment type passed in was credit, then it will disable the text field
+        //This will not allow it to be changed if the guest has a different payment method
         if (cboPaymentMethod.getValue() == PaymentType.Credit)
         {
             creditCardNumField.setDisable(false);
@@ -98,11 +117,13 @@ public class EditGuestWindow extends Stage {
             creditCardNumField.setDisable(true);
         }
 
+        //Setting fonts for the titles of each section
         txtContactInformation.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
         txtAddressInformation.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
         txtCampingInformation.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
         txtPaymentInformation.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
 
+        //Constructing the GUI
         obPane.add(txtContactInformation,0, 0);
 
         obPane.add(firstNameLabel, 0, 1);
@@ -154,12 +175,15 @@ public class EditGuestWindow extends Stage {
         obPane.add(btnSaveChanges, 1, 17);
         obPane.add(btnCancelChanges, 2, 17);
 
+        //Taking in the database file and creating an arrayList from it
         ArrayList<Guest> guestList = dbfile.readGuests();
 
         this.setTitle("Edit Guest - Cest Campgrounds and Cabins");
         this.setResizable(false);
         this.setScene(new Scene(obPane, 650, 400));
 
+        //Event handler for payment method cbo. This will check to see
+        //which value is selected and will disable the textfield accordingly
         cboPaymentMethod.setOnAction(e -> {
             if (cboPaymentMethod.getValue() != PaymentType.Credit)
             {
@@ -168,18 +192,26 @@ public class EditGuestWindow extends Stage {
             else { creditCardNumField.setDisable(false); }
         });
 
+        //event handler for save button
         btnSaveChanges.setOnAction(e -> {
+
+            //Create dummy address
             Address dummyAddress = new Address(Integer.parseInt(streetNumField.getText()), Integer.parseInt(aptNumField.getText()),
                     streetNameField.getText(), cityTownField.getText(), provinceField.getText(), countryField.getText(), postalCodeField.getText());
 
+            //Create dummy guest with dummyAddress assigned
             Guest obGuestDummy = new Guest(firstNameField.getText(), lastNameField.getText(), emailField.getText(), phoneNumberField.getText(),
                     cboPaymentMethod.getValue(), creditCardNumField.isDisabled() ? "0000 0000 0000 0000" : creditCardNumField.getText(), dummyAddress);
 
+            //Checking to see if the guest object and address is valid, if not then it will display error messages
             if (vh.isValid(obGuestDummy) && vh.isValid(obGuestDummy.getAddress()))
             {
+                //set the value of the guest element at the passed in index to the dummy guest, replacing the original
                 guestList.set(nIndex, obGuestDummy);
+                //save to database file
                 dbfile.saveRecords(guestList);
                 this.close();
+                //display success message
                 Alert successWindow = new Alert(Alert.AlertType.CONFIRMATION, "Changes Saved!");
                 successWindow.show();
             }
@@ -189,6 +221,7 @@ public class EditGuestWindow extends Stage {
                 String sVal = "";
 
                 HashMap<String, String> errors = vh.getErrors(obGuestDummy);
+                //This will print out all the errors in the guest object
                 for (String error : errors.values())
                 {
                     sVal += error + "\n";
@@ -196,6 +229,7 @@ public class EditGuestWindow extends Stage {
 
                 errors = vh.getErrors(obGuestDummy.getAddress());
 
+                //This will print out all of the errors in the Address object contained in guest
                 for (String error : errors.values())
                 {
                     sVal += error + "\n";
@@ -207,6 +241,7 @@ public class EditGuestWindow extends Stage {
             }
         });
 
+        //Simply closes the window without saving any changes
         btnCancelChanges.setOnAction(e -> {
             this.close();
         });
