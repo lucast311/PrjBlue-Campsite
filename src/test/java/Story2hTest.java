@@ -14,9 +14,13 @@ import org.junit.Test;
 
 public class Story2hTest
 {
-   public BookingHelper bookingHelper=new BookingHelper();
-   public ArrayList<Booking> obList=bookingHelper.getBookingList();
+   public BookingHelper bookingHelper=new BookingHelper(); //initializes a BookingHelper to access methods with
+   public ArrayList<Booking> obList=bookingHelper.getBookingList(); //initializes an arrayList of all Bookings
 
+    /**
+     *This test's sole purpose is to run and open up the ViewBookingWindow.
+     *Test passes if the window opens
+     */
    @Test
    public void testCreateViewBookingWindow()
    {
@@ -25,6 +29,10 @@ public class Story2hTest
        Application.launch(ViewBookingWindow.class);
    }
 
+    /**
+     *This test checks whether or not all Bookings in the booking database is returned from getBookingList and prints out
+     *Passes if both arrayLists are the same
+     */
    @Test
    public void testViewAll()
    {
@@ -36,6 +44,10 @@ public class Story2hTest
         assertEquals(allBookings,bookingHelper.getBookingList());
    }
 
+    /**
+     *Checks whether getCurrentBookings returns a arrayList of Bookings that have a start date of today onwards
+     *Passes if ArrayList of Bookings have a start date of today onwards.
+     */
     @Test
     public void testViewCurrent()
     {
@@ -52,6 +64,11 @@ public class Story2hTest
         assertEquals(obTemp,bookingHelper.getCurrentBookings());
     }
 
+    /**
+     *Checks whether or not the getCabinOnly method returns an arrayList of Bookings where the type of booking is only Cabin
+     *Has an additional declaration that allows an ArrayList to be passed in to be checked on, this method functions the exact same
+     *as the one being tested here, so if this test passes, the other method will pass the same test too
+     */
     @Test
     public void testViewCabinsOnly()
     {
@@ -65,8 +82,14 @@ public class Story2hTest
             }
         }
         assertEquals(bookingTemp,bookingHelper.getCabinOnly());
+        assertEquals(bookingTemp,bookingHelper.getCabinOnly(obList));
     }
 
+    /**
+     *Checks whether or not the getSiteOnly method returns an arrayList of Bookings where the type of booking is only Site
+     * Has an additional declaration that allows an ArrayList to be passed in to be checked on, this method functions the exact same
+     * as the one being tested here, so if this test passes, the other method will pass the same test too
+     */
     @Test
     public void testViewSitesOnly()
     {
@@ -80,8 +103,13 @@ public class Story2hTest
             }
         }
         assertEquals(bookingTemp,bookingHelper.getSiteOnly());
+        assertEquals(bookingTemp,bookingHelper.getSiteOnly(obList));
     }
 
+    /**
+     *Checks if the getBookingListByMonth method with a month specified returns an arrayList of Bookings
+     *that have a start date during that month
+     */
     @Test
     public void testGetBookingListByMonth()
     {
@@ -97,6 +125,10 @@ public class Story2hTest
         assertEquals(bookingTemp,bookingHelper.getBookingListByMonth(4));
     }
 
+    /**
+     *Checks if the getBookingListByYear method with a year specified returns an arrayList of Bookings
+     *that have a start date during that year
+     */
     @Test
     public void testGetBookingListByYear()
     {
@@ -112,6 +144,10 @@ public class Story2hTest
         assertEquals(bookingTemp,bookingHelper.getBookingListByYear(2019));
     }
 
+    /**
+     *Checks if the getBookingList method with a year and month specified returns an arrayList of Bookings
+     * that have a start date during that month and year
+     */
     @Test
     public void testGetBookingListByMonthAndYear()
     {

@@ -69,7 +69,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>campground_data.MainWindow</mainClass>
+                            <mainClass>campground_ui.MainWindow</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -100,7 +100,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.4</version>
                 <configuration>
-                    <mainClass>campground_ui.MainGUI</mainClass>
+                    <mainClass>campground_ui.MainWindow</mainClass>
                 </configuration>
             </plugin>
         </plugins>
