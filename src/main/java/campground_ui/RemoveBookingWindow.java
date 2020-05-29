@@ -1,6 +1,5 @@
 package campground_ui;
 
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,9 +10,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-/**
- * Will be creating the GUI for removing a booking
- */
 public class RemoveBookingWindow extends Application {
 
     private BorderPane obBPane;
