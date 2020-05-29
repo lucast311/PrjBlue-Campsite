@@ -25,6 +25,13 @@ public class RefundGui extends Application {
     Button buttoncancel;
     TextField inputtext;
 
+    //below is temporary for checking
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+
+        Application.launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Modify Booking Refund");
@@ -106,10 +113,5 @@ public class RefundGui extends Application {
         primaryStage.show();
 
     }
-    //below is temporary for checking
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
 
-        launch(args);
-    }
 }
