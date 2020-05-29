@@ -6,7 +6,6 @@ import campground_data.Booking;
 import campground_data.BookingHelper;
 import campground_data.ViewBookingWindow;
 import javafx.application.Application;
-import javafx.stage.Stage;
 import org.junit.Test;
 
 import javax.validation.constraints.AssertTrue;
@@ -27,6 +26,8 @@ public class Story2hTest
    @Test
    public void testViewAll()
    {
+        ArrayList<Booking> allBookings=obList;
+        assertEquals(allBookings,bookingHelper.getBookingList());
 
    }
 
