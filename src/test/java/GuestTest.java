@@ -51,7 +51,6 @@ public class GuestTest {
         guest.setEmail("jsmith@hotmail.com");
         guest.setPaymentMethod(PaymentType.Credit);
         guest.setPhoneNumber("3061111111");
-        guest.setMemberCount(3);
         guest.setAddress(new Address(111, 111, "Street", "Saskatoon", "SK", "Canada", "111111"));
 
     }
@@ -247,7 +246,7 @@ public class GuestTest {
         for (String invalidCard : invalid)
         {
             guest.setCreditCardNum(invalidCard);
-            assertInvalid(guest, "creditCardNum", "Credit card number must only contain digits and be 16 digits long", invalidCard);
+            assertInvalid(guest, "creditCardNum", "Credit card number must be in the format 1234 1234 1234 1234", invalidCard);
         }
     }
 
@@ -256,53 +255,13 @@ public class GuestTest {
      */
     @Test
     public void testCreditCardPatternValid() {
-        String[] valid = {"1234567891123456", "9876543212345678", "4567893215698856", "1547896532154789"};
+        String[] valid = {"1234 5678 1123 2456", "9876 5432 1234 5678", "4567 8932 1569 8856", "1547 8965 3215 4789"};
 
         for (String validCard : valid)
         {
             guest.setCreditCardNum(validCard);
             assertEquals(0, validator.validate(guest).size());
         }
-    }
-
-    /*** Test A2.7
-     * VALID: Member count is 1
-     */
-    @Test
-    public void testMemberCountLowerBound() {
-        guest.setMemberCount(1);
-
-        assertEquals(0, validator.validate(guest).size());
-    }
-
-    /*** Test A2.8
-     * VALID: Member count is 8
-     */
-    @Test
-    public void testMemberCountUpperBound() {
-        guest.setMemberCount(8);
-
-        assertEquals(0, validator.validate(guest).size());
-    }
-
-    /*** Test A2.9
-     * VALID: Member count is 0
-     */
-    @Test
-    public void testMemberCountBelowLowerBound() {
-        guest.setMemberCount(0);
-
-        assertInvalid(guest, "memberCount", "Member count must be greater than or equal to 1", 0);
-    }
-
-    /*** Test A3.1
-     * VALID: Member count is 9
-     */
-    @Test
-    public void testMemberCountAboveLowerBound() {
-        guest.setMemberCount(9);
-
-        assertInvalid(guest, "memberCount", "Member count must be less than or equal to 8", 9);
     }
 
     /***
