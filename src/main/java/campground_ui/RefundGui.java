@@ -100,8 +100,9 @@ public class RefundGui extends Application {
                 //gotta do that
                 //refundConfirm(newEnddate);
                 //ratething = refundConfirmInt(priceplot,searchBooking,newEnddate);
+                int resultratething = (int) searchbooking.getTotal() - ratething;
 
-                inputtext.setText(String.valueOf(ratething) + "$");
+                inputtext.setText(String.valueOf(resultratething) + "$");
                 yesclicked = true;
                 nothingclicked = false;
 
