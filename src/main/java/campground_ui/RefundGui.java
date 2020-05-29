@@ -178,6 +178,7 @@ public class RefundGui extends Application {
 
     public int refundConfirmInt( Booking searchbooking2, Date newEnddate) { //may need to be moved but for now here it stays
         //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        // add updateBookingDate(ArrayList<Booking> bookings, int bookingID, Date newStartDate, Date newEndDate, String sFile) for validation
         Date newDate = newEnddate;
         Date date4 = searchbooking2.getEndDate();
         Date date5 = searchbooking2.getStartDate();

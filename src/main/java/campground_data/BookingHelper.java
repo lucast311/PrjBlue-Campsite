@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class BookingHelper {
@@ -115,15 +116,57 @@ public class BookingHelper {
         return true;
     }
 
-    public void updateBookingDate(ArrayList<Booking> bookings, int bookingID, Date newStartDate, Date newEndDate, String sFile)
+    //validation and setting for booking date changes
+    public void updateBookingDate(ArrayList<Booking> bookings, int bookingID, Date newStartDate, Date newEndDate, String sFile) //help
     {
         List<Booking> obBookingList = bookings.stream()
                 .map(x -> {
                     if (x.getBookingID() == bookingID)
                     {
-                        return new Booking(x.getPlotID(), x.getGuestID(),newStartDate,newEndDate,x.getType(), x.getMemberCount());
+
+                        List<Booking> obBookingList2 = bookings.stream()
+                                .map(y -> {
+                                    if(y.getAccommodationID() == x.getAccommodationID()){ //for validation
+                                        Date date4 = newEndDate;
+                                        Date date5 = y.getStartDate();
+                                        long startTime3 = date5.getTime(); // diff old start and old end
+                                        long endTime3 = date4.getTime();
+                                        long diffTime3 = endTime3 - startTime3;
+                                        long diffDays3 = diffTime3 / (1000 * 60 * 60 * 24);
+                                        Date date6 = newStartDate;
+                                        Date date7 = y.getEndDate();
+                                        long startTime4 = date6.getTime(); // diff old start and old end
+                                        long endTime4 = date7.getTime();
+                                        long diffTime4 = endTime4 - startTime4;
+                                        long diffDays4 = diffTime4 / (1000 * 60 * 60 * 24);
+                                        if(diffDays3 > 0 && diffDays4 < 0){
+                                            //error cause its over a startdate or enddate of a booking with the same accommodationID
+                                        }else{
+                                            return new Booking(x.getAccommodationID(), x.getGuestID(),newStartDate,newEndDate,x.getType(), x.getMemberCount());
+                                        }
+                                    }
+
+                                    return x;
+                                }).collect(Collector.toList()); //help
+
+                        try
+                        {
+                            FileOutputStream fileOut = new FileOutputStream(sFile);
+                            ObjectOutputStream obOut = new ObjectOutputStream(fileOut);
+                            for (Booking booking : obBookingList2)
+                            {
+                                obOut.writeObject(booking);
+                            }
+                        }
+                        catch (IOException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+
+
                     }
-                    return x;
+                    return null; //what
                 })
                 .collect(Collectors.toList());
 
