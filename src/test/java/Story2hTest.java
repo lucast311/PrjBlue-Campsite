@@ -2,6 +2,7 @@
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import campground_data.Booking;
@@ -63,30 +64,69 @@ public class Story2hTest
                 //System.out.println(obVal); //un-comment to have list print on console
             }
         }
-
+        assertEquals(bookingTemp,bookingHelper.getCabinOnly());
     }
 
     @Test
     public void testViewSitesOnly()
     {
-
+        ArrayList<Booking> bookingTemp=new ArrayList<>();
+        for(Booking obVal: obList)
+        {
+            if(obVal.getType()==BookingType.Site)
+            {
+                bookingTemp.add(obVal);
+                //System.out.println(obVal); //un-comment to have list print on console
+            }
+        }
+        assertEquals(bookingTemp,bookingHelper.getSiteOnly());
     }
 
     @Test
     public void testGetBookingListByMonth()
     {
-
+        ArrayList<Booking> bookingTemp=new ArrayList<>();
+        for(Booking obVal: obList)
+        {
+            if(obVal.getStartDate().getMonth()== Calendar.MAY)
+            {
+                bookingTemp.add(obVal);
+                //System.out.println(obVal); //un-comment to have list print on console
+            }
+        }
+        assertEquals(bookingTemp,bookingHelper.getBookingListByMonth(4));
     }
 
     @Test
     public void testGetBookingListByYear()
     {
-
+        ArrayList<Booking> bookingTemp=new ArrayList<>();
+        for(Booking obVal: obList)
+        {
+            if(obVal.getStartDate().getYear()==2019)
+            {
+                bookingTemp.add(obVal);
+                //System.out.println(obVal); //un-comment to have list print on console
+            }
+        }
+        assertEquals(bookingTemp,bookingHelper.getBookingListByYear(2019));
     }
 
     @Test
     public void testGetBookingListByMonthAndYear()
     {
-
+        ArrayList<Booking> bookingTemp=new ArrayList<>();
+        for(Booking obVal: obList)
+        {
+            if(obVal.getStartDate().getYear()==2020)
+            {
+                if(obVal.getStartDate().getMonth()==Calendar.JUNE)
+                {
+                    bookingTemp.add(obVal);
+                    //System.out.println(obVal); //un-comment to have list print on console
+                }
+            }
+        }
+        assertEquals(bookingTemp,bookingHelper.getBookingList(2020,5));
     }
 }

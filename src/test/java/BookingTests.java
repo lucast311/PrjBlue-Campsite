@@ -86,7 +86,7 @@ public class BookingTests
 
 		helper.addBooking(obNew2019);
 		helper.addBooking(obNew2020);
-		obBookingList=helper.getBookingList(2019);
+		obBookingList=helper.getBookingListByYear(2019);
 
 		assertEquals(obBookingList.contains(obNew2019),true);
 	}
