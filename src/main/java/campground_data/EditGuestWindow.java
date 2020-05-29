@@ -2,10 +2,7 @@ package campground_data;
 
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -16,6 +13,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EditGuestWindow extends Stage {
@@ -66,8 +64,9 @@ public class EditGuestWindow extends Stage {
     private Guest obGuest;
 
     private ValidationHelper vh = new ValidationHelper();
+    private DatabaseFile dbfile = new DatabaseFile();
 
-    public EditGuestWindow(Guest guest)
+    public EditGuestWindow(Guest guest, int nIndex)
     {
         this.obGuest = guest;
 
@@ -86,7 +85,6 @@ public class EditGuestWindow extends Stage {
         provinceField.setText(guest.getAddress().getProvince());
         countryField.setText(guest.getAddress().getCountry());
         postalCodeField.setText(guest.getAddress().getPostalCode());
-        memberCountField.setText(String.valueOf(guest.getMemberCount()));
 
         cboPaymentMethod.getItems().setAll(FXCollections.observableArrayList(PaymentType.values()));
         cboPaymentMethod.setValue(guest.getPaymentMethod());
@@ -119,13 +117,13 @@ public class EditGuestWindow extends Stage {
         obPane.add(phoneNumberLabel, 0, 4);
         obPane.add(phoneNumberField, 1, 4);
 
-        obPane.add(txtPaymentInformation, 0, 5);
+        obPane.add(txtPaymentInformation, 2, 0);
 
-        obPane.add(paymentMethodLabel, 0, 6);
-        obPane.add(cboPaymentMethod, 1, 6);
+        obPane.add(paymentMethodLabel, 2, 1);
+        obPane.add(cboPaymentMethod, 3, 1);
 
-        obPane.add(creditCardNumLabel, 0, 7);
-        obPane.add(creditCardNumField, 1, 7);
+        obPane.add(creditCardNumLabel, 2, 2);
+        obPane.add(creditCardNumField, 3, 2);
 
         obPane.add(txtAddressInformation, 0, 8);
 
@@ -150,20 +148,17 @@ public class EditGuestWindow extends Stage {
         obPane.add(postalCodeLabel, 2, 11);
         obPane.add(postalCodeField, 3, 11);
 
-        obPane.add(txtCampingInformation, 2, 0);
-
-        obPane.add(memberCountLabel, 2, 1);
-        obPane.add(memberCountField, 3, 1);
-
         obPane.setHgap(10);
         obPane.setVgap(5);
 
         obPane.add(btnSaveChanges, 1, 17);
         obPane.add(btnCancelChanges, 2, 17);
 
+        ArrayList<Guest> guestList = dbfile.readGuests();
+
         this.setTitle("Edit Guest - Cest Campgrounds and Cabins");
         this.setResizable(false);
-        this.setScene(new Scene(obPane, 600, 450));
+        this.setScene(new Scene(obPane, 650, 400));
 
         cboPaymentMethod.setOnAction(e -> {
             if (cboPaymentMethod.getValue() != PaymentType.Credit)
@@ -178,32 +173,20 @@ public class EditGuestWindow extends Stage {
                     streetNameField.getText(), cityTownField.getText(), provinceField.getText(), countryField.getText(), postalCodeField.getText());
 
             Guest obGuestDummy = new Guest(firstNameField.getText(), lastNameField.getText(), emailField.getText(), phoneNumberField.getText(),
-                    cboPaymentMethod.getValue(), creditCardNumField.isDisabled() ? "0000000000000000" : creditCardNumField.getText(),
-                    Integer.parseInt(memberCountField.getText()), dummyAddress);
+                    cboPaymentMethod.getValue(), creditCardNumField.isDisabled() ? "0000 0000 0000 0000" : creditCardNumField.getText(), dummyAddress);
 
-            if (vh.isValid(obGuestDummy))
+            if (vh.isValid(obGuestDummy) && vh.isValid(obGuestDummy.getAddress()))
             {
-                obGuest = obGuestDummy;
-                Stage newStage = new Stage();
-                BorderPane obPane = new BorderPane();
-                Text obText = new Text("Changes Saved!");
-                VBox vBox = new VBox();
-                obPane.setTop(vBox);
-                vBox.getChildren().add(obText);
-
-                newStage.setTitle("Success");
-                newStage.setScene(new Scene(obPane, 60, 60));
+                guestList.set(nIndex, obGuestDummy);
+                dbfile.saveRecords(guestList);
                 this.close();
-                newStage.show();
+                Alert successWindow = new Alert(Alert.AlertType.CONFIRMATION, "Changes Saved!");
+                successWindow.show();
             }
             else
             {
-                Stage newStage = new Stage();
-                BorderPane obPane = new BorderPane();
                 Text obText = new Text("");
                 String sVal = "";
-                VBox vBox = new VBox();
-                obPane.setTop(vBox);
 
                 HashMap<String, String> errors = vh.getErrors(obGuestDummy);
                 for (String error : errors.values())
@@ -211,12 +194,16 @@ public class EditGuestWindow extends Stage {
                     sVal += error + "\n";
                 }
 
-                obText.setText(sVal);
-                vBox.getChildren().add(obText);
+                errors = vh.getErrors(obGuestDummy.getAddress());
 
-                newStage.setTitle("Error");
-                newStage.setScene(new Scene(obPane, 60, 60));
-                newStage.show();
+                for (String error : errors.values())
+                {
+                    sVal += error + "\n";
+                }
+
+                obText.setText(sVal);
+                Alert errorWindow = new Alert(Alert.AlertType.ERROR, sVal);
+                errorWindow.show();
             }
         });
 
