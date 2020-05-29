@@ -10,12 +10,12 @@ public class BusinessManager {
 
     private static Owner currUser;
     private static BookingHelper bookingHelper = new BookingHelper();
-    private static PlotHelper plotHelper = new PlotHelper();
+    private static AccommodationHelper accommodationHelper = new AccommodationHelper();
     private static OwnerHelper ownerHelper = new OwnerHelper();
     private static GuestHelper guestHelper = new GuestHelper();
     private static DatabaseFile dbfile = new DatabaseFile();
     private static ArrayList<Owner> ownerList = ownerHelper.getOwnerList();
-    private static ArrayList<Plot> sites = plotHelper.getPlotList();
+    private static ArrayList<Accommodation> sites = accommodationHelper.getAccommodationList();
 
     private static Scanner obIn = new Scanner(System.in);
 
@@ -39,10 +39,10 @@ public class BusinessManager {
         guestHelper.addGuest(new Guest("Test", "Mctester", "mctester@gmail.com", "3060203345", PaymentType.Credit, "1563 1222 1589 5489", new Address(121, 0, "Test Cres.", "Saskatoon", "Saskatchewan", "Canada", "S1N2P3")));
 
         //adding site for testing
-        plotHelper.addPlot(new Site(2, 4, 50, Site.SiteType.Group, true, true));
+        accommodationHelper.addAccommodation(new Site(2, 4, 50, Site.SiteType.Group, true, true));
 
         //adding cabin for testing
-        plotHelper.addPlot(new Cabin(1, 4, Cabin.CabinType.Deluxe, 100, false));
+        accommodationHelper.addAccommodation(new Cabin(1, 4, Cabin.CabinType.Deluxe, 100, false));
 
         homeScreen();
 
@@ -454,7 +454,7 @@ public class BusinessManager {
                     refundendDate = searchbooking.getEndDate();
                     bookingtype = searchbooking.getType();
                     bookingmemberCount = searchbooking.getMemberCount();
-                    bookingplotID = searchbooking.getPlotID();
+                    bookingplotID = searchbooking.getAccommodationID();
 
                     //int plotID, int guestID, Date startDate, Date endDate, BookingType type, int memberCount
                     System.out.println("Modify which? ");
@@ -619,7 +619,7 @@ public class BusinessManager {
             System.out.println("Please enter the PlotID:");
             int nVal = Integer.parseInt(obIn.next());
             //ADD PLOT ID LIST FOR CRITERIA, AND PLOT ID VERIFICATION
-            if( plotHelper.searchPlot(nVal) != null){
+            if( accommodationHelper.searchAccommodation(nVal) != null){
                 bookingplotID = nVal;
                 searchbooking.setPlotID(bookingplotID);
                 bPlotID = true;
@@ -728,7 +728,7 @@ public class BusinessManager {
     {
         System.out.println("Please enter a Cabin Number:");
         int nCabinNum=Integer.parseInt(obIn.next());
-        Cabin obFound=plotHelper.searchCabin(nCabinNum); //Needs to be changed to Cabin
+        Cabin obFound= accommodationHelper.searchCabin(nCabinNum); //Needs to be changed to Cabin
         if(obFound!=null)
         {
             System.out.println("Cabin Found!");
@@ -851,7 +851,7 @@ public class BusinessManager {
     {
         System.out.println("Please enter a Site Number:");
         int nSiteNum=Integer.parseInt(obIn.next());
-        Site obFound=plotHelper.searchSite(nSiteNum);
+        Site obFound= accommodationHelper.searchSite(nSiteNum);
         if(obFound!=null)
         {
             System.out.println("Site Found!");
@@ -1132,7 +1132,7 @@ public class BusinessManager {
             int price;
             int plotid = bookingplotID;
             //plotHelper.searchPlot(plotid);
-            Plot priceplot = PlotHelper.searchPlot(plotid);//whyyyyyyyy
+            Accommodation priceplot = AccommodationHelper.searchAccommodation(plotid);//whyyyyyyyy
                 price = (int) priceplot.getPrice();
             long startTime2 = date3.getTime();
             long endTime2 = date4.getTime();
@@ -1384,16 +1384,15 @@ public class BusinessManager {
         dbfile.saveRecords(sites);
     }
 
-    private int refundConfirmInt(Plot priceplot2,Booking searchbooking2, Date newEnddate) { //may need to be moved but for now here it stays
+    public int refundConfirmInt( Booking searchbooking2, Date newEnddate) { //may need to be moved but for now here it stays
         //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        System.out.println("Actions: Refund for remaining days?");
         Date newDate = newEnddate;
         Date date4 = searchbooking2.getEndDate();
         Date date5 = searchbooking2.getStartDate();
         int price;
-        //int plotid = searchbooking2.getPlotID();
-        //Plot priceplot = PlotHelper.searchPlot(plotid); //help
-        price = (int) priceplot2.getPrice();
+        int Accommodationid = searchbooking.getAccommodationID();
+        Accommodation priceAccommodation2 = AccommodationHelper.searchAccommodation(Accommodationid); //help
+        price = (int) priceAccommodation2.getPrice();
         long startTime2 = newDate.getTime();//diff from old
         long endTime2 = date4.getTime();
         long startTime3 = date5.getTime(); // diff old start and old end
@@ -1408,9 +1407,9 @@ public class BusinessManager {
         return ratething2;
     }
 
-    public static PlotHelper getPlotHelper()
+    public static AccommodationHelper getAccommodationHelper()
     {
-        return plotHelper;
+        return accommodationHelper;
     }
 }
 

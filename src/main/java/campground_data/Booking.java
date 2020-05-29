@@ -9,7 +9,7 @@ public class Booking implements Serializable
 	private int nBookingID;
 	private static final long serialVersionUID = 1L;
 	private int sGuestID;
-	private int nPlotID;
+	private int nAccommodationID;
 	private Date startDate;
 	private Date endDate;
 	private BookingType type;
@@ -18,11 +18,11 @@ public class Booking implements Serializable
 	private double dDiscountRate;
 	private int nMemberCount;
 	
-	public Booking(int plotID, int guestID, Date startDate, Date endDate, BookingType type, int memberCount)
+	public Booking(int AccommodationID, int guestID, Date startDate, Date endDate, BookingType type, int memberCount)
 	{
 		this.nBookingID = nBookingIDCount++;
 		this.sGuestID=guestID;
-		this.nPlotID=plotID;
+		this.nAccommodationID =AccommodationID;
 		this.startDate=startDate;
 		this.endDate=endDate;
 		this.type=type;
@@ -36,7 +36,7 @@ public class Booking implements Serializable
 	{
 		this.nBookingID = nBookingIDCount++;
 		this.sGuestID=0;
-		this.nPlotID=0;
+		this.nAccommodationID =0;
 		this.startDate=new Date();
 		this.endDate=new Date();
 		this.type=null;
@@ -103,7 +103,7 @@ public class Booking implements Serializable
 
 	}
 	
-	public void setPlotID(int nPlotID)
+	public void setnAccommodationID(int nPlotID)
 	{
 		if(nPlotID<=0 || nPlotID>=5)
 		{
@@ -111,7 +111,7 @@ public class Booking implements Serializable
 		}
 		else
 		{
-			this.nPlotID=nPlotID;
+			this.nAccommodationID =nPlotID;
 		}
 
 	}
@@ -189,16 +189,16 @@ public class Booking implements Serializable
 		return this.nMemberCount;
 	}
 	
-	public int getPlotID()
+	public int getAccommodationID()
 	{
-		return this.nPlotID;
+		return this.nAccommodationID;
 	}
 	
 	@Override
 	public String toString()
 	{
 		return String.format("BookingID: %d, GuestID: %d, Plot ID: %d, Paid?: %b, Total: %f, Members: %d Start Date: %s %d End Date: %s %d\n",
-				this.nBookingID, this.sGuestID, this.nPlotID, this.bPaid, this.dTotal, this.nMemberCount,
+				this.nBookingID, this.sGuestID, this.nAccommodationID, this.bPaid, this.dTotal, this.nMemberCount,
 				this.startDate.toString(),this.startDate.getYear(),this.endDate.toString(),this.endDate.getYear());
 	}
 }

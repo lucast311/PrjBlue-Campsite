@@ -2,8 +2,8 @@ package campground_ui;
 
 
 import campground_data.Booking;
-import campground_data.Plot;
-import campground_data.PlotHelper;
+import campground_data.Accommodation;
+import campground_data.AccommodationHelper;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -99,7 +99,7 @@ public class RefundGui extends Application {
             @Override public void handle(ActionEvent e) {
                 //gotta do that
                 //refundConfirm(newEnddate);
-                //ratething = refundConfirmInt(priceplot,searchBooking,newEnddate);
+                //ratething = refundConfirmInt(searchBooking,newEnddate);
                 int resultratething = (int) searchbooking.getTotal() - ratething;
 
                 inputtext.setText(String.valueOf(resultratething) + "$");
@@ -155,13 +155,13 @@ public class RefundGui extends Application {
     }
     public void refundConfirm(Date newEnddate) { //may need to be moved but for now here it stays
         //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        System.out.println("Actions: Refund for remaining days?");
+
         Date newDate = newEnddate;
         Date date4 = searchbooking.getEndDate();
         Date date5 = searchbooking.getStartDate();
         int price;
-        int plotid = searchbooking.getPlotID();
-        Plot priceplot = PlotHelper.searchPlot(plotid); //help
+        int Accommodationid = searchbooking.getAccommodationID();
+        Accommodation priceplot = AccommodationHelper.searchAccommodation(Accommodationid); //help
         price = (int) priceplot.getPrice();
         long startTime2 = newDate.getTime();//diff from old
         long endTime2 = date4.getTime();
@@ -176,16 +176,15 @@ public class RefundGui extends Application {
         ratething = price / ratething;
     }
 
-    public int refundConfirmInt(Plot priceplot2,Booking searchbooking2, Date newEnddate) { //may need to be moved but for now here it stays
+    public int refundConfirmInt( Booking searchbooking2, Date newEnddate) { //may need to be moved but for now here it stays
         //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        System.out.println("Actions: Refund for remaining days?");
         Date newDate = newEnddate;
         Date date4 = searchbooking2.getEndDate();
         Date date5 = searchbooking2.getStartDate();
         int price;
-        //int plotid = searchbooking2.getPlotID();
-        //Plot priceplot = PlotHelper.searchPlot(plotid); //help
-        price = (int) priceplot2.getPrice();
+        int Accommodationid = searchbooking.getAccommodationID();
+        Accommodation priceAccommodation2 = AccommodationHelper.searchAccommodation(Accommodationid); //help
+        price = (int) priceAccommodation2.getPrice();
         long startTime2 = newDate.getTime();//diff from old
         long endTime2 = date4.getTime();
         long startTime3 = date5.getTime(); // diff old start and old end
