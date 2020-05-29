@@ -1,4 +1,5 @@
-package campground_data;
+package campground_ui;
+
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -8,10 +9,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
-
 
 /**
  * Will be creating the GUI for removing a booking
@@ -21,7 +19,7 @@ public class RemoveBookingWindow extends Application {
     private BorderPane obBPane;
     private GridPane obGPane;
 
-    private TextFlow taBookingList;
+    private TextArea taBookingList;
     private Label lblGuestID, lblbookingID, lblAccomodationID, lblStartDate, lblEndDate, lblType, lblMemberCount,
             lblTotalPrice;
     private TextField txtGuestID, txtbookingID, txtAccomodationID, txtStartDate, txtEndDate, txtType, txtMemberCount,
@@ -40,8 +38,7 @@ public class RemoveBookingWindow extends Application {
         obBPane = new BorderPane();
 
         btnRemove = new Button("Remove");
-
-        obBPane.setTop(btnRemove);
+        obBPane.setBottom(btnRemove);
 
         obStage.setScene(new Scene(obBPane, 700, 500));
         obStage.setTitle("Cest Lake - Remove Booking");
