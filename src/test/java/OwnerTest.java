@@ -83,7 +83,7 @@ public class OwnerTest {
     }
 
     /***
-     * INVALID: UserId entered does exist in the system
+     * VALID: UserId entered does exist in the system
      */
     @Test
     public void testUserIdExists() {
@@ -100,13 +100,13 @@ public class OwnerTest {
     @Test
     public void testPasswordExists() {
         String userInput = "Mounta1nM@n";
-
+            System.out.println("hithere");
             assertEquals(ownerHelper.validateUser("harry.louis", userInput), owner1);
 
     }
 
     /***
-     * VALID: password exists in the Owner object that is logging in
+     * INVALID: password does not exists in the Owner object that is logging in
      */
     @Test
     public void testPasswordInvalid() {
@@ -114,6 +114,17 @@ public class OwnerTest {
 
         assertEquals(ownerHelper.validateUser("harry.louis", userInput), null);
 
+    }
+
+    @Test
+    public void testUserIdIsNotBlank() {
+
+        assertEquals(ownerHelper.validateUser("", "Pa$$w0rd"), null);
+    }
+
+    @Test
+    public void testPasswordIsNotBlank() {
+        assertEquals(ownerHelper.validateUser("harry.louis", ""), null);
     }
 
     /***
