@@ -1,39 +1,40 @@
-package campground_data;
+package campground_ui;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class LoginWindow extends Application {
 
-    public static void main(String[] args) {
-       Application.launch(args);
-    }
-
     BorderPane obPane = new BorderPane();
     GridPane obGrid = new GridPane();
-//    TextField txtId, txtPass;
-//    Label lblId, lblPass;
+    TextField txtId, txtPass;
+    Label lblId, lblPass;
+
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) {
+        txtId = new TextField();
+        lblId = new Label("UserID:");
 
-//        TextField txtId = new TextField();
-//        Button cmdOK = new Button("OK");
-//        Label lblId = new Label("UserID:");
+        obGrid.setAlignment(Pos.CENTER);
+        obGrid.setPadding(new Insets(5));
+        obGrid.setVgap(5);
+        obGrid.setHgap(5);
 
-//        obGrid.setAlignment(Pos.CENTER);
-//        obGrid.setPadding(new Insets(5));
-//        obGrid.setVgap(5);
-//        obGrid.setHgap(5);
-//
-//        obPane.setCenter(obGrid);
+        obGrid.add(lblId, 0, 0);
+        obGrid.add(txtId, 1, 0);
+
+        obPane.setCenter(obGrid);
 
         primaryStage.setScene(new Scene(obPane, 400, 400));
         primaryStage.setTitle("Cest Lake - Login");
@@ -54,3 +55,4 @@ public class LoginWindow extends Application {
 
 //    }
 }
+
