@@ -142,15 +142,28 @@ public class BookingHelper {
         }
     }
 
-
-    public ArrayList<Booking> getBookingList() //help
+    public ArrayList<Booking> getCurrentBookings()
     {
-        ArrayList<Booking> BookingTemp= this.bookings;
-        return BookingTemp;
+        ArrayList<Booking> obReturn=new ArrayList<>();
+        Date today=new Date();
+        for(Booking obVal: bookings)
+        {
+            if(obVal.getStartDate().after(today))
+            {
+                obReturn.add(obVal);
+                //System.out.println(obVal); //un-comment to have list print on console
+            }
+        }
+        return obReturn;
+    }
+
+    public ArrayList<Booking> getBookingList()
+    {
+        return this.bookings;
     }
 
 
-    public ArrayList<Booking> getBookingList(int year)
+    public ArrayList<Booking> getBookingListByYear(int year)
     {
         ArrayList<Booking> BookingTemp=new ArrayList<>();
         for(Booking obVal:bookings)
@@ -161,6 +174,91 @@ public class BookingHelper {
             }
         }
         return BookingTemp;
+    }
+
+    public ArrayList<Booking> getBookingListByMonth(int month)
+    {
+        ArrayList<Booking> BookingTemp=new ArrayList<>();
+        for(Booking obVal:bookings)
+        {
+            if(obVal.getStartDate().getMonth()==month)
+            {
+                BookingTemp.add(obVal);
+            }
+        }
+        return BookingTemp;
+    }
+
+    public ArrayList<Booking> getBookingList(int year,int month)
+    {
+        ArrayList<Booking> BookingTemp=new ArrayList<>();
+        for(Booking obVal:bookings)
+        {
+            if(obVal.getStartDate().getYear()==year)
+            {
+                if(obVal.getStartDate().getMonth()==month)
+                {
+                    BookingTemp.add(obVal);
+                }
+            }
+        }
+        return BookingTemp;
+    }
+
+    public ArrayList<Booking> getCabinOnly(ArrayList<Booking> bookingList)
+    {
+        ArrayList<Booking> bookingTemp=new ArrayList<>();
+        for(Booking obVal: bookingList)
+        {
+            if(obVal.getType()==BookingType.Cabin)
+            {
+                bookingTemp.add(obVal);
+                //System.out.println(obVal); //un-comment to have list print on console
+            }
+        }
+        return bookingTemp;
+    }
+
+    public ArrayList<Booking> getCabinOnly()
+    {
+        ArrayList<Booking> bookingTemp=new ArrayList<>();
+        for(Booking obVal: this.bookings)
+        {
+            if(obVal.getType()==BookingType.Cabin)
+            {
+                bookingTemp.add(obVal);
+                //System.out.println(obVal); //un-comment to have list print on console
+            }
+        }
+        return bookingTemp;
+    }
+
+    public ArrayList<Booking> getSiteOnly(ArrayList<Booking> bookingList)
+    {
+        ArrayList<Booking> bookingTemp=new ArrayList<>();
+        for(Booking obVal: bookingList)
+        {
+            if(obVal.getType()==BookingType.Site)
+            {
+                bookingTemp.add(obVal);
+                //System.out.println(obVal); //un-comment to have list print on console
+            }
+        }
+        return bookingTemp;
+    }
+
+    public ArrayList<Booking> getSiteOnly()
+    {
+        ArrayList<Booking> bookingTemp=new ArrayList<>();
+        for(Booking obVal: this.bookings)
+        {
+            if(obVal.getType()==BookingType.Site)
+            {
+                bookingTemp.add(obVal);
+                //System.out.println(obVal); //un-comment to have list print on console
+            }
+        }
+        return bookingTemp;
     }
 
     public Booking searchGuestID(int guestID)

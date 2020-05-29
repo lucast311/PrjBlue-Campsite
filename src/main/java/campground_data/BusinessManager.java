@@ -1,6 +1,6 @@
 package campground_data;
 
-import java.awt.print.Book;
+//import java.awt.print.Book;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -237,7 +237,7 @@ public class BusinessManager {
             case "2":
                 System.out.println("Enter a year to view all bookings for that year:");
                 int nYear=obIn.nextInt();
-                obBookingList=bookingHelper.getBookingList(nYear);
+                obBookingList=bookingHelper.getBookingListByYear(nYear);
                 for(Booking obVal: obBookingList)
                 {
                     System.out.println(obVal.toString());
