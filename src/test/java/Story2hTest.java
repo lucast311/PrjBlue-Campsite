@@ -4,11 +4,9 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import campground_data.Booking;
 import campground_data.BookingHelper;
-import campground_data.ViewBookingWindow;
+import campground_ui.ViewBookingWindow;
 import javafx.application.Application;
 import org.junit.Test;
-
-import javax.validation.constraints.AssertTrue;
 
 public class Story2hTest
 {

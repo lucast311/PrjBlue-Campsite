@@ -1,4 +1,4 @@
-package campground_data;
+package campground_ui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
