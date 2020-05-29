@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import campground_data.BookingHelper;
 import campground_data.BookingType;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import campground_data.Booking;
@@ -159,8 +158,8 @@ public class BookingTests
 				endDate, BookingType.Cabin,4);
 
 		//valid values
-		obBooking.setType(BookingType.Site);
-		obBooking.setPlotID(2);
+		obBooking.setType("Site");
+		obBooking.setAccommodationID(2);
 		obBooking.setPaid(true);
 		obBooking.setDiscount(50);
 		obBooking.setMemberCount(6);
@@ -174,10 +173,10 @@ public class BookingTests
 		assertEquals(50,obBooking.getDiscount(),0.001);
 
 
-		obBooking.setType(BookingType.Cabin);
+		obBooking.setType("Cabin");
 		obBooking.setPaid(false);
 		//invalid values
-		obBooking.setPlotID(0);
+		obBooking.setAccommodationID(0);
 		obBooking.setDiscount(-1);
 		obBooking.setMemberCount(0);
 		obBooking.setTotal(-1);

@@ -71,5 +71,18 @@ public class PlotHelper
 
                 return plotToReturn;
         }
+
+        public boolean checkAccommodationID(int nID)
+        {
+                for(Plot plot : plots)
+                {
+                        if(plot.getPlotID() == nID)
+                        {
+                                return true;
+                        }
+                }
+
+                return false;
+        }
 }
 

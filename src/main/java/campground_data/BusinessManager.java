@@ -1,6 +1,5 @@
 package campground_data;
 
-import java.awt.print.Book;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -10,9 +9,9 @@ public class BusinessManager {
 
     private static Owner currUser;
     private static BookingHelper bookingHelper = new BookingHelper();
-    private static PlotHelper plotHelper = new PlotHelper();
+    public static PlotHelper plotHelper = new PlotHelper();
     private static OwnerHelper ownerHelper = new OwnerHelper();
-    private static GuestHelper guestHelper = new GuestHelper();
+    public static GuestHelper guestHelper = new GuestHelper();
     private static DatabaseFile dbfile = new DatabaseFile();
     private static ArrayList<Owner> ownerList = ownerHelper.getOwnerList();
     private static ArrayList<Plot> sites = plotHelper.getPlotList();
@@ -572,13 +571,11 @@ public class BusinessManager {
             System.out.println("Please enter a plot type (Cabin/Site):");
             switch (obIn.next().toUpperCase()) {
                 case "CABIN":
-                    bookingtype = BookingType.Cabin;
-                    searchbooking.setType(bookingtype);
+                    searchbooking.setType("Cabin");
                     bPlotType = true;
                     break;
                 case "SITE":
-                    bookingtype = BookingType.Site;
-                    searchbooking.setType(bookingtype);
+                    searchbooking.setType("Site");
                     bPlotType = true;
                     break;
                 default:
@@ -621,7 +618,7 @@ public class BusinessManager {
             //ADD PLOT ID LIST FOR CRITERIA, AND PLOT ID VERIFICATION
             if( plotHelper.searchPlot(nVal) != null){
                 bookingplotID = nVal;
-                searchbooking.setPlotID(bookingplotID);
+                searchbooking.setAccommodationID(bookingplotID);
                 bPlotID = true;
             }else{
                 System.out.println("invalid plotID");

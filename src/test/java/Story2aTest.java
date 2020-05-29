@@ -19,7 +19,7 @@ public class Story2aTest {
         booking1 = new Booking();
 
         assertTrue(booking1.setGuestID(1));
-        assertFalse(booking1.setGuestID(001));
+        assertTrue(booking1.setGuestID(001));
 
         assertTrue(booking1.changeStart(new Date(2021,5,28)));
         assertFalse(booking1.changeStart(new Date(2019,5,28)));
@@ -39,7 +39,7 @@ public class Story2aTest {
         assertFalse(booking1.setMemberCount(9));
         assertFalse(booking1.setMemberCount(0));
 
-        assertTrue(booking1.setAccommodationID(101));
-        assertFalse(booking1.setAccommodationID(2));
+        assertTrue(booking1.setAccommodationID(100));
+        assertFalse(booking1.setAccommodationID(0));
     }
 }
