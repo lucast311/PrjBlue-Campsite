@@ -32,21 +32,28 @@ public class BookingHelper {
         return this.bookings.contains(booking);
     }
 
-    public boolean removeBooking(Booking booking)
+    public boolean removeBooking(Booking booking) //seems to be creating null pointers
     {
         boolean bRemoved = false;
 
-        Iterator<Booking> it = bookings.iterator();
-        while (it.hasNext())
+        if(booking!=null)
         {
-            Booking args = it.next();
-            if (args.getBookingID() == booking.getBookingID())
-            {
-                it.remove();
-                DBFile.saveRecords(bookings);
-                bRemoved = true;
-            }
+            this.bookings.remove(booking);
+            bRemoved=true;
+            DBFile.saveRecords(this.bookings);
         }
+
+//        Iterator<Booking> it = bookings.iterator();
+//        while (it.hasNext())
+//        {
+//            Booking args = it.next();
+//            if (args.getBookingID() == booking.getBookingID())
+//            {
+//                it.remove();
+//                DBFile.saveRecords(bookings);
+//                bRemoved = true;
+//            }
+//        }
 
         return bRemoved;
 

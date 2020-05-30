@@ -101,6 +101,10 @@ public class DatabaseFile
 			while(true)
 			{
 				Booking obBooking=(Booking) obIn.readObject();
+				if(obBooking==null)
+				{
+					continue;
+				}
 				obBookingList.add(obBooking);
 			}
 		}
@@ -127,6 +131,10 @@ public class DatabaseFile
 		}
 		else
 		{
+			while(list.contains(null))
+			{
+				list.remove(null);
+			}
 			Object obFirst=list.get(0);
 			if(obFirst instanceof Guest)
 			{

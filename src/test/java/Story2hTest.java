@@ -39,7 +39,11 @@ public class Story2hTest
         ArrayList<Booking> allBookings=obList;
        for(Booking obVal: obList)
        {
-           //System.out.println(obVal); //un-comment to have list print on console
+           if(obVal==null)
+           {
+               continue;
+           }
+           System.out.println(obVal.toString()); //un-comment to have list print on console
        }
         assertEquals(allBookings,bookingHelper.getBookingList());
    }
