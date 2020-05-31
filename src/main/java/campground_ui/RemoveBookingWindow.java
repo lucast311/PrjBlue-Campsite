@@ -2,7 +2,7 @@ package campground_ui;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -84,6 +84,17 @@ public class RemoveBookingWindow extends Application {
         obGPane.add(new Label("Total Price"), 0, 7);
         obGPane.add(txtTotalPrice, 1, 7);
 
+        //Disable all fields except Guest ID Field
+        for(Node arg : obGPane.getChildren())
+        {
+            if(arg instanceof TextField)
+            {
+                arg.setDisable(true);
+            }
+        }
+        txtGuestID.setDisable(false);
+
+
         //Initialize Buttons
         btnRemove = new Button("Remove");
         btnSave = new Button("Save");
@@ -102,9 +113,13 @@ public class RemoveBookingWindow extends Application {
         obGPane.setVgap(5);
         obGPane.setPadding(new Insets(15,0,0,10));
 
-//        obButtonBox.setAlignment(Pos.BOTTOM_LEFT);
         obButtonBox.setSpacing(5);
-        obButtonBox.setPadding(new Insets(165, 0, 0, 15));
+        obButtonBox.setPadding(new Insets(159, 0, 0, 15));
+
+        btnRemove.setStyle("-fx-background-color: indianred; -fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 3;");
+        btnSave.setStyle("-fx-background-color: lightgreen; -fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 3;");
+        btnClose.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 3;");
+
 
         //Setting other Panes into main Border Pane
         obBPane.setTop(taBookingList);
