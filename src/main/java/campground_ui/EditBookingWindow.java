@@ -1,9 +1,6 @@
 package campground_ui;
 
-import campground_data.Booking;
-import campground_data.BookingType;
-import campground_data.DatabaseFile;
-import campground_data.ValidationHelper;
+import campground_data.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,12 +9,14 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class EditBookingWindow extends Application{ //help from mel's window
@@ -26,7 +25,7 @@ public class EditBookingWindow extends Application{ //help from mel's window
     private GridPane obGPane;
     private VBox obButtonBox, obdiscountBox;
 
-    private TextArea taBookingList;
+    private ListView taBookingList;
 
     private TextField txtGuestID, txtBookingID, txtAccommodationID, txtStartDate, txtEndDate, txtType, txtMemberCount,
             txtTotalPrice;
@@ -38,9 +37,11 @@ public class EditBookingWindow extends Application{ //help from mel's window
     //Guest object that will be edited
 
 private Booking obBooking;
+    private BookingHelper helper = new BookingHelper();
+    ArrayList<Booking> allBookings = helper.getBookingList();
 //Validation helper to assist in ensuring that the guest objects are valid
 private ValidationHelper vh = new ValidationHelper();
-//Database file to write guest changes to
+//Database file to write changes to
     private DatabaseFile dbfile = new DatabaseFile();
 
     public static void main(String[] args) {
@@ -64,7 +65,7 @@ private ValidationHelper vh = new ValidationHelper();
 
 
         //Initializes top text area that displays list of bookings
-        taBookingList = new TextArea();
+        taBookingList = new ListView();
         taBookingList.setPrefWidth(600);
         taBookingList.setPrefHeight(200);
         //taBookingList.setDisable(true);
@@ -81,24 +82,40 @@ private ValidationHelper vh = new ValidationHelper();
         txtTotalPrice = new TextField();
 
 
-        if(obBooking == null){
+        taBookingList.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
-        }else {
-            //Setting default text to the text fields from the passed in guest
-            txtGuestID.setText(String.valueOf(obBooking.getGuestID()));
-            txtAccommodationID.setText(String.valueOf(obBooking.getAccommodationID()));
-            txtStartDate.setText(String.valueOf(obBooking.getStartDate()));
-            txtEndDate.setText(String.valueOf(obBooking.getEndDate()));
-            txtType.setText(String.valueOf(obBooking.getType()));
-            txtTotalPrice.setText(String.valueOf(obBooking.getTotal()));
-            txtMemberCount.setText(String.valueOf(obBooking.getMemberCount()));
-            if(obBooking.getPaid() == true){
-                //if paid have
-                checkpaid.setSelected(true);
-            }else{
-                checkpaid.setSelected(false);
+            @Override
+            public void handle(MouseEvent event) {
+                //System.out.println("clicked on " + taBookingList.getSelectionModel().getSelectedItem());
+                obBooking = (Booking) taBookingList.getSelectionModel().getSelectedItem();
+                if(obBooking == null){
+
+                }else {
+
+                    //Setting default text to the text fields from the passed in guest
+                    txtBookingID.setText(String.valueOf(obBooking.getBookingID()));
+                    txtGuestID.setText(String.valueOf(obBooking.getGuestID()));
+                    txtAccommodationID.setText(String.valueOf(obBooking.getAccommodationID()));
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/mm/yyyy");
+                    String startDate= formatter.format(obBooking.getStartDate());
+                    String endDate= formatter.format(obBooking.getStartDate());
+                    //txtEndDate.setText(String.valueOf(obBooking.getEndDate()));
+                    //txtStartDate.setText(String.valueOf(obBooking.getStartDate()));
+                    txtStartDate.setText(startDate);
+                    txtEndDate.setText(endDate);
+                    txtType.setText(String.valueOf(obBooking.getType()));
+                    txtTotalPrice.setText(String.valueOf(obBooking.getTotal()));
+                    txtMemberCount.setText(String.valueOf(obBooking.getMemberCount()));
+                    if(obBooking.getPaid() == true){
+                        //if paid have
+                        checkpaid.setSelected(true);
+                    }else{
+                        checkpaid.setSelected(false);
+                    }
+                }
             }
-        }
+        });
+
 
 
         //Add text fields to Grid Pane
@@ -270,7 +287,24 @@ private ValidationHelper vh = new ValidationHelper();
 
         obStage.setScene(new Scene(obBPane, 800, 500));
         obStage.setTitle("Cest Lake - Edit Booking");
+        obStage.setOnShowing(e -> {
+            loadAllBookings();
+        });
         obStage.show();
+    }
+
+    //Loads all the bookings onto the GUI text area
+    public void loadAllBookings()
+    {
+        taBookingList.getItems().clear();
+
+        for(Booking obVal : allBookings)
+        {
+            taBookingList.getItems().add(obVal);
+        }
+
+
+
     }
 
 
