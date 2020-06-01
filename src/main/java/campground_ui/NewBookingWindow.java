@@ -298,15 +298,21 @@ public class NewBookingWindow extends Application {
             PlotHelper plotHelper = new PlotHelper();
             ArrayList availableAccommodations = plotHelper.getPlotList().stream()
                     .filter(x->{
-                        if(x instanceof Site)
-                        {
+                        if(obBooking.getType() == BookingType.Site && x instanceof Site) {
                             Site site = (Site) x;
-                            site.
+
+                            if (obBooking.getMemberCount() > 4 && site.getSiteType() == Site.SiteType.Individual)
+                            {
+
+                            }
+                            else if(obBooking.getMemberCount() < 4 && site.getSiteType() == Site.SiteType.Individual)
+                            {
+
+                            }
                         }
-                        else if(x instanceof Cabin)
+                        else if(obBooking.getType() == BookingType.Cabin && x instanceof Cabin)
                         {
                             Cabin cabin = (Cabin) x;
-
                         }
                     })
                     .collect(Collectors.toCollection());
