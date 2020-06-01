@@ -25,15 +25,19 @@ public class MainTest extends Application {
     @Override
     public void start(Stage primaryStage) {
         Button btnTest = new Button();
-        btnTest.setText("Test");
+        btnTest.setText("Test Edit");
 
         Button btnRefresh = new Button();
         btnRefresh.setText("Refresh");
+
+        Button btnAdd = new Button();
+        btnAdd.setText("Test Add");
 
         obPane = new GridPane();
 
         obPane.add(btnTest,0 ,0);
         obPane.add(btnRefresh,1,0);
+        obPane.add(btnAdd, 2, 0);
 
         int nIndex = 0;
 
@@ -57,6 +61,13 @@ public class MainTest extends Application {
             obPane.getChildren().remove(obText);
             this.obText.setText(guestList2.get(0).toString());
             obPane.add(this.obText, 1, 1);
+        });
+
+        btnAdd.setOnAction(e -> {
+            AddGuestWindow addGuestWindow = new AddGuestWindow(obGuest);
+            addGuestWindow.initModality(Modality.WINDOW_MODAL);
+            addGuestWindow.initOwner(primaryStage);
+            addGuestWindow.show();
         });
 
         primaryStage.setScene(new Scene(obPane, 800, 800));
