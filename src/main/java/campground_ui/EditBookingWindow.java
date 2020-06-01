@@ -1,5 +1,9 @@
 package campground_ui;
 
+import campground_data.Booking;
+import campground_data.BookingType;
+import campground_data.DatabaseFile;
+import campground_data.ValidationHelper;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,6 +16,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class EditBookingWindow extends Application{ //help from mel's window
 
@@ -26,7 +33,15 @@ public class EditBookingWindow extends Application{ //help from mel's window
     private Button btnNew,btnRemove, btnSave, btnClose;
     private ToggleGroup group;
     private CheckBox checkpaid;
+    public Boolean refundno;
 
+    //Guest object that will be edited
+
+private Booking obBooking;
+//Validation helper to assist in ensuring that the guest objects are valid
+private ValidationHelper vh = new ValidationHelper();
+//Database file to write guest changes to
+    private DatabaseFile dbfile = new DatabaseFile();
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
@@ -34,8 +49,11 @@ public class EditBookingWindow extends Application{ //help from mel's window
         Application.launch(args);
     }
 
+    //need something to grab whats selected
     @Override
     public void start(Stage obStage) throws Exception {
+
+
 
         //Initialize panes
         obBPane = new BorderPane();
@@ -61,6 +79,27 @@ public class EditBookingWindow extends Application{ //help from mel's window
         txtType = new TextField();
         txtMemberCount = new TextField();
         txtTotalPrice = new TextField();
+
+
+        if(obBooking == null){
+
+        }else {
+            //Setting default text to the text fields from the passed in guest
+            txtGuestID.setText(String.valueOf(obBooking.getGuestID()));
+            txtAccommodationID.setText(String.valueOf(obBooking.getAccommodationID()));
+            txtStartDate.setText(String.valueOf(obBooking.getStartDate()));
+            txtEndDate.setText(String.valueOf(obBooking.getEndDate()));
+            txtType.setText(String.valueOf(obBooking.getType()));
+            txtTotalPrice.setText(String.valueOf(obBooking.getTotal()));
+            txtMemberCount.setText(String.valueOf(obBooking.getMemberCount()));
+            if(obBooking.getPaid() == true){
+                //if paid have
+                checkpaid.setSelected(true);
+            }else{
+                checkpaid.setSelected(false);
+            }
+        }
+
 
         //Add text fields to Grid Pane
         obGPane.add(new Label("Guest ID"), 0,0);
@@ -111,8 +150,7 @@ public class EditBookingWindow extends Application{ //help from mel's window
 
         //Initialized paid
         checkpaid = new CheckBox("Paid");
-        //if paid have
-        //checkpaid.setSelected(true);
+
 
         //Initialize Buttons
         btnNew = new Button("New");
@@ -147,9 +185,55 @@ public class EditBookingWindow extends Application{ //help from mel's window
         btnSave.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                //need to check everything then
+                //need to validate everything then
                 //change everything that was inputted
+                obBooking.setnAccommodationID(Integer.parseInt(txtAccommodationID.getText()));
+                //obBooking.changeEnd(txtEndDate.getText())
+                String[] sFields = txtEndDate.getText().split("/");
+                try {
+                    //SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
+                    Date newendDate;
+                    Date bookingenddate = obBooking.getEndDate();
+                    //oldendDate = sdformat.parse(sFields[0] + "-" + sFields[1] + "-" + sFields[2] + "-00-00-00");
+                    newendDate = new Date(Integer.parseInt(sFields[2]), Integer.parseInt(sFields[1]) - 1, Integer.parseInt(sFields[0]));
+                    if (newendDate.compareTo(obBooking.getStartDate()) > 0) {
+                        if (newendDate.compareTo(bookingenddate) < 0) {
+
+                            //refundConfirm();
+                        } else {
+
+                            //searchbooking.changeEnd(refundendDate);
+
+                        }
+                    }
+                }catch (Exception e){
+                    System.out.println("Invalid Date");
+                }
+                //obBooking.changeStart(txtStartDate.getText())
+                String[] sFields2 = txtStartDate.getText().split("/");
+                try {
+                    Date bookingstartDate = new Date(Integer.parseInt(sFields2[2]), Integer.parseInt(sFields2[1]) - 1, Integer.parseInt(sFields2[0]));
+                    if (bookingstartDate.compareTo(new Date()) > -1) { //might change this later
+
+                        //searchbooking.changeStart(bookingstartDate);
+
+                    } else {
+                        //System.out.println("Start Date cannot be before current date ");
+
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid Date");
+                }
+
+                //if booking end date is after start date and before end date
+                //send to refund
+                obBooking.setType(BookingType.valueOf(txtType.getText()));
+                // may change depending on discounts and refund
+                obBooking.setTotal(Double.parseDouble(txtTotalPrice.getText()));
+                obBooking.setMemberCount(Integer.parseInt(txtMemberCount.getText()));
+
                 //DBFile.saveRecords(bookings);
+
                 //go back to menu
 
 
