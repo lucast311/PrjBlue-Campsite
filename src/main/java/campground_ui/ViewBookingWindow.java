@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ViewBookingWindow extends Application
 {
@@ -31,6 +32,8 @@ public class ViewBookingWindow extends Application
 
         String[] saMonths={"","January","February","March","April","May","June","July","August","September","October","November","December"}; //List of months for filtering with
         String[] saYears={"","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","2026","2027","2028","2029","2030"}; //list of years for filtering with between 2010 and 2030
+        AtomicBoolean bAll= new AtomicBoolean(false);
+        AtomicBoolean bCurrent= new AtomicBoolean(false);
 
         //Button Stuff
         Button obCloseBtn=new Button("Close");
@@ -100,6 +103,8 @@ public class ViewBookingWindow extends Application
 
         obViewAllBtn.setOnAction(e->{
             final ArrayList<Booking> bookingFull=bookingHelper.getBookingList();
+            bAll.set(true);
+            bCurrent.set(false);
             //Add arraylist values to TextArea obResults
             String sVals="";
             for(Booking obVal:bookingFull)
@@ -111,6 +116,8 @@ public class ViewBookingWindow extends Application
 
         obViewCurrentBtn.setOnAction(e->{
             final ArrayList<Booking> bookingsCurrent=bookingHelper.getCurrentBookings();
+            bAll.set(false);
+            bCurrent.set(true);
             //Add arraylist values to TextArea obResults
             String sVals="";
             for(Booking obVal:bookingsCurrent)
@@ -124,6 +131,9 @@ public class ViewBookingWindow extends Application
             String radFilter="Both";
             String cbsMonth=cbMonth.getValue().toString();
             String cbsYear=cbYear.getValue().toString();
+            boolean bAllVals=bAll.get();
+            boolean bCurrentVals=bCurrent.get();
+
             if(obCabins.isSelected())
             {
                 radFilter="Cabin";
@@ -144,7 +154,20 @@ public class ViewBookingWindow extends Application
             }
 
             //System.out.println(radFilter+"\n"+cbsMonth+"\n"+cbsYear+"\n");
-            ArrayList<Booking> obFilterResults=complexFilter(radFilter,cbsMonth,cbsYear);
+            ArrayList<Booking> obFilterResults;
+            if(bAllVals)
+            {
+                obFilterResults=complexFilter(bookingHelper.getBookingList(),radFilter,cbsMonth,cbsYear);
+            }
+            if(bCurrentVals)
+            {
+                obFilterResults=complexFilter(bookingHelper.getCurrentBookings(),radFilter,cbsMonth,cbsYear);
+            }
+            else
+            {
+                obFilterResults=complexFilter(bookingHelper.getBookingList(),radFilter,cbsMonth,cbsYear);
+            }
+
             //Add arraylist values to TextArea obResults
             String sVals="";
             for(Booking obVal:obFilterResults)
@@ -155,7 +178,7 @@ public class ViewBookingWindow extends Application
         });
     }
 
-    public ArrayList<Booking> complexFilter(String sCabinSite, String sMonth, String sYear)
+    public ArrayList<Booking> complexFilter(ArrayList<Booking> list,String sCabinSite, String sMonth, String sYear)
     {
         ArrayList<Booking> obReturn;
         int nMonth;
@@ -219,23 +242,24 @@ public class ViewBookingWindow extends Application
             {
                 if(sCabinSite.equalsIgnoreCase("Cabin"))
                 {
-                    obReturn=bookingHelper.getCabinOnly();
+                    obReturn=bookingHelper.getCabinOnly(list);
                 }
                 else
                 {
                     if(sCabinSite.equalsIgnoreCase("Site"))
                     {
-                        obReturn=bookingHelper.getSiteOnly();
+                        obReturn=bookingHelper.getSiteOnly(list);
                     }
                     else //sCabinSite=="Both"
                     {
-                        obReturn=bookingHelper.getBookingList();
+                        obReturn=list;
+                        //obReturn=bookingHelper.getBookingList();
                     }
                 }
             }
             else //nMonth!=-1
             {
-                ArrayList<Booking> obTemp=bookingHelper.getBookingListByMonth(nMonth);
+                ArrayList<Booking> obTemp=bookingHelper.getBookingListByMonth(list,nMonth);
                 if(sCabinSite.equalsIgnoreCase("Cabin"))
                 {
                     obReturn=bookingHelper.getCabinOnly(obTemp);
@@ -248,7 +272,8 @@ public class ViewBookingWindow extends Application
                     }
                     else //sCabinSite=="Both"
                     {
-                        obReturn=bookingHelper.getBookingListByMonth(nMonth);
+                        obReturn=obTemp;
+                        //obReturn=bookingHelper.getBookingListByMonth(nMonth);
                     }
                 }
             }
@@ -257,7 +282,7 @@ public class ViewBookingWindow extends Application
         {
             if(nMonth==-1)
             {
-                ArrayList<Booking> obTemp=bookingHelper.getBookingListByYear(nYear);
+                ArrayList<Booking> obTemp=bookingHelper.getBookingListByYear(list,nYear);
                 if(sCabinSite.equalsIgnoreCase("Cabin"))
                 {
                     obReturn=bookingHelper.getCabinOnly(obTemp);
@@ -276,7 +301,7 @@ public class ViewBookingWindow extends Application
             }
             else //nMonth!=-1
             {
-                ArrayList<Booking> obTemp=bookingHelper.getBookingList(nYear,nMonth);
+                ArrayList<Booking> obTemp=bookingHelper.getBookingList(list,nYear,nMonth);
                 if(sCabinSite.equalsIgnoreCase("Cabin"))
                 {
                     obReturn=bookingHelper.getCabinOnly(obTemp);

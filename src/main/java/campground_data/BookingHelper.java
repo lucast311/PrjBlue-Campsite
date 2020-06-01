@@ -152,7 +152,11 @@ public class BookingHelper {
     public ArrayList<Booking> getCurrentBookings() //All bookings currently in progress or haven't started yet
     {
         ArrayList<Booking> obReturn=new ArrayList<>();
-        Date today=new Date();
+        Date todayFull=new Date(); //Actual current date at the time of running this method
+        int nYear=1900+todayFull.getYear();
+        int nMonth=todayFull.getMonth();
+        int nDay=todayFull.getDate();
+        Date today=new Date(nYear,nMonth,nDay); //Stripped down version of current date without the time, and proper year
         for(Booking obVal: bookings)
         {
             if((obVal.getStartDate().before(today) && obVal.getEndDate().after(today)) || obVal.getStartDate().after(today))
@@ -183,6 +187,19 @@ public class BookingHelper {
         return BookingTemp;
     }
 
+    public ArrayList<Booking> getBookingListByYear(ArrayList<Booking> list,int year)
+    {
+        ArrayList<Booking> BookingTemp=new ArrayList<>();
+        for(Booking obVal:list)
+        {
+            if(obVal.getStartDate().getYear()==year)
+            {
+                BookingTemp.add(obVal);
+            }
+        }
+        return BookingTemp;
+    }
+
     public ArrayList<Booking> getBookingListByMonth(int month)
     {
         ArrayList<Booking> BookingTemp=new ArrayList<>();
@@ -196,7 +213,36 @@ public class BookingHelper {
         return BookingTemp;
     }
 
+    public ArrayList<Booking> getBookingListByMonth(ArrayList<Booking> list,int month)
+    {
+        ArrayList<Booking> BookingTemp=new ArrayList<>();
+        for(Booking obVal:list)
+        {
+            if(obVal.getStartDate().getMonth()==month)
+            {
+                BookingTemp.add(obVal);
+            }
+        }
+        return BookingTemp;
+    }
+
     public ArrayList<Booking> getBookingList(int year,int month)
+    {
+        ArrayList<Booking> BookingTemp=new ArrayList<>();
+        for(Booking obVal:bookings)
+        {
+            if(obVal.getStartDate().getYear()==year)
+            {
+                if(obVal.getStartDate().getMonth()==month)
+                {
+                    BookingTemp.add(obVal);
+                }
+            }
+        }
+        return BookingTemp;
+    }
+
+    public ArrayList<Booking> getBookingList(ArrayList<Booking> list,int year,int month)
     {
         ArrayList<Booking> BookingTemp=new ArrayList<>();
         for(Booking obVal:bookings)

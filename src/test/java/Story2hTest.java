@@ -84,10 +84,14 @@ public class Story2hTest
     public void testViewCurrent()
     {
         ArrayList<Booking> obTemp=new ArrayList<>();
-        Date today=new Date();
+        Date todayFull=new Date(); //Actual current date at the time of running this method
+        int nYear=1900+todayFull.getYear();
+        int nMonth=todayFull.getMonth();
+        int nDay=todayFull.getDate();
+        Date today=new Date(nYear,nMonth,nDay); //Stripped down version of current date without the time, and proper year
         for(Booking obVal: obList)
         {
-            if(obVal.getStartDate().after(today))
+            if((obVal.getStartDate().before(today) && obVal.getEndDate().after(today)) || obVal.getStartDate().after(today))
             {
                 obTemp.add(obVal);
                 //System.out.println(obVal); //un-comment to have list print on console
