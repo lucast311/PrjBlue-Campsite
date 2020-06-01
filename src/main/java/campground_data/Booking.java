@@ -84,6 +84,7 @@ public class Booking implements Serializable
 	{
 		this.type=type;
 	}
+	//public void setTypeS(String type){ }
 	
 	public void setPaid(boolean bPaid)
 	{

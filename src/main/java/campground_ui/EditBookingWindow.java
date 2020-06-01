@@ -217,21 +217,23 @@ private ValidationHelper vh = new ValidationHelper();
                 //obBooking.changeEnd(txtEndDate.getText())
                 String[] sFields = txtEndDate.getText().split("/");
                 try {
-                    //SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
+                    //SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy");
                     Date newendDate;
                     Date bookingenddate = obBooking.getEndDate();
                     //oldendDate = sdformat.parse(sFields[0] + "-" + sFields[1] + "-" + sFields[2] + "-00-00-00");
-                    newendDate = new Date(Integer.parseInt(sFields[2]), Integer.parseInt(sFields[1]) - 1, Integer.parseInt(sFields[0]));
-                    if (newendDate.compareTo(obBooking.getStartDate()) > 0) {
-                        if (newendDate.compareTo(bookingenddate) < 0) {
+                    newendDate = new Date(Integer.parseInt(sFields[2]), Integer.parseInt(sFields[1]) , Integer.parseInt(sFields[0])); //help it keeps adding years
+                    if (newendDate.compareTo(obBooking.getStartDate()) >= 0) {
+                        //if (newendDate.compareTo(bookingenddate) < 0) {
 
                             //refundwindow
                             //refundConfirm();
-                        } else {
+                        //} else {
 
                             obBooking.changeEnd(newendDate);
 
-                        }
+                        //}
+                    }else {
+                        System.out.println("End Date cannot be before start date ");
                     }
                 }catch (Exception e){
 
@@ -239,13 +241,13 @@ private ValidationHelper vh = new ValidationHelper();
                 //obBooking.changeStart(txtStartDate.getText())
                 String[] sFields2 = txtStartDate.getText().split("/");
                 try {
-                    Date bookingstartDate = new Date(Integer.parseInt(sFields2[2]), Integer.parseInt(sFields2[1]) - 1, Integer.parseInt(sFields2[0]));
+                    Date bookingstartDate = new Date(Integer.parseInt(sFields2[2]), Integer.parseInt(sFields2[1]) , Integer.parseInt(sFields2[0])); //help it keeps adding years
                     if (bookingstartDate.compareTo(new Date()) > -1) { //might change this later
 
                         obBooking.changeStart(bookingstartDate);
 
                     } else {
-                        //System.out.println("Start Date cannot be before current date ");
+                        System.out.println("Start Date cannot be before current date ");
 
                     }
                 } catch (Exception e) {
@@ -254,19 +256,24 @@ private ValidationHelper vh = new ValidationHelper();
 
                 //if booking end date is after start date and before end date
                 //send to refund
-                obBooking.setType(BookingType.valueOf(txtType.getText()));
+                if(txtType.getText().equals("Cabin")){
+                    obBooking.setType(BookingType.Cabin);
+                }else if(txtType.getText().equals("Site")){
+                    obBooking.setType(BookingType.Site);
+                }
+
                 // may change depending on discounts and refund
                 obBooking.setTotal(Double.parseDouble(txtTotalPrice.getText()));
                 obBooking.setMemberCount(Integer.parseInt(txtMemberCount.getText()));
 
                 if(Double.parseDouble(txtTotalPrice.getText()) > 0) {
-                    if (rb2.isSelected()) {
+                    if (rb2.isSelected() && !(obBooking.getDiscount() == 5.00)) {
                         //5% off
                         obBooking.setDiscount(5);
-                    } else if (rb3.isSelected()) {
+                    } else if (rb3.isSelected() && !(obBooking.getDiscount() == 10.00)) {
                         //10% off
                         obBooking.setDiscount(10);
-                    } else if (rb4.isSelected()) {
+                    } else if (rb4.isSelected() && !(obBooking.getDiscount() == 15.00)) {
                         //15% off
                         obBooking.setDiscount(15);
                     }
