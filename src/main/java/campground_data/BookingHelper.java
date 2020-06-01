@@ -232,12 +232,6 @@ public class BookingHelper {
             }
         }
 
-//        for(int i=0;i < getBookingList().size(); i++) {
-//            if ((getBookingList().get(i).getGuestID()) == guestID) {
-//                return getBookingList().get(i);
-//
-//            }
-//        }
         return null;
     }
 

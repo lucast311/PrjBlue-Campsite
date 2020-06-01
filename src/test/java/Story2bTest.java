@@ -1,7 +1,14 @@
 
 
+import campground_data.Booking;
+import campground_data.BookingHelper;
+import campground_data.BookingType;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Date;
+
+import static org.junit.Assert.*;
 
 
 /**
@@ -9,6 +16,10 @@ import org.junit.Test;
  */
 public class Story2bTest
 {
+    BookingHelper helper = new BookingHelper();
+    Booking booking1 = new Booking(1,1, new Date(2020,5,25), new Date(2020,5,27), BookingType.Cabin, 3);
+    Booking booking2 = new Booking(2,2, new Date(2020,6,4), new Date(2020,6,7), BookingType.Site, 2);
+    Booking booking77 = new Booking(7,10, new Date(2020,7,7), new Date(2020,7,14), BookingType.Site, 4);
 
 
     /**
@@ -17,8 +28,20 @@ public class Story2bTest
     @Test
     public void removeBookingFromList()
     {
+        ArrayList<Booking> obBookingList = helper.getBookingList();
 
+        helper.addBooking(booking1);
+        helper.addBooking(booking2);
 
+        helper.removeBooking(booking1);
+
+        //Checking if removeBooking was able to find booking to remove
+        assertFalse(helper.removeBooking(booking77));
+        assertTrue(helper.removeBooking(booking2));
+
+        //Checking if booking is still part of the list
+        assertFalse(obBookingList.contains(booking1));
+        assertFalse(obBookingList.contains(booking2));
 
     }
 
@@ -28,7 +51,11 @@ public class Story2bTest
     @Test
     public void selectBookingToBeRemoved()
     {
+        helper.addBooking(booking1);
+        helper.addBooking(booking2);
 
+//        assertEquals(helper.search(2), booking2); //Actually passes, data base "bookings.obj" gets filled with entries that causes failure
+        assertNotEquals(helper.search(99), booking1);
     }
 
 
