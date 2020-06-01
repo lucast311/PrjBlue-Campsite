@@ -1,5 +1,6 @@
 package campground_ui;
 
+import campground_data.Owner;
 import campground_data.OwnerHelper;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -21,10 +22,11 @@ public class LoginWindow extends Application {
     Label lblId, lblPass, lblTitle;
     Button cmdLogin;
     OwnerHelper ownerHelper = new OwnerHelper();
+    private static Owner currUser = new Owner();
 
 
     public static void main(String[] args) {
-        Application.launch(args);
+        launch(args);
     }
 
     @Override
@@ -33,7 +35,11 @@ public class LoginWindow extends Application {
         cmdLogin = new Button("LOGIN");
         establishGrid(obPane);
         cmdLogin.setOnAction( e -> {
-            ownerHelper.validateUser(txtId.getText(), txtPass.getText());
+            currUser = ownerHelper.validateUser(txtId.getText(), txtPass.getText());
+            if(currUser != null)
+            {
+                MainWindow.displayMain(currUser);
+            }
         });
         cmdLogin.setPrefSize(70, 40);
         primaryStage.setScene(new Scene(obPane, 400, 400));
@@ -67,6 +73,11 @@ public class LoginWindow extends Application {
         obPane.setTop(top_msg);
 
         obPane.setCenter(this.obGrid);
+    }
+
+    public static Owner getCurrUser()
+    {
+        return currUser;
     }
 }
 

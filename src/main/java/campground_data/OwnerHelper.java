@@ -31,5 +31,19 @@ public class OwnerHelper {
         return null;
     }
 
-    public Owner validateUser(String userID, String Password) { return null; }
+    public Owner validateUser(String userID, String password) {
+        Owner currUser = new Owner();
+        for (Owner owner : ownerList)
+        {
+            if(owner.getUserId().compareTo(userID) == 0)
+            {
+                currUser = owner;
+            }
+        }
+        if(currUser.getPassword().compareTo(password) == 0)
+        {
+            return currUser;
+        }
+        return null;
+    }
 }
