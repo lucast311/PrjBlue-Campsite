@@ -205,6 +205,10 @@ private ValidationHelper vh = new ValidationHelper();
                 //need to validate everything then
                 //change everything that was inputted
                 obBooking.setnAccommodationID(Integer.parseInt(txtAccommodationID.getText()));
+
+                //helper.updateBookingDate(allBookings, Integer.parseInt(txtBookingID.getText()), newStartDate, newEndDate, "src/main/java/database/bookings.obj");
+
+
                 //obBooking.changeEnd(txtEndDate.getText())
                 String[] sFields = txtEndDate.getText().split("/");
                 try {
@@ -216,10 +220,11 @@ private ValidationHelper vh = new ValidationHelper();
                     if (newendDate.compareTo(obBooking.getStartDate()) > 0) {
                         if (newendDate.compareTo(bookingenddate) < 0) {
 
+                            //refundwindow
                             //refundConfirm();
                         } else {
 
-                            //searchbooking.changeEnd(refundendDate);
+                            //obBooking.changeEnd(newendDate);
 
                         }
                     }
@@ -232,7 +237,7 @@ private ValidationHelper vh = new ValidationHelper();
                     Date bookingstartDate = new Date(Integer.parseInt(sFields2[2]), Integer.parseInt(sFields2[1]) - 1, Integer.parseInt(sFields2[0]));
                     if (bookingstartDate.compareTo(new Date()) > -1) { //might change this later
 
-                        //searchbooking.changeStart(bookingstartDate);
+                        //obBooking.changeStart(bookingstartDate);
 
                     } else {
                         //System.out.println("Start Date cannot be before current date ");
@@ -248,8 +253,22 @@ private ValidationHelper vh = new ValidationHelper();
                 // may change depending on discounts and refund
                 obBooking.setTotal(Double.parseDouble(txtTotalPrice.getText()));
                 obBooking.setMemberCount(Integer.parseInt(txtMemberCount.getText()));
+                if(Double.parseDouble(txtTotalPrice.getText()) > 0) {
+                    if (rb2.isSelected()) {
+                        //5% off
+                        obBooking.setTotal(1.05 * Double.parseDouble(txtTotalPrice.getText()));
+                    } else if (rb3.isSelected()) {
+                        //10% off
+                        obBooking.setTotal(1.10 * Double.parseDouble(txtTotalPrice.getText()));
+                    } else if (rb4.isSelected()) {
+                        //15% off
+                        obBooking.setTotal(1.15 * Double.parseDouble(txtTotalPrice.getText()));
+                    }
+                }
 
-                //DBFile.saveRecords(bookings);
+                obBooking.setPaid(checkpaid.isSelected());
+
+                dbfile.saveRecords(allBookings);
 
                 //go back to menu
 

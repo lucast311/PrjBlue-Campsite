@@ -87,14 +87,14 @@ public class story2otest { //need date serializable??????
     }
 
     @Test
-    public void testrefundno()
+    public void testrefundnopaid()
     {
         ArrayList<Booking> bookings = new ArrayList<>();
-        bookings.add(booking1);
-        bookings.add(booking2);
+        //bookings.add(booking1);
+        //bookings.add(booking2);
         BusinessManager businessManager = new BusinessManager();
 
-        double result = booking1.getTotal();
+        //double result = booking1.getTotal();
 
         //assertEquals(businessManager.refundconfirm(), result);
     }
