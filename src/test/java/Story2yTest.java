@@ -18,15 +18,15 @@ import static org.junit.Assert.*;
 public class Story2yTest
 {
     private GuestHelper guestHelper = new GuestHelper();
-    private ArrayList<Guest> guests = guestHelper.getGuestAccounts();
+//    private ArrayList<Guest> guests = guestHelper.getGuestAccounts();
     private Address dummyAddress = new Address(123, 100, "Macca Street", "Saskatoon", "SK", "Canada", "S7N2W6");
     private Guest dummyGuest = new Guest("Julius", "Tuba", "julius3591@saskpolytech.ca", "3061234567", PaymentType.Credit, "123412341234",dummyAddress);
 
     @Before
     public void setUpGuest()
     {
-        //guestHelper.addGuest(dummyGuest);
-        guests.add(dummyGuest);
+        guestHelper.addGuest(dummyGuest);
+        //guests.add(dummyGuest);
     }
 
 

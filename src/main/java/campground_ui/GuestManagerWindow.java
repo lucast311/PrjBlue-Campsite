@@ -1,7 +1,9 @@
 package campground_ui;
 
+import campground_data.Address;
 import campground_data.Guest;
 import campground_data.GuestHelper;
+import campground_data.PaymentType;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,6 +35,7 @@ public class GuestManagerWindow extends Application
     private GuestHelper guestHelper = new GuestHelper();
     private HBox spacerLeft = new HBox();
     private HBox spacerRight = new HBox();
+    private int nRow = 1;
 
     public static void main(String[] args)
     {
@@ -42,6 +45,11 @@ public class GuestManagerWindow extends Application
     @Override
     public void start(Stage primaryStage)
     {
+         Address dummyAddress = new Address(123, 100, "Macca Street", "Saskatoon", "SK", "Canada", "S7N2W6");
+         Guest dummyGuest = new Guest("Julius", "Tuba", "julius3591@saskpolytech.ca", "3061234567", PaymentType.Credit, "123412341234",dummyAddress);
+
+        guestHelper.addGuest(dummyGuest);
+        guestHelper.addGuest(dummyGuest);
         //set the sizes of buttons
         btnSearch.setPrefSize(110, 50);
         btnViewAllGuests.setPrefSize(150, 50);
@@ -72,9 +80,6 @@ public class GuestManagerWindow extends Application
         guestsPane.setPadding(new Insets(0, 50, 0, 50));
         guestsPane.setStyle("-fx-border-color: black");
 
-
-
-
         borderPane.setCenter(guestsPane);
         borderPane.setTop(topBox);
         borderPane.setBottom(buttonsBox);
@@ -85,7 +90,6 @@ public class GuestManagerWindow extends Application
         setHeader(guestsPane);
 
 
-        int nRow = 1;
         ArrayList<Guest> guests = guestHelper.getGuestAccounts();
         guests.sort((x,y) -> (int) x.getGuestID() - y.getGuestID());
 
@@ -98,27 +102,78 @@ public class GuestManagerWindow extends Application
             addRow(guestsPane, obGuest, nRow++);
             if (nRow > guestCount)
             {
+                nRow = 1;
                 break;
             }
         }
+        btnViewAllGuests.setVisible(false);
 
+
+        //Event handler for txtSearchField. it will have the same code as event handler for btnSearch for redundancy
         txtSearchField.setOnAction(e -> {
-            if (txtSearchField.getText() == null)
+            if (txtSearchField.getText().equalsIgnoreCase(""))
             {
-
+                Alert nullError = new Alert(Alert.AlertType.ERROR);
+                nullError.setHeaderText("No phone number entered");
+                nullError.setContentText("Please enter a guest's phone number");
+                nullError.showAndWait();
             }
 
             Guest guest = guestHelper.searchGuest(txtSearchField.getText());
 
             if (guest == null)
             {
-                Alert
+                Alert nullError = new Alert(Alert.AlertType.ERROR);
+                nullError.setHeaderText("Guest does not exist");
+                nullError.setContentText("The guest you are searching for is not in the database");
+                nullError.showAndWait();
             }
+
+            guestsPane.getChildren().clear();
+            setHeader(guestsPane);
+            addRow(guestsPane,guest,1);
+            btnViewAllGuests.setVisible(true);
 
         });
 
+        //event handler for btnSearch. works like txtSearchField event handler
         btnSearch.setOnAction(e -> {
+            if (txtSearchField.getText().equalsIgnoreCase(""))
+            {
+                Alert nullError = new Alert(Alert.AlertType.ERROR);
+                nullError.setHeaderText("No phone number entered");
+                nullError.setContentText("Please enter a guest's phone number");
+                nullError.showAndWait();
+            }
 
+            Guest guest = guestHelper.searchGuest(txtSearchField.getText());
+
+            if (guest == null)
+            {
+                Alert nullError = new Alert(Alert.AlertType.ERROR);
+                nullError.setHeaderText("Guest does not exist");
+                nullError.setContentText("The guest you are searching for is not in the database");
+                nullError.showAndWait();
+            }
+
+            guestsPane.getChildren().clear();
+            setHeader(guestsPane);
+            addRow(guestsPane,guest,1);
+            btnViewAllGuests.setVisible(true);
+        });
+
+        btnViewAllGuests.setOnAction(e -> {
+            guestsPane.getChildren().clear();
+            setHeader(guestsPane);
+            for (Guest obGuest : guests)
+            {
+                addRow(guestsPane,obGuest,nRow++);
+                if (nRow > guestCount)
+                {
+                    break;
+                }
+            }
+            btnViewAllGuests.setVisible(false);
         });
 
 
