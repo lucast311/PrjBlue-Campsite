@@ -19,7 +19,9 @@ public class Story2bTest
     BookingHelper helper = new BookingHelper();
     Booking booking1 = new Booking(1,1, new Date(2020,5,25), new Date(2020,5,27), BookingType.Cabin, 3);
     Booking booking2 = new Booking(2,2, new Date(2020,6,4), new Date(2020,6,7), BookingType.Site, 2);
-    Booking booking77 = new Booking(7,10, new Date(2020,7,7), new Date(2020,7,14), BookingType.Site, 4);
+    Booking booking3 = new Booking(3,3, new Date(2020,5,25), new Date(2020,5,27), BookingType.Cabin, 3);
+    Booking booking4 = new Booking(4,4, new Date(2020,6,4), new Date(2020,6,7), BookingType.Site, 2);
+    Booking booking5 = new Booking(7,10, new Date(2020,7,7), new Date(2020,7,14), BookingType.Site, 4);
 
 
     /**
@@ -32,11 +34,13 @@ public class Story2bTest
 
         helper.addBooking(booking1);
         helper.addBooking(booking2);
+        helper.addBooking(booking3);
+        helper.addBooking(booking4);
 
         helper.removeBooking(booking1);
 
         //Checking if removeBooking was able to find booking to remove
-        assertFalse(helper.removeBooking(booking77));
+        assertFalse(helper.removeBooking(booking5));
         assertTrue(helper.removeBooking(booking2));
 
         //Checking if booking is still part of the list

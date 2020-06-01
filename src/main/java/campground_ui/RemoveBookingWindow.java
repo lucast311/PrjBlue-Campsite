@@ -4,6 +4,7 @@ import campground_data.Booking;
 import campground_data.BookingHelper;
 import campground_data.DatabaseFile;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -215,8 +216,19 @@ public class RemoveBookingWindow extends Application {
 
     }
 
+
+    //Searches booking from list then selects it on the Text View
     public void searchBooking()
     {
+        int nGuestIdToSearch = Integer.parseInt(txtGuestID.getText());
+        Booking obBookingToSearch = helper.search(nGuestIdToSearch);
+        int nIndexOfObject = allBookings.indexOf(obBookingToSearch);;
+
+        taBookingList.getSelectionModel().select(nIndexOfObject);
+        taBookingList.getFocusModel().focus(nIndexOfObject);
+
+
+
 
     }
 
