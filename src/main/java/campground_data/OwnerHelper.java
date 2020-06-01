@@ -39,8 +39,12 @@ public class OwnerHelper {
             {
                 currUser = owner;
             }
+            else
+            {
+               currUser = null;
+            }
         }
-        if(currUser.getPassword().compareTo(password) == 0)
+        if(currUser != null && currUser.getPassword().compareTo(password) == 0)
         {
             return currUser;
         }

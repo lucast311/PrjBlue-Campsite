@@ -6,9 +6,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Set;
-import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -17,9 +15,10 @@ public class OwnerTest {
     private static ValidatorFactory vf;
     private static Validator validator;
 
-    private ArrayList<Owner> owners;
+    private ArrayList<Owner> ownersTest;
     private Owner owner1;
     private Owner owner2;
+    private Owner owner3;
     private OwnerHelper ownerHelper = new OwnerHelper();
 
     /***
@@ -50,12 +49,12 @@ public class OwnerTest {
     @Before
     public void setUpValidOwner()
     {
-        owners = new ArrayList<>();
+        ownersTest = new ArrayList<>();
         owner1 = new Owner("harry", "louis", "Mounta1nM@n", "555-555-5555", "hlouis@cestlake.ca", 3, true);
         owner2 = new Owner("mary", "louis", "F1uffyC@ts", "555-555-5555", "mlouis@cestlake.ca", 3, true);
-
-        owners.add(owner1);
-        owners.add(owner2);
+        owner3 = new Owner("guest", "login", "Pa$$w0rd", "n/a", "info@cestlake.ca", 1, false);
+        ownersTest.add(owner1);
+        ownersTest.add(owner2);
 
     }
 
@@ -88,9 +87,9 @@ public class OwnerTest {
     @Test
     public void testUserIdExists() {
 
-        String userInput = "harry.louis";
+        String userInput = "guest.login";
 
-        assertEquals(ownerHelper.validateUser(userInput, "Mounta1nM@n"), owner1);
+        assertEquals(ownerHelper.validateUser(userInput, "Pa$$w0rd"), owner3);
 
     }
 
