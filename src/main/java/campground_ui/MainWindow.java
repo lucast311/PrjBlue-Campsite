@@ -18,21 +18,21 @@ public class MainWindow extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+        while (currUser.getPermissions() < 1)
+        {
+            LoginWindow lw = new LoginWindow(primaryStage);
+            lw.showAndWait();
+        }
+
         BorderPane obPane = new BorderPane();
         primaryStage.setScene(new Scene(obPane, 600, 600));
         primaryStage.show();
 
-        Platform.runLater(new Runnable () {
-            public void run() {
-                new LoginWindow().start(new Stage());
-            }
-        });
 
-//        LoginWindow lw = new LoginWindow();
-//        lw.showAndWait();
     }
 
-    public static void displayMain(Owner user)
+    public static void setUser(Owner user)
     {
         currUser = user;
     }
