@@ -81,6 +81,24 @@ private ValidationHelper vh = new ValidationHelper();
         txtMemberCount = new TextField();
         txtTotalPrice = new TextField();
 
+        //initailize discount
+        Label txtdiscountnew =  new Label("Discount Applied");
+
+        RadioButton rb1 = new RadioButton("None");
+        rb1.setToggleGroup(group);
+        rb1.setSelected(true);
+
+        RadioButton rb2 = new RadioButton("5%");
+        rb2.setToggleGroup(group);
+
+        RadioButton rb3 = new RadioButton("10%");
+        rb3.setToggleGroup(group);
+
+        RadioButton rb4 = new RadioButton("15%");
+        rb4.setToggleGroup(group);
+
+        //add to box
+        //obdiscountBox.getChildren().addAll(txtdiscountnew,rb1, rb2, rb3, rb4);
 
         taBookingList.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -112,6 +130,22 @@ private ValidationHelper vh = new ValidationHelper();
                     }else{
                         checkpaid.setSelected(false);
                     }
+
+                    if(obBooking.getDiscount() == 15){
+                        rb1.setSelected(false);
+                        rb4.setSelected(true);
+
+                    }else if(obBooking.getDiscount() == 10){
+                        rb1.setSelected(false);
+                        rb3.setSelected(true);
+
+                    }else if(obBooking.getDiscount() == 5){
+                        rb1.setSelected(false);
+                        rb2.setSelected(true);
+
+                    } else {
+                        rb1.setSelected(true);
+                    }
                 }
             }
         });
@@ -135,35 +169,6 @@ private ValidationHelper vh = new ValidationHelper();
         obGPane.add(txtMemberCount, 1, 6);
         obGPane.add(new Label("Total Price"), 0, 7);
         obGPane.add(txtTotalPrice, 1, 7);
-
-        //Disable all fields except Guest ID Field
-        // for(Node arg : obGPane.getChildren())
-        // {
-        //if(arg instanceof TextField)
-        //{
-        //arg.setDisable(true);
-        //}
-        //}
-        //txtGuestID.setDisable(false);
-
-        //initailize discount
-        Label txtdiscountnew =  new Label("Discount Applied");
-
-        RadioButton rb1 = new RadioButton("None");
-        rb1.setToggleGroup(group);
-        rb1.setSelected(true);
-
-        RadioButton rb2 = new RadioButton("5%");
-        rb2.setToggleGroup(group);
-
-        RadioButton rb3 = new RadioButton("10%");
-        rb3.setToggleGroup(group);
-
-        RadioButton rb4 = new RadioButton("15%");
-        rb4.setToggleGroup(group);
-
-        //add to box
-        //obdiscountBox.getChildren().addAll(txtdiscountnew,rb1, rb2, rb3, rb4);
 
         //Initialized paid
         checkpaid = new CheckBox("Paid");
@@ -224,12 +229,12 @@ private ValidationHelper vh = new ValidationHelper();
                             //refundConfirm();
                         } else {
 
-                            //obBooking.changeEnd(newendDate);
+                            obBooking.changeEnd(newendDate);
 
                         }
                     }
                 }catch (Exception e){
-                    System.out.println("Invalid Date");
+
                 }
                 //obBooking.changeStart(txtStartDate.getText())
                 String[] sFields2 = txtStartDate.getText().split("/");
@@ -237,14 +242,14 @@ private ValidationHelper vh = new ValidationHelper();
                     Date bookingstartDate = new Date(Integer.parseInt(sFields2[2]), Integer.parseInt(sFields2[1]) - 1, Integer.parseInt(sFields2[0]));
                     if (bookingstartDate.compareTo(new Date()) > -1) { //might change this later
 
-                        //obBooking.changeStart(bookingstartDate);
+                        obBooking.changeStart(bookingstartDate);
 
                     } else {
                         //System.out.println("Start Date cannot be before current date ");
 
                     }
                 } catch (Exception e) {
-                    System.out.println("Invalid Date");
+
                 }
 
                 //if booking end date is after start date and before end date
@@ -253,16 +258,17 @@ private ValidationHelper vh = new ValidationHelper();
                 // may change depending on discounts and refund
                 obBooking.setTotal(Double.parseDouble(txtTotalPrice.getText()));
                 obBooking.setMemberCount(Integer.parseInt(txtMemberCount.getText()));
+
                 if(Double.parseDouble(txtTotalPrice.getText()) > 0) {
                     if (rb2.isSelected()) {
                         //5% off
-                        obBooking.setTotal(1.05 * Double.parseDouble(txtTotalPrice.getText()));
+                        obBooking.setDiscount(5);
                     } else if (rb3.isSelected()) {
                         //10% off
-                        obBooking.setTotal(1.10 * Double.parseDouble(txtTotalPrice.getText()));
+                        obBooking.setDiscount(10);
                     } else if (rb4.isSelected()) {
                         //15% off
-                        obBooking.setTotal(1.15 * Double.parseDouble(txtTotalPrice.getText()));
+                        obBooking.setDiscount(15);
                     }
                 }
 

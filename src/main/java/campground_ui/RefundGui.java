@@ -1,9 +1,7 @@
 package campground_ui;
 
 
-import campground_data.Booking;
-import campground_data.Accommodation;
-import campground_data.AccommodationHelper;
+import campground_data.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,11 +16,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class RefundGui extends Application {
 
-    private static Booking searchbooking;
+    private Booking searchbooking; //grab from edit window
     private int ratething;
     private Button buttonyes;
     private Button buttonno;
@@ -33,7 +32,14 @@ public class RefundGui extends Application {
     private TextField inputtext;
     private boolean yesclicked;
     private boolean nothingclicked = true;
-    private Date newEnddate;
+    private Date newEnddate; //grab from edit window
+
+    private BookingHelper helper = new BookingHelper();
+    ArrayList<Booking> allBookings = helper.getBookingList();
+    //Validation helper to assist in ensuring that the guest objects are valid
+    private ValidationHelper vh = new ValidationHelper();
+    //Database file to write changes to
+    private DatabaseFile dbfile = new DatabaseFile();
 
     //below is temporary for checking
     public static void main(String[] args) {
@@ -98,12 +104,17 @@ public class RefundGui extends Application {
         paneCenter.setAlignment(Pos.CENTER);
         buttonyes.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                //gotta do that
-                //refundConfirm(newEnddate);
-                //ratething = refundConfirmInt(searchBooking,newEnddate);
-                int resultratething = (int) searchbooking.getTotal() - ratething;
+                //if not paid
+                if(searchbooking.getPaid() == false) {
+                    //gotta do that
+                    //refundConfirm(newEnddate);
+                    //ratething = refundConfirmInt(searchBooking,newEnddate);
+                    int resultratething = (int) searchbooking.getTotal() - ratething;
 
-                inputtext.setText(String.valueOf(resultratething) + "$");
+                    inputtext.setText(String.valueOf(resultratething) + "$");
+                }else{
+                    inputtext.setText( "-" + String.valueOf(ratething) + "$");
+                }
                 yesclicked = true;
                 nothingclicked = false;
 
@@ -129,12 +140,14 @@ public class RefundGui extends Application {
                     //message success for refund yes and changed end date
                     searchbooking.setTotal((searchbooking.getTotal() - ratething));
                     //gotta do that
-                    //searchbooking.changeEnd(newEnddate);
+                    searchbooking.changeEnd(newEnddate);
+                    dbfile.saveRecords(allBookings);
 
                 }else {
                     //message success for refund no and changed end date
                     //gotta do that
-                    //searchbooking.changeEnd(newEnddate);
+                    searchbooking.changeEnd(newEnddate);
+                    dbfile.saveRecords(allBookings);
 
                 }
 

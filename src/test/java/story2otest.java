@@ -25,12 +25,31 @@ public class story2otest { //need date serializable??????
     static Date startDate2 = new Date(2020, 7,21 );
     static Accommodation acc1 = new Accommodation(2, 4, 400, false, true);
 
+
+    @Test
+    public void testChangeBookingDate() //helps story 2o
+    {
+        Date startDate= new Date(2020,7,20);
+        Date endDate= new Date(2020,7,25);
+
+        Booking obBooking=new Booking(2,1,startDate, endDate, BookingType.Cabin,4);
+        Date endDate2 = new Date(2020, 7,24 );
+        Date startDate2 = new Date(2020, 7,21 );
+
+        obBooking.changeEnd(endDate2);
+        obBooking.changeStart(startDate2);
+
+        assertEquals(endDate2, obBooking.getEndDate());
+        assertEquals(startDate2, obBooking.getStartDate());
+
+    }
+
+
     @Test
     public void testrefundresultget(){
 
         BusinessManager businessManager = new BusinessManager();
         int result = businessManager.refundConfirmInt(obBooking, endDate2);
-
 
         //0.4 of accommodation price of acc1 = 160
         assertTrue(((int) 160) == result);
@@ -59,31 +78,12 @@ public class story2otest { //need date serializable??????
 
 
     @Test
-    public void testrefundyes() //work on
-    {
-        ArrayList<Booking> bookings = new ArrayList<>();
-        Site site1 = new Site(100, 4,32.00, Site.SiteType.Individual, true, false);
-
-        bookings.add(booking1);
-        bookings.add(booking2);
-
-
-
-        //assertEquals(businessManager.refundconfirm("yes"), ratething);
-    }
-
-    @Test
     public void testrefundyespaid()
     {
         ArrayList<Booking> bookings = bookingHelper.getBookingList();
 //        bookings.add(booking1);
 //        bookings.add(booking2);
-
-        BusinessManager businessManager = new BusinessManager(); //is this ok?
-
-
-
-
+        BusinessManager businessManager = new BusinessManager();
     }
 
     @Test
@@ -97,6 +97,14 @@ public class story2otest { //need date serializable??????
         //double result = booking1.getTotal();
 
         //assertEquals(businessManager.refundconfirm(), result);
+    }
+
+    @Test
+    public void testchangedateValidation(){ //help
+        //test when dates conflict with others with the same accommedation
+
+
+
     }
 
 
