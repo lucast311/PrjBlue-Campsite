@@ -13,7 +13,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Currency;
 
 /**
  * This class is responsible for everything that is displayed on the Ui for remove booking
@@ -29,7 +32,7 @@ public class RemoveBookingWindow extends Application {
 
     private TextField txtGuestID, txtBookingID, txtAccommodationID, txtStartDate, txtEndDate, txtType, txtMemberCount,
             txtTotalPrice;
-    private Button btnRemove, btnSave, btnClose;
+    private Button btnRemove, btnSearch, btnClose;
 
     private BookingHelper helper = new BookingHelper();
     ArrayList<Booking> allBookings = helper.getBookingList();
@@ -104,11 +107,11 @@ public class RemoveBookingWindow extends Application {
 
         //Initialize Buttons
         btnRemove = new Button("Remove");
-        btnSave = new Button("Save");
+        btnSearch = new Button("Search");
         btnClose = new Button("Close");
 
         //Add Buttons to VBox
-        obButtonBox.getChildren().addAll(btnRemove, btnSave, btnClose);
+        obButtonBox.getChildren().addAll(btnRemove, btnSearch, btnClose);
 
 
         //Layout parameters for improved UI design
@@ -124,7 +127,7 @@ public class RemoveBookingWindow extends Application {
         obButtonBox.setPadding(new Insets(159, 0, 0, 15));
 
         btnRemove.setStyle("-fx-background-color: indianred; -fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 3;");
-        btnSave.setStyle("-fx-background-color: lightgreen; -fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 3;");
+        btnSearch.setStyle("-fx-background-color: lightgreen; -fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 3;");
         btnClose.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 3;");
 
 
@@ -141,6 +144,14 @@ public class RemoveBookingWindow extends Application {
 
         btnRemove.setOnAction(e -> {
             removeBooking();
+        });
+
+        taBookingList.getSelectionModel().selectedItemProperty().addListener(e -> {
+            populateFields();
+        });
+
+        btnSearch.setOnAction(e -> {
+            searchBooking();
         });
 
 
@@ -163,21 +174,50 @@ public class RemoveBookingWindow extends Application {
             taBookingList.getItems().add(obVal);
         }
 
-
-
     }
 
 
+    //Removes booking from list
     public void removeBooking()
     {
-//        String guestId = txtGuestID.getText();
-//        Booking obFound = helper.search(Integer.parseInt(guestId));
-
         Booking obFound = (Booking)taBookingList.getSelectionModel().getSelectedItem();
 
-        helper.removeBooking(obFound);
+        if (obFound instanceof Booking)
+        {
+            helper.removeBooking(obFound);
+        }
+        else
+        {
+            System.out.println("no booking selected");// Change to alert
+        }
 
         loadAllBookings();
+    }
+
+    //Populates text fields with information from selected object
+    public void populateFields()
+    {
+        Booking obBookingToDisplay = (Booking) taBookingList.getSelectionModel().getSelectedItem();
+
+        txtGuestID.setText(Integer.toString(obBookingToDisplay.getGuestID()));
+        txtBookingID.setText(Integer.toString(obBookingToDisplay.getBookingID()));
+        txtAccommodationID.setText(Integer.toString(obBookingToDisplay.getPlotID()));
+
+        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d");
+        int nYearStart = obBookingToDisplay.getStartDate().getYear();
+        int nYearEnd = obBookingToDisplay.getEndDate().getYear();;
+
+        txtStartDate.setText(dateFormat.format(obBookingToDisplay.getStartDate()) + ", " + nYearStart);
+        txtEndDate.setText(dateFormat.format(obBookingToDisplay.getEndDate()) + ", " + nYearEnd);
+        txtType.setText(obBookingToDisplay.getType().toString());
+        txtMemberCount.setText(Integer.toString(obBookingToDisplay.getMemberCount()));
+        txtTotalPrice.setText("$" + Double.toString(obBookingToDisplay.getTotal()));
+
+    }
+
+    public void searchBooking()
+    {
+
     }
 
 
