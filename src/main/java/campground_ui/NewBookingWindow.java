@@ -8,8 +8,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
+import java.util.Date;
 
 public class NewBookingWindow extends Application {
 
@@ -65,22 +68,22 @@ public class NewBookingWindow extends Application {
         obCriteria.getChildren().add(tfGuestID);
 
         //Listeners
-        tfStartDate.setOnKeyPressed(e-> {
+        tfStartDate.focusedProperty().addListener(e-> {
             updateStartDate();
         });
-        tfEndDate.setOnKeyPressed(e-> {
+        tfEndDate.focusedProperty().addListener(e-> {
             updateEndDate();
         });
         cbAccommodationType.setOnAction(e-> {
             updateAccommodationType();
         });
-        tfMemberCount.setOnKeyPressed(e-> {
+        tfMemberCount.focusedProperty().addListener(e-> {
             updateMemberCount();
         });
         cbAccommodationID.setOnAction(e-> {
-            update();
+//            update();
         });
-        tfGuestID.setOnKeyPressed(e-> {
+        tfGuestID.focusedProperty().addListener(e-> {
             updateGuestId();
         });
 
@@ -112,12 +115,26 @@ public class NewBookingWindow extends Application {
 
     private static void clearButton()
     {
+        String style = "-fx-text-fill: -fx-text-inner-color;\n" +
+                "    -fx-highlight-fill: derive(-fx-control-inner-background,-20%);\n" +
+                "    -fx-highlight-text-fill: -fx-text-inner-color;\n" +
+                "    -fx-prompt-text-fill: derive(-fx-control-inner-background,-30%);\n" +
+                "    -fx-background-color: linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),\n" +
+                "        linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);\n" +
+                "    -fx-background-insets: 0, 1;\n" +
+                "    -fx-background-radius: 3, 2;\n" +
+                "    -fx-cursor: text;\n" +
+                "    -fx-padding: 0.333333em 0.583em 0.333333em 0.583em;";
         tfStartDate.setText("");
+        tfStartDate.setStyle(style);
         tfEndDate.setText("");
+        tfEndDate.setStyle(style);
         cbAccommodationType.setValue("");
         tfMemberCount.setText("");
+        tfMemberCount.setStyle(style);
         cbAccommodationID.setValue("");
         tfGuestID.setText("");
+        tfGuestID.setStyle(style);
     }
 
     private static void cancelButton()
@@ -132,29 +149,126 @@ public class NewBookingWindow extends Application {
 
     private static void updateStartDate()
     {
-        String[] sFields = tfStartDate.getText().split("/");
+        try {
+            Date startDate = new Date();
+            String[] sFields = tfStartDate.getText().split("/");
+            int nDate = 0;
+            int nMonth = 0;
+            int nYear = 0;
 
+            if (!sFields[0].equals("")) {
+                nDate = Integer.parseInt(sFields[0]);
+                startDate.setDate(nDate);
+            }
+            if (!sFields[1].equals("")) {
+                nMonth = Integer.parseInt(sFields[1]) - 1;
+                startDate.setMonth(nMonth);
+            }
+            if (!sFields[2].equals("")) {
+                nYear = Integer.parseInt(sFields[2]);
+                startDate.setYear(nYear);
+            }
 
-        if(obBooking.changeStart())
+            if (startDate.getDate() == nDate && startDate.getMonth() == nMonth && startDate.getYear() == nYear) {
+                if (obBooking.changeStart(startDate)) {
+                    tfStartDate.setStyle("-fx-background-color: green");
+                } else {
+                    tfStartDate.setStyle("-fx-background-color: red");
+                }
+            } else {
+                tfStartDate.setStyle("-fx-background-color: red");
+            }
+        }
+        catch(Exception e)
         {
-
+            tfStartDate.setStyle("-fx-background-color: red");
         }
     }
     private static void updateEndDate()
     {
+        try {
+            Date endDate = new Date();
+            String[] sFields = tfEndDate.getText().split("/");
+            int nDate = 0;
+            int nMonth = 0;
+            int nYear = 0;
 
+            if(!sFields[0].equals(""))
+            {
+                nDate = Integer.parseInt(sFields[0]);
+                endDate.setDate(nDate);
+            }
+            if(!sFields[1].equals(""))
+            {
+                nMonth = Integer.parseInt(sFields[1])-1;
+                endDate.setMonth(nMonth);
+            }
+            if(!sFields[2].equals(""))
+            {
+                nYear = Integer.parseInt(sFields[2]);
+                endDate.setYear(nYear);
+            }
+
+            if(endDate.getDate() == nDate && endDate.getMonth() == nMonth && endDate.getYear() == nYear)
+            {
+                if(obBooking.changeEnd(endDate))
+                {
+                    tfEndDate.setStyle("-fx-background-color: green");
+                }
+                else
+                {
+                    tfEndDate.setStyle("-fx-background-color: red");
+                }
+            }
+            else
+            {
+                tfEndDate.setStyle("-fx-background-color: red");
+            }
+        }
+        catch(Exception e)
+        {
+            tfEndDate.setStyle("-fx-background-color: red");
+        }
     }
     private static void updateAccommodationType()
     {
-
+        obBooking.setType(cbAccommodationType.getValue().toString());
     }
     private static void updateMemberCount()
     {
-
+        try{
+            int memberCount = Integer.parseInt(tfMemberCount.getText());
+            if(obBooking.setMemberCount(memberCount))
+            {
+                tfMemberCount.setStyle("-fx-background-color: green");
+            }
+            else
+            {
+                tfMemberCount.setStyle("-fx-background-color: red");
+            }
+        }
+        catch(Exception e)
+        {
+            tfMemberCount.setStyle("-fx-background-color: red");
+        }
     }
     private static void updateGuestId()
     {
-
+        try{
+            int guestId = Integer.parseInt(tfGuestID.getText());
+            if(obBooking.setGuestID(guestId))
+            {
+                tfGuestID.setStyle("-fx-background-color: green");
+            }
+            else
+            {
+                tfGuestID.setStyle("-fx-background-color: red");
+            }
+        }
+        catch(Exception e)
+        {
+            tfGuestID.setStyle("-fx-background-color: red");
+        }
     }
 
 }
