@@ -149,13 +149,13 @@ public class BookingHelper {
         }
     }
 
-    public ArrayList<Booking> getCurrentBookings()
+    public ArrayList<Booking> getCurrentBookings() //All bookings currently in progress or haven't started yet
     {
         ArrayList<Booking> obReturn=new ArrayList<>();
         Date today=new Date();
         for(Booking obVal: bookings)
         {
-            if(obVal.getStartDate().after(today))
+            if((obVal.getStartDate().before(today) && obVal.getEndDate().after(today)) || obVal.getStartDate().after(today))
             {
                 obReturn.add(obVal);
                 //System.out.println(obVal); //un-comment to have list print on console

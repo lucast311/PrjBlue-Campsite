@@ -101,11 +101,23 @@ public class ViewBookingWindow extends Application
         obViewAllBtn.setOnAction(e->{
             final ArrayList<Booking> bookingFull=bookingHelper.getBookingList();
             //Add arraylist values to TextArea obResults
+            String sVals="";
+            for(Booking obVal:bookingFull)
+            {
+                sVals+=obVal.toString();
+            }
+            obResults.setText(sVals);
         });
 
         obViewCurrentBtn.setOnAction(e->{
             final ArrayList<Booking> bookingsCurrent=bookingHelper.getCurrentBookings();
             //Add arraylist values to TextArea obResults
+            String sVals="";
+            for(Booking obVal:bookingsCurrent)
+            {
+                sVals+=obVal.toString();
+            }
+            obResults.setText(sVals);
         });
 
         obApply.setOnAction(e->{
@@ -131,10 +143,15 @@ public class ViewBookingWindow extends Application
                 }
             }
 
-            System.out.println(radFilter+"\n"+cbsMonth+"\n"+cbsYear+"\n");
+            //System.out.println(radFilter+"\n"+cbsMonth+"\n"+cbsYear+"\n");
             ArrayList<Booking> obFilterResults=complexFilter(radFilter,cbsMonth,cbsYear);
             //Add arraylist values to TextArea obResults
-
+            String sVals="";
+            for(Booking obVal:obFilterResults)
+            {
+                sVals+=obVal.toString();
+            }
+            obResults.setText(sVals);
         });
     }
 
@@ -147,43 +164,43 @@ public class ViewBookingWindow extends Application
         switch(sMonth)
         {
             case "January":
-                nMonth=1;
+                nMonth=0;
                 break;
             case "February":
-                nMonth=2;
+                nMonth=1;
                 break;
             case "March":
-                nMonth=3;
+                nMonth=2;
                 break;
             case "April":
-                nMonth=4;
+                nMonth=3;
                 break;
             case "May":
-                nMonth=5;
+                nMonth=4;
                 break;
             case "June":
-                nMonth=6;
+                nMonth=5;
                 break;
             case "July":
-                nMonth=7;
+                nMonth=6;
                 break;
             case "August":
-                nMonth=8;
+                nMonth=7;
                 break;
             case "September":
-                nMonth=9;
+                nMonth=8;
                 break;
             case "October":
-                nMonth=10;
+                nMonth=9;
                 break;
             case "November":
-                nMonth=11;
+                nMonth=10;
                 break;
             case "December":
-                nMonth=12;
+                nMonth=11;
                 break;
             default:
-                nMonth=0;
+                nMonth=-1;
                 break;
         }
 
@@ -198,7 +215,7 @@ public class ViewBookingWindow extends Application
 
         if(nYear==0)
         {
-            if(nMonth==0)
+            if(nMonth==-1)
             {
                 if(sCabinSite.equalsIgnoreCase("Cabin"))
                 {
@@ -216,7 +233,7 @@ public class ViewBookingWindow extends Application
                     }
                 }
             }
-            else //nMonth!=0
+            else //nMonth!=-1
             {
                 ArrayList<Booking> obTemp=bookingHelper.getBookingListByMonth(nMonth);
                 if(sCabinSite.equalsIgnoreCase("Cabin"))
@@ -238,7 +255,7 @@ public class ViewBookingWindow extends Application
         }
         else //nYear!=0
         {
-            if(nMonth==0)
+            if(nMonth==-1)
             {
                 ArrayList<Booking> obTemp=bookingHelper.getBookingListByYear(nYear);
                 if(sCabinSite.equalsIgnoreCase("Cabin"))
@@ -257,7 +274,7 @@ public class ViewBookingWindow extends Application
                     }
                 }
             }
-            else //nMonth!=0
+            else //nMonth!=-1
             {
                 ArrayList<Booking> obTemp=bookingHelper.getBookingList(nYear,nMonth);
                 if(sCabinSite.equalsIgnoreCase("Cabin"))

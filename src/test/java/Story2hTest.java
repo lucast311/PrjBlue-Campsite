@@ -18,6 +18,33 @@ public class Story2hTest
    public ArrayList<Booking> obList=bookingHelper.getBookingList(); //initializes an arrayList of all Bookings
 
     /**
+     * Not a test, just something I used to create a few dummy bookings for testing
+     */
+    public void createBookings()
+    {
+        Date startDate1=new Date(2020,7,20);
+        Date endDate1=new Date(2020,8,1);
+
+        Date startDate2=new Date(2019,5,23);
+        Date endDate2=new Date(2019,5,24);
+
+        Date startDate3=new Date(2020,5,18);
+        Date endDate3=new Date(2020,6,3);
+
+        Date startDate4=new Date(2020,8,15);
+        Date endDate4=new Date(2020,8,20);
+
+        Date startDate5=new Date(2020,6,22);
+        Date endDate5=new Date(2020,7,4);
+
+        bookingHelper.addBooking(new Booking(115,11111,startDate1,endDate1,BookingType.Cabin,3));
+        bookingHelper.addBooking(new Booking(2,22222,startDate2,endDate2,BookingType.Site,6));
+        bookingHelper.addBooking(new Booking(3,33333,startDate3,endDate3,BookingType.Site,2));
+        bookingHelper.addBooking(new Booking(1,44444,startDate4,endDate4,BookingType.Cabin,4));
+        bookingHelper.addBooking(new Booking(104,55555,startDate5,endDate5,BookingType.Site,4));
+    }
+
+    /**
      *This test's sole purpose is to run and open up the ViewBookingWindow.
      *Test passes if the window opens
      */
@@ -26,6 +53,7 @@ public class Story2hTest
    {
        //Running this test should launch the ViewBookingWindow class.
        //No way to test for anything other than if it launches or not
+       //createBookings();
        Application.launch(ViewBookingWindow.class);
    }
 
@@ -36,7 +64,7 @@ public class Story2hTest
    @Test
    public void testViewAll()
    {
-        ArrayList<Booking> allBookings=obList;
+       ArrayList<Booking> allBookings=obList;
        for(Booking obVal: obList)
        {
            if(obVal==null)
