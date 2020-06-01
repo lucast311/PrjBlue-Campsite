@@ -1,6 +1,7 @@
 package campground_data;
 
 import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -178,6 +179,7 @@ public class EditGuestWindow extends Stage {
         //Taking in the database file and creating an arrayList from it
         ArrayList<Guest> guestList = dbfile.readGuests();
 
+        obPane.setPadding(new Insets(10, 10, 10, 10));
         this.setTitle("Edit Guest - Cest Campgrounds and Cabins");
         this.setResizable(false);
         this.setScene(new Scene(obPane, 650, 400));
