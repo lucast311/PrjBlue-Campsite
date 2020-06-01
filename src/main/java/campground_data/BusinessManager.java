@@ -1,6 +1,9 @@
 package campground_data;
 
 //import java.awt.print.Book;
+import campground_ui.ViewBookingWindow;
+import javafx.application.Application;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -104,7 +107,8 @@ public class BusinessManager {
 
                     break;
                 case "5":
-                    viewCurrentBookingsScreen();
+                    Application.launch(ViewBookingWindow.class);
+                    // viewCurrentBookingsScreen();
                     break;
 //                case"6":
 //                    changeBookingDateScreen();
