@@ -1,5 +1,6 @@
 package campground_ui;
 
+import campground_data.Booking;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -27,6 +28,9 @@ public class NewBookingWindow extends Application {
     private static Button btnAdd = new Button();
     private static Button btnClear = new Button();
     private static Button btnCancel = new Button();
+
+    private static boolean bFieldsGood = false;
+    private static Booking obBooking = new Booking();
 
 
     @Override
@@ -59,6 +63,26 @@ public class NewBookingWindow extends Application {
 
         obCriteria.getChildren().add(new Label("Guest ID"));
         obCriteria.getChildren().add(tfGuestID);
+
+        //Listeners
+        tfStartDate.setOnKeyPressed(e-> {
+            updateStartDate();
+        });
+        tfEndDate.setOnKeyPressed(e-> {
+            updateEndDate();
+        });
+        cbAccommodationType.setOnAction(e-> {
+            updateAccommodationType();
+        });
+        tfMemberCount.setOnKeyPressed(e-> {
+            updateMemberCount();
+        });
+        cbAccommodationID.setOnAction(e-> {
+            update();
+        });
+        tfGuestID.setOnKeyPressed(e-> {
+            updateGuestId();
+        });
 
         btnAdd.setText("Add");
         btnAdd.setOnAction(e-> {
@@ -105,4 +129,32 @@ public class NewBookingWindow extends Application {
     {
 
     }
+
+    private static void updateStartDate()
+    {
+        String[] sFields = tfStartDate.getText().split("/");
+
+
+        if(obBooking.changeStart())
+        {
+
+        }
+    }
+    private static void updateEndDate()
+    {
+
+    }
+    private static void updateAccommodationType()
+    {
+
+    }
+    private static void updateMemberCount()
+    {
+
+    }
+    private static void updateGuestId()
+    {
+
+    }
+
 }
