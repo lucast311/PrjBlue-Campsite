@@ -24,16 +24,16 @@ public class RefundGui extends Application {
 
     private static Booking searchbooking;
     private int ratething;
-    Button buttonyes;
-    Button buttonno;
-    Text confirm;
-    Text remainder;
-    Button buttonsubmit;
-    Button buttoncancel;
-    TextField inputtext;
-    boolean yesclicked;
-    boolean nothingclicked = true;
-    Date newEnddate;
+    private Button buttonyes;
+    private Button buttonno;
+    private Text confirm;
+    private Text remainder;
+    private Button buttonsubmit;
+    private Button buttoncancel;
+    private TextField inputtext;
+    private boolean yesclicked;
+    private boolean nothingclicked = true;
+    private Date newEnddate;
 
     //below is temporary for checking
     public static void main(String[] args) {
@@ -41,6 +41,7 @@ public class RefundGui extends Application {
 
         Application.launch(args);
     }
+
 
     @Override
     public void start(Stage primaryStage) throws Exception { //this window will only show if newEndDate is Startdate < newEndDate < oldEndDate
@@ -115,6 +116,7 @@ public class RefundGui extends Application {
                 yesclicked = false;
                 nothingclicked = false;
 
+
             }
         });
 
@@ -128,10 +130,12 @@ public class RefundGui extends Application {
                     searchbooking.setTotal((searchbooking.getTotal() - ratething));
                     //gotta do that
                     //searchbooking.changeEnd(newEnddate);
+
                 }else {
                     //message success for refund no and changed end date
                     //gotta do that
                     //searchbooking.changeEnd(newEnddate);
+
                 }
 
             }
@@ -141,6 +145,7 @@ public class RefundGui extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 //go back to booking manager
+
             }
         });
 

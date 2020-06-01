@@ -111,13 +111,13 @@ public class BookingHelper {
         }
 
 
-        updateBookingDate(bookings, bookingID, newStartDate, newEndDate, "src/main/java/database/bookings.obj");
+       // updateBookingDate(bookings, bookingID, newStartDate, newEndDate, "src/main/java/database/bookings.obj");
         System.out.println("The booking dates have been changed.");
         return true;
     }
 
     //validation and setting for booking date changes
-    public void updateBookingDate(ArrayList<Booking> bookings, int bookingID, Date newStartDate, Date newEndDate, String sFile) //help
+   /* public void updateBookingDate(ArrayList<Booking> bookings, int bookingID, Date newStartDate, Date newEndDate, String sFile) //help
     {
         List<Booking> obBookingList = bookings.stream()
                 .map(x -> {
@@ -147,7 +147,7 @@ public class BookingHelper {
                                     }
 
                                     return x;
-                                }).collect(Collector.toList()); //help
+                               }).collect(Collector.toList()); //help
 
                         try
                         {
@@ -184,6 +184,8 @@ public class BookingHelper {
             e.printStackTrace();
         }
     }
+
+    */
 
 
     public ArrayList<Booking> getBookingList() //help

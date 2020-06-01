@@ -621,7 +621,7 @@ public class BusinessManager {
             //ADD PLOT ID LIST FOR CRITERIA, AND PLOT ID VERIFICATION
             if( accommodationHelper.searchAccommodation(nVal) != null){
                 bookingplotID = nVal;
-                searchbooking.setPlotID(bookingplotID);
+                searchbooking.setnAccommodationID(bookingplotID);
                 bPlotID = true;
             }else{
                 System.out.println("invalid plotID");
@@ -738,7 +738,7 @@ public class BusinessManager {
             {
                 case "1":
                     System.out.println("Please enter a new cabin number: ");
-                    obFound.setPlotID(Integer.parseInt(obIn.next()));
+                    obFound.setAccommodationID(Integer.parseInt(obIn.next()));
                     //print toString to display changes
                     System.out.println("Changes made:");
                     System.out.println(obFound.toString());
@@ -862,7 +862,7 @@ public class BusinessManager {
             {
                 case "1":
                     System.out.println("Please enter a new site number: ");
-                    obFound.setPlotID(Integer.parseInt(obIn.next()));
+                    obFound.setAccommodationID(Integer.parseInt(obIn.next()));
                     //print toString to display changes
                     System.out.println("Changes made:");
                     System.out.println(obFound.toString());

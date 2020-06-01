@@ -35,7 +35,7 @@ public class AccommodationHelper
                 Cabin plotToReturn = null;
                 for (Accommodation accommodation : AccommodationHelper.accommodations)
                 {
-                        if (accommodation.getPlotID() == AccommodationID)
+                        if (accommodation.getAccommodationID() == AccommodationID)
                         {
                                 plotToReturn = (Cabin) accommodation;
                         }
@@ -49,7 +49,7 @@ public class AccommodationHelper
                 Site plotToReturn = null;
                 for (Accommodation accommodation : AccommodationHelper.accommodations)
                 {
-                        if (accommodation.getPlotID() == AccommodationID)
+                        if (accommodation.getAccommodationID() == AccommodationID)
                         {
                                 plotToReturn = (Site) accommodation;
                         }
@@ -63,7 +63,7 @@ public class AccommodationHelper
                 Accommodation accommodationToReturn = null;
                 for (Accommodation accommodation : AccommodationHelper.accommodations)
                 {
-                        if (accommodation.getPlotID() == AccommodationID)
+                        if (accommodation.getAccommodationID() == AccommodationID)
                         {
                                 accommodationToReturn = accommodation;
                         }
