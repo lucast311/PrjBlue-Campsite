@@ -32,7 +32,7 @@ public class BookingHelper {
         return this.bookings.contains(booking);
     }
 
-    public boolean removeBooking(Booking booking) //seems to be creating null pointers
+    public boolean removeBooking(Booking booking) //seems to be creating null pointers with previous implementation
     {
         boolean bRemoved = false;
 
@@ -122,7 +122,7 @@ public class BookingHelper {
         return true;
     }
 
-    public void updateBookingDate(ArrayList<Booking> bookings, int bookingID, Date newStartDate, Date newEndDate, String sFile)
+    public void updateBookingDate(ArrayList<Booking> bookings, int bookingID, Date newStartDate, Date newEndDate, String sFile) //Why does this exist? This functionality already exists
     {
         List<Booking> obBookingList = bookings.stream()
                 .map(x -> {
