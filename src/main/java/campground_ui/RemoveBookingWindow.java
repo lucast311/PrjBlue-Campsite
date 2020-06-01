@@ -1,5 +1,7 @@
 package campground_ui;
 
+import campground_data.Booking;
+import campground_data.BookingHelper;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -12,6 +14,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 /**
  * This class is responsible for everything that is displayed on the Ui for remove booking
@@ -28,6 +32,8 @@ public class RemoveBookingWindow extends Application {
     private TextField txtGuestID, txtBookingID, txtAccommodationID, txtStartDate, txtEndDate, txtType, txtMemberCount,
             txtTotalPrice;
     private Button btnRemove, btnSave, btnClose;
+
+    private BookingHelper helper = new BookingHelper();
 
 
     public static void main(String[] args)
@@ -53,7 +59,8 @@ public class RemoveBookingWindow extends Application {
         taBookingList = new TextArea();
         taBookingList.setPrefWidth(600);
         taBookingList.setPrefHeight(200);
-        taBookingList.setDisable(true);
+        taBookingList.setEditable(false);
+
 
 
         //Initializes text fields for the form
@@ -106,7 +113,7 @@ public class RemoveBookingWindow extends Application {
 
         //Layout parameters for improved UI design
         obBPane.setPadding(new Insets(10));
-        obStage.setMinWidth(800);
+        obStage.setMinWidth(1000);
         obStage.setMinHeight(510);
 
         obGPane.setHgap(10);
@@ -126,9 +133,33 @@ public class RemoveBookingWindow extends Application {
         obBPane.setLeft(obGPane);
         obBPane.setCenter(obButtonBox);
 
-        obStage.setScene(new Scene(obBPane, 800, 500));
+
+        //Event Handlers section
+
+
+        obStage.setScene(new Scene(obBPane, 1000, 500));
         obStage.setTitle("Cest Lake - Remove Booking");
+        obStage.setOnShowing(e -> {
+            loadAllBookings();
+        });
         obStage.show();
+    }
+
+
+    //Loads all the bookings onto the GUI text area
+    public void loadAllBookings()
+    {
+        ArrayList<Booking> allBookings = helper.getBookingList();
+
+        String sVals="";
+
+        for(Booking obVal : allBookings)
+        {
+            sVals+=obVal.toString();
+        }
+        taBookingList.setText(sVals);
+
+
     }
 
 
