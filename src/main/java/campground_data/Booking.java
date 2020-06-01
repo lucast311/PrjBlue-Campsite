@@ -124,7 +124,8 @@ public class Booking implements Serializable
 
 	public boolean setGuestID(int nGuestID)
 	{
-		if(BusinessManager.guestHelper.checkGuestId(nGuestID))
+		GuestHelper guestHelper = new GuestHelper();
+		if(guestHelper.checkGuestId(nGuestID))
 		{
 			this.nGuestID = nGuestID;
 			return true;

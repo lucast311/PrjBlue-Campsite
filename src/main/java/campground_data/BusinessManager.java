@@ -11,7 +11,7 @@ public class BusinessManager {
     private static BookingHelper bookingHelper = new BookingHelper();
     public static PlotHelper plotHelper = new PlotHelper();
     private static OwnerHelper ownerHelper = new OwnerHelper();
-    public static GuestHelper guestHelper = new GuestHelper();
+    private static GuestHelper guestHelper = new GuestHelper();
     private static DatabaseFile dbfile = new DatabaseFile();
     private static ArrayList<Owner> ownerList = ownerHelper.getOwnerList();
     private static ArrayList<Plot> sites = plotHelper.getPlotList();

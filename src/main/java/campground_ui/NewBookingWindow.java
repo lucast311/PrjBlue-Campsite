@@ -1,6 +1,6 @@
 package campground_ui;
 
-import campground_data.Booking;
+import campground_data.*;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,7 +12,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 public class NewBookingWindow extends Application {
 
@@ -293,7 +295,21 @@ public class NewBookingWindow extends Application {
     {
         if(bStartDateGood && bEndDateGood && bAccommodationTypeGood && bMemberCountGood)
         {
+            PlotHelper plotHelper = new PlotHelper();
+            ArrayList availableAccommodations = plotHelper.getPlotList().stream()
+                    .filter(x->{
+                        if(x instanceof Site)
+                        {
+                            Site site = (Site) x;
+                            site.
+                        }
+                        else if(x instanceof Cabin)
+                        {
+                            Cabin cabin = (Cabin) x;
 
+                        }
+                    })
+                    .collect(Collectors.toCollection());
         }
     }
 
