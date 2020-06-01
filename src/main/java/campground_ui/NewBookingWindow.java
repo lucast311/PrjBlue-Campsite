@@ -32,7 +32,10 @@ public class NewBookingWindow extends Application {
     private static Button btnClear = new Button();
     private static Button btnCancel = new Button();
 
-    private static boolean bFieldsGood = false;
+    private static boolean bStartDateGood = false;
+    private static boolean bEndDateGood = false;
+    private static boolean bAccommodationTypeGood = false;
+    private static boolean bMemberCountGood = false;
     private static Booking obBooking = new Booking();
 
 
@@ -70,15 +73,19 @@ public class NewBookingWindow extends Application {
         //Listeners
         tfStartDate.focusedProperty().addListener(e-> {
             updateStartDate();
+            refreshAccommodationIDs();
         });
         tfEndDate.focusedProperty().addListener(e-> {
             updateEndDate();
+            refreshAccommodationIDs();
         });
         cbAccommodationType.setOnAction(e-> {
             updateAccommodationType();
+            refreshAccommodationIDs();
         });
         tfMemberCount.focusedProperty().addListener(e-> {
             updateMemberCount();
+            refreshAccommodationIDs();
         });
         cbAccommodationID.setOnAction(e-> {
 //            update();
@@ -172,16 +179,20 @@ public class NewBookingWindow extends Application {
             if (startDate.getDate() == nDate && startDate.getMonth() == nMonth && startDate.getYear() == nYear) {
                 if (obBooking.changeStart(startDate)) {
                     tfStartDate.setStyle("-fx-background-color: green");
+                    bStartDateGood = true;
                 } else {
                     tfStartDate.setStyle("-fx-background-color: red");
+                    bStartDateGood = false;
                 }
             } else {
                 tfStartDate.setStyle("-fx-background-color: red");
+                bStartDateGood = false;
             }
         }
         catch(Exception e)
         {
             tfStartDate.setStyle("-fx-background-color: red");
+            bStartDateGood = false;
         }
     }
     private static void updateEndDate()
@@ -214,20 +225,24 @@ public class NewBookingWindow extends Application {
                 if(obBooking.changeEnd(endDate))
                 {
                     tfEndDate.setStyle("-fx-background-color: green");
+                    bEndDateGood = true;
                 }
                 else
                 {
                     tfEndDate.setStyle("-fx-background-color: red");
+                    bEndDateGood = false;
                 }
             }
             else
             {
                 tfEndDate.setStyle("-fx-background-color: red");
+                bEndDateGood = false;
             }
         }
         catch(Exception e)
         {
             tfEndDate.setStyle("-fx-background-color: red");
+            bEndDateGood = false;
         }
     }
     private static void updateAccommodationType()
@@ -241,15 +256,18 @@ public class NewBookingWindow extends Application {
             if(obBooking.setMemberCount(memberCount))
             {
                 tfMemberCount.setStyle("-fx-background-color: green");
+                bMemberCountGood = true;
             }
             else
             {
                 tfMemberCount.setStyle("-fx-background-color: red");
+                bMemberCountGood = false;
             }
         }
         catch(Exception e)
         {
             tfMemberCount.setStyle("-fx-background-color: red");
+            bMemberCountGood = false;
         }
     }
     private static void updateGuestId()
@@ -268,6 +286,14 @@ public class NewBookingWindow extends Application {
         catch(Exception e)
         {
             tfGuestID.setStyle("-fx-background-color: red");
+        }
+    }
+
+    private static void refreshAccommodationIDs()
+    {
+        if(bStartDateGood && bEndDateGood && bAccommodationTypeGood && bMemberCountGood)
+        {
+
         }
     }
 
