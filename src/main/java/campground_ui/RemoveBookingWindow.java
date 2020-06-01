@@ -2,6 +2,7 @@ package campground_ui;
 
 import campground_data.Booking;
 import campground_data.BookingHelper;
+import campground_data.DatabaseFile;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -34,6 +35,8 @@ public class RemoveBookingWindow extends Application {
     private Button btnRemove, btnSave, btnClose;
 
     private BookingHelper helper = new BookingHelper();
+    ArrayList<Booking> allBookings = helper.getBookingList();
+    private DatabaseFile dbFile;
 
 
     public static void main(String[] args)
@@ -135,6 +138,17 @@ public class RemoveBookingWindow extends Application {
 
 
         //Event Handlers section
+        btnSave.setOnAction(e -> {
+            saveData();
+        });
+
+        btnClose.setOnAction(e -> {
+            obStage.close();
+        });
+
+        btnRemove.setOnAction(e -> {
+            removeBooking();
+        });
 
 
         obStage.setScene(new Scene(obBPane, 1000, 500));
@@ -149,7 +163,6 @@ public class RemoveBookingWindow extends Application {
     //Loads all the bookings onto the GUI text area
     public void loadAllBookings()
     {
-        ArrayList<Booking> allBookings = helper.getBookingList();
 
         String sVals="";
 
@@ -161,6 +174,25 @@ public class RemoveBookingWindow extends Application {
 
 
     }
+
+    //Saves changes to database **Needs work
+    public void saveData()
+    {
+        dbFile.saveRecords(allBookings);
+    }
+
+    public void removeBooking()
+    {
+        String guestId = txtGuestID.getText();
+        Booking obFound = helper.search(Integer.parseInt(guestId));
+
+        helper.removeBooking(obFound);
+
+        loadAllBookings();
+    }
+
+
+
 
 
 
