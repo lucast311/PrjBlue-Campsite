@@ -111,6 +111,7 @@ public class GuestManagerWindow extends Application
         }
         btnViewAllGuests.setVisible(false);
 
+        //call event handlers for the textfield and buttons
         txtSearchFieldOnAction(txtSearchField);
         btnSearchClicked(btnSearch);
         btnViewAllGuestsClicked(btnViewAllGuests);
@@ -171,6 +172,11 @@ public class GuestManagerWindow extends Application
             gridPane.add(new Text(obGuest.getAddress().getPostalCode() + "\t\t"), 13, nRow);
     }
 
+    /**
+     * Event handler for the text field. This method will search for a guest that corresponds to the phone number entered when the return key is pressed.
+     * Will display an error alert if the text field is empty or if the phone number does not correspond to any guest.
+     * @param textField
+     */
     public void txtSearchFieldOnAction(TextField textField)
     {
         txtSearchField.setOnAction(e -> {
@@ -180,6 +186,7 @@ public class GuestManagerWindow extends Application
                 nullError.setHeaderText("No phone number entered");
                 nullError.setContentText("Please enter a guest's phone number");
                 nullError.showAndWait();
+                txtSearchField.setText("");
                 return;
             }
 
@@ -191,20 +198,36 @@ public class GuestManagerWindow extends Application
                 nullError.setHeaderText("Guest does not exist");
                 nullError.setContentText("The guest you are searching for is not in the database");
                 nullError.showAndWait();
+                txtSearchField.setText("");
                 return;
             }
 
+            //before populating the gridpane, clear everything first
             guestsPane.getChildren().clear();
+
+            //set the headers
             setHeader(guestsPane);
+
+            //populate the row after the header with the guest info
             addRow(guestsPane,guest,1);
+
+            //reset the text field
+            txtSearchField.setText("");
+
+            //set btnViewAllGuests to be visible
             btnViewAllGuests.setVisible(true);
 
         });
     }
 
+    /**
+     * Event handler for the "View All Guests" button. This will display all the guests in the database when the button is clicked.
+     * @param btn
+     */
     public void btnViewAllGuestsClicked(Button btn)
     {
         btnViewAllGuests.setOnAction(e -> {
+            txtSearchField.setText("");
             guestsPane.getChildren().clear();
             setHeader(guestsPane);
             for (Guest obGuest : guests)
@@ -219,6 +242,11 @@ public class GuestManagerWindow extends Application
         });
     }
 
+    /**
+     * Event handler for the "Search" button. This method will search for a guest that corresponds to the phone number entered when the return key is pressed.
+     * Will display an error alert if the text field is empty or if the phone number does not correspond to any guest.
+     * @param btn
+     */
     public void btnSearchClicked(Button btn)
     {
         btnSearch.setOnAction(e -> {
@@ -228,6 +256,7 @@ public class GuestManagerWindow extends Application
                 nullError.setHeaderText("No phone number entered");
                 nullError.setContentText("Please enter a guest's phone number");
                 nullError.showAndWait();
+                txtSearchField.setText("");
                 return;
             }
 
@@ -239,19 +268,35 @@ public class GuestManagerWindow extends Application
                 nullError.setHeaderText("Guest does not exist");
                 nullError.setContentText("The guest you are searching for is not in the database");
                 nullError.showAndWait();
+                txtSearchField.setText("");
                 return;
             }
 
+            //before populating the gridpane, clear everything first
             guestsPane.getChildren().clear();
+
+            //set the headers
             setHeader(guestsPane);
+
+            //populate the row after the header with the guest info
             addRow(guestsPane,guest,1);
+
+            //reset the text field
+            txtSearchField.setText("");
+
+            //set btnViewAllGuests to be visible
             btnViewAllGuests.setVisible(true);
         });
     }
 
+    /**
+     * Event handler for the "Refresh" button.
+     * @param btn
+     */
     public void btnRefreshClicked(Button btn)
     {
         btnRefresh.setOnAction(e -> {
+            txtSearchField.setText("");
             guestsPane.getChildren().clear();
             setHeader(guestsPane);
             for (Guest obGuest : guests)
@@ -265,6 +310,9 @@ public class GuestManagerWindow extends Application
             btnViewAllGuests.setVisible(false);
         });
     }
+
+
+
 
 
 
