@@ -58,6 +58,9 @@ public class EditGuestWindow extends Stage {
     private Text txtAddressInformation = new Text("Address Information");
     private Text txtCampingInformation = new Text("Camping Information");
 
+    //Main Title for window
+    private Text txtWindowInformation = new Text("Edit Guest Information");
+
     //Combobox and title for the payment method section
     private ComboBox<PaymentType> cboPaymentMethod = new ComboBox<>();
     private Label paymentMethodLabel = new Label("Payment Method:\t");
@@ -124,57 +127,62 @@ public class EditGuestWindow extends Stage {
         txtCampingInformation.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
         txtPaymentInformation.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
 
+        //Setting fonts for main title
+        txtWindowInformation.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+
         //Constructing the GUI
-        obPane.add(txtContactInformation,0, 0);
+        obPane.add(txtWindowInformation, 0, 0);
 
-        obPane.add(firstNameLabel, 0, 1);
-        obPane.add(firstNameField, 1,1);
+        obPane.add(txtContactInformation,0, 1);
 
-        obPane.add(lastNameLabel, 0, 2);
-        obPane.add(lastNameField, 1, 2);
+        obPane.add(firstNameLabel, 0, 2);
+        obPane.add(firstNameField, 1,2);
 
-        obPane.add(emailLabel, 0, 3);
-        obPane.add(emailField, 1, 3);
+        obPane.add(lastNameLabel, 0, 3);
+        obPane.add(lastNameField, 1, 3);
 
-        obPane.add(phoneNumberLabel, 0, 4);
-        obPane.add(phoneNumberField, 1, 4);
+        obPane.add(emailLabel, 0, 4);
+        obPane.add(emailField, 1, 4);
 
-        obPane.add(txtPaymentInformation, 2, 0);
+        obPane.add(phoneNumberLabel, 0, 5);
+        obPane.add(phoneNumberField, 1, 5);
 
-        obPane.add(paymentMethodLabel, 2, 1);
-        obPane.add(cboPaymentMethod, 3, 1);
+        obPane.add(txtPaymentInformation, 2, 1);
 
-        obPane.add(creditCardNumLabel, 2, 2);
-        obPane.add(creditCardNumField, 3, 2);
+        obPane.add(paymentMethodLabel, 2, 2);
+        obPane.add(cboPaymentMethod, 3, 2);
 
-        obPane.add(txtAddressInformation, 0, 8);
+        obPane.add(creditCardNumLabel, 2, 3);
+        obPane.add(creditCardNumField, 3, 3);
 
-        obPane.add(streetNumLabel, 0, 9);
-        obPane.add(streetNumField, 1, 9);
+        obPane.add(txtAddressInformation, 0, 9);
 
-        obPane.add(aptNumLabel, 0, 10);
-        obPane.add(aptNumField, 1, 10);
+        obPane.add(streetNumLabel, 0, 10);
+        obPane.add(streetNumField, 1, 10);
 
-        obPane.add(streetNameLabel, 0, 11);
-        obPane.add(streetNameField, 1, 11);
+        obPane.add(aptNumLabel, 0, 11);
+        obPane.add(aptNumField, 1, 11);
 
-        obPane.add(cityTownLabel, 0, 12);
-        obPane.add(cityTownField, 1, 12);
+        obPane.add(streetNameLabel, 0, 12);
+        obPane.add(streetNameField, 1, 12);
 
-        obPane.add(provinceLabel, 2, 9);
-        obPane.add(provinceField, 3,9);
+        obPane.add(cityTownLabel, 0, 13);
+        obPane.add(cityTownField, 1, 13);
 
-        obPane.add(countryLabel, 2, 10);
-        obPane.add(countryField, 3, 10);
+        obPane.add(provinceLabel, 2, 10);
+        obPane.add(provinceField, 3,10);
 
-        obPane.add(postalCodeLabel, 2, 11);
-        obPane.add(postalCodeField, 3, 11);
+        obPane.add(countryLabel, 2, 11);
+        obPane.add(countryField, 3, 11);
+
+        obPane.add(postalCodeLabel, 2, 12);
+        obPane.add(postalCodeField, 3, 12);
 
         obPane.setHgap(10);
         obPane.setVgap(5);
 
-        obPane.add(btnSaveChanges, 1, 17);
-        obPane.add(btnCancelChanges, 2, 17);
+        obPane.add(btnSaveChanges, 1, 18);
+        obPane.add(btnCancelChanges, 2, 18);
 
         //Taking in the database file and creating an arrayList from it
         ArrayList<Guest> guestList = dbfile.readGuests();
@@ -182,7 +190,7 @@ public class EditGuestWindow extends Stage {
         obPane.setPadding(new Insets(10, 10, 10, 10));
         this.setTitle("Edit Guest - Cest Campgrounds and Cabins");
         this.setResizable(false);
-        this.setScene(new Scene(obPane, 650, 400));
+        this.setScene(new Scene(obPane, 800, 400));
 
         //Event handler for payment method cbo. This will check to see
         //which value is selected and will disable the textfield accordingly
