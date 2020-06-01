@@ -88,8 +88,15 @@ public class OwnerTest {
     public void testUserIdExists() {
 
         String userInput = "guest.login";
+        Owner testUser = ownerHelper.validateUser(userInput, "Pa$$w0rd");
+        assertEquals(testUser.getPassword(), owner3.getPassword());
+        assertEquals(testUser.getFirstName(), owner3.getFirstName());
+        assertEquals(testUser.getLastName(), owner3.getLastName());
+        assertEquals(testUser.getEmail(), owner3.getEmail());
+        assertEquals(testUser.getPermissions(), owner3.getPermissions());
+        assertEquals(testUser.getPhoneNumber(), owner3.getPhoneNumber());
+        assertEquals(testUser.getOnSite(), owner3.getOnSite());
 
-        assertEquals(ownerHelper.validateUser(userInput, "Pa$$w0rd"), owner3);
 
     }
 
@@ -99,8 +106,16 @@ public class OwnerTest {
     @Test
     public void testPasswordExists() {
         String userInput = "Mounta1nM@n";
-            System.out.println("hithere");
-            assertEquals(ownerHelper.validateUser("harry.louis", userInput), owner1);
+        System.out.println("hithere");
+        Owner testUser = ownerHelper.validateUser("harry.louis", userInput);
+        assertEquals(testUser.getPassword(), owner1.getPassword());
+        assertEquals(testUser.getFirstName(), owner1.getFirstName());
+        assertEquals(testUser.getLastName(), owner1.getLastName());
+        assertEquals(testUser.getEmail(), owner1.getEmail());
+        assertEquals(testUser.getPermissions(), owner1.getPermissions());
+        assertEquals(testUser.getPhoneNumber(), owner1.getPhoneNumber());
+        assertEquals(testUser.getOnSite(), owner1.getOnSite());
+
 
     }
 
@@ -110,20 +125,21 @@ public class OwnerTest {
     @Test
     public void testPasswordInvalid() {
         String userInput = "Pa$$w0rd";
-
-        assertEquals(ownerHelper.validateUser("harry.louis", userInput), null);
+        Owner testUser = ownerHelper.validateUser("harry.louis", userInput);
+        assertEquals(testUser, null);
 
     }
 
     @Test
     public void testUserIdIsNotBlank() {
-
-        assertEquals(ownerHelper.validateUser("", "Pa$$w0rd"), null);
+        Owner testUser = ownerHelper.validateUser("", "Pa$$w0rd");
+                assertEquals(testUser, null);
     }
 
     @Test
     public void testPasswordIsNotBlank() {
-        assertEquals(ownerHelper.validateUser("harry.louis", ""), null);
+        Owner testUser = ownerHelper.validateUser("harry.louis", "");
+        assertEquals(testUser, null);
     }
 
     /***

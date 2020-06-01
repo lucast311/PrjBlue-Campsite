@@ -1,5 +1,7 @@
 package campground_data;
 
+import javafx.scene.control.PasswordField;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -17,6 +19,11 @@ public class OwnerHelper {
         ownerList.add(newOwner);
         DBFile.saveRecords(ownerList);
         return newOwner;
+    }
+
+    public static ArrayList<Owner> getList()
+    {
+        return ownerList;
     }
 
     public void removeOwner(Owner obj) {
@@ -38,6 +45,7 @@ public class OwnerHelper {
             if(owner.getUserId().compareTo(userID) == 0)
             {
                 currUser = owner;
+                break;
             }
             else
             {
