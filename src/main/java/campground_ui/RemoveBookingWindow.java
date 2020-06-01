@@ -7,10 +7,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -28,7 +25,7 @@ public class RemoveBookingWindow extends Application {
     private GridPane obGPane;
     private VBox obButtonBox;
 
-    private TextArea taBookingList;
+    private ListView taBookingList;
 
     private TextField txtGuestID, txtBookingID, txtAccommodationID, txtStartDate, txtEndDate, txtType, txtMemberCount,
             txtTotalPrice;
@@ -59,7 +56,7 @@ public class RemoveBookingWindow extends Application {
 
 
         //Initializes top text area that displays list of bookings
-        taBookingList = new TextArea();
+        taBookingList = new ListView();
         taBookingList.setPrefWidth(600);
         taBookingList.setPrefHeight(200);
         taBookingList.setEditable(false);
@@ -138,10 +135,6 @@ public class RemoveBookingWindow extends Application {
 
 
         //Event Handlers section
-        btnSave.setOnAction(e -> {
-            saveData();
-        });
-
         btnClose.setOnAction(e -> {
             obStage.close();
         });
@@ -163,28 +156,24 @@ public class RemoveBookingWindow extends Application {
     //Loads all the bookings onto the GUI text area
     public void loadAllBookings()
     {
-
-        String sVals="";
+        taBookingList.getItems().clear();
 
         for(Booking obVal : allBookings)
         {
-            sVals+=obVal.toString();
+            taBookingList.getItems().add(obVal);
         }
-        taBookingList.setText(sVals);
+
 
 
     }
 
-    //Saves changes to database **Needs work
-    public void saveData()
-    {
-        dbFile.saveRecords(allBookings);
-    }
 
     public void removeBooking()
     {
-        String guestId = txtGuestID.getText();
-        Booking obFound = helper.search(Integer.parseInt(guestId));
+//        String guestId = txtGuestID.getText();
+//        Booking obFound = helper.search(Integer.parseInt(guestId));
+
+        Booking obFound = (Booking)taBookingList.getSelectionModel().getSelectedItem();
 
         helper.removeBooking(obFound);
 
