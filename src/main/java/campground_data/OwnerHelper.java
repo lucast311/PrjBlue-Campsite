@@ -21,8 +21,7 @@ public class OwnerHelper {
         return newOwner;
     }
 
-    public static ArrayList<Owner> getList()
-    {
+    public static ArrayList<Owner> getOwnerList() {
         return ownerList;
     }
 
@@ -30,8 +29,8 @@ public class OwnerHelper {
 
     }
 
-    public static ArrayList<Owner> getOwnerList() {
-        return ownerList;
+    public void editOwner(Owner obj) {
+
     }
 
     public Owner searchOwner(String userId) {

@@ -19,6 +19,7 @@ public class OwnerTest {
     private Owner owner1;
     private Owner owner2;
     private Owner owner3;
+    private Owner owner;
     private OwnerHelper ownerHelper = new OwnerHelper();
 
     /***
@@ -55,6 +56,15 @@ public class OwnerTest {
         owner3 = new Owner("guest", "login", "Pa$$w0rd", "n/a", "info@cestlake.ca", 1, false);
         ownersTest.add(owner1);
         ownersTest.add(owner2);
+        owner = new Owner();
+        owner.setFirstName("test");
+        owner.setLastName("tester");
+        owner.changePassword("Password");
+        owner.setUserId("test.tester");
+        owner.setPermissions(3);
+        owner.setEmail("example@test.ca");
+        owner.setPhone("5435552389");
+        owner.setOnSite(true);
 
     }
 
@@ -130,16 +140,28 @@ public class OwnerTest {
 
     }
 
+    /**
+     * INVALID: UserID field cannot be left blank when logging in to the system
+     */
     @Test
     public void testUserIdIsNotBlank() {
         Owner testUser = ownerHelper.validateUser("", "Pa$$w0rd");
                 assertEquals(testUser, null);
     }
 
+    /**
+     * INVALID: Password field cannot be left blank when logging into the system
+     */
     @Test
     public void testPasswordIsNotBlank() {
         Owner testUser = ownerHelper.validateUser("harry.louis", "");
         assertEquals(testUser, null);
+    }
+
+    @Test
+    public void testFirstNameMinLength() {
+        owner.setFirstName("T");
+        assertInvalid(owner, "firstName", "First name must be between 2 and 20 characters", "");
     }
 
     /***

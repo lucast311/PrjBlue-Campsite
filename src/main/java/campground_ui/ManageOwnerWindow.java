@@ -23,7 +23,7 @@ public class ManageOwnerWindow extends Stage {
 
     private ListView<Owner> ownerListView;
     private OwnerHelper ownerHelper = new OwnerHelper();
-    private ArrayList<Owner> owners = ownerHelper.getList();
+    private ArrayList<Owner> owners = ownerHelper.getOwnerList();
     private Button btnPass, btnNew, btnRemove, btnEdit, btnClose;
 
     public ManageOwnerWindow(Stage parent)
