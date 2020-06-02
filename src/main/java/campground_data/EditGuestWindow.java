@@ -91,6 +91,8 @@ public class EditGuestWindow extends Stage {
         btnSaveChanges.setText("Save Changes");
         btnCancelChanges.setText("Cancel Changes");
 
+        btnCancelChanges.setStyle("-fx-background-color: Red");
+
         //Setting default text to the text fields from the passed in guest
         firstNameField.setText(guest.getFirstName());
         lastNameField.setText(guest.getLastName());
