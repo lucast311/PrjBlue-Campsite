@@ -4,16 +4,14 @@ import campground_data.*;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class NewBookingWindow extends Application {
@@ -36,8 +34,11 @@ public class NewBookingWindow extends Application {
 
     private static boolean bStartDateGood = false;
     private static boolean bEndDateGood = false;
-    private static boolean bAccommodationTypeGood = false;
+    private static boolean bAccommodationType = false;
     private static boolean bMemberCountGood = false;
+    private static boolean bAccommodationID = false;
+    private static boolean bGuestID = false;
+    private static BookingHelper bookingHelper = new BookingHelper();
     private static Booking obBooking = new Booking();
 
 
@@ -90,7 +91,7 @@ public class NewBookingWindow extends Application {
             refreshAccommodationIDs();
         });
         cbAccommodationID.setOnAction(e-> {
-//            update();
+            updateAccommodationID();
         });
         tfGuestID.focusedProperty().addListener(e-> {
             updateGuestId();
@@ -142,6 +143,7 @@ public class NewBookingWindow extends Application {
         tfMemberCount.setText("");
         tfMemberCount.setStyle(style);
         cbAccommodationID.setValue("");
+        cbAccommodationID.setItems(null);
         tfGuestID.setText("");
         tfGuestID.setStyle(style);
     }
@@ -153,6 +155,38 @@ public class NewBookingWindow extends Application {
 
     private static void addButton()
     {
+        if(bStartDateGood && bEndDateGood && bAccommodationType && bMemberCountGood && bAccommodationID && bGuestID)
+        {
+            Alert obAlert = new Alert(Alert.AlertType.CONFIRMATION, "Would you like to create this booking?", ButtonType.YES, ButtonType.NO);
+            obAlert.show();
+            obAlert.setOnCloseRequest(e-> {
+                if(obAlert.getResult() == ButtonType.YES)
+                {
+                    if(bookingHelper.addBooking(obBooking))
+                    {
+                        Alert obSuccess = new Alert(Alert.AlertType.INFORMATION, "Successfully added the booking!", ButtonType.OK);
+                        obSuccess.show();
+                        obSuccess.setOnCloseRequest(x->{
+                            obStage.close();
+                        });
+                    }
+                    else
+                    {
+                        Alert obUnsuccessful = new Alert(Alert.AlertType.ERROR, "There was an error adding the booking!", ButtonType.OK);
+                        obUnsuccessful.show();
+                    }
+                }
+                else
+                {
+                    obAlert.close();
+                }
+            });
+        }
+        else
+        {
+            Alert obAlert = new Alert(Alert.AlertType.ERROR, "Form is incomplete!", ButtonType.OK);
+            obAlert.show();
+        }
 
     }
 
@@ -249,7 +283,14 @@ public class NewBookingWindow extends Application {
     }
     private static void updateAccommodationType()
     {
-        obBooking.setType(cbAccommodationType.getValue().toString());
+        if(obBooking.setType(cbAccommodationType.getValue().toString()))
+        {
+            bAccommodationType = true;
+        }
+        else
+        {
+            bAccommodationType = false;
+        }
     }
     private static void updateMemberCount()
     {
@@ -272,6 +313,31 @@ public class NewBookingWindow extends Application {
             bMemberCountGood = false;
         }
     }
+    private static void updateAccommodationID()
+    {
+        if(cbAccommodationID.getValue() != "")
+        {
+            try {
+                if(obBooking.setAccommodationID(((Plot) cbAccommodationID.getValue()).getPlotID()))
+                {
+                    bAccommodationID = true;
+                }
+                else
+                {
+                    bAccommodationID = false;
+                }
+            } catch (Exception e) {
+                Alert obAlert = new Alert(Alert.AlertType.ERROR, "There was an error using that accommodation ID", ButtonType.OK);
+                obAlert.show();
+                bAccommodationID = false;
+            }
+        }
+        else
+        {
+            bAccommodationID = false;
+        }
+    }
+
     private static void updateGuestId()
     {
         try{
@@ -279,43 +345,133 @@ public class NewBookingWindow extends Application {
             if(obBooking.setGuestID(guestId))
             {
                 tfGuestID.setStyle("-fx-background-color: green");
+                bGuestID = true;
             }
             else
             {
                 tfGuestID.setStyle("-fx-background-color: red");
+                bGuestID = false;
             }
         }
         catch(Exception e)
         {
             tfGuestID.setStyle("-fx-background-color: red");
+            bGuestID = false;
         }
     }
 
     private static void refreshAccommodationIDs()
     {
-        if(bStartDateGood && bEndDateGood && bAccommodationTypeGood && bMemberCountGood)
+        if(bStartDateGood && bEndDateGood && bAccommodationType && bMemberCountGood)
         {
             PlotHelper plotHelper = new PlotHelper();
-            ArrayList availableAccommodations = plotHelper.getPlotList().stream()
+            List availableAccommodations = plotHelper.getPlotList().stream()
                     .filter(x->{
                         if(obBooking.getType() == BookingType.Site && x instanceof Site) {
                             Site site = (Site) x;
 
-                            if (obBooking.getMemberCount() > 4 && site.getSiteType() == Site.SiteType.Individual)
+                            if (obBooking.getMemberCount() > 4 && site.getSiteType() == Site.SiteType.Group)
                             {
-
+                                if(!site.isBooked() && !site.isUnderReno())
+                                {
+                                    for(Booking booking : bookingHelper.getBookingList())
+                                    {
+                                        if(booking.getPlotID() == x.getPlotID())
+                                        {
+                                            if(booking.getStartDate().after(obBooking.getEndDate()))
+                                            {
+                                                return true;
+                                            }
+                                            else if(booking.getEndDate().before(obBooking.getStartDate()))
+                                            {
+                                                return true;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                }
                             }
                             else if(obBooking.getMemberCount() < 4 && site.getSiteType() == Site.SiteType.Individual)
                             {
-
+                                if(!site.isBooked() && !site.isUnderReno())
+                                {
+                                    for(Booking booking : bookingHelper.getBookingList())
+                                    {
+                                        if(booking.getPlotID() == x.getPlotID())
+                                        {
+                                            if(booking.getStartDate().after(obBooking.getEndDate()))
+                                            {
+                                                return true;
+                                            }
+                                            else if(booking.getEndDate().before(obBooking.getStartDate()))
+                                            {
+                                                return true;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                }
                             }
                         }
                         else if(obBooking.getType() == BookingType.Cabin && x instanceof Cabin)
                         {
                             Cabin cabin = (Cabin) x;
+
+                            if (obBooking.getMemberCount() > 4 && cabin.getCabinType() == Cabin.CabinType.Basic)
+                            {
+                                for(Booking booking : bookingHelper.getBookingList())
+                                {
+                                    if(booking.getPlotID() == x.getPlotID())
+                                    {
+                                        if(booking.getStartDate().after(obBooking.getEndDate()))
+                                        {
+                                            return true;
+                                        }
+                                        else if(booking.getEndDate().before(obBooking.getStartDate()))
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                }
+                            }
+                            else if(obBooking.getMemberCount() < 4 && cabin.getCabinType() == Cabin.CabinType.Deluxe)
+                            {
+                                for(Booking booking : bookingHelper.getBookingList())
+                                {
+                                    if(booking.getPlotID() == x.getPlotID())
+                                    {
+                                        if(booking.getStartDate().after(obBooking.getEndDate()))
+                                        {
+                                            return true;
+                                        }
+                                        else if(booking.getEndDate().before(obBooking.getStartDate()))
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                }
+                            }
                         }
+                        return false;
                     })
-                    .collect(Collectors.toCollection());
+                    .collect(Collectors.toList());
+
+            cbAccommodationID.getItems().addAll(availableAccommodations);
+            cbAccommodationID.setVisibleRowCount(4);
         }
     }
 
