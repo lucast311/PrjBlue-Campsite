@@ -4,7 +4,6 @@ import campground_data.Booking;
 import campground_data.BookingHelper;
 import campground_data.DatabaseFile;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -13,11 +12,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Currency;
+
 
 /**
  * This class is responsible for everything that is displayed on the Ui for remove booking
@@ -34,6 +32,8 @@ public class RemoveBookingWindow extends Application {
     private TextField txtGuestID, txtBookingID, txtAccommodationID, txtStartDate, txtEndDate, txtType, txtMemberCount,
             txtTotalPrice;
     private Button btnRemove, btnSearch, btnClose;
+
+    private Alert obAlertMain;
 
     private BookingHelper helper = new BookingHelper();
     ArrayList<Booking> allBookings = helper.getBookingList();
@@ -189,7 +189,12 @@ public class RemoveBookingWindow extends Application {
         }
         else
         {
-            System.out.println("no booking selected");// Change to alert
+            obAlertMain = new Alert(Alert.AlertType.ERROR);
+            obAlertMain.setTitle("Error");
+            obAlertMain.setHeaderText("No booking selected");
+            obAlertMain.setContentText("Please select a booking to continue");
+
+            obAlertMain.showAndWait();
         }
 
         loadAllBookings();
@@ -221,13 +226,14 @@ public class RemoveBookingWindow extends Application {
     public void searchBooking()
     {
         int nGuestIdToSearch = Integer.parseInt(txtGuestID.getText());
+
+
         Booking obBookingToSearch = helper.search(nGuestIdToSearch);
+
         int nIndexOfObject = allBookings.indexOf(obBookingToSearch);;
 
         taBookingList.getSelectionModel().select(nIndexOfObject);
         taBookingList.getFocusModel().focus(nIndexOfObject);
-
-
 
 
     }
