@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 /**
@@ -185,7 +186,27 @@ public class RemoveBookingWindow extends Application {
 
         if (obFound instanceof Booking)
         {
-            helper.removeBooking(obFound);
+            obAlertMain = new Alert(Alert.AlertType.CONFIRMATION);
+            obAlertMain.setTitle("Remove Confirmation");
+            obAlertMain.setHeaderText("Selected booking will be removed");
+            obAlertMain.setContentText("Continue with deletion?");
+
+            Optional<ButtonType> result = obAlertMain.showAndWait();
+
+            if (result.get() == ButtonType.OK){
+                helper.removeBooking(obFound);
+
+                obAlertMain = new Alert(Alert.AlertType.INFORMATION);
+                obAlertMain.setTitle("Success");
+                obAlertMain.setHeaderText("Selected booking has been successfully removed");
+                obAlertMain.showAndWait();
+                txtGuestID.requestFocus();
+            }
+            else
+            {
+                loadAllBookings();
+            }
+
         }
         else
         {
@@ -194,6 +215,7 @@ public class RemoveBookingWindow extends Application {
             obAlertMain.setHeaderText("No booking selected");
             obAlertMain.setContentText("Please select a booking to continue");
             obAlertMain.showAndWait();
+            txtGuestID.requestFocus();
         }
 
         loadAllBookings();
@@ -225,11 +247,11 @@ public class RemoveBookingWindow extends Application {
     public void searchBooking()
     {
         String sGuestIdToSearch = txtGuestID.getText().trim();
-        if (sGuestIdToSearch.matches("[a-zA-Z_]+"))
+        if (!sGuestIdToSearch.matches(".*[0-9].*"))
         {
             obAlertMain = new Alert(Alert.AlertType.ERROR);
             obAlertMain.setTitle("Input Error");
-            obAlertMain.setHeaderText("Cannot input String");
+            obAlertMain.setHeaderText("Invalid Guest ID");
             obAlertMain.setContentText("Please only enter numbers in the Guest ID field");
             obAlertMain.showAndWait();
             txtGuestID.requestFocus();
