@@ -8,10 +8,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
@@ -38,6 +35,7 @@ public class GuestManagerWindow extends Application
     private ArrayList<Guest> guests = guestHelper.getGuestAccounts();
     private int guestCount = (int) guests.stream().map(Guest::getPhoneNumber).distinct().count();
     private int nRow = 1;
+    private ListView guestList = new ListView();
 
     public static void main(String[] args)
     {
@@ -88,9 +86,14 @@ public class GuestManagerWindow extends Application
         guestsPane.setStyle("-fx-border-color: black");
 
         //set the Hboxes inside the border pane
-        borderPane.setCenter(guestsPane);
+        borderPane.setCenter(guestList);
         borderPane.setTop(topBox);
         borderPane.setBottom(buttonsBox);
+
+        guestList.setPrefHeight(200);
+        guestList.setPrefWidth(600);
+        guestList.setEditable(false);
+
 
 
 
@@ -120,6 +123,9 @@ public class GuestManagerWindow extends Application
         primaryStage.setScene(new Scene(borderPane, 1200, 800));
         primaryStage.setMaximized(true);
         primaryStage.setTitle("Guest Manager");
+        primaryStage.setOnShowing(e -> {
+            loadGuests();
+        });
         primaryStage.show();
     }
 
@@ -272,6 +278,9 @@ public class GuestManagerWindow extends Application
                 return;
             }
 
+
+            
+
             //before populating the gridpane, clear everything first
             guestsPane.getChildren().clear();
 
@@ -309,6 +318,16 @@ public class GuestManagerWindow extends Application
             }
             btnViewAllGuests.setVisible(false);
         });
+    }
+
+    public void loadGuests()
+    {
+
+        guestList.getItems().clear();
+        for (Guest guest : guests)
+        {
+            guestList.getItems().addAll(guest);
+        }
     }
 
 
