@@ -5,11 +5,9 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,25 +19,29 @@ public class NewBookingWindow extends Application {
     }
 
     private static Stage obStage;
+
     //Criteria fields
-    private static TextField tfStartDate = new TextField();
-    private static TextField tfEndDate = new TextField();
+    private static DatePicker dpStartDate = new DatePicker();
+    private static DatePicker dpEndDate = new DatePicker();
     private static ComboBox cbAccommodationType = new ComboBox();
-    private static TextField tfMemberCount = new TextField();
+    private static Spinner spMemberCount = new Spinner();
     private static ComboBox cbAccommodationID = new ComboBox();
-    private static TextField tfGuestID = new TextField();
+    private static ComboBox cbGuestID = new ComboBox();
     private static Button btnAdd = new Button();
     private static Button btnClear = new Button();
     private static Button btnCancel = new Button();
 
     private static boolean bStartDateGood = false;
     private static boolean bEndDateGood = false;
-    private static boolean bAccommodationType = false;
+    private static boolean bAccommodationTypeGood = false;
     private static boolean bMemberCountGood = false;
-    private static boolean bAccommodationID = false;
-    private static boolean bGuestID = false;
+    private static boolean bAccommodationIDGood = false;
+    private static boolean bGuestIDGood = false;
+
+    private static GuestHelper guestHelper = new GuestHelper();
     private static BookingHelper bookingHelper = new BookingHelper();
     private static Booking obBooking = new Booking();
+
 
 
     @Override
@@ -53,32 +55,38 @@ public class NewBookingWindow extends Application {
         obCriteria.setAlignment(Pos.CENTER_LEFT);
         obPane.setLeft(obCriteria);
 
-        obCriteria.getChildren().add(new Label("Start Date (dd/mm/yyyy)"));
-        obCriteria.getChildren().add(tfStartDate);
+        obCriteria.getChildren().add(new Label("Start Date"));
+        obCriteria.getChildren().add(dpStartDate);
+        dpStartDate.setEditable(false);
 
-        obCriteria.getChildren().add(new Label("End Date (dd/mm/yyyy)"));
-        obCriteria.getChildren().add(tfEndDate);
+        obCriteria.getChildren().add(new Label("End Date"));
+        obCriteria.getChildren().add(dpEndDate);
+        dpEndDate.setEditable(false);
 
         obCriteria.getChildren().add(new Label("Accommodation Type"));
-        cbAccommodationType.getItems().add(0, "Cabin");
-        cbAccommodationType.getItems().add(1, "Site");
+        cbAccommodationType.getItems().add("Cabin");
+        cbAccommodationType.getItems().add("Site");
         obCriteria.getChildren().add(cbAccommodationType);
 
         obCriteria.getChildren().add(new Label("Member Count"));
-        obCriteria.getChildren().add(tfMemberCount);
+        obCriteria.getChildren().add(spMemberCount);
+        spMemberCount.setEditable(false);
+        spMemberCount.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,8));
 
         obCriteria.getChildren().add(new Label("Accommodation ID"));
         obCriteria.getChildren().add(cbAccommodationID);
 
         obCriteria.getChildren().add(new Label("Guest ID"));
-        obCriteria.getChildren().add(tfGuestID);
+        obCriteria.getChildren().add(cbGuestID);
+        cbGuestID.getItems().addAll(guestHelper.getGuestAccounts());
+        cbGuestID.setVisibleRowCount(4);
 
         //Listeners
-        tfStartDate.focusedProperty().addListener(e-> {
+        dpStartDate.setOnAction(e-> {
             updateStartDate();
             refreshAccommodationIDs();
         });
-        tfEndDate.focusedProperty().addListener(e-> {
+        dpEndDate.setOnAction(e-> {
             updateEndDate();
             refreshAccommodationIDs();
         });
@@ -86,14 +94,14 @@ public class NewBookingWindow extends Application {
             updateAccommodationType();
             refreshAccommodationIDs();
         });
-        tfMemberCount.focusedProperty().addListener(e-> {
+        spMemberCount.setOnMouseClicked(e-> {
             updateMemberCount();
             refreshAccommodationIDs();
         });
         cbAccommodationID.setOnAction(e-> {
             updateAccommodationID();
         });
-        tfGuestID.focusedProperty().addListener(e-> {
+        cbGuestID.focusedProperty().addListener(e-> {
             updateGuestId();
         });
 
@@ -125,27 +133,19 @@ public class NewBookingWindow extends Application {
 
     private static void clearButton()
     {
-        String style = "-fx-text-fill: -fx-text-inner-color;\n" +
-                "    -fx-highlight-fill: derive(-fx-control-inner-background,-20%);\n" +
-                "    -fx-highlight-text-fill: -fx-text-inner-color;\n" +
-                "    -fx-prompt-text-fill: derive(-fx-control-inner-background,-30%);\n" +
-                "    -fx-background-color: linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),\n" +
-                "        linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);\n" +
-                "    -fx-background-insets: 0, 1;\n" +
-                "    -fx-background-radius: 3, 2;\n" +
-                "    -fx-cursor: text;\n" +
-                "    -fx-padding: 0.333333em 0.583em 0.333333em 0.583em;";
-        tfStartDate.setText("");
-        tfStartDate.setStyle(style);
-        tfEndDate.setText("");
-        tfEndDate.setStyle(style);
+        dpStartDate.setValue(null);
+        dpStartDate.setStyle("-fx-background-color: linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),\n" +
+                "linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background); \n" +
+                " -fx-background-insets: 0, 1;");
+        dpEndDate.setValue(null);
+        dpEndDate.setStyle("-fx-background-color: linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),\n" +
+                "linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background); \n" +
+                " -fx-background-insets: 0, 1;");
         cbAccommodationType.setValue("");
-        tfMemberCount.setText("");
-        tfMemberCount.setStyle(style);
+        spMemberCount.decrement(8);
         cbAccommodationID.setValue("");
         cbAccommodationID.setItems(null);
-        tfGuestID.setText("");
-        tfGuestID.setStyle(style);
+        cbGuestID.setValue("");
     }
 
     private static void cancelButton()
@@ -155,7 +155,7 @@ public class NewBookingWindow extends Application {
 
     private static void addButton()
     {
-        if(bStartDateGood && bEndDateGood && bAccommodationType && bMemberCountGood && bAccommodationID && bGuestID)
+        if(bStartDateGood && bEndDateGood && bAccommodationTypeGood && bMemberCountGood && bAccommodationIDGood && bGuestIDGood)
         {
             Alert obAlert = new Alert(Alert.AlertType.CONFIRMATION, "Would you like to create this booking?", ButtonType.YES, ButtonType.NO);
             obAlert.show();
@@ -193,91 +193,35 @@ public class NewBookingWindow extends Application {
     private static void updateStartDate()
     {
         try {
-            Date startDate = new Date();
-            String[] sFields = tfStartDate.getText().split("/");
-            int nDate = 0;
-            int nMonth = 0;
-            int nYear = 0;
-
-            if (!sFields[0].equals("")) {
-                nDate = Integer.parseInt(sFields[0]);
-                startDate.setDate(nDate);
-            }
-            if (!sFields[1].equals("")) {
-                nMonth = Integer.parseInt(sFields[1]) - 1;
-                startDate.setMonth(nMonth);
-            }
-            if (!sFields[2].equals("")) {
-                nYear = Integer.parseInt(sFields[2]);
-                startDate.setYear(nYear);
-            }
-
-            if (startDate.getDate() == nDate && startDate.getMonth() == nMonth && startDate.getYear() == nYear) {
-                if (obBooking.changeStart(startDate)) {
-                    tfStartDate.setStyle("-fx-background-color: green");
-                    bStartDateGood = true;
-                } else {
-                    tfStartDate.setStyle("-fx-background-color: red");
-                    bStartDateGood = false;
-                }
+            if (obBooking.changeStart(new Date(dpStartDate.getValue().getYear(), dpStartDate.getValue().getMonthValue()-1, dpStartDate.getValue().getDayOfYear()))) {
+                dpStartDate.setStyle("-fx-background-color: green");
+                bStartDateGood = true;
             } else {
-                tfStartDate.setStyle("-fx-background-color: red");
+                dpStartDate.setStyle("-fx-background-color: red");
                 bStartDateGood = false;
             }
         }
         catch(Exception e)
         {
-            tfStartDate.setStyle("-fx-background-color: red");
+            dpStartDate.setStyle("-fx-background-color: red");
             bStartDateGood = false;
         }
     }
+
     private static void updateEndDate()
     {
         try {
-            Date endDate = new Date();
-            String[] sFields = tfEndDate.getText().split("/");
-            int nDate = 0;
-            int nMonth = 0;
-            int nYear = 0;
-
-            if(!sFields[0].equals(""))
-            {
-                nDate = Integer.parseInt(sFields[0]);
-                endDate.setDate(nDate);
-            }
-            if(!sFields[1].equals(""))
-            {
-                nMonth = Integer.parseInt(sFields[1])-1;
-                endDate.setMonth(nMonth);
-            }
-            if(!sFields[2].equals(""))
-            {
-                nYear = Integer.parseInt(sFields[2]);
-                endDate.setYear(nYear);
-            }
-
-            if(endDate.getDate() == nDate && endDate.getMonth() == nMonth && endDate.getYear() == nYear)
-            {
-                if(obBooking.changeEnd(endDate))
-                {
-                    tfEndDate.setStyle("-fx-background-color: green");
-                    bEndDateGood = true;
-                }
-                else
-                {
-                    tfEndDate.setStyle("-fx-background-color: red");
-                    bEndDateGood = false;
-                }
-            }
-            else
-            {
-                tfEndDate.setStyle("-fx-background-color: red");
+            if (obBooking.changeEnd(new Date(dpEndDate.getValue().getYear(), dpEndDate.getValue().getMonthValue()-1, dpEndDate.getValue().getDayOfYear()))) {
+                dpEndDate.setStyle("-fx-background-color: green");
+                bEndDateGood = true;
+            } else {
+                dpEndDate.setStyle("-fx-background-color: red");
                 bEndDateGood = false;
             }
         }
         catch(Exception e)
         {
-            tfEndDate.setStyle("-fx-background-color: red");
+            dpEndDate.setStyle("-fx-background-color: red");
             bEndDateGood = false;
         }
     }
@@ -285,31 +229,30 @@ public class NewBookingWindow extends Application {
     {
         if(obBooking.setType(cbAccommodationType.getValue().toString()))
         {
-            bAccommodationType = true;
+            bAccommodationTypeGood = true;
         }
         else
         {
-            bAccommodationType = false;
+            bAccommodationTypeGood = false;
         }
     }
     private static void updateMemberCount()
     {
         try{
-            int memberCount = Integer.parseInt(tfMemberCount.getText());
-            if(obBooking.setMemberCount(memberCount))
+            if(obBooking.setMemberCount(Integer.parseInt(spMemberCount.getValue().toString())))
             {
-                tfMemberCount.setStyle("-fx-background-color: green");
+                spMemberCount.setStyle("-fx-background-color: green");
                 bMemberCountGood = true;
             }
             else
             {
-                tfMemberCount.setStyle("-fx-background-color: red");
+                spMemberCount.setStyle("-fx-background-color: red");
                 bMemberCountGood = false;
             }
         }
         catch(Exception e)
         {
-            tfMemberCount.setStyle("-fx-background-color: red");
+            spMemberCount.setStyle("-fx-background-color: red");
             bMemberCountGood = false;
         }
     }
@@ -320,49 +263,51 @@ public class NewBookingWindow extends Application {
             try {
                 if(obBooking.setAccommodationID(((Plot) cbAccommodationID.getValue()).getPlotID()))
                 {
-                    bAccommodationID = true;
+                    bAccommodationIDGood = true;
                 }
                 else
                 {
-                    bAccommodationID = false;
+                    bAccommodationIDGood = false;
+                    Alert obAlert = new Alert(Alert.AlertType.ERROR, "There was an error using that accommodation ID", ButtonType.OK);
+                    obAlert.show();
                 }
             } catch (Exception e) {
                 Alert obAlert = new Alert(Alert.AlertType.ERROR, "There was an error using that accommodation ID", ButtonType.OK);
                 obAlert.show();
-                bAccommodationID = false;
+                bAccommodationIDGood = false;
             }
         }
         else
         {
-            bAccommodationID = false;
+            bAccommodationIDGood = false;
         }
     }
 
     private static void updateGuestId()
     {
         try{
-            int guestId = Integer.parseInt(tfGuestID.getText());
-            if(obBooking.setGuestID(guestId))
+            if(obBooking.setGuestID(((Guest)cbGuestID.getValue()).getGuestID()))
             {
-                tfGuestID.setStyle("-fx-background-color: green");
-                bGuestID = true;
+                bGuestIDGood = true;
             }
             else
             {
-                tfGuestID.setStyle("-fx-background-color: red");
-                bGuestID = false;
+                bGuestIDGood = false;
+                Alert obAlert = new Alert(Alert.AlertType.ERROR, "There was an error using that Guest ID", ButtonType.OK);
+                obAlert.show();
             }
         }
         catch(Exception e)
         {
-            tfGuestID.setStyle("-fx-background-color: red");
-            bGuestID = false;
+            Alert obAlert = new Alert(Alert.AlertType.ERROR, "There was an error using that Guest ID", ButtonType.OK);
+            obAlert.show();
+            bGuestIDGood = false;
         }
     }
 
     private static void refreshAccommodationIDs()
     {
-        if(bStartDateGood && bEndDateGood && bAccommodationType && bMemberCountGood)
+        if(bStartDateGood && bEndDateGood && bAccommodationTypeGood && bMemberCountGood)
         {
             PlotHelper plotHelper = new PlotHelper();
             List availableAccommodations = plotHelper.getPlotList().stream()
