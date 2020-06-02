@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * This class will be the window that opens up when edit guest is clicked on the guest manager window.
+ * This class will be the window that opens up when add guest is clicked on the guest manager window.
  * This will effectively allow changes to be made a specific guest and will save those changes to the
  * database.
  */
@@ -213,7 +213,7 @@ public class AddGuestWindow extends Stage {
                 dbfile.saveRecords(guestList);
                 this.close();
                 //display success message
-                Alert successWindow = new Alert(Alert.AlertType.CONFIRMATION, "Changes Saved!");
+                Alert successWindow = new Alert(Alert.AlertType.CONFIRMATION, "Guest has been added!");
                 successWindow.show();
             }
             else
