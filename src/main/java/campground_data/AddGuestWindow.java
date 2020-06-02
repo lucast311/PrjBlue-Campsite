@@ -14,7 +14,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -71,10 +70,8 @@ public class AddGuestWindow extends Stage {
 
     //Buttons to save and cancel
     private Button btnSaveChanges = new Button();
-    private Button btnCancelChanges = new Button();
+    private Button btnCancel = new Button();
 
-    //Guest object that will be edited
-    private Guest obGuest;
 
     //Validation helper to assist in ensuring that the guest objects are valid
     private ValidationHelper vh = new ValidationHelper();
@@ -84,17 +81,15 @@ public class AddGuestWindow extends Stage {
 
     /**
      * Constructor that puts together the window, as well as the event handlers for the buttons.
-     * @param guest - guest that is passed in from the form on the view guest list window
      */
-    public AddGuestWindow(Guest guest)
+    public AddGuestWindow()
     {
-        this.obGuest = guest;
 
         //Assigning labels to the buttons
         btnSaveChanges.setText("Add Guest");
-        btnCancelChanges.setText("Cancel Changes");
+        btnCancel.setText("Cancel Add");
 
-        btnCancelChanges.setStyle("-fx-background-color: Red");
+        btnCancel.setStyle("-fx-background-color: Red");
 
         //Populating the combobox
         cboPaymentMethod.getItems().setAll(FXCollections.observableArrayList(PaymentType.values()));
@@ -174,7 +169,7 @@ public class AddGuestWindow extends Stage {
         obPane.setPadding(new Insets(10, 10, 10, 10));
 
         obPane.add(btnSaveChanges, 1, 18);
-        obPane.add(btnCancelChanges, 2, 18);
+        obPane.add(btnCancel, 2, 18);
 
         //Taking in the database file and creating an arrayList from it
         ArrayList<Guest> guestList = dbfile.readGuests();
@@ -243,7 +238,7 @@ public class AddGuestWindow extends Stage {
         });
 
         //Simply closes the window without saving any changes
-        btnCancelChanges.setOnAction(e -> {
+        btnCancel.setOnAction(e -> {
             this.close();
         });
     }

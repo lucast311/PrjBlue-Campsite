@@ -1,9 +1,6 @@
 package campground_ui;
 
-import campground_data.Address;
-import campground_data.Guest;
-import campground_data.GuestHelper;
-import campground_data.PaymentType;
+import campground_data.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 
@@ -119,6 +117,13 @@ public class GuestManagerWindow extends Application
         btnSearchClicked(btnSearch);
         btnViewAllGuestsClicked(btnViewAllGuests);
         btnRefreshClicked(btnRefresh);
+
+        btnAddGuest.setOnAction(e -> {
+            AddGuestWindow addGuestWindow = new AddGuestWindow();
+            addGuestWindow.initModality(Modality.WINDOW_MODAL);
+            addGuestWindow.initOwner(primaryStage);
+            addGuestWindow.show();
+        });
 
         primaryStage.setScene(new Scene(borderPane, 1200, 800));
         primaryStage.setMaximized(true);
