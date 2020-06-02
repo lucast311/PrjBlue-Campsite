@@ -32,7 +32,6 @@ public class LoginWindow extends Stage {
     Button cmdClose;
     OwnerHelper ownerHelper = new OwnerHelper();
     private static Owner currUser = new Owner();
-    private ArrayList<Owner> listOwners = ownerHelper.getList();
 
     /**
      * Constructor to create a login window when the program is first opened. It opens as a modal window,
