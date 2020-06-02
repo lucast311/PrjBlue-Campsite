@@ -33,8 +33,7 @@ public class GuestManagerWindow extends Application
     private HBox spacerRight = new HBox();
     private Button btnRefresh = new Button("Refresh");
     private ArrayList<Guest> guests = guestHelper.getGuestAccounts();
-    private int guestCount = (int) guests.stream().map(Guest::getPhoneNumber).distinct().count();
-    private int nRow = 1;
+
     private ListView guestList = new ListView();
 
     public static void main(String[] args)
@@ -45,12 +44,24 @@ public class GuestManagerWindow extends Application
     @Override
     public void start(Stage primaryStage)
     {
-//         Address dummyAddress = new Address(123, 100, "Macca Street", "Saskatoon", "SK", "Canada", "S7N2W6");
-//         Guest dummyGuest = new Guest("Julius", "Tuba", "julius3591@saskpolytech.ca", "3061234567", PaymentType.Credit, "123412341234",dummyAddress);
-//
-//        guestHelper.addGuest(dummyGuest);
-//        guestHelper.addGuest(dummyGuest);
-        
+         Address dummyAddress = new Address(123, 100, "Macca Street", "Saskatoon", "SK", "Canada", "S7N2W6");
+        Address dummyAddress2 = new Address(1235, 1999, "Nacho Business Streets", "Saskatoon", "SK", "Canada", "S7N2W6");
+         Guest dummyGuest = new Guest("Julius", "Tuba", "julius3591@saskpolytech.ca", "3061234567", PaymentType.Credit, "123412341234",dummyAddress);
+        Guest dummyGuest2 = new Guest("Krombopulous", "Kouster", "kouster2163@saskpolytech.ca", "3061234562", PaymentType.Credit, "123412341234",dummyAddress2);
+
+        guestHelper.removeGuest(dummyGuest);
+        guestHelper.removeGuest(dummyGuest);
+        guestHelper.removeGuest(dummyGuest);
+        guestHelper.removeGuest(dummyGuest2);
+        guestHelper.removeGuest(dummyGuest2);
+        guestHelper.removeGuest(dummyGuest2);
+        guestHelper.removeGuest(dummyGuest2);
+        guestHelper.removeGuest(dummyGuest);
+        guestHelper.removeGuest(dummyGuest);
+
+
+
+
         //set the sizes of buttons
         btnSearch.setPrefSize(110, 50);
         btnViewAllGuests.setPrefSize(150, 50);
@@ -71,7 +82,7 @@ public class GuestManagerWindow extends Application
         //container settings for the controls on the top of the window
         topBox.setAlignment(Pos.CENTER);
         topBox.setPadding(new Insets(50, 0, 50, 0));
-        topBox.setSpacing(900);
+        topBox.setSpacing(10);
         topBox.getChildren().addAll(searchBox, btnBack);
 
         //container settings for the controls on the bottom of the window
@@ -89,29 +100,32 @@ public class GuestManagerWindow extends Application
         borderPane.setCenter(guestList);
         borderPane.setTop(topBox);
         borderPane.setBottom(buttonsBox);
+        borderPane.setRight(spacerRight);
+        borderPane.setLeft(spacerLeft);
 
-        guestList.setPrefHeight(200);
-        guestList.setPrefWidth(600);
+        guestList.maxHeight(200);
+        guestList.maxWidth(200);
         guestList.setEditable(false);
 
 
 
 
         //set the headers for the list of guests
-        setHeader(guestsPane);
+        //setHeader(guestsPane);
         //sort guests by guestID (ascending)
         guests.sort((x,y) -> (int) x.getGuestID() - y.getGuestID());
+        loadGuests();
 
         //loop through every guest and add populate the rows with guest information
-        for (Guest obGuest : guests)
-        {
-            addRow(guestsPane, obGuest, nRow++);
-            if (nRow > guestCount)
-            {
-                nRow = 1;
-                break;
-            }
-        }
+//        for (Guest obGuest : guests)
+//        {
+//            addRow(guestsPane, obGuest, nRow++);
+//            if (nRow > guestCount)
+//            {
+//                nRow = 1;
+//                break;
+//            }
+//        }
         btnViewAllGuests.setVisible(false);
 
         //call event handlers for the textfield and buttons
@@ -120,12 +134,12 @@ public class GuestManagerWindow extends Application
         btnViewAllGuestsClicked(btnViewAllGuests);
         btnRefreshClicked(btnRefresh);
 
-        primaryStage.setScene(new Scene(borderPane, 1200, 800));
-        primaryStage.setMaximized(true);
+        primaryStage.setScene(new Scene(borderPane, 800, 600));
+        //primaryStage.setMaximized(true);
         primaryStage.setTitle("Guest Manager");
-        primaryStage.setOnShowing(e -> {
-            loadGuests();
-        });
+//        primaryStage.setOnShowing(e -> {
+//            loadGuests();
+//        });
         primaryStage.show();
     }
 
@@ -208,6 +222,9 @@ public class GuestManagerWindow extends Application
                 return;
             }
 
+            guestList.getItems().clear();
+            guestList.getItems().add(guest);
+
             //before populating the gridpane, clear everything first
             guestsPane.getChildren().clear();
 
@@ -235,15 +252,16 @@ public class GuestManagerWindow extends Application
         btnViewAllGuests.setOnAction(e -> {
             txtSearchField.setText("");
             guestsPane.getChildren().clear();
-            setHeader(guestsPane);
-            for (Guest obGuest : guests)
-            {
-                addRow(guestsPane,obGuest,nRow++);
-                if (nRow > guestCount)
-                {
-                    break;
-                }
-            }
+//            setHeader(guestsPane);
+//            for (Guest obGuest : guests)
+//            {
+//                addRow(guestsPane,obGuest,nRow++);
+//                if (nRow > guestCount)
+//                {
+//                    break;
+//                }
+//            }
+            loadGuests();
             btnViewAllGuests.setVisible(false);
         });
     }
@@ -279,7 +297,8 @@ public class GuestManagerWindow extends Application
             }
 
 
-            
+            guestList.getItems().clear();
+            guestList.getItems().add(guest);
 
             //before populating the gridpane, clear everything first
             guestsPane.getChildren().clear();
@@ -306,29 +325,31 @@ public class GuestManagerWindow extends Application
     {
         btnRefresh.setOnAction(e -> {
             txtSearchField.setText("");
-            guestsPane.getChildren().clear();
-            setHeader(guestsPane);
-            for (Guest obGuest : guests)
-            {
-                addRow(guestsPane,obGuest,nRow++);
-                if (nRow > guestCount)
-                {
-                    break;
-                }
-            }
+//            guestsPane.getChildren().clear();
+//            setHeader(guestsPane);
+//            for (Guest obGuest : guests)
+//            {
+//                addRow(guestsPane,obGuest,nRow++);
+//                if (nRow > guestCount)
+//                {
+//                    break;
+//                }
+//            }
+            loadGuests();
             btnViewAllGuests.setVisible(false);
         });
     }
 
     public void loadGuests()
     {
-
         guestList.getItems().clear();
         for (Guest guest : guests)
         {
-            guestList.getItems().addAll(guest);
+            guestList.getItems().add(guest);
         }
     }
+
+
 
 
 
