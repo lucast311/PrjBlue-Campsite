@@ -190,10 +190,9 @@ public class RemoveBookingWindow extends Application {
         else
         {
             obAlertMain = new Alert(Alert.AlertType.ERROR);
-            obAlertMain.setTitle("Error");
+            obAlertMain.setTitle("Remove Error");
             obAlertMain.setHeaderText("No booking selected");
             obAlertMain.setContentText("Please select a booking to continue");
-
             obAlertMain.showAndWait();
         }
 
@@ -225,15 +224,61 @@ public class RemoveBookingWindow extends Application {
     //Searches booking from list then selects it on the Text View
     public void searchBooking()
     {
-        int nGuestIdToSearch = Integer.parseInt(txtGuestID.getText());
+        String sGuestIdToSearch = txtGuestID.getText().trim();
+        if (sGuestIdToSearch.matches("[a-zA-Z_]+"))
+        {
+            obAlertMain = new Alert(Alert.AlertType.ERROR);
+            obAlertMain.setTitle("Input Error");
+            obAlertMain.setHeaderText("Cannot input String");
+            obAlertMain.setContentText("Please only enter numbers in the Guest ID field");
+            obAlertMain.showAndWait();
+            txtGuestID.requestFocus();
 
+        }
+        else if (sGuestIdToSearch.equalsIgnoreCase("")|| sGuestIdToSearch == null)
+        {
+            obAlertMain = new Alert(Alert.AlertType.ERROR);
+            obAlertMain.setTitle("Input Error");
+            obAlertMain.setHeaderText("Guest ID field cannot be empty");
+            obAlertMain.setContentText("Enter a Guest ID to continue");
+            obAlertMain.showAndWait();
+            txtGuestID.requestFocus();
+        }
+        else
+        {
+            int nGuestIdToSearch = Integer.parseInt(txtGuestID.getText());
 
-        Booking obBookingToSearch = helper.search(nGuestIdToSearch);
+            if (nGuestIdToSearch < 1)
+            {
+                obAlertMain = new Alert(Alert.AlertType.ERROR);
+                obAlertMain.setTitle("Input Error");
+                obAlertMain.setHeaderText("Guest ID cannot be less than 1");
+                obAlertMain.setContentText("Please enter a Guest ID that is more than or equal to 1");
+                obAlertMain.showAndWait();
+                txtGuestID.requestFocus();
+            }
+            else
+            {
+                Booking obBookingToSearch = helper.search(nGuestIdToSearch);
 
-        int nIndexOfObject = allBookings.indexOf(obBookingToSearch);;
+                if(obBookingToSearch == null)
+                {
+                    obAlertMain = new Alert(Alert.AlertType.ERROR);
+                    obAlertMain.setTitle("Search Failed");
+                    obAlertMain.setHeaderText("No booking with the entered Guest ID found");
+                    obAlertMain.setContentText("Please enter another Guest ID");
+                    obAlertMain.showAndWait();
+                    txtGuestID.requestFocus();
+                }
+                else
+                {
+                    int nIndexOfObject = allBookings.indexOf(obBookingToSearch);
 
-        taBookingList.getSelectionModel().select(nIndexOfObject);
-        taBookingList.getFocusModel().focus(nIndexOfObject);
+                    taBookingList.getSelectionModel().select(nIndexOfObject);
+                    taBookingList.getFocusModel().focus(nIndexOfObject);
+                }
+            }
+        }
 
 
     }
