@@ -108,7 +108,7 @@ public class RefundGui extends Application {
                 if(searchbooking.getPaid() == false) {
                     //gotta do that
                     //refundConfirm(newEnddate);
-                    //ratething = refundConfirmInt(searchBooking,newEnddate);
+                    ratething = refundConfirmInt(searchbooking,newEnddate);
                     int resultratething = (int) searchbooking.getTotal() - ratething;
 
                     inputtext.setText(String.valueOf(resultratething) + "$");
@@ -138,6 +138,7 @@ public class RefundGui extends Application {
                     //do error message
                 } else if(yesclicked == true){
                     //message success for refund yes and changed end date
+                    ratething = refundConfirmInt(searchbooking,newEnddate);
                     searchbooking.setTotal((searchbooking.getTotal() - ratething));
                     //gotta do that
                     searchbooking.changeEnd(newEnddate);

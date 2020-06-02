@@ -6,13 +6,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 //import javafx.scene.Node;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.text.SimpleDateFormat;
@@ -29,12 +32,13 @@ public class EditBookingWindow extends Application{ //help from mel's window
 
     private TextField txtGuestID, txtBookingID, txtAccommodationID, txtStartDate, txtEndDate, txtType, txtMemberCount,
             txtTotalPrice;
+    private TextField txtError, txtsuccess;
     private Button btnNew,btnRemove, btnSave, btnClose;
     private ToggleGroup group;
     private CheckBox checkpaid;
     public Boolean refundno;
 
-    //Guest object that will be edited
+
 
 private Booking obBooking;
     private BookingHelper helper = new BookingHelper();
@@ -43,6 +47,22 @@ private Booking obBooking;
 private ValidationHelper vh = new ValidationHelper();
 //Database file to write changes to
     private DatabaseFile dbfile = new DatabaseFile();
+    private GridPane obGRpane;
+
+    //refund stuff
+    private Booking searchbooking; //grab from edit window
+    private int ratething;
+    private Button buttonyes;
+    private Button buttonno;
+    private Text confirm;
+    private Text remainder;
+    private Button buttonsubmit;
+    private Button buttoncancel;
+    private TextField inputtext;
+    private boolean yesclicked;
+    private boolean nothingclicked = true;
+    private Date newEnddate; //grab from edit window
+    private AccommodationHelper AccHelper = new AccommodationHelper();
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
@@ -59,6 +79,7 @@ private ValidationHelper vh = new ValidationHelper();
         //Initialize panes
         obBPane = new BorderPane();
         obGPane = new GridPane();
+        obGRpane = new GridPane();
         obButtonBox = new VBox();
         obdiscountBox = new VBox();
         group = new ToggleGroup();
@@ -73,13 +94,21 @@ private ValidationHelper vh = new ValidationHelper();
 
         //Initializes text fields for the form
         txtGuestID = new TextField();
+        txtGuestID.setDisable(true);
         txtBookingID = new TextField();
+        txtBookingID.setDisable(true);
         txtAccommodationID = new TextField();
         txtStartDate = new TextField();
         txtEndDate = new TextField();
         txtType = new TextField();
         txtMemberCount = new TextField();
         txtTotalPrice = new TextField();
+        txtError = new TextField();
+        txtError.setDisable(true);
+        txtError.setPrefWidth(250);
+        txtsuccess = new TextField();
+        txtsuccess.setDisable(true);
+
 
         //initailize discount
         Label txtdiscountnew =  new Label("Discount Applied");
@@ -114,9 +143,9 @@ private ValidationHelper vh = new ValidationHelper();
                     txtBookingID.setText(String.valueOf(obBooking.getBookingID()));
                     txtGuestID.setText(String.valueOf(obBooking.getGuestID()));
                     txtAccommodationID.setText(String.valueOf(obBooking.getAccommodationID()));
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd/mm/yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                     String startDate= formatter.format(obBooking.getStartDate());
-                    String endDate= formatter.format(obBooking.getStartDate());
+                    String endDate= formatter.format(obBooking.getEndDate());
                     //txtEndDate.setText(String.valueOf(obBooking.getEndDate()));
                     //txtStartDate.setText(String.valueOf(obBooking.getStartDate()));
                     txtStartDate.setText(startDate);
@@ -170,18 +199,23 @@ private ValidationHelper vh = new ValidationHelper();
         obGPane.add(new Label("Total Price"), 0, 7);
         obGPane.add(txtTotalPrice, 1, 7);
 
+        obGRpane.add(new Label("Errors/Info"), 0,0);
+        obGRpane.add(txtError, 1,0);
+        obGRpane.add(new Label("Success"), 0,1);
+        obGRpane.add(txtsuccess,1,1);
+
         //Initialized paid
         checkpaid = new CheckBox("Paid");
 
 
         //Initialize Buttons
         btnNew = new Button("New");
-        btnRemove = new Button("Remove");
+        //btnRemove = new Button("Remove");
         btnSave = new Button("Save");
         btnClose = new Button("Close");
 
         //Add Buttons to VBox
-        obButtonBox.getChildren().addAll(txtdiscountnew,rb1, rb2, rb3, rb4, checkpaid,btnNew, btnRemove, btnSave, btnClose);
+        obButtonBox.getChildren().addAll(txtdiscountnew,rb1, rb2, rb3, rb4, checkpaid,btnNew, btnSave, btnClose);
 
 
         //Layout parameters for improved UI design
@@ -192,9 +226,13 @@ private ValidationHelper vh = new ValidationHelper();
         obGPane.setHgap(10);
         obGPane.setVgap(5);
         obGPane.setPadding(new Insets(15,0,0,10));
+        obGRpane.setHgap(10);
+        obGRpane.setVgap(5);
+        obGRpane.setPadding(new Insets(50, 50, 0, 10));
 
         obButtonBox.setSpacing(5);
         obButtonBox.setPadding(new Insets(15, 0, 0, 15));
+
 
 
 
@@ -202,6 +240,7 @@ private ValidationHelper vh = new ValidationHelper();
         obBPane.setTop(taBookingList);
         obBPane.setLeft(obGPane);
         obBPane.setCenter(obButtonBox);
+        obBPane.setRight(obGRpane);
 
 
         btnSave.setOnAction(new EventHandler<ActionEvent>() {
@@ -209,48 +248,71 @@ private ValidationHelper vh = new ValidationHelper();
             public void handle(ActionEvent actionEvent) {
                 //need to validate everything then
                 //change everything that was inputted
-                obBooking.setnAccommodationID(Integer.parseInt(txtAccommodationID.getText()));
+
+                //if(Integer.parseInt(txtAccommodationID.getText()) == 0){
+                //    txtError.setText("invalid AccommodationID");
+                //}else {
+                    obBooking.setnAccommodationID(Integer.parseInt(txtAccommodationID.getText()));
+                //}
 
                 //helper.updateBookingDate(allBookings, Integer.parseInt(txtBookingID.getText()), newStartDate, newEndDate, "src/main/java/database/bookings.obj");
 
 
+                SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
                 //obBooking.changeEnd(txtEndDate.getText())
-                String[] sFields = txtEndDate.getText().split("/");
+                String sFields = txtEndDate.getText();
                 try {
-                    //SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy");
-                    Date newendDate;
-                    Date bookingenddate = obBooking.getEndDate();
-                    //oldendDate = sdformat.parse(sFields[0] + "-" + sFields[1] + "-" + sFields[2] + "-00-00-00");
-                    newendDate = new Date(Integer.parseInt(sFields[2]), Integer.parseInt(sFields[1]) , Integer.parseInt(sFields[0])); //help it keeps adding years
-                    if (newendDate.compareTo(obBooking.getStartDate()) >= 0) {
-                        //if (newendDate.compareTo(bookingenddate) < 0) {
 
-                            //refundwindow
+                    Date newendDate;
+                    //oldendDate = sdformat.parse(sFields[0] + "-" + sFields[1] + "-" + sFields[2] + "-00-00-00");
+                    String datestring = sFields; //help it keeps adding years
+                    newendDate = formatter2.parse(datestring);
+                    if (newendDate.compareTo(obBooking.getStartDate()) >= 0) {
+                        if (newendDate.compareTo(obBooking.getEndDate()) < 0) {
+
+                            newEnddate = newendDate;
+                            searchbooking = obBooking;
+                            refundwindow();
                             //refundConfirm();
-                        //} else {
+                            System.out.println("End Date refund success");
+
+                        } else {
 
                             obBooking.changeEnd(newendDate);
 
-                        //}
-                    }else {
-                        System.out.println("End Date cannot be before start date ");
+                            //System.out.println("End Date success");
+
+                        }
+                    } else {
+                        //System.out.println("End Date cannot be before start date ");
+                        txtError.setText("End Date cannot be before start date ");
                     }
                 }catch (Exception e){
+                    //System.out.println("Help");
+                    txtError.setText("invalid date");
 
                 }
                 //obBooking.changeStart(txtStartDate.getText())
-                String[] sFields2 = txtStartDate.getText().split("/");
+                String sFields2 = txtStartDate.getText();
                 try {
-                    Date bookingstartDate = new Date(Integer.parseInt(sFields2[2]), Integer.parseInt(sFields2[1]) , Integer.parseInt(sFields2[0])); //help it keeps adding years
+                    Date bookingstartDate;
+                    // = new Date(Integer.parseInt(sFields2[2]), Integer.parseInt(sFields2[1]) , Integer.parseInt(sFields2[0])); //help it keeps adding years
+                    String datestring2 = sFields2; //help it keeps adding years
+                    bookingstartDate = formatter2.parse(datestring2);
                     if (bookingstartDate.compareTo(new Date()) > -1) { //might change this later
 
                         obBooking.changeStart(bookingstartDate);
+                        //System.out.println("Start Date success");
 
                     } else {
-                        System.out.println("Start Date cannot be before current date ");
+                        //System.out.println("Start Date cannot be before current date ");
+                        txtError.setText("Start Date cannot be before current date");
 
                     }
                 } catch (Exception e) {
+                    //System.out.println("Help");
+                    txtError.setText("invalid date");
+
 
                 }
 
@@ -260,11 +322,18 @@ private ValidationHelper vh = new ValidationHelper();
                     obBooking.setType(BookingType.Cabin);
                 }else if(txtType.getText().equals("Site")){
                     obBooking.setType(BookingType.Site);
+                }else{
+                    txtError.setText("invalid Type, only Site or Cabin");
                 }
 
                 // may change depending on discounts and refund
                 obBooking.setTotal(Double.parseDouble(txtTotalPrice.getText()));
-                obBooking.setMemberCount(Integer.parseInt(txtMemberCount.getText()));
+                if(Integer.parseInt(txtMemberCount.getText()) > 0 &&Integer.parseInt(txtMemberCount.getText()) < 9){
+                    obBooking.setMemberCount(Integer.parseInt(txtMemberCount.getText()));
+                }else{
+                    txtError.setText("invalid Member, only between 8 and 1");
+                }
+
 
                 if(Double.parseDouble(txtTotalPrice.getText()) > 0) {
                     if (rb2.isSelected() && !(obBooking.getDiscount() == 5.00)) {
@@ -281,6 +350,7 @@ private ValidationHelper vh = new ValidationHelper();
 
                 obBooking.setPaid(checkpaid.isSelected());
 
+                txtsuccess.setText("Successfully Saved Booking "+ obBooking.getBookingID());
                 dbfile.saveRecords(allBookings);
 
                 //go back to menu
@@ -298,15 +368,7 @@ private ValidationHelper vh = new ValidationHelper();
             }
         });
 
-        btnRemove.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                //DBFile.saveRecords(bookings);
-                //go back to menu
 
-
-            }
-        });
         btnClose.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -323,6 +385,166 @@ private ValidationHelper vh = new ValidationHelper();
             loadAllBookings();
         });
         obStage.show();
+    }
+
+    private void refundwindow() {
+        Stage primaryStage = new Stage();
+        primaryStage.setTitle("Modify Booking Refund");
+
+        buttonyes = new Button();
+        buttonyes.setText("Yes");
+
+
+        buttonno = new Button();
+        buttonno.setText("No");
+
+        buttonsubmit = new Button();
+        buttonsubmit.setText("Submit");
+
+        buttoncancel = new Button();
+        buttoncancel.setText("Cancel");
+
+        inputtext = new TextField();
+
+
+        confirm = new Text();
+        confirm.setText("would you like to refund for remaining days?");
+
+        remainder = new Text();
+        remainder.setText("Remainder:");
+
+        BorderPane borderPane = new BorderPane();
+        //needs square for yes and no buttons to go into
+
+        borderPane.setPadding(new Insets(50));
+        VBox paneCenter = new VBox();
+        HBox buttonbar1 = new HBox();
+        HBox buttonbar2 = new HBox();
+        HBox remainderbar = new HBox();
+        VBox centerbar = new VBox();
+        paneCenter.setSpacing(15);
+        borderPane.setTop(paneCenter);
+        borderPane.setCenter(centerbar);
+
+        borderPane.setBottom(buttonbar2);
+        paneCenter.getChildren().add(confirm);
+        buttonbar1.getChildren().add(buttonyes);
+        buttonbar1.getChildren().add(buttonno);
+        remainderbar.getChildren().add(remainder);
+        remainderbar.getChildren().add(inputtext);
+        buttonbar2.getChildren().add(buttonsubmit);
+        buttonbar2.getChildren().add(buttoncancel);
+        centerbar.getChildren().addAll(buttonbar1, remainderbar);
+        centerbar.setAlignment(Pos.CENTER);
+        buttonbar1.setAlignment(Pos.CENTER);
+        buttonbar2.setAlignment(Pos.CENTER);
+        remainderbar.setAlignment(Pos.CENTER);
+        paneCenter.setAlignment(Pos.CENTER);
+        buttonyes.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                //if not paid
+                if(!searchbooking.getPaid()) {
+                    //gotta do that
+                    //refundConfirm(newEnddate);
+                    ratething = refundConfirmInt1(searchbooking,newEnddate);
+                    int resultratething = (int) searchbooking.getTotal() - ratething;
+
+                    inputtext.setText(resultratething + "$");
+                }else{
+                    ratething = refundConfirmInt1(searchbooking,newEnddate);
+                    inputtext.setText( "-" + ratething + "$");
+                }
+                yesclicked = true;
+                nothingclicked = false;
+
+            }
+        });
+        buttonno.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                int price = (int) searchbooking.getTotal();
+                inputtext.setText(price + "$");
+                yesclicked = false;
+                nothingclicked = false;
+
+
+            }
+        });
+
+        buttonsubmit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(nothingclicked == true){
+                    //do error message
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information Dialog");
+                    alert.setHeaderText(null);
+                    alert.setContentText("You need to click yes or no");
+
+                    alert.showAndWait();
+                } else if(yesclicked == true){
+                    //message success for refund yes and changed end date
+                    //ratething = refundConfirmInt1(searchbooking,newEnddate);
+                    searchbooking.setTotal((searchbooking.getTotal() - ratething));
+                    //gotta do that
+                    searchbooking.changeEnd(newEnddate);
+                    dbfile.saveRecords(allBookings);
+                    primaryStage.close();
+
+                }else {
+                    //message success for refund no and changed end date
+                    //gotta do that
+                    searchbooking.changeEnd(newEnddate);
+                    dbfile.saveRecords(allBookings);
+                    primaryStage.close();
+
+                }
+
+            }
+        });
+
+        buttoncancel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                //go back to booking manager
+                primaryStage.close();
+
+            }
+        });
+
+
+
+        //borderPane.getChildren().addAll(confirm,buttonyes, buttonno, buttonsubmit, buttoncancel, inputtext, remainder);
+
+        Scene scene = new Scene(borderPane, 500, 350);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public int refundConfirmInt1( Booking searchbooking2, Date newEnddate) { //may need to be moved but for now here it stays
+        //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        // add updateBookingDate(ArrayList<Booking> bookings, int bookingID, Date newStartDate, Date newEndDate, String sFile) for validation
+        Date newDate = newEnddate;
+        Date date4 = searchbooking2.getEndDate();
+        Date date5 = searchbooking2.getStartDate();
+        int price;
+        int Accommodationid = searchbooking.getAccommodationID();
+        Accommodation priceAccommodation2 = AccHelper.searchAccommodation(Accommodationid); //help
+        price = (int) priceAccommodation2.getPrice();
+        if (price ==0){
+            price = 100;
+        }
+        long startTime2 = newDate.getTime();//diff from old
+        long endTime2 = date4.getTime();
+        long startTime3 = date5.getTime(); // diff old start and old end
+        long endTime3 = date4.getTime();
+        long diffTime2 = endTime2 - startTime2;
+        long diffTime3 = endTime3 - startTime3;
+        long diffDays2 = diffTime2 / (1000 * 60 * 60 * 24);
+        long diffDays3 = diffTime3 / (1000 * 60 * 60 * 24);
+
+        int ratething2 = (int)  (diffDays2 / diffDays3);
+        ratething2 = price / ratething2;
+        return ratething2;
     }
 
     //Loads all the bookings onto the GUI text area

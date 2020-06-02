@@ -1389,10 +1389,10 @@ public class BusinessManager {
         Date newDate = newEnddate;
         Date date4 = searchbooking2.getEndDate();
         Date date5 = searchbooking2.getStartDate();
-        int price;
+        int price3;
         int Accommodationid = searchbooking.getAccommodationID();
         Accommodation priceAccommodation2 = AccommodationHelper.searchAccommodation(Accommodationid); //help
-        price = (int) priceAccommodation2.getPrice();
+        price3 = (int) priceAccommodation2.getPrice();
         long startTime2 = newDate.getTime();//diff from old
         long endTime2 = date4.getTime();
         long startTime3 = date5.getTime(); // diff old start and old end
@@ -1403,7 +1403,7 @@ public class BusinessManager {
         long diffDays3 = diffTime3 / (1000 * 60 * 60 * 24);
 
         int ratething2 = (int)  (diffDays2 / diffDays3);
-        ratething2 = price / ratething2;
+        ratething2 = price3 / ratething2;
         return ratething2;
     }
 
