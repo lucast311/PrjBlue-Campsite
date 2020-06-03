@@ -232,7 +232,7 @@ public class RemoveBookingWindow extends Application {
 
         DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d");
         int nYearStart = obBookingToDisplay.getStartDate().getYear();
-        int nYearEnd = obBookingToDisplay.getEndDate().getYear();;
+        int nYearEnd = obBookingToDisplay.getEndDate().getYear();
 
         txtStartDate.setText(dateFormat.format(obBookingToDisplay.getStartDate()) + ", " + nYearStart);
         txtEndDate.setText(dateFormat.format(obBookingToDisplay.getEndDate()) + ", " + nYearEnd);
@@ -257,6 +257,8 @@ public class RemoveBookingWindow extends Application {
             txtGuestID.requestFocus();
 
         }
+
+        //Error if guest ID field is empty
         else if (sGuestIdToSearch.equalsIgnoreCase("")|| sGuestIdToSearch == null)
         {
             obAlertMain = new Alert(Alert.AlertType.ERROR);
