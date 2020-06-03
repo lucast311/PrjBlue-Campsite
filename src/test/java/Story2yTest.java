@@ -5,6 +5,7 @@ import campground_data.Guest;
 import campground_data.GuestHelper;
 import campground_data.PaymentType;
 import campground_ui.GuestManagerWindow;
+import campground_ui.MainWindow;
 import javafx.application.Application;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +36,8 @@ public class Story2yTest
     public void testViewGuests()
     {
 
-        Application.launch(GuestManagerWindow.class);
+      Application.launch(MainWindow.class);
+
     }
 
     @Test
