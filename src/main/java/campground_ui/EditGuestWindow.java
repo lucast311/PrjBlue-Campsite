@@ -1,5 +1,6 @@
-package campground_data;
+package campground_ui;
 
+import campground_data.*;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -36,7 +37,6 @@ public class EditGuestWindow extends Stage {
     private TextField provinceField = new TextField();
     private TextField countryField = new TextField();
     private TextField postalCodeField = new TextField();
-    private TextField memberCountField = new TextField();
 
     //Labels for corresponding text fields
     private Label firstNameLabel = new Label("First Name:\t");
