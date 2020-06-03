@@ -17,5 +17,5 @@ public class Story1pTest
         Application.launch(FinancialReportWindow.class);
     }
 
-
+    //Really nothing to test on this story, other than if it works or not, but I don't know of any way to access a button click handler from a different class
 }
