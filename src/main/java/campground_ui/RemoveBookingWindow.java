@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,7 +23,7 @@ import java.util.Optional;
  * This class is responsible for everything that is displayed on the Ui for remove booking
  */
 
-public class RemoveBookingWindow extends Application {
+public class RemoveBookingWindow extends Stage {
 
     private BorderPane obBPane;
     private GridPane obGPane;
@@ -48,11 +49,9 @@ public class RemoveBookingWindow extends Application {
 
     /**
      * Initializes all UI components/controls
-     * @param obStage
+     * @param
      */
-
-    @Override
-    public void start(Stage obStage)
+    public RemoveBookingWindow(Stage parent)
     {
         //Initialize panes
         obBPane = new BorderPane();
@@ -118,8 +117,8 @@ public class RemoveBookingWindow extends Application {
 
         //Layout parameters for improved UI design
         obBPane.setPadding(new Insets(10));
-        obStage.setMinWidth(1000);
-        obStage.setMinHeight(510);
+        this.setMinWidth(1000);
+        this.setMinHeight(510);
 
         obGPane.setHgap(10);
         obGPane.setVgap(5);
@@ -141,7 +140,7 @@ public class RemoveBookingWindow extends Application {
 
         //Event Handlers section
         btnClose.setOnAction(e -> {
-            obStage.close();
+            this.close();
         });
 
         btnRemove.setOnAction(e -> {
@@ -157,12 +156,13 @@ public class RemoveBookingWindow extends Application {
         });
 
 
-        obStage.setScene(new Scene(obBPane, 1000, 500));
-        obStage.setTitle("Cest Lake - Remove Booking");
-        obStage.setOnShowing(e -> {
+        this.setScene(new Scene(obBPane, 1000, 500));
+        this.setTitle("Cest Lake - Remove Booking");
+        this.setOnShowing(e -> {
             loadAllBookings();
         });
-        obStage.show();
+        this.initOwner(parent);
+        this.initModality(Modality.WINDOW_MODAL);
     }
 
 
