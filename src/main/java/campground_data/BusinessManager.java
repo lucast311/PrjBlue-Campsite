@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class BusinessManager {
 
@@ -1123,7 +1124,7 @@ public class BusinessManager {
 //    public static Object search(Object obVal)
 //    {}
 
-
+/*
         public static void refundConfirm() {
             //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             System.out.println("Actions: Refund for remaining days?");
@@ -1312,6 +1313,8 @@ public class BusinessManager {
             }
         }
 
+ */
+
 
     public static void createOwners()
     {
@@ -1384,15 +1387,19 @@ public class BusinessManager {
         dbfile.saveRecords(sites);
     }
 
-    public int refundConfirmInt( Booking searchbooking2, Date newEnddate) { //may need to be moved but for now here it stays
+    public int refundConfirmInt1( Booking searchbooking2, Date newEnddate,int price) { //may need to be moved but for now here it stays
         //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        // add updateBookingDate(ArrayList<Booking> bookings, int bookingID, Date newStartDate, Date newEndDate, String sFile) for validation
         Date newDate = newEnddate;
         Date date4 = searchbooking2.getEndDate();
         Date date5 = searchbooking2.getStartDate();
-        int price3;
-        int Accommodationid = searchbooking.getAccommodationID();
-        Accommodation priceAccommodation2 = AccommodationHelper.searchAccommodation(Accommodationid); //help
-        price3 = (int) priceAccommodation2.getPrice();
+        //int price;
+        //int Accommodationid = searchbooking2.getAccommodationID();
+        //Accommodation priceAccommodation2 = AccHelper.searchAccommodation(1); //help
+        //price = (int) priceAccommodation2.getPrice();
+        if (price ==0){
+            price = 100;
+        }
         long startTime2 = newDate.getTime();//diff from old
         long endTime2 = date4.getTime();
         long startTime3 = date5.getTime(); // diff old start and old end
@@ -1403,8 +1410,80 @@ public class BusinessManager {
         long diffDays3 = diffTime3 / (1000 * 60 * 60 * 24);
 
         int ratething2 = (int)  (diffDays2 / diffDays3);
-        ratething2 = price3 / ratething2;
+        ratething2 = price / ratething2;
         return ratething2;
+    }
+
+    public int refundConfirmInt2( Booking searchbooking2, Date newEnddate,double price) { //may need to be moved but for now here it stays
+        //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        // add updateBookingDate(ArrayList<Booking> bookings, int bookingID, Date newStartDate, Date newEndDate, String sFile) for validation
+        Date newDate = newEnddate;
+        System.out.println(searchbooking2.getBookingID());
+        Date date4 = searchbooking2.getEndDate();
+        Date date5 = searchbooking2.getStartDate();
+        //int price;
+        //int Accommodationid = searchbooking2.getAccommodationID();
+        //Accommodation priceAccommodation2 = AccHelper.searchAccommodation(1); //help
+        //price = (int) priceAccommodation2.getPrice();
+        if (price ==0){
+            price = 100;
+        }
+        long startTime2 = date5.getTime(); //diff from old
+        long endTime2 = newDate.getTime();
+        long startTime3 = date5.getTime(); // diff old start and old end
+        long endTime3 = date4.getTime();
+        long diffTime2 = endTime2 - startTime2;
+        long diffTime3 = endTime3 - startTime3;
+        long diffDays2 = diffTime2 / (1000 * 60 * 60 * 24);
+        long diffDays3 = diffTime3 / (1000 * 60 * 60 * 24);
+
+        long ratething2 =  (diffDays2 / diffDays3);
+        System.out.println(ratething2 + "days");
+        double ratething3 = (price / ratething2);
+        System.out.println("got refund");
+        return (int) ratething3;
+    }
+
+    public int refundConfirmInt3( Booking searchbooking2, Date newEnddate,double price, TimeUnit timeUnit) { //may need to be moved but for now here it stays
+        //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        // add updateBookingDate(ArrayList<Booking> bookings, int bookingID, Date newStartDate, Date newEndDate, String sFile) for validation
+        Date newDate = newEnddate;
+        System.out.println(searchbooking2.getBookingID());
+        Date date4 = searchbooking2.getEndDate();
+        Date date5 = searchbooking2.getStartDate();
+
+        //int price;
+        //int Accommodationid = searchbooking2.getAccommodationID();
+        //Accommodation priceAccommodation2 = AccHelper.searchAccommodation(1); //help
+        //price = (int) priceAccommodation2.getPrice();
+        if (price ==0){
+            price = 100;
+        }
+        long startTime2 = date5.getTime(); //diff from old
+        long endTime2 = newDate.getTime();
+        long startTime3 = date5.getTime(); // diff old start and old end
+        long endTime3 = date4.getTime();
+        long diffTime2 = endTime2 - startTime2;
+        long diffTime3 = endTime3 - startTime3;
+        long diffDays2 = diffTime2 / (1000 * 60 * 60 * 24);
+        long diffDays3 = diffTime3 / (1000 * 60 * 60 * 24);
+        long diffInMillies1 = Math.abs(newDate.getTime() - date5.getTime());
+        System.out.println(diffInMillies1 + "days1");
+        long diff1 = timeUnit.convert(diffInMillies1, TimeUnit.MILLISECONDS);
+        System.out.println(diff1 + "days1.2");
+        long diffInMillies2 = Math.abs(date4.getTime() - date5.getTime());
+        System.out.println(diffInMillies2 + "days2");
+        long diff2 = timeUnit.convert(diffInMillies2, TimeUnit.MILLISECONDS);
+        System.out.println(diff2 + "days2.2");
+
+        double dif1 = (double) diff1;
+        double dif2 = (double) diff2;
+        //long ratething2 =  (diffDays2 / diffDays3);
+        double ratething2 =   (dif1 / dif2);
+        System.out.println(ratething2 + "days");
+        double ratething3 = (price * ratething2);
+        System.out.println("got refund");
+        return (int) ratething3;
     }
 
     public static AccommodationHelper getAccommodationHelper()

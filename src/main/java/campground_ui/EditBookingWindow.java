@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class EditBookingWindow extends Application{ //help from mel's window
 
@@ -61,8 +62,9 @@ private ValidationHelper vh = new ValidationHelper();
     private TextField inputtext;
     private boolean yesclicked;
     private boolean nothingclicked = true;
-    private Date newEnddate; //grab from edit window
+    public Date newEnddate; //grab from edit window
     private AccommodationHelper AccHelper = new AccommodationHelper();
+    static Accommodation acc1 = new Accommodation(7, 4, 400, false, true);
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
@@ -271,8 +273,11 @@ private ValidationHelper vh = new ValidationHelper();
                         if (newendDate.compareTo(obBooking.getEndDate()) < 0) {
 
                             newEnddate = newendDate;
+                            System.out.println(datestring);
                             searchbooking = obBooking;
+                            AccHelper.addAccommodation(acc1); //for testing
                             refundwindow();
+
                             //refundConfirm();
                             System.out.println("End Date refund success");
 
@@ -440,31 +445,69 @@ private ValidationHelper vh = new ValidationHelper();
         buttonbar2.setAlignment(Pos.CENTER);
         remainderbar.setAlignment(Pos.CENTER);
         paneCenter.setAlignment(Pos.CENTER);
+
         buttonyes.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 //if not paid
-                if(!searchbooking.getPaid()) {
+                if(searchbooking.getPaid()) {
                     //gotta do that
+                    double price;
+                    int Accommodationid = searchbooking.getAccommodationID();
+                    Accommodation priceAccommodation2;
+                    priceAccommodation2 = AccHelper.searchAccommodation(Accommodationid); //help
+                    price = priceAccommodation2.getPrice();
+                    System.out.println(price);
+                    ratething = refundConfirmInt3(searchbooking,newEnddate, price, TimeUnit.DAYS);
+                    inputtext.setText( "-" + ratething + "$");
+
+                    System.out.println(Accommodationid);
+
+
+                }else{
+
+                    //
                     //refundConfirm(newEnddate);
-                    ratething = refundConfirmInt1(searchbooking,newEnddate);
-                    int resultratething = (int) searchbooking.getTotal() - ratething;
+                    double price;
+                    int Accommodationid = searchbooking.getAccommodationID();
+                    System.out.println(Accommodationid);
+                    Accommodation priceAccommodation2;
+                    //priceAccommodation2 = AccHelper.searchAccommodation(Accommodationid); //help
+                    priceAccommodation2 = AccHelper.searchAccommodation(7); //only for testing
+                    //System.out.println(priceAccommodation2.getPrice());
+                    price =  priceAccommodation2.getPrice();
+                    System.out.println(price);
+                    ratething = refundConfirmInt3(searchbooking,newEnddate, price, TimeUnit.DAYS);
+                    if(searchbooking.getTotal() > ratething) {
+                        int resultratething = (int) searchbooking.getTotal() - ratething;
+                    }
+                    int resultratething = ratething;
 
                     inputtext.setText(resultratething + "$");
-                }else{
-                    ratething = refundConfirmInt1(searchbooking,newEnddate);
-                    inputtext.setText( "-" + ratething + "$");
                 }
                 yesclicked = true;
                 nothingclicked = false;
 
             }
         });
+
         buttonno.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                int price = (int) searchbooking.getTotal();
-                inputtext.setText(price + "$");
-                yesclicked = false;
-                nothingclicked = false;
+                if(searchbooking.getPaid()) {
+                    //int price = (int) searchbooking.getTotal();
+                    inputtext.setText("0$");
+                    yesclicked = false;
+                    nothingclicked = false;
+                }else {
+                    Accommodation priceAccommodation2;
+                    int Accommodationid = searchbooking.getAccommodationID();
+                    //priceAccommodation2 = AccHelper.searchAccommodation(Accommodationid); //help
+                    priceAccommodation2 = AccHelper.searchAccommodation(7); //only for testing
+
+                    double price =  priceAccommodation2.getPrice();
+                    inputtext.setText(price + "$");
+                    yesclicked = false;
+                    nothingclicked = false;
+                }
 
 
             }
@@ -520,31 +563,46 @@ private ValidationHelper vh = new ValidationHelper();
         primaryStage.show();
     }
 
-    public int refundConfirmInt1( Booking searchbooking2, Date newEnddate) { //may need to be moved but for now here it stays
+    public int refundConfirmInt3( Booking searchbooking2, Date newEnddate,double price, TimeUnit timeUnit) { //may need to be moved but for now here it stays
         //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         // add updateBookingDate(ArrayList<Booking> bookings, int bookingID, Date newStartDate, Date newEndDate, String sFile) for validation
         Date newDate = newEnddate;
+       System.out.println(searchbooking2.getBookingID());
         Date date4 = searchbooking2.getEndDate();
         Date date5 = searchbooking2.getStartDate();
-        int price;
-        int Accommodationid = searchbooking.getAccommodationID();
-        Accommodation priceAccommodation2 = AccHelper.searchAccommodation(Accommodationid); //help
-        price = (int) priceAccommodation2.getPrice();
+
+        //int price;
+        //int Accommodationid = searchbooking2.getAccommodationID();
+        //Accommodation priceAccommodation2 = AccHelper.searchAccommodation(1); //help
+        //price = (int) priceAccommodation2.getPrice();
         if (price ==0){
             price = 100;
         }
-        long startTime2 = newDate.getTime();//diff from old
-        long endTime2 = date4.getTime();
+        long startTime2 = date5.getTime(); //diff from old
+        long endTime2 = newDate.getTime();
         long startTime3 = date5.getTime(); // diff old start and old end
         long endTime3 = date4.getTime();
         long diffTime2 = endTime2 - startTime2;
         long diffTime3 = endTime3 - startTime3;
         long diffDays2 = diffTime2 / (1000 * 60 * 60 * 24);
         long diffDays3 = diffTime3 / (1000 * 60 * 60 * 24);
+        long diffInMillies1 = Math.abs(newDate.getTime() - date5.getTime());
+        System.out.println(diffInMillies1 + "days1");
+        long diff1 = timeUnit.convert(diffInMillies1, TimeUnit.MILLISECONDS);
+        System.out.println(diff1 + "days1.2");
+        long diffInMillies2 = Math.abs(date4.getTime() - date5.getTime());
+        System.out.println(diffInMillies2 + "days2");
+        long diff2 = timeUnit.convert(diffInMillies2, TimeUnit.MILLISECONDS);
+        System.out.println(diff2 + "days2.2");
 
-        int ratething2 = (int)  (diffDays2 / diffDays3);
-        ratething2 = price / ratething2;
-        return ratething2;
+        double dif1 = (double) diff1;
+        double dif2 = (double) diff2;
+        //long ratething2 =  (diffDays2 / diffDays3);
+        double ratething2 =   (dif1 / dif2);
+        System.out.println(ratething2 + "days");
+        double ratething3 = (price * ratething2);
+        System.out.println("got refund");
+        return (int) ratething3;
     }
 
     //Loads all the bookings onto the GUI text area

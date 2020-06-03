@@ -58,7 +58,7 @@ public class AccommodationHelper
                 return plotToReturn;
         }
 
-        public static Accommodation searchAccommodation(int AccommodationID)
+        public Accommodation searchAccommodation(int AccommodationID)
         {
                 Accommodation accommodationToReturn = null;
                 for (Accommodation accommodation : AccommodationHelper.accommodations)

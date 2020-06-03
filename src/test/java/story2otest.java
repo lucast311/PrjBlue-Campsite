@@ -3,6 +3,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +13,7 @@ public class story2otest { //need date serializable??????
 
     static Guest guest1 = new Guest("Jo", "wow", "jowow@gmail.com", "3069999999", PaymentType.Credit, "44567777", new Address());
     static Guest guest2 = new Guest("greg", "pop", "gregpop@gmail.com", "3068888888", PaymentType.Cash, "44565555", new Address());
-    static Booking booking1 = new Booking(100,1, new Date(2020,5,19), new Date(2020,5,27), BookingType.Cabin, 3);
+    static Booking booking1 = new Booking(2,1, new Date(2020,5,19), new Date(2020,5,27), BookingType.Cabin, 3);
     static Booking booking2 = new Booking(200,2, new Date(2020,6,4), new Date(2020,6,7), BookingType.Site, 2);
     BookingHelper bookingHelper=new BookingHelper();
     AccommodationHelper plothelper = new AccommodationHelper();
@@ -49,11 +50,17 @@ public class story2otest { //need date serializable??????
     public void testrefundresultget(){
 
         BusinessManager businessManager = new BusinessManager();
-        int result = businessManager.refundConfirmInt(obBooking, endDate2);
+        ArrayList<Accommodation> accommodations = new ArrayList<>();
+        accommodations.add(acc1);
+        Accommodation priceacc;
+         priceacc = plothelper.searchAccommodation(obBooking.getAccommodationID());
+        double price = priceacc.getPrice();
+        //int result = businessManager.refundConfirmInt2(obBooking, endDate2, price);
+        int result = businessManager.refundConfirmInt3(obBooking,endDate2, price, TimeUnit.DAYS);
 
-        //0.4 of accommodation price of acc1 = 160
-        assertTrue(((int) 160) == result);
-        assertFalse(((int) 161) == result);
+        //0.39 of accommodation price of acc1 = 156
+        assertTrue(((int) 156) == result);
+        assertFalse(((int) 157) == result);
 
     }
 
@@ -63,12 +70,12 @@ public class story2otest { //need date serializable??????
         bookings.add(booking1);
         bookings.add(booking2);
         ArrayList<Accommodation> accommodations = new ArrayList<>();
-        //plots.add(Site1);
+        accommodations.add(acc1);
 
         BookingHelper bookingHelper = new BookingHelper();
         AccommodationHelper accommodationHelper = new AccommodationHelper();
 
-        //assertEquals(bookingHelper.getPlotID(), booking1.getPlotID());
+        assertEquals(acc1.getAccommodationID(), booking1.getAccommodationID());
         //assertEquals(plotHelper.);
 
 
