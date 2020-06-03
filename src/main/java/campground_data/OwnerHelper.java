@@ -29,6 +29,11 @@ public class OwnerHelper {
 
     }
 
+    public boolean changePassword(Owner owner, String pass1, String pass2)
+    {
+        return false;
+    }
+
     public void editOwner(Owner obj) {
 
     }

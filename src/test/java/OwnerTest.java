@@ -59,7 +59,7 @@ public class OwnerTest {
         owner = new Owner();
         owner.setFirstName("test");
         owner.setLastName("tester");
-        owner.changePassword("Pa$$w0rd");
+        owner.setPassword("Pa$$w0rd");
         owner.setUserId("test.tester");
         owner.setPermissions(3);
         owner.setEmail("example@test.ca");
@@ -185,7 +185,7 @@ public class OwnerTest {
     @Test
     public void testFirstNameUpperBound() {
         owner.setFirstName(repeatM(20));
-        assertEquals(0, validator.validate(owner.getFirstName()).size());
+        assertEquals(0, validator.validate(owner).size());
     }
 
     /**
@@ -200,8 +200,86 @@ public class OwnerTest {
         assertInvalid(owner, "firstName", "First name must be between 2 and 20 characters", invalid);
     }
 
+    /**
+     * 1t.5
+     * INVALID: Last name must be at least 2 characters
+     */
+    @Test
+    public void testLastNameMinLength()
+    {
+        owner.setLastName("L");
+        assertInvalid(owner, "lastName", "Last name must be between 2 and 30 characters", "L");
+    }
 
-//    @Test
+    /**
+     * 1t.6
+     * VALID: Last name at least 2 characters
+     */
+    @Test
+    public void testLastNameLowerBound()
+    {
+        owner.setLastName(repeatM(2));
+        assertEquals(0, validator.validate(owner).size());
+    }
+
+    /**
+     * 1t.7
+     * VALID: Last name less than 30 characters
+     */
+    @Test
+    public void testLastNameUpperBound()
+    {
+        owner.setLastName(repeatM(30));
+        assertEquals(0, validator.validate(owner).size());
+    }
+
+    /**
+     * 1t.8
+     * INVALID: Last name max length is 30 characters
+     */
+    @Test
+    public void testLastNameMaxLength()
+    {
+        String invalid = repeatM(31);
+        owner.setLastName(invalid);
+        assertInvalid(owner, "lastName", "Last name must be between 2 and 30 characters", invalid);
+    }
+
+    /**
+     * 1t.9
+     * INVALID: Password must be at least 8 characters in length
+     */
+    @Test
+    public void testPasswordMinLength()
+    {
+        String invalid = repeatM(7);
+        owner.setPassword(invalid);
+        assertInvalid(owner, "password", "Password must be at least 8 characters in length", invalid);
+    }
+
+    /**
+     * 1t.10
+     * VALID: Password can be 8 or more characters in length
+     */
+    @Test
+    public void testPasswordLowerBound()
+    {
+        String valid = repeatM(8);
+        owner.setPassword(valid);
+        assertEquals(0, validator.validate(owner).size());
+    }
+
+
+    @Test
+    public void testPasswordChange()
+    {
+        String pass1 = "Pa$$w0rd";
+        String pass2 = "Pa$$w0rd";
+        boolean success = ownerHelper.changePassword(owner, pass1, pass2);
+
+    }
+
+
 
 
 

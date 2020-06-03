@@ -9,7 +9,6 @@ import java.io.Serializable;
 public class Owner implements Serializable {
 
 
-//    @Size(max=20, message = "First name must be between 2 and 20 characters")
     @Size(min=2, max=20, message = "First name must be between 2 and 20 characters")
     private String firstName;
 
@@ -20,7 +19,7 @@ public class Owner implements Serializable {
     @Pattern(regexp = "^[a-z]{2,20}[.]{1}[a-z]{2,30}$", message = "UserID must be in the format firstname.fastname")
     private String userId;
 
-    @Size(min = 8, max = 30, message = "Password must be between 8 and 30 characters in length")
+    @Size(min = 8, message = "Password must be at least 8 characters in length")
 //    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,30}$/i", message = "Password can consist of letters, number and symbols but not spaces")
     private String password;
 
@@ -81,7 +80,7 @@ public class Owner implements Serializable {
         this.onSite = onSite;
     }
 
-    public boolean changePassword(String password)
+    public boolean setPassword(String password)
     {
         if(password!=null)
         {
