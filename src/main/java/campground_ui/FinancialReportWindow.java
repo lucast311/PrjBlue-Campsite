@@ -73,7 +73,8 @@ public class FinancialReportWindow extends Application {
         obResults.setEditable(false);
         obResults.setWrapText(true);
         obResults.setText("");
-        obResults.setPrefColumnCount(86);
+        obResults.setTranslateX(385);
+        obResults.setPrefColumnCount(20); //86-87 is full window width roughly
         obHBox.getChildren().add(obResults);
 
         //Layout Stuff
@@ -102,7 +103,7 @@ public class FinancialReportWindow extends Application {
         obBP.setTop(obGrid);
         obBP.setCenter(obHBox);
 
-        obStage.setScene(new Scene(obBP,1000,800));
+        obStage.setScene(new Scene(obBP,1000,500));
         obStage.setTitle("Financial Report");
         obStage.show();
 
@@ -112,24 +113,44 @@ public class FinancialReportWindow extends Application {
 
         btnGenerate.setOnAction(e->{
             double expensesGiven=0;
-            String expenseTemp="";
+            String expenseTemp="0";
+            //this for loop cleans up the textfield for expenses given, basically it removes all values that aren't digits or periods
             for(int i=0;i<tfExpenses.getText().length();i++)
             {
                 if(tfExpenses.getText().isEmpty())
                 {
                     break;
                 }
-                if(tfExpenses.getText().matches("\\D*"))
+                char temp=tfExpenses.getText().charAt(i);
+                if(temp>='0' && temp<='9' || temp=='.')
                 {
-                    continue;
+                    expenseTemp+=temp;
                 }
                 else
                 {
-                    expenseTemp+=tfExpenses.getText().charAt(i);
+                    continue;
                 }
             }
-            //expensesGiven=Double.parseDouble(expenseTemp);
-            System.out.println(expensesGiven);
+            expensesGiven=Double.parseDouble(expenseTemp);
+            //System.out.println(expensesGiven);
+
+            double grossIncome=0;
+            double netIncome=0;
+            double cabinIncome=0;
+            double siteIncome=0;
+            double discountsGiven=0;
+            int numCabinBookings=0;
+            int numSiteBookings=0;
+            int totalBookings=0;
+
+            obResults.setText("Gross Income: $"+grossIncome+"\n"
+                             +"Net Income: $"+netIncome+"\n"
+                             +"Income from Cabins: $"+cabinIncome+"\n"
+                             +"Income from Sites: $"+siteIncome+"\n"
+                             +"Discounts Given: $"+discountsGiven+"\n"
+                             +"Number of Cabin Bookings: "+numCabinBookings+"\n"
+                             +"Number of Site Bookings: "+numSiteBookings+"\n"
+                             +"Total Number of Bookings: "+totalBookings);
 
         });
 
@@ -172,6 +193,8 @@ public class FinancialReportWindow extends Application {
         rad6.setOnAction(e->{
             cbYear.setVisible(true);
             txtYear.setVisible(true);
+            cbMonth.setVisible(false);
+            txtMonth.setVisible(false);
         });
 
         rad7.setOnAction(e->{
