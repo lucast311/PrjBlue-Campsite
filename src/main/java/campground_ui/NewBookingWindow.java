@@ -2,11 +2,10 @@ package campground_ui;
 
 import campground_data.*;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -44,8 +43,6 @@ public class NewBookingWindow extends Application {
     private static BookingHelper bookingHelper = new BookingHelper();
     private static Booking obBooking = new Booking();
 
-
-
     @Override
     public void start(Stage primaryStage) {
         obStage = primaryStage;
@@ -55,34 +52,42 @@ public class NewBookingWindow extends Application {
         VBox obCriteria = new VBox();
         obCriteria.setSpacing(10);
         obCriteria.setAlignment(Pos.CENTER_LEFT);
-        obPane.setLeft(obCriteria);
+        obCriteria.setMaxWidth(160);
+        obPane.setCenter(obCriteria);
 
         obCriteria.getChildren().add(new Label("Start Date"));
-        obCriteria.getChildren().add(dpStartDate);
+        dpStartDate.setPrefWidth(160);
         dpStartDate.setEditable(false);
+        obCriteria.getChildren().add(dpStartDate);
 
         obCriteria.getChildren().add(new Label("End Date"));
-        obCriteria.getChildren().add(dpEndDate);
+        dpEndDate.setPrefWidth(160);
         dpEndDate.setEditable(false);
+        obCriteria.getChildren().add(dpEndDate);
+
 
         obCriteria.getChildren().add(new Label("Accommodation Type"));
         cbAccommodationType.getItems().add("Cabin");
         cbAccommodationType.getItems().add("Site");
+        cbAccommodationType.setPrefWidth(160);
         obCriteria.getChildren().add(cbAccommodationType);
 
         obCriteria.getChildren().add(new Label("Member Count"));
-        obCriteria.getChildren().add(spMemberCount);
         spMemberCount.setEditable(false);
+        spMemberCount.setPrefWidth(160);
         spMemberCount.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,8));
         updateMemberCount();
+        obCriteria.getChildren().add(spMemberCount);
 
         obCriteria.getChildren().add(new Label("Accommodation ID"));
+        cbAccommodationID.setPrefWidth(160);
         obCriteria.getChildren().add(cbAccommodationID);
 
         obCriteria.getChildren().add(new Label("Guest ID"));
-        obCriteria.getChildren().add(cbGuestID);
         cbGuestID.getItems().addAll(guestHelper.getGuestAccounts());
+        cbGuestID.setPrefWidth(160);
         cbGuestID.setVisibleRowCount(4);
+        obCriteria.getChildren().add(cbGuestID);
 
         //Listeners
         dpStartDate.setOnAction(e-> {
@@ -122,14 +127,14 @@ public class NewBookingWindow extends Application {
         });
 
         HBox obButtons = new HBox();
-        obButtons.setSpacing(10);
+        obButtons.setSpacing(13);
         obButtons.getChildren().add(btnAdd);
         obButtons.getChildren().add(btnClear);
         obButtons.getChildren().add(btnCancel);
         obCriteria.getChildren().add(obButtons);
 
 
-        primaryStage.setScene(new Scene(obPane, 800, 500));
+        primaryStage.setScene(new Scene(obPane, 300, 500));
         primaryStage.setTitle("New Booking");
         primaryStage.show();
     }
@@ -253,6 +258,14 @@ public class NewBookingWindow extends Application {
         {
             if(obBooking.setType(cbAccommodationType.getValue().toString()))
             {
+                if(obBooking.getType() == BookingType.Cabin)
+                {
+                    spMemberCount.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,4));
+                }
+                else
+                {
+                    spMemberCount.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,8));
+                }
                 bAccommodationTypeGood = true;
             }
             else
