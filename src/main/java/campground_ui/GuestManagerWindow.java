@@ -113,7 +113,6 @@ public class GuestManagerWindow extends Application
         btnSearchClicked(btnSearch);
         btnRefreshClicked(btnRefresh);
 
-        primaryStage.setScene(new Scene(borderPane, 800, 600));
         //Event handler to allow you to open information on guest to edit
         btnEditGuest.setOnAction(e -> {
             int nIndex = guestList.getSelectionModel().getSelectedIndex();
@@ -225,8 +224,9 @@ public class GuestManagerWindow extends Application
     {
         btnRefresh.setOnAction(e -> {
             txtSearchField.setText("");
+            guestHelper.updateGuestAccounts();
+            guests = guestHelper.getGuestAccounts();
             loadGuests();
-
         });
     }
 
