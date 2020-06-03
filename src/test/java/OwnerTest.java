@@ -59,7 +59,7 @@ public class OwnerTest {
         owner = new Owner();
         owner.setFirstName("test");
         owner.setLastName("tester");
-        owner.changePassword("Password");
+        owner.changePassword("Pa$$w0rd");
         owner.setUserId("test.tester");
         owner.setPermissions(3);
         owner.setEmail("example@test.ca");
@@ -158,11 +158,52 @@ public class OwnerTest {
         assertEquals(testUser, null);
     }
 
+    /**
+     * 1t.1
+     * VALID:
+     */
+    @Test
+    public void testFirstNameLowerBound() {
+        owner.setFirstName(repeatM(2));
+        assertEquals(0, validator.validate(owner).size());
+    }
+
+    /**
+     * 1t.2
+     * INVALID: First name must be at least 2 characters
+     */
     @Test
     public void testFirstNameMinLength() {
         owner.setFirstName("T");
-        assertInvalid(owner, "firstName", "First name must be between 2 and 20 characters", "");
+        assertInvalid(owner, "firstName", "First name must be between 2 and 20 characters", "T");
     }
+
+    /**
+     * 1t.3
+     * VALID: First name must be 20 chars or less
+     */
+    @Test
+    public void testFirstNameUpperBound() {
+        owner.setFirstName(repeatM(20));
+        assertEquals(0, validator.validate(owner.getFirstName()).size());
+    }
+
+    /**
+     * 1t.4
+     * INVALID: First name max length is 20 characters
+     */
+    @Test
+    public void testFirstNameMaxLength()
+    {
+        String invalid = repeatM(21);
+        owner.setFirstName(invalid);
+        assertInvalid(owner, "firstName", "First name must be between 2 and 20 characters", invalid);
+    }
+
+
+//    @Test
+
+
 
     /***
      * Helper: quickly create a string of letter M's of any size for testing string length bounds

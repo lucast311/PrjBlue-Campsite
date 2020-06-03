@@ -2,15 +2,15 @@ package campground_data;
 
 import org.json.simple.JSONObject;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 public class Owner implements Serializable {
 
-    @Size(min = 2, max = 20, message = "First name must be between 2 and 20 characters")
+
+//    @Size(max=20, message = "First name must be between 2 and 20 characters")
+    @Size(min=2, max=20, message = "First name must be between 2 and 20 characters")
     private String firstName;
 
     @Size(min = 2, max = 30, message = "Last name must be between 2 and 30 characters")
@@ -21,7 +21,7 @@ public class Owner implements Serializable {
     private String userId;
 
     @Size(min = 8, max = 30, message = "Password must be between 8 and 30 characters in length")
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,30}$/i", message = "Password can consist of letters, number and symbols but not spaces")
+//    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,30}$/i", message = "Password can consist of letters, number and symbols but not spaces")
     private String password;
 
     @Pattern(regexp = "^(\\d{10})", message = "Phone number must be exactly 10 digits")
@@ -31,7 +31,7 @@ public class Owner implements Serializable {
     @Pattern(regexp = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$", message = "Email addresses must be in the format example@test.ca")
     private String email;
 
-    @Size(min = 1, max = 3, message = "User permissions can be 1-3, 1 being read-only; 3 being full-control")
+//    @Max(value = 1, max = 3, message = "User permissions can be 1-3, 1 being read-only; 3 being full-control")
     private int permissions;
     private Boolean onSite;
 
