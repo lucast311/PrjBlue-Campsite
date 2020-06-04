@@ -247,7 +247,20 @@ public class RemoveBookingWindow extends Stage {
     public void searchBooking()
     {
         String sGuestIdToSearch = txtGuestID.getText().trim();
-        if (!sGuestIdToSearch.matches(".*[0-9].*"))
+
+
+        //Error if guest ID field is empty
+        if (sGuestIdToSearch.equalsIgnoreCase("")|| sGuestIdToSearch == null)
+        {
+            obAlertMain = new Alert(Alert.AlertType.ERROR);
+            obAlertMain.setTitle("Input Error");
+            obAlertMain.setHeaderText("Guest ID field cannot be empty");
+            obAlertMain.setContentText("Enter a Guest ID to continue");
+            obAlertMain.showAndWait();
+            txtGuestID.requestFocus();
+        }
+
+        else if (!sGuestIdToSearch.matches(".*[0-9].*"))
         {
             obAlertMain = new Alert(Alert.AlertType.ERROR);
             obAlertMain.setTitle("Input Error");
@@ -256,17 +269,6 @@ public class RemoveBookingWindow extends Stage {
             obAlertMain.showAndWait();
             txtGuestID.requestFocus();
 
-        }
-
-        //Error if guest ID field is empty
-        else if (sGuestIdToSearch.equalsIgnoreCase("")|| sGuestIdToSearch == null)
-        {
-            obAlertMain = new Alert(Alert.AlertType.ERROR);
-            obAlertMain.setTitle("Input Error");
-            obAlertMain.setHeaderText("Guest ID field cannot be empty");
-            obAlertMain.setContentText("Enter a Guest ID to continue");
-            obAlertMain.showAndWait();
-            txtGuestID.requestFocus();
         }
         else
         {
