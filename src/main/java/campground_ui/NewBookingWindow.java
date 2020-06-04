@@ -241,7 +241,7 @@ public class NewBookingWindow extends Application {
     }
 
     /**
-     * This method is called when the startdate field is modified,
+     * This method is called when the start date field is modified,
      * this will check if the booking date can be set to the selected date,
      * setting the field to green if valid or red if invalid
      */
@@ -250,7 +250,11 @@ public class NewBookingWindow extends Application {
         if(dpStartDate.getValue() != null)
         {
             try {
-                if (obBooking.changeStart(new Date(dpStartDate.getValue().getYear(), dpStartDate.getValue().getMonthValue()-1, dpStartDate.getValue().getDayOfYear()))) {
+                Date date = new Date();
+                date.setYear(dpStartDate.getValue().getYear());
+                date.setMonth(dpStartDate.getValue().getMonthValue()-1);
+                date.setDate(dpStartDate.getValue().getDayOfMonth());
+                if (obBooking.changeStart(date)) {
                     dpStartDate.setStyle("-fx-background-color: green");
                     bStartDateGood = true;
                 } else {
@@ -267,7 +271,7 @@ public class NewBookingWindow extends Application {
     }
 
     /**
-     * This method is called when the enddate field is modified,
+     * This method is called when the end date field is modified,
      * this will check if the booking date can be set to the selected date,
      * setting the field to green if valid or red if invalid
      */
@@ -276,7 +280,11 @@ public class NewBookingWindow extends Application {
         if(dpEndDate.getValue() != null)
         {
             try {
-                if (obBooking.changeEnd(new Date(dpEndDate.getValue().getYear(), dpEndDate.getValue().getMonthValue()-1, dpEndDate.getValue().getDayOfYear()))) {
+                Date date = new Date();
+                date.setYear(dpStartDate.getValue().getYear());
+                date.setMonth(dpStartDate.getValue().getMonthValue()-1);
+                date.setDate(dpStartDate.getValue().getDayOfMonth());
+                if (obBooking.changeEnd(date)) {
                     dpEndDate.setStyle("-fx-background-color: green");
                     bEndDateGood = true;
                 } else {
@@ -329,12 +337,10 @@ public class NewBookingWindow extends Application {
         try{
             if(obBooking.setMemberCount(Integer.parseInt(spMemberCount.getValue().toString())))
             {
-                spMemberCount.setStyle("-fx-background-color: green");
                 bMemberCountGood = true;
             }
             else
             {
-                spMemberCount.setStyle("-fx-background-color: red");
                 bMemberCountGood = false;
             }
         }
