@@ -7,6 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * This window will open after login t
+ */
 public class MainWindow extends Application {
 
 
@@ -28,6 +31,7 @@ public class MainWindow extends Application {
         BorderPane obPane = new BorderPane();
         primaryStage.setScene(new Scene(obPane, 600, 600));
         primaryStage.show();
+
 
 
     }
