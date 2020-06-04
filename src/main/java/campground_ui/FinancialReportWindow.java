@@ -1,5 +1,8 @@
 package campground_ui;
 
+import campground_data.Booking;
+import campground_data.BookingHelper;
+import campground_data.BookingType;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
@@ -10,7 +13,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class FinancialReportWindow extends Application {
+import java.util.ArrayList;
+import java.util.Date;
+
+public class FinancialReportWindow extends Application
+{
+    BookingHelper bookingHelper=new BookingHelper();
 
     public static void main(String[] args) {
         launch(args);
@@ -142,6 +150,272 @@ public class FinancialReportWindow extends Application {
             int numCabinBookings=0;
             int numSiteBookings=0;
             int totalBookings=0;
+            String cabinSite="Both";
+            ArrayList<Booking> obWholeBookingList=bookingHelper.getBookingList();
+            if(rad1.isSelected())
+            {
+                //use whole list
+                for(Booking obVal:obWholeBookingList)
+                {
+                    grossIncome+=obVal.getTotal();
+                    discountsGiven+=obVal.getTotal()*(1-(obVal.getDiscount()/100)); //not accurate, is based off of current total, rather than total before discount given
+                    totalBookings++;
+                    if(obVal.getType()== BookingType.Cabin)
+                    {
+                        cabinIncome+=obVal.getTotal();
+                        numCabinBookings++;
+                    }
+                    if(obVal.getType()==BookingType.Site)
+                    {
+                        siteIncome+=obVal.getTotal();
+                        numSiteBookings++;
+                    }
+
+                }
+                netIncome=grossIncome-expensesGiven;
+            }
+            if(rad2.isSelected())
+            {
+                //use this current year
+                Date currentDate=new Date();
+                int currentYear=currentDate.getYear();
+                ArrayList<Booking> List=complexFilter(obWholeBookingList,cabinSite,"",String.valueOf(currentYear));
+                for(Booking obVal:List)
+                {
+                    grossIncome+=obVal.getTotal();
+                    discountsGiven+=obVal.getTotal()*(1-(obVal.getDiscount()/100)); //not accurate, is based off of current total, rather than total before discount given
+                    totalBookings++;
+                    if(obVal.getType()== BookingType.Cabin)
+                    {
+                        cabinIncome+=obVal.getTotal();
+                        numCabinBookings++;
+                    }
+                    if(obVal.getType()==BookingType.Site)
+                    {
+                        siteIncome+=obVal.getTotal();
+                        numSiteBookings++;
+                    }
+
+                }
+                netIncome=grossIncome-expensesGiven;
+            }
+            if(rad3.isSelected())
+            {
+                //start of year till now
+                Date currentDate=new Date();
+                int currentYear=currentDate.getYear();
+                int currentMonthInt=currentDate.getMonth();
+                int currentDay=currentDate.getDay();
+                Date currentClean=new Date(currentYear+1900,currentMonthInt,currentDay);
+                ArrayList<Booking> List=complexFilter(obWholeBookingList,cabinSite,"",String.valueOf(currentYear));
+                for(Booking obVal:List)
+                {
+                    if(obVal.getStartDate().after(currentClean))
+                    {
+                        continue;
+                    }
+                    grossIncome+=obVal.getTotal();
+                    discountsGiven+=obVal.getTotal()*(1-(obVal.getDiscount()/100)); //not accurate, is based off of current total, rather than total before discount given
+                    totalBookings++;
+                    if(obVal.getType()== BookingType.Cabin)
+                    {
+                        cabinIncome+=obVal.getTotal();
+                        numCabinBookings++;
+                    }
+                    if(obVal.getType()==BookingType.Site)
+                    {
+                        siteIncome+=obVal.getTotal();
+                        numSiteBookings++;
+                    }
+
+                }
+                netIncome=grossIncome-expensesGiven;
+            }
+            if(rad4.isSelected())
+            {
+                //This whole month
+                Date currentDate=new Date();
+                int currentYear=currentDate.getYear();
+                int currentMonthInt=currentDate.getMonth();
+                String currentMonthString="";
+                switch(currentMonthInt)
+                {
+                    case 0:
+                        currentMonthString="January";
+                        break;
+                    case 1:
+                        currentMonthString="February";
+                        break;
+                    case 2:
+                        currentMonthString="March";
+                        break;
+                    case 3:
+                        currentMonthString="April";
+                        break;
+                    case 4:
+                        currentMonthString="May";
+                        break;
+                    case 5:
+                        currentMonthString="June";
+                        break;
+                    case 6:
+                        currentMonthString="July";
+                        break;
+                    case 7:
+                        currentMonthString="August";
+                        break;
+                    case 8:
+                        currentMonthString="September";
+                        break;
+                    case 9:
+                        currentMonthString="October";
+                        break;
+                    case 10:
+                        currentMonthString="November";
+                        break;
+                    case 11:
+                        currentMonthString="December";
+                        break;
+                }
+
+                ArrayList<Booking> List=complexFilter(obWholeBookingList,cabinSite,currentMonthString,String.valueOf(currentYear));
+                for(Booking obVal:List)
+                {
+                    grossIncome+=obVal.getTotal();
+                    discountsGiven+=obVal.getTotal()*(1-(obVal.getDiscount()/100)); //not accurate, is based off of current total, rather than total before discount given
+                    totalBookings++;
+                    if(obVal.getType()== BookingType.Cabin)
+                    {
+                        cabinIncome+=obVal.getTotal();
+                        numCabinBookings++;
+                    }
+                    if(obVal.getType()==BookingType.Site)
+                    {
+                        siteIncome+=obVal.getTotal();
+                        numSiteBookings++;
+                    }
+
+                }
+                netIncome=grossIncome-expensesGiven;
+            }
+            if(rad5.isSelected())
+            {
+                //Start of month till now
+                Date currentDate=new Date();
+                int currentYear=currentDate.getYear();
+                int currentMonthInt=currentDate.getMonth();
+                String currentMonthString="";
+                int currentDay=currentDate.getDay();
+                Date currentClean=new Date(currentYear+1900,currentMonthInt,currentDay);
+                switch(currentMonthInt)
+                {
+                    case 0:
+                        currentMonthString="January";
+                        break;
+                    case 1:
+                        currentMonthString="February";
+                        break;
+                    case 2:
+                        currentMonthString="March";
+                        break;
+                    case 3:
+                        currentMonthString="April";
+                        break;
+                    case 4:
+                        currentMonthString="May";
+                        break;
+                    case 5:
+                        currentMonthString="June";
+                        break;
+                    case 6:
+                        currentMonthString="July";
+                        break;
+                    case 7:
+                        currentMonthString="August";
+                        break;
+                    case 8:
+                        currentMonthString="September";
+                        break;
+                    case 9:
+                        currentMonthString="October";
+                        break;
+                    case 10:
+                        currentMonthString="November";
+                        break;
+                    case 11:
+                        currentMonthString="December";
+                        break;
+                }
+                ArrayList<Booking> List=complexFilter(obWholeBookingList,cabinSite,currentMonthString,String.valueOf(currentYear));
+                for(Booking obVal:List)
+                {
+                    if(obVal.getStartDate().after(currentClean))
+                    {
+                        continue;
+                    }
+                    grossIncome+=obVal.getTotal();
+                    discountsGiven+=obVal.getTotal()*(1-(obVal.getDiscount()/100)); //not accurate, is based off of current total, rather than total before discount given
+                    totalBookings++;
+                    if(obVal.getType()== BookingType.Cabin)
+                    {
+                        cabinIncome+=obVal.getTotal();
+                        numCabinBookings++;
+                    }
+                    if(obVal.getType()==BookingType.Site)
+                    {
+                        siteIncome+=obVal.getTotal();
+                        numSiteBookings++;
+                    }
+
+                }
+                netIncome=grossIncome-expensesGiven;
+            }
+            if(rad6.isSelected())
+            {
+                //Specific year, use cbYear as filter
+                ArrayList<Booking> List=complexFilter(obWholeBookingList,cabinSite,"",cbYear.getValue().toString());
+                for(Booking obVal:List)
+                {
+                    grossIncome+=obVal.getTotal();
+                    discountsGiven+=obVal.getTotal()*(1-(obVal.getDiscount()/100)); //not accurate, is based off of current total, rather than total before discount given
+                    totalBookings++;
+                    if(obVal.getType()== BookingType.Cabin)
+                    {
+                        cabinIncome+=obVal.getTotal();
+                        numCabinBookings++;
+                    }
+                    if(obVal.getType()==BookingType.Site)
+                    {
+                        siteIncome+=obVal.getTotal();
+                        numSiteBookings++;
+                    }
+
+                }
+                netIncome=grossIncome-expensesGiven;
+            }
+            if(rad7.isSelected())
+            {
+                //Specific year and month, use cbMonth and cbYear as filter
+                ArrayList<Booking> List=complexFilter(obWholeBookingList,cabinSite,cbMonth.getValue().toString(),cbYear.getValue().toString());
+                for(Booking obVal:List)
+                {
+                    grossIncome+=obVal.getTotal();
+                    discountsGiven+=obVal.getTotal()*(1-(obVal.getDiscount()/100)); //not accurate, is based off of current total, rather than total before discount given
+                    totalBookings++;
+                    if(obVal.getType()== BookingType.Cabin)
+                    {
+                        cabinIncome+=obVal.getTotal();
+                        numCabinBookings++;
+                    }
+                    if(obVal.getType()==BookingType.Site)
+                    {
+                        siteIncome+=obVal.getTotal();
+                        numSiteBookings++;
+                    }
+
+                }
+                netIncome=grossIncome-expensesGiven;
+            }
 
             obResults.setText("Gross Income: $"+grossIncome+"\n"
                              +"Net Income: $"+netIncome+"\n"
@@ -205,5 +479,150 @@ public class FinancialReportWindow extends Application {
         });
 
 
+    }
+
+    public ArrayList<Booking> complexFilter(ArrayList<Booking> list,String sCabinSite, String sMonth, String sYear)
+    {
+        ArrayList<Booking> obReturn;
+        int nMonth;
+        int nYear;
+
+        switch(sMonth)
+        {
+            case "January":
+                nMonth=0;
+                break;
+            case "February":
+                nMonth=1;
+                break;
+            case "March":
+                nMonth=2;
+                break;
+            case "April":
+                nMonth=3;
+                break;
+            case "May":
+                nMonth=4;
+                break;
+            case "June":
+                nMonth=5;
+                break;
+            case "July":
+                nMonth=6;
+                break;
+            case "August":
+                nMonth=7;
+                break;
+            case "September":
+                nMonth=8;
+                break;
+            case "October":
+                nMonth=9;
+                break;
+            case "November":
+                nMonth=10;
+                break;
+            case "December":
+                nMonth=11;
+                break;
+            default:
+                nMonth=-1;
+                break;
+        }
+
+        if(sYear.equalsIgnoreCase(""))
+        {
+            nYear=0;
+        }
+        else
+        {
+            nYear=Integer.parseInt(sYear);
+        }
+
+        if(nYear==0)
+        {
+            if(nMonth==-1)
+            {
+                if(sCabinSite.equalsIgnoreCase("Cabin"))
+                {
+                    obReturn=bookingHelper.getCabinOnly(list);
+                }
+                else
+                {
+                    if(sCabinSite.equalsIgnoreCase("Site"))
+                    {
+                        obReturn=bookingHelper.getSiteOnly(list);
+                    }
+                    else //sCabinSite=="Both"
+                    {
+                        obReturn=list;
+                        //obReturn=bookingHelper.getBookingList();
+                    }
+                }
+            }
+            else //nMonth!=-1
+            {
+                ArrayList<Booking> obTemp=bookingHelper.getBookingListByMonth(list,nMonth);
+                if(sCabinSite.equalsIgnoreCase("Cabin"))
+                {
+                    obReturn=bookingHelper.getCabinOnly(obTemp);
+                }
+                else
+                {
+                    if(sCabinSite.equalsIgnoreCase("Site"))
+                    {
+                        obReturn=bookingHelper.getSiteOnly(obTemp);
+                    }
+                    else //sCabinSite=="Both"
+                    {
+                        obReturn=obTemp;
+                        //obReturn=bookingHelper.getBookingListByMonth(nMonth);
+                    }
+                }
+            }
+        }
+        else //nYear!=0
+        {
+            if(nMonth==-1)
+            {
+                ArrayList<Booking> obTemp=bookingHelper.getBookingListByYear(list,nYear);
+                if(sCabinSite.equalsIgnoreCase("Cabin"))
+                {
+                    obReturn=bookingHelper.getCabinOnly(obTemp);
+                }
+                else
+                {
+                    if(sCabinSite.equalsIgnoreCase("Site"))
+                    {
+                        obReturn=bookingHelper.getSiteOnly(obTemp);
+                    }
+                    else //sCabinSite=="Both"
+                    {
+                        obReturn=obTemp;
+                    }
+                }
+            }
+            else //nMonth!=-1
+            {
+                ArrayList<Booking> obTemp=bookingHelper.getBookingList(list,nYear,nMonth);
+                if(sCabinSite.equalsIgnoreCase("Cabin"))
+                {
+                    obReturn=bookingHelper.getCabinOnly(obTemp);
+                }
+                else
+                {
+                    if(sCabinSite.equalsIgnoreCase("Site"))
+                    {
+                        obReturn=bookingHelper.getSiteOnly(obTemp);
+                    }
+                    else //sCabinSite=="Both"
+                    {
+                        obReturn=obTemp;
+                    }
+                }
+            }
+        }
+
+        return obReturn;
     }
 }
