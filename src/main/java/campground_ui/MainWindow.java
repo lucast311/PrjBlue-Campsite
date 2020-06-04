@@ -37,11 +37,11 @@ public class MainWindow extends Application {
     @Override
     public void start(Stage primaryStage)
     {
-        while (currUser.getPermissions() < 1)
-        {
-            LoginWindow lw = new LoginWindow(primaryStage);
-            lw.showAndWait();
-        }
+//        while (currUser.getPermissions() < 1)
+//        {
+//            LoginWindow lw = new LoginWindow(primaryStage);
+//            lw.showAndWait();
+//        }
 
         //Initialize layout
         obVPane = new VBox();
@@ -111,6 +111,8 @@ public class MainWindow extends Application {
         });
 
         btnGuestManager.setOnAction(e -> {
+            GuestManagerWindow guestManagerWindow = new GuestManagerWindow(primaryStage);
+            guestManagerWindow.showAndWait();
 
         });
 
