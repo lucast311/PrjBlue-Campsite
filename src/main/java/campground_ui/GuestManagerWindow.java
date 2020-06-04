@@ -30,33 +30,32 @@ public class GuestManagerWindow extends Stage
     private Button btnEditGuest = new Button("Edit Guest");
     private Button btnBack = new Button("Back");
     private GuestHelper guestHelper = new GuestHelper();
-    private HBox spacerLeft = new HBox();
-    private HBox spacerRight = new HBox();
     private Button btnRefresh = new Button("Refresh");
     private ArrayList<Guest> guests = guestHelper.getGuestAccounts();
     private ListView guestList = new ListView();
 
     public GuestManagerWindow(Stage parent)
     {
+
+        /*
+        This section was used to test the functions of the window
+
         Address dummyAddress = new Address(123, 100, "Macca Street", "Saskatoon", "SK", "Canada", "S7N2W6");
         Address dummyAddress2 = new Address(1235, 1999, "Nacho Business Streets", "Saskatoon", "SK", "Canada", "S7N2W6");
         Guest dummyGuest = new Guest("Captain", "Crunch", "capncrunch@saskpolytech.ca", "3061234567", PaymentType.Credit, "123412341234",dummyAddress);
         Guest dummyGuest2 = new Guest("Honey Nut", "Cheerios", "cheerio@saskpolytech.ca", "3061234562", PaymentType.Credit, "123412341234",dummyAddress2);
+        guestHelper.addGuest(dummyGuest);
+        guestHelper.addGuest(dummyGuest2);
+        guestHelper.addGuest(dummyGuest2);
+        guestHelper.addGuest(dummyGuest2);
+        guestHelper.addGuest(dummyGuest);
+        guestHelper.addGuest(dummyGuest);
 
-
-//        guestHelper.addGuest(dummyGuest);
-//        guestHelper.addGuest(dummyGuest2);
-//        guestHelper.addGuest(dummyGuest2);
-//        guestHelper.addGuest(dummyGuest2);
-//        guestHelper.addGuest(dummyGuest);
-//        guestHelper.addGuest(dummyGuest);
-
-
+        */
 
 
         //set the sizes of buttons
         btnSearch.setPrefSize(110, 50);
-
         btnBack.setPrefSize(100, 50);
         btnAddGuest.setPrefSize(110, 50);
         btnEditGuest.setPrefSize(110, 50);
@@ -83,30 +82,28 @@ public class GuestManagerWindow extends Stage
         buttonsBox.setPadding(new Insets(50, 0, 50, 0));
         buttonsBox.getChildren().addAll(btnAddGuest,btnEditGuest);
 
+        //set the properties of the ListView
+        guestList.setEditable(false);
 
-        //set the Hboxes inside the border pane
+        //set the Hboxes and ListView inside the border pane
         borderPane.setCenter(guestList);
         borderPane.setTop(topBox);
         borderPane.setBottom(buttonsBox);
-        borderPane.setRight(spacerRight);
-        borderPane.setLeft(spacerLeft);
 
-        guestList.maxHeight(200);
-        guestList.maxWidth(200);
-        guestList.setEditable(false);
+
+
 
         //sort guests by guestID (ascending)
         guests.sort((x,y) -> (int) x.getGuestID() - y.getGuestID());
         loadGuests();
 
-        btnBack.setOnAction(e -> {
-            this.close();
-        });
 
-        //call event handlers for the textfield and buttons
-        txtSearchFieldOnAction(txtSearchField);
-        btnSearchClicked(btnSearch);
-        btnRefreshClicked(btnRefresh);
+        /*Event Handlers*/
+        btnBack.setOnAction(e -> { this.close(); });
+        //call event handler methods for the textfield and buttons
+        txtSearchFieldOnAction();
+        btnSearchClicked();
+        btnRefreshClicked();
 
         this.setScene(new Scene(borderPane, 800, 600));
         this.setTitle("Guest Manager");
@@ -120,10 +117,9 @@ public class GuestManagerWindow extends Stage
 
     /**
      * Event handler for the text field. This method will search for a guest that corresponds to the phone number entered when the return key is pressed.
-     * Will display an error alert if the text field is empty or if the phone number does not correspond to any guest.
-     * @param textField
+     * Will display an error alert if the text field is empty or if the phone number does not correspond to any guest
      */
-    public void txtSearchFieldOnAction(TextField textField)
+    public void txtSearchFieldOnAction()
     {
         txtSearchField.setOnAction(e -> {
             if (txtSearchField.getText().equalsIgnoreCase(""))
@@ -176,9 +172,8 @@ public class GuestManagerWindow extends Stage
     /**
      * Event handler for the "Search" button. This method will search for a guest that corresponds to the phone number entered when the return key is pressed.
      * Will display an error alert if the text field is empty or if the phone number does not correspond to any guest.
-     * @param btn
      */
-    public void btnSearchClicked(Button btn)
+    public void btnSearchClicked()
     {
         btnSearch.setOnAction(e -> {
             if (txtSearchField.getText().equalsIgnoreCase(""))
@@ -213,8 +208,9 @@ public class GuestManagerWindow extends Stage
                 return;
             }
 
-
+            //clear the listview first
             guestList.getItems().clear();
+            //add the guest info to the list view
             guestList.getItems().add(guest);
 
         });
@@ -222,17 +218,21 @@ public class GuestManagerWindow extends Stage
 
     /**
      * Event handler for the "Refresh" button.
-     * @param btn
      */
-    public void btnRefreshClicked(Button btn)
+    public void btnRefreshClicked()
     {
         btnRefresh.setOnAction(e -> {
             txtSearchField.setText("");
+            guestHelper.updateGuests();
+            guests = guestHelper.getGuestAccounts();
             loadGuests();
 
         });
     }
 
+    /**
+     * This method will populate the guestList ListView with all the guests contained in the arrayList guests
+     */
     public void loadGuests()
     {
         guestHelper.updateGuests();
