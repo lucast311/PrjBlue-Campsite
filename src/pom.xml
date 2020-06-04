@@ -80,6 +80,9 @@
                     <archive>
                         <manifest>
                             <mainClass>campground_ui.LoginWindow</mainClass>
+=========
+                            <mainClass>campground_data.MainWindow</mainClass>
+>>>>>>>>> Temporary merge branch 2
                         </manifest>
                     </archive>
                     <descriptorRefs>

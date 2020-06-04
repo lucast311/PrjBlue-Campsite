@@ -121,10 +121,6 @@ public class Guest  implements Serializable {
         String sRet = "";
         for (int i=0; i < creditCardNum.length(); i++)
         {
-            if (i == 4 || i == 8)
-            {
-                sRet += " ";
-            }
             if (i >= 0 && i < creditCardNum.length() - 4)
             {
                 sRet += "*";
