@@ -92,16 +92,16 @@ public class ViewBookingWindow extends Application
 
         obBP.setCenter(obGrid);
 
-        obStage.setScene(new Scene(obBP,1400,675)); //width,height
+        obStage.setScene(new Scene(obBP,1400,675)); //scene,width,height
         obStage.setTitle("View Bookings");
         obStage.show();
 
         //Button click-handler code
         obCloseBtn.setOnAction(e->{
-            obStage.close();
+            obStage.close(); //closes window
         });
 
-        obViewAllBtn.setOnAction(e->{
+        obViewAllBtn.setOnAction(e->{ //shows all bookings in the textarea
             final ArrayList<Booking> bookingFull=bookingHelper.getBookingList();
             bAll.set(true);
             bCurrent.set(false);
@@ -114,7 +114,7 @@ public class ViewBookingWindow extends Application
             obResults.setText(sVals);
         });
 
-        obViewCurrentBtn.setOnAction(e->{
+        obViewCurrentBtn.setOnAction(e->{ //shows all current bookings (ones that are in progress, or yet to start)
             final ArrayList<Booking> bookingsCurrent=bookingHelper.getCurrentBookings();
             bAll.set(false);
             bCurrent.set(true);
@@ -127,10 +127,10 @@ public class ViewBookingWindow extends Application
             obResults.setText(sVals);
         });
 
-        obApply.setOnAction(e->{
+        obApply.setOnAction(e->{ //applies the selected filters to the list, and displays the result
             String radFilter="Both";
-            String cbsMonth=cbMonth.getValue().toString();
-            String cbsYear=cbYear.getValue().toString();
+            String cbsMonth=cbMonth.getValue().toString(); //month selected
+            String cbsYear=cbYear.getValue().toString(); //year selected
             boolean bAllVals=bAll.get();
             boolean bCurrentVals=bCurrent.get();
 
@@ -154,6 +154,8 @@ public class ViewBookingWindow extends Application
             }
 
             //System.out.println(radFilter+"\n"+cbsMonth+"\n"+cbsYear+"\n");
+
+            //Selects what list to filter on based on what options selected
             ArrayList<Booking> obFilterResults;
             if(bAllVals)
             {
@@ -178,12 +180,23 @@ public class ViewBookingWindow extends Application
         });
     }
 
+    /**
+     * This method performs a complex filter of an arrayList of Bookings, and returns an arrayList of bookings based on what
+     * filters are passed into it. sCabinSite = Cabin, Site, or Both,
+     * sMonth is the month selected, sYear is the year selected, if none were selected, they are "" by default
+     * @param list
+     * @param sCabinSite
+     * @param sMonth
+     * @param sYear
+     * @return
+     */
     public ArrayList<Booking> complexFilter(ArrayList<Booking> list,String sCabinSite, String sMonth, String sYear)
     {
         ArrayList<Booking> obReturn;
         int nMonth;
         int nYear;
 
+        //sets up nMonth based on the passed in month string, -1 by default
         switch(sMonth)
         {
             case "January":
@@ -229,13 +242,14 @@ public class ViewBookingWindow extends Application
 
         if(sYear.equalsIgnoreCase(""))
         {
-            nYear=0;
+            nYear=0; //if no year given, year is set to 0
         }
         else
         {
             nYear=Integer.parseInt(sYear);
         }
 
+        //series of if/else statements that call different methods in BookingHelper based on what values were passed into this method
         if(nYear==0)
         {
             if(nMonth==-1)

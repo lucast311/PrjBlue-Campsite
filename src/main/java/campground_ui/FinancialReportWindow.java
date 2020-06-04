@@ -50,7 +50,7 @@ public class FinancialReportWindow extends Application
         RadioButton rad6=new RadioButton("Specific Year");
         RadioButton rad7=new RadioButton("Specific Year and Month");
 
-        rad1.setToggleGroup(obGroup);
+        rad1.setToggleGroup(obGroup); //assigns radiobutton group so that only 1 can be selected at a time
         rad2.setToggleGroup(obGroup);
         rad3.setToggleGroup(obGroup);
         rad4.setToggleGroup(obGroup);
@@ -67,16 +67,16 @@ public class FinancialReportWindow extends Application
         cbYear.setVisible(false);
 
         //TextField and label stuff
-        TextField tfExpenses=new TextField();
+        TextField tfExpenses=new TextField(); //textfield for expenses given by owner
         Text txtExpenses=new Text("Expenses for Selected Time Period (optional): $");
         Text txtYear=new Text("Specific Year:");
         txtYear.setVisible(false);
         Text txtMonth=new Text("Specific Month:");
         txtMonth.setVisible(false);
-        Text txtBlank1=new Text("  ");
-        Text txtBlank2=new Text("  ");
+        Text txtBlank1=new Text("  "); //used to fill in space above Generate Report button
+        Text txtBlank2=new Text("  "); //used to fill in space above Generate Report button
 
-        //TextArea Stuff
+        //TextArea Stuff. This is what the report gets displayed in
         TextArea obResults=new TextArea();
         obResults.setEditable(false);
         obResults.setWrapText(true);
@@ -85,7 +85,7 @@ public class FinancialReportWindow extends Application
         obResults.setPrefColumnCount(20); //86-87 is full window width roughly
         obHBox.getChildren().add(obResults);
 
-        //Layout Stuff
+        //Layout Stuff for laying out where everything is on the window
         obGrid.add(btnClose,0,0);
         obGrid.add(rad1,1,0);
         obGrid.add(rad2,1,1);
@@ -116,10 +116,10 @@ public class FinancialReportWindow extends Application
         obStage.show();
 
         btnClose.setOnAction(e->{
-            obStage.close();
+            obStage.close(); //closes the window
         });
 
-        btnGenerate.setOnAction(e->{
+        btnGenerate.setOnAction(e->{ //handles the generation of the report by filtering an arrayList based on what radiobutton is selected
             double expensesGiven=0;
             String expenseTemp="0";
             //this for loop cleans up the textfield for expenses given, basically it removes all values that aren't digits or periods
@@ -139,20 +139,20 @@ public class FinancialReportWindow extends Application
                     continue;
                 }
             }
-            expensesGiven=Double.parseDouble(expenseTemp);
+            expensesGiven=Double.parseDouble(expenseTemp); //clean version of the expenses given by the owner
             //System.out.println(expensesGiven);
 
-            double grossIncome=0;
-            double netIncome=0;
-            double cabinIncome=0;
-            double siteIncome=0;
-            double discountsGiven=0;
-            int numCabinBookings=0;
-            int numSiteBookings=0;
-            int totalBookings=0;
+            double grossIncome=0; //total income
+            double netIncome=0; //gross income - expensesGiven
+            double cabinIncome=0; //income from cabins
+            double siteIncome=0; //income from sites
+            double discountsGiven=0; //total $ worth in discounts given, not accurate, is below what it should be
+            int numCabinBookings=0; //number of bookings that were cabins
+            int numSiteBookings=0; //number of bookings that were sites
+            int totalBookings=0; //total number of bookings
             String cabinSite="Both";
             ArrayList<Booking> obWholeBookingList=bookingHelper.getBookingList();
-            if(rad1.isSelected())
+            if(rad1.isSelected()) //All Time
             {
                 //use whole list
                 for(Booking obVal:obWholeBookingList)
@@ -174,12 +174,12 @@ public class FinancialReportWindow extends Application
                 }
                 netIncome=grossIncome-expensesGiven;
             }
-            if(rad2.isSelected())
+            if(rad2.isSelected()) //This Year
             {
                 //use this current year
                 Date currentDate=new Date();
-                int currentYear=currentDate.getYear();
-                ArrayList<Booking> List=complexFilter(obWholeBookingList,cabinSite,"",String.valueOf(currentYear));
+                int currentYear=1900+currentDate.getYear();
+                ArrayList<Booking> List=bookingHelper.getBookingListByYear(currentYear);
                 for(Booking obVal:List)
                 {
                     grossIncome+=obVal.getTotal();
@@ -199,11 +199,11 @@ public class FinancialReportWindow extends Application
                 }
                 netIncome=grossIncome-expensesGiven;
             }
-            if(rad3.isSelected())
+            if(rad3.isSelected()) //Year to Date YTD
             {
                 //start of year till now
                 Date currentDate=new Date();
-                int currentYear=currentDate.getYear();
+                int currentYear=1900+currentDate.getYear();
                 int currentMonthInt=currentDate.getMonth();
                 int currentDay=currentDate.getDay();
                 Date currentClean=new Date(currentYear+1900,currentMonthInt,currentDay);
@@ -231,11 +231,11 @@ public class FinancialReportWindow extends Application
                 }
                 netIncome=grossIncome-expensesGiven;
             }
-            if(rad4.isSelected())
+            if(rad4.isSelected()) //This Month
             {
                 //This whole month
                 Date currentDate=new Date();
-                int currentYear=currentDate.getYear();
+                int currentYear=1900+currentDate.getYear();
                 int currentMonthInt=currentDate.getMonth();
                 String currentMonthString="";
                 switch(currentMonthInt)
@@ -298,11 +298,11 @@ public class FinancialReportWindow extends Application
                 }
                 netIncome=grossIncome-expensesGiven;
             }
-            if(rad5.isSelected())
+            if(rad5.isSelected()) //Month to Date MTD
             {
                 //Start of month till now
                 Date currentDate=new Date();
-                int currentYear=currentDate.getYear();
+                int currentYear=1900+currentDate.getYear();
                 int currentMonthInt=currentDate.getMonth();
                 String currentMonthString="";
                 int currentDay=currentDate.getDay();
@@ -370,7 +370,7 @@ public class FinancialReportWindow extends Application
                 }
                 netIncome=grossIncome-expensesGiven;
             }
-            if(rad6.isSelected())
+            if(rad6.isSelected()) //Specific Year
             {
                 //Specific year, use cbYear as filter
                 ArrayList<Booking> List=complexFilter(obWholeBookingList,cabinSite,"",cbYear.getValue().toString());
@@ -393,7 +393,7 @@ public class FinancialReportWindow extends Application
                 }
                 netIncome=grossIncome-expensesGiven;
             }
-            if(rad7.isSelected())
+            if(rad7.isSelected()) //Specific Year and Month
             {
                 //Specific year and month, use cbMonth and cbYear as filter
                 ArrayList<Booking> List=complexFilter(obWholeBookingList,cabinSite,cbMonth.getValue().toString(),cbYear.getValue().toString());
@@ -417,6 +417,7 @@ public class FinancialReportWindow extends Application
                 netIncome=grossIncome-expensesGiven;
             }
 
+            //sets the text in the textarea to show all parameters based on results from previous
             obResults.setText("Gross Income: $"+grossIncome+"\n"
                              +"Net Income: $"+netIncome+"\n"
                              +"Income from Cabins: $"+cabinIncome+"\n"
@@ -481,12 +482,23 @@ public class FinancialReportWindow extends Application
 
     }
 
+    /**
+     * This method performs a complex filter of an arrayList of Bookings, and returns an arrayList of bookings based on what
+     * filters are passed into it. sCabinSite = Cabin, Site, or Both,
+     * sMonth is the month selected, sYear is the year selected, if none were selected, they are "" by default
+     * @param list
+     * @param sCabinSite
+     * @param sMonth
+     * @param sYear
+     * @return
+     */
     public ArrayList<Booking> complexFilter(ArrayList<Booking> list,String sCabinSite, String sMonth, String sYear)
     {
         ArrayList<Booking> obReturn;
         int nMonth;
         int nYear;
 
+        //sets up nMonth based on the passed in month string, -1 by default
         switch(sMonth)
         {
             case "January":
@@ -532,13 +544,14 @@ public class FinancialReportWindow extends Application
 
         if(sYear.equalsIgnoreCase(""))
         {
-            nYear=0;
+            nYear=0; //if no year given, year is set to 0
         }
         else
         {
             nYear=Integer.parseInt(sYear);
         }
 
+        //series of if/else statements that call different methods in BookingHelper based on what values were passed into this method
         if(nYear==0)
         {
             if(nMonth==-1)
@@ -556,7 +569,6 @@ public class FinancialReportWindow extends Application
                     else //sCabinSite=="Both"
                     {
                         obReturn=list;
-                        //obReturn=bookingHelper.getBookingList();
                     }
                 }
             }
@@ -576,7 +588,6 @@ public class FinancialReportWindow extends Application
                     else //sCabinSite=="Both"
                     {
                         obReturn=obTemp;
-                        //obReturn=bookingHelper.getBookingListByMonth(nMonth);
                     }
                 }
             }
