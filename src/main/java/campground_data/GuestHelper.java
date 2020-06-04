@@ -113,7 +113,7 @@ public class GuestHelper {
         return false;
     }
 
-    public void updateGuestAccounts()
+    public void updateGuests()
     {
         this.guestAccounts = DBFile.readGuests();
     }
