@@ -16,6 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.text.SimpleDateFormat;
@@ -23,32 +24,31 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class EditBookingWindow extends Application{ //help from mel's window
+public class EditBookingWindow extends Application{
 
+    //window stuff
     private BorderPane obBPane;
     private GridPane obGPane;
-    private VBox obButtonBox, obdiscountBox;
+    private VBox obButtonBox;
 
     private ListView taBookingList;
 
     private TextField txtGuestID, txtBookingID, txtAccommodationID, txtStartDate, txtEndDate, txtType, txtMemberCount,
             txtTotalPrice;
     private TextField txtError, txtsuccess;
-    private Button btnNew,btnRemove, btnSave, btnClose;
+    private Button btnSave, btnClose;
     private ToggleGroup group;
     private CheckBox checkpaid;
-    public Boolean refundno;
+    private GridPane obGRpane;
+    private static DatePicker dpStartDate = new DatePicker();
+    private static DatePicker dpEndDate = new DatePicker();
 
-
-
-private Booking obBooking;
+    //booking stufff
+    private Booking obBooking;
     private BookingHelper helper = new BookingHelper();
     ArrayList<Booking> allBookings = helper.getBookingList();
-//Validation helper to assist in ensuring that the guest objects are valid
-private ValidationHelper vh = new ValidationHelper();
-//Database file to write changes to
     private DatabaseFile dbfile = new DatabaseFile();
-    private GridPane obGRpane;
+
 
     //refund stuff
     private Booking searchbooking; //grab from edit window
@@ -65,16 +65,7 @@ private ValidationHelper vh = new ValidationHelper();
     public Date newEnddate; //grab from edit window
     private AccommodationHelper AccHelper = new AccommodationHelper();
 
-
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
-
-        Application.launch(args);
-    }
-
-    @Override
-    public void start(Stage obStage) throws Exception {
-
+    public EditBookingWindow(Stage obStage) {
 
 
         //Initialize panes
@@ -82,7 +73,6 @@ private ValidationHelper vh = new ValidationHelper();
         obGPane = new GridPane();
         obGRpane = new GridPane();
         obButtonBox = new VBox();
-        obdiscountBox = new VBox();
         group = new ToggleGroup();
 
 
@@ -90,7 +80,7 @@ private ValidationHelper vh = new ValidationHelper();
         taBookingList = new ListView();
         taBookingList.setPrefWidth(600);
         taBookingList.setPrefHeight(200);
-        //taBookingList.setDisable(true);
+
 
 
         //Initializes text fields for the form
@@ -127,14 +117,12 @@ private ValidationHelper vh = new ValidationHelper();
         RadioButton rb4 = new RadioButton("15%");
         rb4.setToggleGroup(group);
 
-        //add to box
-        //obdiscountBox.getChildren().addAll(txtdiscountnew,rb1, rb2, rb3, rb4);
 
         taBookingList.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent event) {
-                //System.out.println("clicked on " + taBookingList.getSelectionModel().getSelectedItem());
+
                 obBooking = (Booking) taBookingList.getSelectionModel().getSelectedItem();
                 if(obBooking == null){
 
@@ -147,8 +135,7 @@ private ValidationHelper vh = new ValidationHelper();
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                     String startDate= formatter.format(obBooking.getStartDate());
                     String endDate= formatter.format(obBooking.getEndDate());
-                    //txtEndDate.setText(String.valueOf(obBooking.getEndDate()));
-                    //txtStartDate.setText(String.valueOf(obBooking.getStartDate()));
+
                     txtStartDate.setText(startDate);
                     txtEndDate.setText(endDate);
                     txtType.setText(String.valueOf(obBooking.getType()));
@@ -191,8 +178,10 @@ private ValidationHelper vh = new ValidationHelper();
         obGPane.add(txtAccommodationID, 1, 2);
         obGPane.add(new Label("Start Date"), 0, 3);
         obGPane.add(txtStartDate, 1, 3);
+        //obGPane.add(dpStartDate, 1, 3); //try
         obGPane.add(new Label("End Date"),0, 4);
         obGPane.add(txtEndDate, 1, 4);
+        //obGPane.add(dpEndDate, 1, 3); //try
         obGPane.add(new Label("Type"),0, 5);
         obGPane.add(txtType, 1, 5);
         obGPane.add(new Label("Member Count"), 0, 6);
@@ -210,13 +199,12 @@ private ValidationHelper vh = new ValidationHelper();
 
 
         //Initialize Buttons
-        btnNew = new Button("New");
-        //btnRemove = new Button("Remove");
+
         btnSave = new Button("Save");
         btnClose = new Button("Close");
 
         //Add Buttons to VBox
-        obButtonBox.getChildren().addAll(txtdiscountnew,rb1, rb2, rb3, rb4, checkpaid,btnNew, btnSave, btnClose);
+        obButtonBox.getChildren().addAll(txtdiscountnew,rb1, rb2, rb3, rb4, checkpaid, btnSave, btnClose);
 
 
         //Layout parameters for improved UI design
@@ -250,10 +238,13 @@ private ValidationHelper vh = new ValidationHelper();
                 //need to validate everything then
                 //change everything that was inputted
 
-                    obBooking.setnAccommodationID(Integer.parseInt(txtAccommodationID.getText()));
+                obBooking.setnAccommodationID(Integer.parseInt(txtAccommodationID.getText()));
 
                 SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
                 String sFields = txtEndDate.getText();
+                //or
+                //if(dpEndDate.getValue() != null)
+                //obBooking.changeEnd(new Date(dpEndDate.getValue().getYear(), dpEndDate.getValue().getMonthValue()-1, dpEndDate.getValue().getDayOfYear()));
                 try {
 
                     Date newendDate;
@@ -286,7 +277,11 @@ private ValidationHelper vh = new ValidationHelper();
                     txtError.setText("invalid date");
 
                 }
+
                 String sFields2 = txtStartDate.getText();
+                //or
+                //if(dpStartDate.getValue() != null)
+                //obBooking.changeStart(new Date(dpStartDate.getValue().getYear(), dpStartDate.getValue().getMonthValue()-1, dpStartDate.getValue().getDayOfYear()));
                 try {
                     Date bookingstartDate;
 
@@ -347,15 +342,7 @@ private ValidationHelper vh = new ValidationHelper();
 
             }
         });
-        btnNew.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
 
-                //go to new booking
-
-
-            }
-        });
 
 
         btnClose.setOnAction(new EventHandler<ActionEvent>() {
@@ -375,7 +362,24 @@ private ValidationHelper vh = new ValidationHelper();
             loadAllBookings();
         });
         obStage.show();
+        //this.initOwner(parent);
+        //this.initModality(Modality.WINDOW_MODAL);
     }
+
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+
+        Application.launch(args);
+    }
+
+    @Override
+    public void start(Stage obStage) throws Exception {
+
+
+
+    }
+
 
     private void refundwindow() {
         Stage primaryStage = new Stage();
@@ -588,6 +592,9 @@ private ValidationHelper vh = new ValidationHelper();
 
 
     }
+
+
+
 
 
 }
