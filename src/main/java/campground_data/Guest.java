@@ -137,9 +137,9 @@ public class Guest  implements Serializable {
 
     @Override
     public String toString() {
-        return "Name:" + this.firstName + " " + this.lastName +" \n"+ "Email: " + this.email +" \n" + "Phone Number: " + this.phoneNumber +" \n"+ "Payment Method: " + this.paymentMethod +" \n" + "Credit Card Number: " + maskCreditCardNumber(this.creditCardNum) + "\n"
-                    + "Address: " + this.address.getStreetNum() + " " + this.address.getStreetName() + " " + this.address.getCity_Town() +
-                    " " + this.address.getProvince() + " " + this.address.getCountry() + " " + this.address.getPostalCode();
+        return "Name:" + this.firstName + " " + this.lastName +" \n"+ "Email: " + this.email +" \n" + "Phone Number: " + this.phoneNumber +" \n"+ "Payment Method: " + this.paymentMethod +" \n"
+                + "Address: " + (this.address.getAptNum() > 0 ? String.valueOf(this.address.getAptNum()) + " " : "") + this.address.getStreetNum() + " " + this.address.getStreetName() + " " + this.address.getCity_Town() +
+                " " + this.address.getProvince() + " " + this.address.getCountry() + " " + this.address.getPostalCode();
     }
 
 }
