@@ -1,19 +1,28 @@
 package campground_ui;
 
+import campground_data.Address;
+import campground_data.Guest;
+import campground_data.GuestHelper;
+import campground_data.PaymentType;
 import campground_data.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
+import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import java.util.ArrayList;
 
-public class GuestManagerWindow extends Application
+public class GuestManagerWindow extends Stage
 {
     private BorderPane borderPane = new BorderPane();
     private Button btnSearch = new Button("Search");
@@ -32,18 +41,12 @@ public class GuestManagerWindow extends Application
 
     private ListView guestList = new ListView();
 
-    public static void main(String[] args)
+    public GuestManagerWindow(Stage parent)
     {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage)
-    {
-         Address dummyAddress = new Address(123, 100, "Macca Street", "Saskatoon", "SK", "Canada", "S7N2W6");
-        Address dummyAddress2 = new Address(1235, 1999, "Nacho Business Streets", "Saskatoon", "SK", "Canada", "S7N2W6");
-         Guest dummyGuest = new Guest("Captain", "Crunch", "capncrunch@saskpolytech.ca", "3061234567", PaymentType.Credit, "123412341234",dummyAddress);
-        Guest dummyGuest2 = new Guest("Honey Nut", "Cheerios", "cheerio@saskpolytech.ca", "3061234562", PaymentType.Credit, "123412341234",dummyAddress2);
+//        Address dummyAddress = new Address(123, 100, "Macca Street", "Saskatoon", "SK", "Canada", "S7N2W6");
+//        Address dummyAddress2 = new Address(1235, 1999, "Nacho Business Streets", "Saskatoon", "SK", "Canada", "S7N2W6");
+//        Guest dummyGuest = new Guest("Captain", "Crunch", "capncrunch@saskpolytech.ca", "3061234567", PaymentType.Credit, "123412341234",dummyAddress);
+//        Guest dummyGuest2 = new Guest("Honey Nut", "Cheerios", "cheerio@saskpolytech.ca", "3061234562", PaymentType.Credit, "123412341234",dummyAddress2);
 
 
 //        guestHelper.addGuest(dummyGuest);
@@ -102,7 +105,7 @@ public class GuestManagerWindow extends Application
         loadGuests();
 
         btnBack.setOnAction(e -> {
-            primaryStage.close();
+            this.close();
         });
 
         //call event handlers for the textfield and buttons
@@ -110,16 +113,22 @@ public class GuestManagerWindow extends Application
         btnSearchClicked(btnSearch);
         btnRefreshClicked(btnRefresh);
 
+        this.setScene(new Scene(borderPane, 800, 600));
+        this.setTitle("Guest Manager");
+        this.initOwner(parent);
+        this.initModality(Modality.WINDOW_MODAL);
         btnAddGuest.setOnAction(e -> {
             AddGuestWindow addGuestWindow = new AddGuestWindow();
             addGuestWindow.initModality(Modality.WINDOW_MODAL);
-            addGuestWindow.initOwner(primaryStage);
+            addGuestWindow.initOwner(parent);
             addGuestWindow.show();
         });
-        primaryStage.setScene(new Scene(borderPane, 800, 600));
-        primaryStage.setTitle("Guest Manager");
-        primaryStage.show();
+        parent.setScene(new Scene(borderPane, 800, 600));
+        parent.setTitle("Guest Manager");
+        parent.show();
     }
+
+
 
 
 
@@ -141,6 +150,16 @@ public class GuestManagerWindow extends Application
                 return;
             }
 
+            if (txtSearchField.getText().length() < 10 && txtSearchField.getText().length() > 0)
+            {
+                Alert shortStringError = new Alert(Alert.AlertType.ERROR);
+                shortStringError.setHeaderText("Phone number too short");
+                shortStringError.setContentText("Phone number must at least 10 digits");
+                shortStringError.showAndWait();
+                txtSearchField.setText("");
+                return;
+            }
+
             Guest guest = guestHelper.searchGuest(txtSearchField.getText());
 
             if (guest == null)
@@ -153,7 +172,9 @@ public class GuestManagerWindow extends Application
                 return;
             }
 
+            //clear the listview first
             guestList.getItems().clear();
+            //add guest to the listview
             guestList.getItems().add(guest);
 
             //reset the text field
@@ -180,6 +201,16 @@ public class GuestManagerWindow extends Application
                 nullError.setHeaderText("No phone number entered");
                 nullError.setContentText("Please enter a guest's phone number");
                 nullError.showAndWait();
+                txtSearchField.setText("");
+                return;
+            }
+
+            if (txtSearchField.getText().length() < 10 && txtSearchField.getText().length() > 0)
+            {
+                Alert shortStringError = new Alert(Alert.AlertType.ERROR);
+                shortStringError.setHeaderText("Phone number too short");
+                shortStringError.setContentText("Phone number must at least 10 digits");
+                shortStringError.showAndWait();
                 txtSearchField.setText("");
                 return;
             }
@@ -211,8 +242,6 @@ public class GuestManagerWindow extends Application
     {
         btnRefresh.setOnAction(e -> {
             txtSearchField.setText("");
-            guestHelper.updateGuestAccounts();
-            guests = guestHelper.getGuestAccounts();
             loadGuests();
 
         });
@@ -220,6 +249,8 @@ public class GuestManagerWindow extends Application
 
     public void loadGuests()
     {
+        guestHelper.updateGuests();
+        guests = guestHelper.getGuestAccounts();
         guestList.getItems().clear();
         for (Guest guest : guests)
         {
