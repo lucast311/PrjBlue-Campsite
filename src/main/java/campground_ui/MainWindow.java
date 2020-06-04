@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
@@ -30,7 +31,9 @@ public class MainWindow extends Application
 
         btnGuestManager.setOnAction(e -> {
             GuestManagerWindow guestManagerWindow = new GuestManagerWindow(primaryStage);
-            guestManagerWindow.showAndWait();
+            guestManagerWindow.initModality(Modality.WINDOW_MODAL);
+            guestManagerWindow.initOwner(primaryStage);
+            guestManagerWindow.show();
         });
 
         primaryStage.setScene(new Scene(borderPane, 400, 400));

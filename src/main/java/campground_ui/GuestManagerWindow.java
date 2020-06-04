@@ -108,6 +108,13 @@ public class GuestManagerWindow extends Stage
             this.close();
         });
 
+        btnAddGuest.setOnAction(e -> {
+            AddGuestWindow addGuestWindow = new AddGuestWindow();
+            addGuestWindow.initModality(Modality.WINDOW_MODAL);
+            addGuestWindow.initOwner(parent);
+            addGuestWindow.show();
+        });
+
         //call event handlers for the textfield and buttons
         txtSearchFieldOnAction(txtSearchField);
         btnSearchClicked(btnSearch);
@@ -117,15 +124,10 @@ public class GuestManagerWindow extends Stage
         this.setTitle("Guest Manager");
         this.initOwner(parent);
         this.initModality(Modality.WINDOW_MODAL);
-        btnAddGuest.setOnAction(e -> {
-            AddGuestWindow addGuestWindow = new AddGuestWindow();
-            addGuestWindow.initModality(Modality.WINDOW_MODAL);
-            addGuestWindow.initOwner(parent);
-            addGuestWindow.show();
-        });
-        parent.setScene(new Scene(borderPane, 800, 600));
-        parent.setTitle("Guest Manager");
-        parent.show();
+
+//        parent.setScene(new Scene(borderPane, 800, 600));
+//        parent.setTitle("Guest Manager");
+//        parent.show();
     }
 
 
