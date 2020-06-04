@@ -116,7 +116,6 @@ public class OwnerTest {
     @Test
     public void testPasswordExists() {
         String userInput = "Mounta1nM@n";
-        System.out.println("hithere");
         Owner testUser = ownerHelper.validateUser("harry.louis", userInput);
         assertEquals(testUser.getPassword(), owner1.getPassword());
         assertEquals(testUser.getFirstName(), owner1.getFirstName());
@@ -269,7 +268,10 @@ public class OwnerTest {
         assertEquals(0, validator.validate(owner).size());
     }
 
-
+    /**
+     * 1t.11
+     * VALID: new passwords must match in order to change password
+     */
     @Test
     public void testPasswordChange()
     {
@@ -279,6 +281,27 @@ public class OwnerTest {
 
     }
 
+    /**
+     * 1t.12
+     * VALID: email in valid form of example@test.ca
+     */
+    @Test
+    public void testEmailPatternValid()
+    {
+        owner.setEmail("tomlouis@cestlake.ca");
+        assertEquals(0, validator.validate(owner).size());
+    }
+
+    /**
+     *
+     * INVALID: email must be in format example@test.ca
+     */
+    @Test
+    public void testEmailPatternInvalid()
+    {
+        owner.setEmail("tomlouis#cestlake.ca");
+        assertInvalid(owner, "email", "Email addresses must be in the format example@test.ca", "tomlouis#cestlake.ca");
+    }
 
 
 
