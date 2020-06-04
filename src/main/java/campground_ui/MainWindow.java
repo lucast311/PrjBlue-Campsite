@@ -25,6 +25,9 @@ public class MainWindow extends Application {
             lw.showAndWait();
         }
 
+        ManageOwnerWindow mw = new ManageOwnerWindow(primaryStage, currUser);
+        mw.showAndWait();
+
         BorderPane obPane = new BorderPane();
         primaryStage.setScene(new Scene(obPane, 600, 600));
         primaryStage.show();

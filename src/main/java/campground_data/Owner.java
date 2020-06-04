@@ -134,7 +134,6 @@ public class Owner implements Serializable {
         jsonObject.put("firstName",this.firstName);
         jsonObject.put("lastName",this.lastName);
         jsonObject.put("userId",this.userId);
-        jsonObject.put("password",this.password);
         jsonObject.put("phoneNumber",this.phoneNumber);
         jsonObject.put("email",this.email);
         jsonObject.put("permissions",this.permissions);

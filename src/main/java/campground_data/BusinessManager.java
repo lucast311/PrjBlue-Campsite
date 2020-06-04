@@ -1099,7 +1099,7 @@ public class BusinessManager {
             if(sPass.equals(sConfirm))
             {
 
-                if(owner.changePassword(sPass)) {
+                if(owner.setPassword(sPass)) {
                     Thread th1 = new Thread(() -> {
                         dbfile.saveRecords(ownerList);
                     });
