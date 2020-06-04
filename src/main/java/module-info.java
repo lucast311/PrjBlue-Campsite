@@ -1,4 +1,4 @@
-open module campground_ui{
+open module campground_ui {
     requires javafx.graphics;
     requires javafx.controls;
     requires java.validation;

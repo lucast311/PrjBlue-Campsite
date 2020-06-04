@@ -1,44 +1,39 @@
 package campground_ui;
 
+import campground_data.Owner;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+public class MainWindow extends Application {
 
-public class MainWindow extends Application
-{
 
-    private Button btnGuestManager = new Button("Guest Manager");
-    private Pane pane = new Pane();
-    private BorderPane borderPane = new BorderPane();
+    private static Owner currUser = new Owner();
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage)
-    {
+    public void start(Stage primaryStage) {
 
+        while (currUser.getPermissions() < 1)
+        {
+            LoginWindow lw = new LoginWindow(primaryStage);
+            lw.showAndWait();
+        }
 
-        pane.getChildren().add(btnGuestManager);
-        borderPane.setCenter(pane);
-
-        btnGuestManager.setOnAction(e -> {
-            GuestManagerWindow guestManagerWindow = new GuestManagerWindow(primaryStage);
-            guestManagerWindow.initModality(Modality.WINDOW_MODAL);
-            guestManagerWindow.initOwner(primaryStage);
-            guestManagerWindow.show();
-        });
-
-        primaryStage.setScene(new Scene(borderPane, 400, 400));
-        primaryStage.setTitle("Cest Lake");
+        BorderPane obPane = new BorderPane();
+        primaryStage.setScene(new Scene(obPane, 600, 600));
         primaryStage.show();
 
+
+    }
+
+    public static void setUser(Owner user)
+    {
+        currUser = user;
     }
 }
