@@ -246,7 +246,7 @@ public class GuestTest {
         for (String invalidCard : invalid)
         {
             guest.setCreditCardNum(invalidCard);
-            assertInvalid(guest, "creditCardNum", "Credit card number must only contain digits and be 16 digits long", invalidCard);
+            assertInvalid(guest, "creditCardNum", "Credit card number must be in the format 1234 1234 1234 1234", invalidCard);
         }
     }
 
@@ -255,7 +255,7 @@ public class GuestTest {
      */
     @Test
     public void testCreditCardPatternValid() {
-        String[] valid = {"1234567891123456", "9876543212345678", "4567893215698856", "1547896532154789"};
+        String[] valid = {"1234 5678 1123 2456", "9876 5432 1234 5678", "4567 8932 1569 8856", "1547 8965 3215 4789"};
 
         for (String validCard : valid)
         {
