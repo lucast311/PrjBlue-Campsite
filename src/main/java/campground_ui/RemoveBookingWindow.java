@@ -162,7 +162,7 @@ public class RemoveBookingWindow extends Stage {
             loadAllBookings();
         });
         this.initOwner(parent);
-        this.initModality(Modality.WINDOW_MODAL);
+        this.initModality(Modality.APPLICATION_MODAL);
     }
 
 

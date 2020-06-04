@@ -81,7 +81,7 @@ public class BookingManagerWindow extends Stage {
         this.setScene(new Scene(obVPane, 250, 250));
         this.setTitle("Cest Lake - Booking Manager");
         this.initOwner(parent);
-        this.initModality(Modality.WINDOW_MODAL);
+        this.initModality(Modality.APPLICATION_MODAL);
     }
 
 
