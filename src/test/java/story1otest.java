@@ -43,8 +43,8 @@ public class story1otest { //need date serializable??????
         ArrayList<Plot> plots = new ArrayList<>();
         //plots.add(Site1);
 
-        BookingHelper bookingHelper = new BookingHelper();
-        PlotHelper plotHelper = new PlotHelper();
+        //BookingHelper bookingHelper = new BookingHelper();
+        //PlotHelper plotHelper = new PlotHelper();
 
         //assertEquals(bookingHelper.getPlotID(), booking1.getPlotID());
         //assertEquals(plotHelper.);
@@ -58,9 +58,9 @@ public class story1otest { //need date serializable??????
     @Test
     public void testcancelwithoutrefund()
     {
-        ArrayList<Booking> bookings = new ArrayList<>();
-        bookings.add(booking1);
-        bookings.add(booking2);
+//        ArrayList<Booking> bookings = new ArrayList<>();
+//        bookings.add(booking1);
+//        bookings.add(booking2);
 
         BusinessManager businessManager = new BusinessManager();
 
@@ -75,9 +75,9 @@ public class story1otest { //need date serializable??????
     @Test
     public void testcancelwithrefund() //workon
     {
-        ArrayList<Booking> bookings = new ArrayList<>();
-        bookings.add(booking1);
-        bookings.add(booking2);
+//        ArrayList<Booking> bookings = new ArrayList<>();
+//        bookings.add(booking1);
+//        bookings.add(booking2);
 
         BusinessManager businessManager = new BusinessManager();
 
@@ -90,7 +90,7 @@ public class story1otest { //need date serializable??????
     @Test
     public void testrefundyes() //work on
     {
-        ArrayList<Booking> bookings = new ArrayList<>();
+        ArrayList<Booking> bookings = bookingHelper.getBookingList();
         Site site1 = new Site(100, 4,32.00, Site.SiteType.Individual, true, false);
         plothelper.addPlot(site1);
 
@@ -142,7 +142,7 @@ public class story1otest { //need date serializable??????
     @Test
     public void testrefundno()
     {
-        ArrayList<Booking> bookings = new ArrayList<>();
+        ArrayList<Booking> bookings = bookingHelper.getBookingList();
         bookings.add(booking1);
         bookings.add(booking2);
         BusinessManager businessManager = new BusinessManager();

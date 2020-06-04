@@ -11,21 +11,17 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class FinancialReportWindow extends Application
+public class FinancialReportWindow extends Stage
 {
     BookingHelper bookingHelper=new BookingHelper();
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage obStage) throws Exception
+    public FinancialReportWindow(Stage obStage)
     {
         BorderPane obBP=new BorderPane();
         GridPane obGrid=new GridPane();
@@ -111,12 +107,13 @@ public class FinancialReportWindow extends Application
         obBP.setTop(obGrid);
         obBP.setCenter(obHBox);
 
-        obStage.setScene(new Scene(obBP,1000,500));
-        obStage.setTitle("Financial Report");
-        obStage.show();
+        this.setScene(new Scene(obBP,1000,500));
+        this.setTitle("Financial Report");
+        this.initOwner(obStage);
+        this.initModality(Modality.WINDOW_MODAL);
 
         btnClose.setOnAction(e->{
-            obStage.close(); //closes the window
+            this.close(); //closes the window
         });
 
         btnGenerate.setOnAction(e->{ //handles the generation of the report by filtering an arrayList based on what radiobutton is selected

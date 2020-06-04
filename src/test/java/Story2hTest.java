@@ -54,7 +54,7 @@ public class Story2hTest
        //Running this test should launch the ViewBookingWindow class.
        //No way to test for anything other than if it launches or not
        //createBookings();
-       Application.launch(ViewBookingWindow.class);
+       //Application.launch(ViewBookingWindow.class);
    }
 
     /**
@@ -64,6 +64,7 @@ public class Story2hTest
    @Test
    public void testViewAll()
    {
+       //This test BREAKS if all tests are run at once, run this test only after deleting bookings.obj
        ArrayList<Booking> allBookings=obList;
        for(Booking obVal: obList)
        {

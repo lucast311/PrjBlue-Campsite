@@ -10,21 +10,17 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ViewBookingWindow extends Application
+public class ViewBookingWindow extends Stage
 {
     private BookingHelper bookingHelper=new BookingHelper();
 
-    public static void main(String[] args) {
-        Application.launch(args);
-    }
-
-    @Override
-    public void start(Stage obStage) throws Exception
+    public ViewBookingWindow(Stage obStage)
     {
         BorderPane obBP=new BorderPane();
         GridPane obGrid=new GridPane();
@@ -92,13 +88,14 @@ public class ViewBookingWindow extends Application
 
         obBP.setCenter(obGrid);
 
-        obStage.setScene(new Scene(obBP,1400,675)); //scene,width,height
-        obStage.setTitle("View Bookings");
-        obStage.show();
+        this.setScene(new Scene(obBP,1400,675)); //scene,width,height
+        this.setTitle("View Bookings");
+        this.initOwner(obStage);
+        this.initModality(Modality.WINDOW_MODAL);
 
         //Button click-handler code
         obCloseBtn.setOnAction(e->{
-            obStage.close(); //closes window
+            this.close(); //closes window
         });
 
         obViewAllBtn.setOnAction(e->{ //shows all bookings in the textarea

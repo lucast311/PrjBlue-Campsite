@@ -110,7 +110,8 @@ public class BookingManagerWindow extends Stage {
         });
 
         btnCurrentBookings.setOnAction(e -> {
-
+            ViewBookingWindow viewBookingWindow=new ViewBookingWindow(parent);
+            viewBookingWindow.showAndWait();
         });
 
         btnClose.setOnAction(e -> {

@@ -125,7 +125,8 @@ public class MainWindow extends Application {
         });
 
         btnFinancialReports.setOnAction(e -> {
-
+            FinancialReportWindow financialReportWindow=new FinancialReportWindow(primaryStage);
+            financialReportWindow.showAndWait();
         });
 
         btnExit.setOnAction(e -> {
