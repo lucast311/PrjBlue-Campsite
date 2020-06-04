@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -28,10 +27,12 @@ public class NewBookingWindow extends Application {
     private static Spinner spMemberCount = new Spinner();
     private static ComboBox cbAccommodationID = new ComboBox();
     private static ComboBox cbGuestID = new ComboBox();
+    private static TextField tfPhoneNumber = new TextField();
     private static Button btnAdd = new Button();
     private static Button btnClear = new Button();
     private static Button btnCancel = new Button();
 
+    //Booleans to check if fields are valid for booking
     private static boolean bStartDateGood = false;
     private static boolean bEndDateGood = false;
     private static boolean bAccommodationTypeGood = false;
@@ -39,10 +40,17 @@ public class NewBookingWindow extends Application {
     private static boolean bAccommodationIDGood = false;
     private static boolean bGuestIDGood = false;
 
+    //Helpers instantiated
     private static GuestHelper guestHelper = new GuestHelper();
     private static BookingHelper bookingHelper = new BookingHelper();
+
+    //The booking object to be modified
     private static Booking obBooking = new Booking();
 
+    /**
+     * This method will open up a javafx window with all the criteria fields for a booking and options to add the booking, clear the fields, or cancel the booking
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
         obStage = primaryStage;
@@ -65,7 +73,6 @@ public class NewBookingWindow extends Application {
         dpEndDate.setEditable(false);
         obCriteria.getChildren().add(dpEndDate);
 
-
         obCriteria.getChildren().add(new Label("Accommodation Type"));
         cbAccommodationType.getItems().add("Cabin");
         cbAccommodationType.getItems().add("Site");
@@ -84,12 +91,15 @@ public class NewBookingWindow extends Application {
         obCriteria.getChildren().add(cbAccommodationID);
 
         obCriteria.getChildren().add(new Label("Guest ID"));
+        tfPhoneNumber.setPromptText("Enter guest phone number");
+        tfPhoneNumber.setPrefWidth(160);
+        obCriteria.getChildren().add(tfPhoneNumber);
         cbGuestID.getItems().addAll(guestHelper.getGuestAccounts());
         cbGuestID.setPrefWidth(160);
         cbGuestID.setVisibleRowCount(4);
         obCriteria.getChildren().add(cbGuestID);
 
-        //Listeners
+        //Listeners for each field
         dpStartDate.setOnAction(e-> {
             updateStartDate();
             refreshAccommodationIDs();
@@ -109,10 +119,14 @@ public class NewBookingWindow extends Application {
         cbAccommodationID.setOnAction(e-> {
             updateAccommodationID();
         });
+        tfPhoneNumber.setOnKeyReleased(e-> {
+            updateGuestIdList();
+        });
         cbGuestID.setOnAction(e-> {
             updateGuestId();
         });
 
+        //Listeners for the buttons
         btnAdd.setText("Add");
         btnAdd.setOnAction(e-> {
             addButton();
@@ -126,6 +140,7 @@ public class NewBookingWindow extends Application {
             cancelButton();
         });
 
+        //Layout for buttons at bottom of form
         HBox obButtons = new HBox();
         obButtons.setSpacing(13);
         obButtons.getChildren().add(btnAdd);
@@ -133,12 +148,16 @@ public class NewBookingWindow extends Application {
         obButtons.getChildren().add(btnCancel);
         obCriteria.getChildren().add(obButtons);
 
-
+        //displays the GUI
         primaryStage.setScene(new Scene(obPane, 300, 500));
         primaryStage.setTitle("New Booking");
         primaryStage.show();
     }
 
+    /**
+     * When the clear button is clicked this method is called, it clears and resets the styles of the criteria boxes
+     * as well as setting all the boolean validation attributes to false
+     */
     private static void clearButton()
     {
         bStartDateGood = false;
@@ -165,15 +184,25 @@ public class NewBookingWindow extends Application {
         cbAccommodationID.getItems().clear();
         cbAccommodationID.setValue(null);
 
+        tfPhoneNumber.setText("");
 
         cbGuestID.setValue(null);
     }
 
+    /**
+     * When the cancel button is clicked this method is called and the form GUI is closed
+     */
     private static void cancelButton()
     {
         obStage.close();
     }
 
+    /**
+     * When the add button is clicked, this method is called,
+     * it checks all the boolean validation for the fields and proceeds to prompt for
+     * confirmation and if confirmed will try to add the booking to the system
+     * returning a success or fail message
+     */
     private static void addButton()
     {
         if(bStartDateGood && bEndDateGood && bAccommodationTypeGood && bMemberCountGood && bAccommodationIDGood && bGuestIDGood)
@@ -211,6 +240,11 @@ public class NewBookingWindow extends Application {
 
     }
 
+    /**
+     * This method is called when the startdate field is modified,
+     * this will check if the booking date can be set to the selected date,
+     * setting the field to green if valid or red if invalid
+     */
     private static void updateStartDate()
     {
         if(dpStartDate.getValue() != null)
@@ -232,6 +266,11 @@ public class NewBookingWindow extends Application {
         }
     }
 
+    /**
+     * This method is called when the enddate field is modified,
+     * this will check if the booking date can be set to the selected date,
+     * setting the field to green if valid or red if invalid
+     */
     private static void updateEndDate()
     {
         if(dpEndDate.getValue() != null)
@@ -252,6 +291,12 @@ public class NewBookingWindow extends Application {
             }
         }
     }
+
+    /**
+     * This method is called when the accommodation type field is modified,
+     * this will set the bookings type to the selected type
+     * if the type is a cabin a max of 4 members is set to the member counter
+     */
     private static void updateAccommodationType()
     {
         if(cbAccommodationType.getValue() != null)
@@ -274,6 +319,11 @@ public class NewBookingWindow extends Application {
             }
         }
     }
+
+    /**
+     * This method is called when the member count field is updated,
+     * this will set the bookings member count to the selected value
+     */
     private static void updateMemberCount()
     {
         try{
@@ -294,6 +344,11 @@ public class NewBookingWindow extends Application {
             bMemberCountGood = false;
         }
     }
+
+    /**
+     * This method is called when an accommodation ID field is modified,
+     * this will set the bookings accommodation id to the selected accommodation
+     */
     private static void updateAccommodationID()
     {
         if(cbAccommodationID.getValue() != null)
@@ -320,6 +375,27 @@ public class NewBookingWindow extends Application {
         }
     }
 
+    /**
+     * This method is called when a phone number is entered as criteria for a guest account,
+     * this will filter the available guest accounts with the given phone number
+     */
+    private static void updateGuestIdList()
+    {
+        if(tfPhoneNumber.getText() != null && !tfPhoneNumber.getText().equals(""))
+        {
+            List<Guest> guestAccounts = guestHelper.getGuestAccounts().stream()
+                    .filter(x-> x.getPhoneNumber().contains(tfPhoneNumber.getText()))
+                    .collect(Collectors.toList());
+            cbGuestID.getItems().clear();
+            cbGuestID.getItems().addAll(guestAccounts);
+            cbAccommodationID.setVisibleRowCount(4);
+        }
+    }
+
+    /**
+     * This method is called when the guest id field is modified,
+     * this will set the bookings guest id to the selected guest
+     */
     private static void updateGuestId()
     {
         if(cbGuestID.getValue() != null) {
@@ -338,6 +414,11 @@ public class NewBookingWindow extends Application {
         }
     }
 
+    /**
+     * This method is called anytime a field is modified,
+     * this method will check if the criteria for an accommodation is good,
+     * then will filter the list based on the given criteria
+     */
     private static void refreshAccommodationIDs()
     {
         if(bStartDateGood && bEndDateGood && bAccommodationTypeGood && bMemberCountGood)
@@ -345,14 +426,17 @@ public class NewBookingWindow extends Application {
             PlotHelper plotHelper = new PlotHelper();
             List availableAccommodations = plotHelper.getPlotList().stream()
                     .filter(x->{
+
+                        //Filter for if accommodation is a site
                         if(obBooking.getType() == BookingType.Site && x instanceof Site) {
                             Site site = (Site) x;
 
+                            //filter for if a group site is needed for greater than 4 members
                             if (obBooking.getMemberCount() > 4 && site.getSiteType() == Site.SiteType.Group)
                             {
-                                if(!site.isBooked() && !site.isUnderReno())
+                                if(!site.isUnderReno()) //checks if site is under reno/maintenance
                                 {
-                                    for(Booking booking : bookingHelper.getBookingList())
+                                    for(Booking booking : bookingHelper.getBookingList())//for loop to check each booking for conflicting dates
                                     {
                                         if(booking.getPlotID() == x.getPlotID())
                                         {
@@ -372,11 +456,12 @@ public class NewBookingWindow extends Application {
                                     }
                                 }
                             }
+                            //filter for if an individual site is needed for less than or equal to 4 members
                             else if(obBooking.getMemberCount() < 4 && site.getSiteType() == Site.SiteType.Individual)
                             {
-                                if(!site.isBooked() && !site.isUnderReno())
+                                if(!site.isUnderReno())//checks if site is under reno/maintenance
                                 {
-                                    for(Booking booking : bookingHelper.getBookingList())
+                                    for(Booking booking : bookingHelper.getBookingList()) //for loop to check each booking for conflicting dates
                                     {
                                         if(booking.getPlotID() == x.getPlotID())
                                         {
@@ -397,50 +482,25 @@ public class NewBookingWindow extends Application {
                                 }
                             }
                         }
+                        //Filter for accommodation if a cabin
                         else if(obBooking.getType() == BookingType.Cabin && x instanceof Cabin)
                         {
-                            Cabin cabin = (Cabin) x;
-
-                            if (obBooking.getMemberCount() > 4 && cabin.getCabinType() == Cabin.CabinType.Basic)
+                            for(Booking booking : bookingHelper.getBookingList())
                             {
-                                for(Booking booking : bookingHelper.getBookingList())
+                                if(booking.getPlotID() == x.getPlotID())
                                 {
-                                    if(booking.getPlotID() == x.getPlotID())
+                                    if(booking.getStartDate().after(obBooking.getEndDate()))
                                     {
-                                        if(booking.getStartDate().after(obBooking.getEndDate()))
-                                        {
-                                            return true;
-                                        }
-                                        else if(booking.getEndDate().before(obBooking.getStartDate()))
-                                        {
-                                            return true;
-                                        }
+                                        return true;
                                     }
-                                    else
+                                    else if(booking.getEndDate().before(obBooking.getStartDate()))
                                     {
                                         return true;
                                     }
                                 }
-                            }
-                            else if(obBooking.getMemberCount() < 4 && cabin.getCabinType() == Cabin.CabinType.Deluxe)
-                            {
-                                for(Booking booking : bookingHelper.getBookingList())
+                                else
                                 {
-                                    if(booking.getPlotID() == x.getPlotID())
-                                    {
-                                        if(booking.getStartDate().after(obBooking.getEndDate()))
-                                        {
-                                            return true;
-                                        }
-                                        else if(booking.getEndDate().before(obBooking.getStartDate()))
-                                        {
-                                            return true;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        return true;
-                                    }
+                                    return true;
                                 }
                             }
                         }

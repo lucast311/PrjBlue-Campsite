@@ -116,7 +116,7 @@ public class Guest  implements Serializable {
     @Override
     public String toString() {
         return "Name:" + this.firstName + " " + this.lastName + "\nEmail: " + this.email + "\nPhone Number: " + this.phoneNumber + "\nPayment Method: " + this.paymentMethod
-                    + "\nCredit Card Num: " + this.creditCardNum + "\nAddress: " + this.address.getStreetNum() + " " + this.address.getStreetName() + " " + this.address.getCity_Town() +
+                    + "\nCredit Card Num: **** **** **** " + this.creditCardNum.substring(15) + "\nAddress: " + this.address.getStreetNum() + " " + this.address.getStreetName() + " " + this.address.getCity_Town() +
                     " " + this.address.getProvince() + " " + this.address.getCountry() + " " + this.address.getPostalCode();
     }
 
