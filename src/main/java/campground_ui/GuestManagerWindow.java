@@ -39,10 +39,10 @@ public class GuestManagerWindow extends Stage
 
     public GuestManagerWindow(Stage parent)
     {
-        Address dummyAddress = new Address(123, 100, "Macca Street", "Saskatoon", "SK", "Canada", "S7N2W6");
-        Address dummyAddress2 = new Address(1235, 1999, "Nacho Business Streets", "Saskatoon", "SK", "Canada", "S7N2W6");
-        Guest dummyGuest = new Guest("Captain", "Crunch", "capncrunch@saskpolytech.ca", "3061234567", PaymentType.Credit, "123412341234",dummyAddress);
-        Guest dummyGuest2 = new Guest("Honey Nut", "Cheerios", "cheerio@saskpolytech.ca", "3061234562", PaymentType.Credit, "123412341234",dummyAddress2);
+//        Address dummyAddress = new Address(123, 100, "Macca Street", "Saskatoon", "SK", "Canada", "S7N2W6");
+//        Address dummyAddress2 = new Address(1235, 1999, "Nacho Business Streets", "Saskatoon", "SK", "Canada", "S7N2W6");
+//        Guest dummyGuest = new Guest("Captain", "Crunch", "capncrunch@saskpolytech.ca", "3061234567", PaymentType.Credit, "123412341234",dummyAddress);
+//        Guest dummyGuest2 = new Guest("Honey Nut", "Cheerios", "cheerio@saskpolytech.ca", "3061234562", PaymentType.Credit, "123412341234",dummyAddress2);
 
 
 //        guestHelper.addGuest(dummyGuest);
@@ -236,7 +236,8 @@ public class GuestManagerWindow extends Stage
 
     public void loadGuests()
     {
-
+        guestHelper.updateGuests();
+        guests = guestHelper.getGuestAccounts();
         guestList.getItems().clear();
         for (Guest guest : guests)
         {
