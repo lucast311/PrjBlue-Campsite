@@ -110,6 +110,33 @@ public class Guest  implements Serializable {
         this.address = address;
     }
 
+    /**
+     * This method will used in the toString method to mask the credit card number of the guest
+     * @param creditCardNum
+     * @return
+     */
+    public String maskCreditCardNumber(String creditCardNum)
+    {
+
+        String sRet = "";
+        for (int i=0; i < creditCardNum.length(); i++)
+        {
+            if (i == 4 || i == 8)
+            {
+                sRet += " ";
+            }
+            if (i >= 0 && i < creditCardNum.length() - 4)
+            {
+                sRet += "*";
+            }
+            else
+            {
+                sRet += creditCardNum.charAt(i);
+            }
+        }
+        return sRet;
+    }
+
 
 
     @Override
