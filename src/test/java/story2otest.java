@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
-public class story2otest { //need date serializable??????
+public class story2otest {
     //old will work on it
     //tests bad and should use console
 
@@ -24,11 +24,12 @@ public class story2otest { //need date serializable??????
     static Booking obBooking=new Booking(2,1,startDate, endDate, BookingType.Cabin,4);
     static Date endDate2 = new Date(2020, 7,23 );
     static Date startDate2 = new Date(2020, 7,21 );
-    static Accommodation acc1 = new Accommodation(2, 4, 400, false, true);
+    static Accommodation acc1 = new Accommodation(2, 4, 30, false, true);
 
 
+    //testing change date
     @Test
-    public void testChangeBookingDate() //helps story 2o
+    public void testChangeBookingDate()
     {
         Date startDate= new Date(2020,7,20);
         Date endDate= new Date(2020,7,25);
@@ -45,25 +46,7 @@ public class story2otest { //need date serializable??????
 
     }
 
-
-    @Test
-    public void testrefundresultget(){
-
-        BusinessManager businessManager = new BusinessManager();
-        ArrayList<Accommodation> accommodations = new ArrayList<>();
-        accommodations.add(acc1);
-        Accommodation priceacc;
-         priceacc = plothelper.searchAccommodation(obBooking.getAccommodationID());
-        double price = priceacc.getPrice();
-        //int result = businessManager.refundConfirmInt2(obBooking, endDate2, price);
-        int result = businessManager.refundConfirmInt3(obBooking,endDate2, price, TimeUnit.DAYS);
-
-        //0.39 of accommodation price of acc1 = 156
-        assertTrue(((int) 156) == result);
-        assertFalse(((int) 157) == result);
-
-    }
-
+    //testing getting plots for getting price
     @Test
     public void testsearchplotid(){
         ArrayList<Booking> bookings = new ArrayList<>();
@@ -76,43 +59,28 @@ public class story2otest { //need date serializable??????
         AccommodationHelper accommodationHelper = new AccommodationHelper();
 
         assertEquals(acc1.getAccommodationID(), booking1.getAccommodationID());
-        //assertEquals(plotHelper.);
-
-
-
 
     }
 
-
+    //testing getting refunded
     @Test
-    public void testrefundyespaid()
-    {
-        ArrayList<Booking> bookings = bookingHelper.getBookingList();
-//        bookings.add(booking1);
-//        bookings.add(booking2);
+    public void testrefundresultget(){
+
         BusinessManager businessManager = new BusinessManager();
-    }
+        ArrayList<Accommodation> accommodations = new ArrayList<>();
+        accommodations.add(acc1);
+        Accommodation priceacc;
+         priceacc = plothelper.searchAccommodation(obBooking.getAccommodationID());
+        double price = priceacc.getPrice();
+        int result = businessManager.refundConfirmInt(obBooking,endDate2, price, TimeUnit.DAYS);
 
-    @Test
-    public void testrefundnopaid()
-    {
-        ArrayList<Booking> bookings = new ArrayList<>();
-        //bookings.add(booking1);
-        //bookings.add(booking2);
-        BusinessManager businessManager = new BusinessManager();
-
-        //double result = booking1.getTotal();
-
-        //assertEquals(businessManager.refundconfirm(), result);
-    }
-
-    @Test
-    public void testchangedateValidation(){ //help
-        //test when dates conflict with others with the same accommedation
-
-
+        //0.40 of accommodation price of acc1 = 60
+        assertTrue(((int) 60) == result);
+        assertFalse(((int) 61) == result);
 
     }
+
+
 
 
 
