@@ -113,11 +113,34 @@ public class Guest  implements Serializable {
         this.address = address;
     }
 
+    public String maskCreditCardNumber(String creditCardNum)
+    {
+
+        String sRet = "";
+
+        for (int i=0; i < creditCardNum.length(); i++)
+        {
+            if (i == 4 || i == 8)
+            {
+                sRet += " ";
+            }
+            if (i >= 0 && i < creditCardNum.length() - 4)
+            {
+                sRet += "*";
+            }
+            else
+            {
+                sRet += creditCardNum.charAt(i);
+            }
+        }
+        return sRet;
+    }
+
 
 
     @Override
     public String toString() {
-        return "Name:" + this.firstName + " " + this.lastName +" \n"+ "Email: " + this.email +" \n" + "Phone Number: " + this.phoneNumber +" \n"+ "Payment Method: " + this.paymentMethod +" \n"
+        return "Name:" + this.firstName + " " + this.lastName +" \n"+ "Email: " + this.email +" \n" + "Phone Number: " + this.phoneNumber +" \n"+ "Payment Method: " + this.paymentMethod +" \n" + "Credit Card Number: " + maskCreditCardNumber(this.creditCardNum) + "\n"
                     + "Address: " + this.address.getStreetNum() + " " + this.address.getStreetName() + " " + this.address.getCity_Town() +
                     " " + this.address.getProvince() + " " + this.address.getCountry() + " " + this.address.getPostalCode();
     }
