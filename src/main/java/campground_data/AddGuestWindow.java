@@ -53,7 +53,7 @@ public class AddGuestWindow extends Stage {
     private Label cityTownLabel = new Label("City/Town:\t");
     private Label provinceLabel = new Label("Province:\t");
     private Label countryLabel = new Label("Country:\t");
-    private Label postalCodeLabel = new Label("Postal Code:\t");
+    private Label postalCodeLabel = new Label("Postal Code (A1A1A1):\t");
 
     //Main title for window
     private Text txtWindowInformation = new Text("Add Guest Information");
