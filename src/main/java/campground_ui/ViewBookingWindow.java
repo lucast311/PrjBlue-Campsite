@@ -20,6 +20,11 @@ public class ViewBookingWindow extends Stage
 {
     private BookingHelper bookingHelper=new BookingHelper();
 
+    /**
+     * This class is in charge of showing the window that allows the user to view the list of bookings.
+     * This also includes a bunch of filters a user can select to filter the results they are shown
+     * @param obStage
+     */
     public ViewBookingWindow(Stage obStage)
     {
         BorderPane obBP=new BorderPane();

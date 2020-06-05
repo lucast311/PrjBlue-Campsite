@@ -21,6 +21,13 @@ public class FinancialReportWindow extends Stage
 {
     BookingHelper bookingHelper=new BookingHelper();
 
+    /**
+     * This class is in charge of showing the user a window that they can view financial reports with. There are several radio buttons a user can
+     * select, with a couple of them allowing the user to select a specific month and/or year. The generated report shows the user
+     * gross income, net income based on the users entered expenses, cabin income, site income, total $ in discounts given, and total
+     * number of bookings by cabin, site, and grand total
+     * @param obStage
+     */
     public FinancialReportWindow(Stage obStage)
     {
         BorderPane obBP=new BorderPane();
