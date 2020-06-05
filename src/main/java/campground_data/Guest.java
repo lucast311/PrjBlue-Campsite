@@ -117,11 +117,22 @@ public class Guest  implements Serializable {
      */
     public String maskCreditCardNumber(String creditCardNum)
     {
-
         String sRet = "";
+
+        if (creditCardNum.equalsIgnoreCase("0000 0000 0000 0000"))
+        {
+           sRet += "N/A";
+           return sRet;
+        }
+
         for (int i=0; i < creditCardNum.length(); i++)
         {
-            if (i >= 0 && i < creditCardNum.length() - 4)
+            if (creditCardNum.charAt(i) == ' ')
+            {
+                sRet += "";
+            }
+
+            if (i >= 0 && i < creditCardNum.length() - 4 && creditCardNum.charAt(i) != ' ')
             {
                 sRet += "*";
             }

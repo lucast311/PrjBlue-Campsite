@@ -123,7 +123,7 @@ public class GuestManagerWindow extends Stage
         this.setScene(new Scene(borderPane, 800, 600));
         this.setTitle("Guest Manager");
         this.initOwner(parent);
-        this.initModality(Modality.WINDOW_MODAL);
+        this.initModality(Modality.APPLICATION_MODAL);
         //Event handler to allow you to open information on guest to edit
         btnEditGuest.setOnAction(e -> {
             int nIndex = guestList.getSelectionModel().getSelectedIndex();
