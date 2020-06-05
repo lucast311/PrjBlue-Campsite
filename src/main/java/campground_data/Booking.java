@@ -232,8 +232,8 @@ public class Booking implements Serializable
 	@Override
 	public String toString()
 	{
-		return String.format("BookingID: %d, GuestID: %d, Plot ID: %d, Paid?: %b, Total: %f, Members: %d Start Date: %s %d End Date: %s %d\n",
-				this.nBookingID, this.nGuestID, this.nPlotID, this.bPaid, this.dTotal, this.nMemberCount,
+		return String.format("BookingID: %d, GuestID: %d, Accommodation ID: %d, Type: %s, Paid?: %b, Total: %f, Members: %d Start Date: %s %d End Date: %s %d\n",
+				this.nBookingID, this.nGuestID, this.nPlotID, this.type.toString(), this.bPaid, this.dTotal, this.nMemberCount,
 				this.startDate.toString(),this.startDate.getYear(),this.endDate.toString(),this.endDate.getYear());
 	}
 }
