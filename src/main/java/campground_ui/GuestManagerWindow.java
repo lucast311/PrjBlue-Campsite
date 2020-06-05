@@ -149,6 +149,16 @@ public class GuestManagerWindow extends Stage
     public void txtSearchFieldOnAction()
     {
         txtSearchField.setOnAction(e -> {
+            if (guestHelper.searchGuest(txtSearchField.getText()) == null)
+            {
+                Alert nullError = new Alert(Alert.AlertType.ERROR);
+                nullError.setHeaderText("Guest does not exist");
+                nullError.setContentText("The guest you are searching for is not in the database");
+                nullError.showAndWait();
+                txtSearchField.setText("");
+                return;
+            }
+
             if (txtSearchField.getText().equalsIgnoreCase(""))
             {
                 Alert nullError = new Alert(Alert.AlertType.ERROR);
@@ -174,16 +184,6 @@ public class GuestManagerWindow extends Stage
 
             for (Guest guest : guests)
             {
-                if (!guest.getPhoneNumber().equals(txtSearchField.getText()))
-                {
-                    Alert nullError = new Alert(Alert.AlertType.ERROR);
-                    nullError.setHeaderText("Guest does not exist");
-                    nullError.setContentText("The guest you are searching for is not in the database");
-                    nullError.showAndWait();
-                    txtSearchField.setText("");
-                    return;
-                }
-
                 if(guest.getPhoneNumber().equals(txtSearchField.getText()))
                 {
                     //add the guest info to the list view
@@ -204,6 +204,16 @@ public class GuestManagerWindow extends Stage
     public void btnSearchClicked()
     {
         btnSearch.setOnAction(e -> {
+            if (guestHelper.searchGuest(txtSearchField.getText()) == null)
+            {
+                Alert nullError = new Alert(Alert.AlertType.ERROR);
+                nullError.setHeaderText("Guest does not exist");
+                nullError.setContentText("The guest you are searching for is not in the database");
+                nullError.showAndWait();
+                txtSearchField.setText("");
+                return;
+            }
+
             if (txtSearchField.getText().equalsIgnoreCase(""))
             {
                 Alert nullError = new Alert(Alert.AlertType.ERROR);
@@ -229,16 +239,6 @@ public class GuestManagerWindow extends Stage
 
             for (Guest guest : guests)
             {
-                if (!guest.getPhoneNumber().equals(txtSearchField.getText()))
-                {
-                    Alert nullError = new Alert(Alert.AlertType.ERROR);
-                    nullError.setHeaderText("Guest does not exist");
-                    nullError.setContentText("The guest you are searching for is not in the database");
-                    nullError.showAndWait();
-                    txtSearchField.setText("");
-                    return;
-                }
-
                 if(guest.getPhoneNumber().equals(txtSearchField.getText()))
                 {
                     //add the guest info to the list view
