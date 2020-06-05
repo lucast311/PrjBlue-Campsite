@@ -10,12 +10,12 @@ public class BusinessManager {
 
     private static Owner currUser;
     private static BookingHelper bookingHelper = new BookingHelper();
-    public static  PlotHelper plotHelper = new PlotHelper();
+    public static  AccommodationHelper accommodationHelper = new AccommodationHelper();
     private static OwnerHelper ownerHelper = new OwnerHelper();
     private static GuestHelper guestHelper = new GuestHelper();
     private static DatabaseFile dbfile = new DatabaseFile();
     private static ArrayList<Owner> ownerList = ownerHelper.getOwnerList();
-    private static ArrayList<Accommodation> sites = plotHelper.getPlotList();
+    private static ArrayList<Accommodation> sites = accommodationHelper.getAccommodationList();
 
     private static Scanner obIn = new Scanner(System.in);
 
@@ -27,44 +27,44 @@ public class BusinessManager {
     private static Date refundendDate;
     private static BookingType bookingtype;
     private static int bookingmemberCount;
-    private static int bookingplotID;
+    private static int bookingaccommodationID;
 
 
-    public static void main(String[] args) {
-
-        createOwners();
+//    public static void main(String[] args) {
+//
+//        createOwners();
 //        LogIn();
 //
 //        //Guest added for testing, ID will be 1
 //        guestHelper.addGuest(new Guest("Test", "Mctester", "mctester@gmail.com", "3060203345", PaymentType.Credit, "1563 1222 1589 5489", new Address(121, 0, "Test Cres.", "Saskatoon", "Saskatchewan", "Canada", "S1N2P3")));
 //
 //        //adding site for testing
-//        plotHelper.addPlot(new Site(2, 4, 50, Site.SiteType.Group, true, true));
+//        accommodationHelper.addAccommodation(new Site(2, 4, 50, Site.SiteType.Group, true, true));
 //
 //        //adding cabin for testing
-//        plotHelper.addPlot(new Cabin(1, 4, Cabin.CabinType.Deluxe, 100, false));
+//        accommodationHelper.addAccommodation(new Cabin(1, 4, Cabin.CabinType.Deluxe, 100, false));
 //
 //        homeScreen();
 
         //adding site for testing
-       // plotHelper.addPlot(new Site(2, 4, 50, Site.SiteType.Group, true, true));
+       // accommodationHelper.addAccommodation(new Site(2, 4, 50, Site.SiteType.Group, true, true));
 
         //adding cabin for testing
-        //plotHelper.addPlot(new Cabin(1, 4, Cabin.CabinType.Deluxe, 100, false));
+        //accommodationHelper.addAccommodation(new Cabin(1, 4, Cabin.CabinType.Deluxe, 100, false));
 
 //        homeScreen();
 
 
 
 
-    }
+//    }
 
     public static void homeScreen()
     {
         boolean quit = false;
 
         do{
-            System.out.println("Home: [1]Booking Manager [2]Guest Manager [3]Plot Manager [4]Owner Manager [5]Quit:");
+            System.out.println("Home: [1]Booking Manager [2]Guest Manager [3]Accommodation Manager [4]Owner Manager [5]Quit:");
             switch (obIn.next()) {
                 case "1":
                     bookingManagerScreen();
@@ -73,7 +73,7 @@ public class BusinessManager {
                     guestManagerScreen();
                     break;
                 case "3":
-                    plotManagerScreen();
+                    accommodationManagerScreen();
                     break;
                 case "4":
                     ownerManagerScreen();
@@ -267,7 +267,7 @@ public class BusinessManager {
         Date endDate = null;
         BookingType type = null;
         int memberCount = 0;
-        int plotID = 0;
+        int accommodationID = 0;
 
         System.out.println("New Booking:");
 
@@ -342,30 +342,30 @@ public class BusinessManager {
             System.out.println("");
         } while (!bEndDate);
 
-        boolean bPlotType = false;
+        boolean bAccommodationType = false;
         do{
-            System.out.println("Please enter a plot type (Cabin/Site):");
+            System.out.println("Please enter a accommodation type (Cabin/Site):");
             switch (obIn.next().toUpperCase()) {
                 case "CABIN":
                     type = BookingType.Cabin;
-                    bPlotType = true;
+                    bAccommodationType = true;
                     break;
                 case "SITE":
                     type = BookingType.Site;
-                    bPlotType = true;
+                    bAccommodationType = true;
                     break;
                 default:
-                    System.out.println("Invalid Plot Type");
+                    System.out.println("Invalid Accommodation Type");
                     break;
             }
 
             System.out.println("");
             System.out.println("");
-        } while (!bPlotType);
+        } while (!bAccommodationType);
 
         boolean bMemberCount = false;
         do{
-            System.out.println("Please enter the amount of members staying on the plot (1-8):");
+            System.out.println("Please enter the amount of members staying on the accommodation (1-8):");
             try{
                 int sVal = Integer.parseInt(obIn.next());
                 if(sVal >= 1 && sVal <=8)
@@ -387,23 +387,23 @@ public class BusinessManager {
             System.out.println("");
         } while (!bMemberCount);
 
-        boolean bPlotID = false;
+        boolean bAccommodationID = false;
         do{
-            System.out.println("Please enter the PlotID:");
+            System.out.println("Please enter the AccommodationID:");
             try{
                 int nVal = Integer.parseInt(obIn.next());
                 //ADD PLOT ID LIST FOR CRITERIA, AND PLOT ID VERIFICATION
-                plotID = nVal;
-                bPlotID = true;
+                accommodationID = nVal;
+                bAccommodationID = true;
             }
             catch(Exception e)
             {
-                System.out.println("Invalid PlotID");
+                System.out.println("Invalid AccommodationID");
             }
 
             System.out.println("");
             System.out.println("");
-        } while (!bPlotID);
+        } while (!bAccommodationID);
 
         boolean bConfirm = false;
         do{
@@ -413,11 +413,11 @@ public class BusinessManager {
             System.out.println("End Date = " + endDate);
             System.out.println("Booking Type = " + type);
             System.out.println("Member Count = " + memberCount);
-            System.out.println("PlotID = " + plotID);
+            System.out.println("AccommodationID = " + accommodationID);
 
             switch (obIn.next().toUpperCase()) {
                 case "Y":
-                    Booking booking = new Booking(plotID, nGuestID, startDate, endDate, type, memberCount);
+                    Booking booking = new Booking(accommodationID, nGuestID, startDate, endDate, type, memberCount);
                     if(bookingHelper.addBooking(booking))
                     {
                         System.out.println("Successfully added booking");
@@ -464,17 +464,17 @@ public class BusinessManager {
                     refundendDate = searchbooking.getEndDate();
                     bookingtype = searchbooking.getType();
                     bookingmemberCount = searchbooking.getMemberCount();
-                    bookingplotID = searchbooking.getAccommodationID();
+                    bookingaccommodationID = searchbooking.getAccommodationID();
 
-                    //int plotID, int guestID, Date startDate, Date endDate, BookingType type, int memberCount
+                    //int accommodationID, int guestID, Date startDate, Date endDate, BookingType type, int memberCount
                     System.out.println("Modify which? ");
-                    System.out.println("Home: [1]Start Date [2]End Date [3]Booking Type [4]Member Count [5]PlotID [6]Back");
+                    System.out.println("Home: [1]Start Date [2]End Date [3]Booking Type [4]Member Count [5]AccommodationID [6]Back");
                     System.out.println("GuestID = " + bookingguestid);
                     System.out.println("Start Date = " + bookingstartDate);
                     System.out.println("End Date = " + refundendDate);
                     System.out.println("Booking Type = " + bookingtype);
                     System.out.println("Member Count = " + bookingmemberCount);
-                    System.out.println("PlotID = " + bookingplotID);
+                    System.out.println("AccommodationID = " + bookingaccommodationID);
                     switch (obIn.nextInt()) {
 
                         case 1:
@@ -493,7 +493,7 @@ public class BusinessManager {
 
                             break;
                         case 5:
-                            BookingplotidScreen();
+                            BookingaccommodationidScreen();
 
                             break;
                         case 6:
@@ -577,28 +577,28 @@ public class BusinessManager {
 
     }
     public static void BookingtypeScreen(){
-        boolean bPlotType = false;
+        boolean bAccommodationType = false;
         do {
-            System.out.println("Please enter a plot type (Cabin/Site):");
+            System.out.println("Please enter a accommodation type (Cabin/Site):");
             switch (obIn.next().toUpperCase()) {
                 case "CABIN":
                     bookingtype = BookingType.Cabin;
                     searchbooking.setType(bookingtype);
-                    bPlotType = true;
+                    bAccommodationType = true;
                     break;
                 case "SITE":
                     bookingtype = BookingType.Site;
                     searchbooking.setType(bookingtype);
-                    bPlotType = true;
+                    bAccommodationType = true;
                     break;
                 default:
-                    System.out.println("Invalid Plot Type");
+                    System.out.println("Invalid Accommodation Type");
                     break;
             }
 
             System.out.println("");
             System.out.println("");
-        } while (!bPlotType);
+        } while (!bAccommodationType);
         System.out.println("Success");
         //back to main
         bookingManagerScreen();
@@ -606,7 +606,7 @@ public class BusinessManager {
     public static void BookingmemberScreen(){
         boolean bMemberCount = false;
         do {
-            System.out.println("Please enter the amount of members staying on the plot (1-8):");
+            System.out.println("Please enter the amount of members staying on the accommodation (1-8):");
             int sVal = Integer.parseInt(obIn.next());
             if (sVal >= 1 || sVal <= 8) {
                 bookingmemberCount = sVal;
@@ -623,24 +623,24 @@ public class BusinessManager {
         //back to main
         bookingManagerScreen();
     }
-    public static void BookingplotidScreen(){
-        boolean bPlotID = false;
+    public static void BookingaccommodationidScreen(){
+        boolean bAccommodationID = false;
         do {
-            System.out.println("Please enter the PlotID:");
+            System.out.println("Please enter the AccommodationID:");
             int nVal = Integer.parseInt(obIn.next());
             //ADD PLOT ID LIST FOR CRITERIA, AND PLOT ID VERIFICATION
-            if( plotHelper.searchPlot(nVal) != null){
-                bookingplotID = nVal;
-                searchbooking.setAccommodationID(bookingplotID);
-                bPlotID = true;
+            if( accommodationHelper.searchAccommodation(nVal) != null){
+                bookingaccommodationID = nVal;
+                searchbooking.setAccommodationID(bookingaccommodationID);
+                bAccommodationID = true;
             }else{
-                System.out.println("invalid plotID");
+                System.out.println("invalid accommodationID");
             }
 
 
             System.out.println("");
             System.out.println("");
-        } while (!bPlotID);
+        } while (!bAccommodationID);
         System.out.println("Success");
         //back to main
         bookingManagerScreen();
@@ -687,21 +687,21 @@ public class BusinessManager {
         homeScreen();
     }
 
-    public static void plotManagerScreen()
+    public static void accommodationManagerScreen()
     {
         boolean back = false;
         do{
-            System.out.println("Plot Manager: [1]Modify Plot [2]Back:");
+            System.out.println("Accommodation Manager: [1]Modify Accommodation [2]Back:");
             switch (obIn.next()) {
                 case "1":
-                    modifyPlotTypesScreen();
+                    modifyAccommodationTypesScreen();
                     break;
                 case "2":
                     back = true;
                     break;
                 default:
                     System.out.println("Invalid option, please try again");
-                    plotManagerScreen();
+                    accommodationManagerScreen();
                     break;
             }
             System.out.println("");
@@ -712,11 +712,11 @@ public class BusinessManager {
     }
 
 
-    public static void modifyPlotTypesScreen() {
+    public static void modifyAccommodationTypesScreen() {
         System.out.println("Please select an option: [1]Change Cabin Attributes  [2]Change Site Attributes  [3]Back");
         switch (obIn.next()) {
 //            case "1":
-//                modifyPlotsScreen();
+//                modifyAccommodationsScreen();
 //                break;
             case "1":
                 modifyCabinScreen();
@@ -725,11 +725,11 @@ public class BusinessManager {
                 modifySiteScreen();
                 break;
             case "3":
-                plotManagerScreen();
+                accommodationManagerScreen();
                 break;
             default:
                 System.out.println("Invalid option, please try again");
-                modifyPlotTypesScreen();
+                modifyAccommodationTypesScreen();
                 break;
         }
     }
@@ -738,7 +738,7 @@ public class BusinessManager {
     {
         System.out.println("Please enter a Cabin Number:");
         int nCabinNum=Integer.parseInt(obIn.next());
-        Cabin obFound=plotHelper.searchCabin(nCabinNum); //Needs to be changed to Cabin
+        Cabin obFound=accommodationHelper.searchCabin(nCabinNum); //Needs to be changed to Cabin
         if(obFound!=null)
         {
             System.out.println("Cabin Found!");
@@ -836,7 +836,7 @@ public class BusinessManager {
                     }
                     break;
                 case "7":
-                    modifyPlotTypesScreen();
+                    modifyAccommodationTypesScreen();
                     //print toString to display changes
                     System.out.println("Changes made:");
                     System.out.println(obFound.toString());
@@ -861,7 +861,7 @@ public class BusinessManager {
     {
         System.out.println("Please enter a Site Number:");
         int nSiteNum=Integer.parseInt(obIn.next());
-        Site obFound=plotHelper.searchSite(nSiteNum);
+        Site obFound=accommodationHelper.searchSite(nSiteNum);
         if(obFound!=null)
         {
             System.out.println("Site Found!");
@@ -980,7 +980,7 @@ public class BusinessManager {
                     }
                     break;
                 case "8":
-                    modifyPlotTypesScreen();
+                    modifyAccommodationTypesScreen();
                     //print toString to display changes
                     System.out.println("Changes made:");
                     System.out.println(obFound.toString());
@@ -1147,7 +1147,7 @@ public class BusinessManager {
         dbfile.saveRecords(ownerList);
     }
 
-    public static void createPlots()
+    public static void createAccommodations()
     {
         Site site1 = new Site(100, 4,32.00, Site.SiteType.Individual, true, false);
         Site site2 = new Site(101, 4,32.00, Site.SiteType.Individual,  true, false);
@@ -1237,9 +1237,9 @@ public class BusinessManager {
         return (int) ratething3;
     }
 
-    public static PlotHelper getplotHelper()
+    public static AccommodationHelper getaccommodationHelper()
     {
-        return plotHelper;
+        return accommodationHelper;
     }
 }
 

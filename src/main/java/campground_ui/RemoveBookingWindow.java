@@ -41,12 +41,6 @@ public class RemoveBookingWindow extends Stage {
     ArrayList<Booking> allBookings = helper.getBookingList();
     private DatabaseFile dbFile;
 
-
-    public static void main(String[] args)
-    {
-        Application.launch(args);
-    }
-
     /**
      * Initializes all UI components/controls
      * @param

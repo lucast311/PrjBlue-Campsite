@@ -26,11 +26,6 @@ public class BookingManagerWindow extends Stage {
     private Button btnAddBooking, btnRemoveBooking, btnModifyBooking, btnCurrentBookings, btnClose;
     private Label lblMain;
 
-    public static void main(String[] args) {
-
-        Application.launch(args);
-    }
-
     /**
      * Initializes all UI components and controls
      * @param
