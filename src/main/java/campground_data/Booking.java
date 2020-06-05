@@ -101,6 +101,11 @@ public class Booking implements Serializable
 
 		return false;
 	}
+
+	public void setType(BookingType type)
+	{
+		this.type = type;
+	}
 	
 	public void setPaid(boolean bPaid)
 	{

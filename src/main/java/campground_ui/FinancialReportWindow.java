@@ -110,7 +110,7 @@ public class FinancialReportWindow extends Stage
         this.setScene(new Scene(obBP,1000,500));
         this.setTitle("Financial Report");
         this.initOwner(obStage);
-        this.initModality(Modality.WINDOW_MODAL);
+        this.initModality(Modality.APPLICATION_MODAL);
 
         btnClose.setOnAction(e->{
             this.close(); //closes the window

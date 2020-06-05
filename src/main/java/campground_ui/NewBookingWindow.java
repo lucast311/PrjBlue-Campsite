@@ -6,17 +6,16 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class NewBookingWindow extends Application {
+public class NewBookingWindow extends Stage {
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+
 
     private static Stage obStage;
 
@@ -43,6 +42,7 @@ public class NewBookingWindow extends Application {
     //Helpers instantiated
     private static GuestHelper guestHelper = new GuestHelper();
     private static BookingHelper bookingHelper = new BookingHelper();
+    private static AccommodationHelper accommodationHelper = new AccommodationHelper();
 
     //The booking object to be modified
     private static Booking obBooking = new Booking();
@@ -51,8 +51,7 @@ public class NewBookingWindow extends Application {
      * This method will open up a javafx window with all the criteria fields for a booking and options to add the booking, clear the fields, or cancel the booking
      * @param primaryStage
      */
-    @Override
-    public void start(Stage primaryStage) {
+    public NewBookingWindow(Stage primaryStage) {
         obStage = primaryStage;
         BorderPane obPane = new BorderPane();
 
@@ -149,9 +148,10 @@ public class NewBookingWindow extends Application {
         obCriteria.getChildren().add(obButtons);
 
         //displays the GUI
-        primaryStage.setScene(new Scene(obPane, 300, 500));
-        primaryStage.setTitle("New Booking");
-        primaryStage.show();
+        this.setScene(new Scene(obPane, 300, 500));
+        this.setTitle("New Booking");
+        this.initOwner(primaryStage);
+        this.initModality(Modality.APPLICATION_MODAL);
     }
 
     /**
@@ -192,9 +192,9 @@ public class NewBookingWindow extends Application {
     /**
      * When the cancel button is clicked this method is called and the form GUI is closed
      */
-    private static void cancelButton()
+    private void cancelButton()
     {
-        obStage.close();
+        this.close();
     }
 
     /**
@@ -360,7 +360,7 @@ public class NewBookingWindow extends Application {
         if(cbAccommodationID.getValue() != null)
         {
             try {
-                if(obBooking.setAccommodationID(((Plot) cbAccommodationID.getValue()).getPlotID()))
+                if(obBooking.setAccommodationID(((Accommodation) cbAccommodationID.getValue()).getAccommodationID()))
                 {
                     bAccommodationIDGood = true;
                 }
@@ -430,7 +430,7 @@ public class NewBookingWindow extends Application {
         if(bStartDateGood && bEndDateGood && bAccommodationTypeGood && bMemberCountGood)
         {
             PlotHelper plotHelper = new PlotHelper();
-            List availableAccommodations = plotHelper.getPlotList().stream()
+            List availableAccommodations = accommodationHelper.getAccommodationList().stream()
                     .filter(x->{
 
                         //Filter for if accommodation is a site
@@ -444,7 +444,7 @@ public class NewBookingWindow extends Application {
                                 {
                                     for(Booking booking : bookingHelper.getBookingList())//for loop to check each booking for conflicting dates
                                     {
-                                        if(booking.getPlotID() == x.getPlotID())
+                                        if(booking.getPlotID() == ((Accommodation)  x).getAccommodationID())
                                         {
                                             if(booking.getStartDate().after(obBooking.getEndDate()))
                                             {
@@ -469,7 +469,7 @@ public class NewBookingWindow extends Application {
                                 {
                                     for(Booking booking : bookingHelper.getBookingList()) //for loop to check each booking for conflicting dates
                                     {
-                                        if(booking.getPlotID() == x.getPlotID())
+                                        if(booking.getPlotID() == x.getAccommodationID())
                                         {
                                             if(booking.getStartDate().after(obBooking.getEndDate()))
                                             {
@@ -493,7 +493,7 @@ public class NewBookingWindow extends Application {
                         {
                             for(Booking booking : bookingHelper.getBookingList())
                             {
-                                if(booking.getPlotID() == x.getPlotID())
+                                if(booking.getPlotID() == x.getAccommodationID())
                                 {
                                     if(booking.getStartDate().after(obBooking.getEndDate()))
                                     {

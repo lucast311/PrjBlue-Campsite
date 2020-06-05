@@ -91,7 +91,7 @@ public class ViewBookingWindow extends Stage
         this.setScene(new Scene(obBP,1400,675)); //scene,width,height
         this.setTitle("View Bookings");
         this.initOwner(obStage);
-        this.initModality(Modality.WINDOW_MODAL);
+        this.initModality(Modality.APPLICATION_MODAL);
 
         //Button click-handler code
         obCloseBtn.setOnAction(e->{

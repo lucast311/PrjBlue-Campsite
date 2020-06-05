@@ -238,7 +238,7 @@ public class EditBookingWindow extends Stage{
                 //need to validate everything then
                 //change everything that was inputted
 
-                obBooking.setPlotID(Integer.parseInt(txtAccommodationID.getText()));
+                obBooking.setAccommodationID(Integer.parseInt(txtAccommodationID.getText()));
 
                 SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
                 String sFields = txtEndDate.getText();

@@ -39,7 +39,7 @@ public class Story2aTest {
         assertFalse(booking1.setMemberCount(9));
         assertFalse(booking1.setMemberCount(0));
 
-        assertTrue(booking1.setAccommodationID(100));
-        assertFalse(booking1.setAccommodationID(0));
+//        assertTrue(booking1.setAccommodationID(100));
+//        assertFalse(booking1.setAccommodationID(0));
     }
 }

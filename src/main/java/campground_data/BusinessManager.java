@@ -11,12 +11,12 @@ public class BusinessManager {
 
     private static Owner currUser;
     private static BookingHelper bookingHelper = new BookingHelper();
-    //private static PlotHelper plotHelper = new PlotHelper();
+    public static  PlotHelper plotHelper = new PlotHelper();
     private static OwnerHelper ownerHelper = new OwnerHelper();
     private static GuestHelper guestHelper = new GuestHelper();
     private static DatabaseFile dbfile = new DatabaseFile();
     private static ArrayList<Owner> ownerList = ownerHelper.getOwnerList();
-    //private static ArrayList<Plot> sites = plotHelper.getPlotList();
+    private static ArrayList<Accommodation> sites = plotHelper.getPlotList();
 
     private static Scanner obIn = new Scanner(System.in);
 
@@ -573,11 +573,11 @@ public class BusinessManager {
             System.out.println("Please enter a plot type (Cabin/Site):");
             switch (obIn.next().toUpperCase()) {
                 case "CABIN":
-                    searchbooking.setType("Cabin");
+                    searchbooking.setType(BookingType.Cabin);
                     bPlotType = true;
                     break;
                 case "SITE":
-                    searchbooking.setType("Site");
+                    searchbooking.setType(BookingType.Site);
                     bPlotType = true;
                     break;
                 default:
@@ -1226,10 +1226,10 @@ public class BusinessManager {
         return (int) ratething3;
     }
 
-//    public static PlotHelper getplotHelper()
-//    {
-//        return plotHelper;
-//    }
+    public static PlotHelper getplotHelper()
+    {
+        return plotHelper;
+    }
 }
 
 
