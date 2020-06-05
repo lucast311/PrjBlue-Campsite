@@ -1,5 +1,6 @@
-package campground_data;
+package campground_ui;
 
+import campground_data.*;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
