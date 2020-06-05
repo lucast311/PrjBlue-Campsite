@@ -118,7 +118,7 @@ public class SiteTest {
     public void testSiteNumIsLessThanOne() {
         site.setAccommodationID(0);
 
-        assertInvalid(site, "plotID", "ID must be greater than or equal to 1", 0);
+        assertInvalid(site, "AccommodationID", "ID must be greater than or equal to 1", 0);
 
     }
 

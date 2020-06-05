@@ -2,8 +2,10 @@ import campground_data.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
 
 import static org.junit.Assert.*;
 
@@ -18,12 +20,12 @@ public class story2otest {
     BookingHelper bookingHelper=new BookingHelper();
     AccommodationHelper plothelper = new AccommodationHelper();
 
-   static Date startDate= new Date(2020,7,20);
-   static Date endDate= new Date(2020,7,25);
+   static Date startDate= new Date(2020, Calendar.AUGUST,20);
+   static Date endDate= new Date(2020, Calendar.AUGUST,25);
 
     static Booking obBooking=new Booking(2,1,startDate, endDate, BookingType.Cabin,4);
-    static Date endDate2 = new Date(2020, 7,23 );
-    static Date startDate2 = new Date(2020, 7,21 );
+    static Date endDate2 = new Date(2020, Calendar.AUGUST,24 );
+    static Date startDate2 = new Date(2020, Calendar.AUGUST,21 );
     static Accommodation acc1 = new Accommodation(2, 4, 30, false, true);
 
 
@@ -58,7 +60,7 @@ public class story2otest {
         BookingHelper bookingHelper = new BookingHelper();
         AccommodationHelper accommodationHelper = new AccommodationHelper();
 
-        assertEquals(acc1.getAccommodationID(), booking1.getAccommodationID());
+        assertEquals(acc1.getAccommodationID(), booking1.getPlotID());
 
     }
 
@@ -69,13 +71,14 @@ public class story2otest {
         BusinessManager businessManager = new BusinessManager();
         ArrayList<Accommodation> accommodations = new ArrayList<>();
         accommodations.add(acc1);
-        Accommodation priceacc;
-         priceacc = plothelper.searchAccommodation(obBooking.getAccommodationID());
-        double price = priceacc.getPrice();
+        //Accommodation priceacc;
+         //priceacc = plothelper.searchAccommodation(obBooking.getPlotID());
+        double price = acc1.getPrice();
         int result = businessManager.refundConfirmInt(obBooking,endDate2, price, TimeUnit.DAYS);
 
-        //0.40 of accommodation price of acc1 = 60
-        assertTrue(((int) 60) == result);
+        //150
+        //0.80 of accommodation price of acc1 = 120
+        assertTrue(120 == result);
         assertFalse(((int) 61) == result);
 
     }

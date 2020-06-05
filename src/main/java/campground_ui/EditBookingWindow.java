@@ -131,7 +131,7 @@ public class EditBookingWindow extends Stage{
                     //Setting default text to the text fields from the passed in guest
                     txtBookingID.setText(String.valueOf(obBooking.getBookingID()));
                     txtGuestID.setText(String.valueOf(obBooking.getGuestID()));
-                    txtAccommodationID.setText(String.valueOf(obBooking.getAccommodationID()));
+                    txtAccommodationID.setText(String.valueOf(obBooking.getPlotID()));
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                     String startDate= formatter.format(obBooking.getStartDate());
                     String endDate= formatter.format(obBooking.getEndDate());
@@ -238,7 +238,7 @@ public class EditBookingWindow extends Stage{
                 //need to validate everything then
                 //change everything that was inputted
 
-                obBooking.setnAccommodationID(Integer.parseInt(txtAccommodationID.getText()));
+                obBooking.setPlotID(Integer.parseInt(txtAccommodationID.getText()));
 
                 SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
                 String sFields = txtEndDate.getText();
@@ -443,7 +443,7 @@ public class EditBookingWindow extends Stage{
                 if(searchbooking.getPaid()) {
                     //gotta do that
                     double price;
-                    int Accommodationid = searchbooking.getAccommodationID();
+                    int Accommodationid = searchbooking.getPlotID();
                     Accommodation priceAccommodation2;
                     priceAccommodation2 = AccHelper.searchAccommodation(Accommodationid);
                     price = priceAccommodation2.getPrice();
@@ -459,7 +459,7 @@ public class EditBookingWindow extends Stage{
                 }else{
 
                     double price;
-                    int Accommodationid = searchbooking.getAccommodationID();
+                    int Accommodationid = searchbooking.getPlotID();
                     System.out.println(Accommodationid);
                     Accommodation priceAccommodation2;
                     priceAccommodation2 = AccHelper.searchAccommodation(Accommodationid);
@@ -484,7 +484,7 @@ public class EditBookingWindow extends Stage{
                     nothingclicked = false;
                 }else {
                     Accommodation priceAccommodation2;
-                    int Accommodationid = searchbooking.getAccommodationID();
+                    int Accommodationid = searchbooking.getPlotID();
                     priceAccommodation2 = AccHelper.searchAccommodation(Accommodationid);
 
                     long diffInMillies2 = Math.abs(searchbooking.getEndDate().getTime() - searchbooking.getStartDate().getTime());
@@ -574,7 +574,7 @@ public class EditBookingWindow extends Stage{
         System.out.println(dif2 + "days2");
 
         double pricething = (dif2 * price);
-        double ratething2 =   (dif1 / dif2);
+        double ratething2 =   ((double)dif1 / dif2);
 
         double ratething3 = (pricething * ratething2);
 

@@ -72,7 +72,7 @@ public class CabinTest {
     public void testCabinNumIsLessThanOne() {
         cabin.setAccommodationID(0);
 
-        assertInvalid(cabin, "plotID", "ID must be greater than or equal to 1", 0);
+        assertInvalid(cabin, "AccommodationID", "ID must be greater than or equal to 1", 0);
 
     }
 
