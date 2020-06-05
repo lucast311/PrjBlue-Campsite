@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class PlotHelper
 {
-        private static ArrayList<Plot> plots;
+        private static ArrayList<Accommodation> plots;
         private DatabaseFile dbFile;
 
         public  PlotHelper()
@@ -13,19 +13,19 @@ public class PlotHelper
                 this.plots = dbFile.readPlots();
         }
 
-        public boolean addPlot(Plot newPlot)
+        public boolean addPlot(Accommodation newPlot)
         {
                 this.plots.add(newPlot);
                 dbFile.saveRecords(plots);
                 return this.plots.contains(newPlot);
         }
 
-        public void removePlot(Plot plot)
+        public void removePlot(Accommodation plot)
         {
                 plots.remove(plot);
         }
 
-        public ArrayList<Plot> getPlotList()
+        public ArrayList<Accommodation> getPlotList()
         {
             return this.plots;
         }
@@ -33,9 +33,9 @@ public class PlotHelper
         public Cabin searchCabin(int plotID)
         {
                 Cabin plotToReturn = null;
-                for (Plot plot : plots)
+                for (Accommodation plot : plots)
                 {
-                        if (plot.getPlotID() == plotID)
+                        if (plot.getAccommodationID() == plotID)
                         {
                                 plotToReturn = (Cabin) plot;
                         }
@@ -47,9 +47,9 @@ public class PlotHelper
         public Site searchSite(int plotID)
         {
                 Site plotToReturn = null;
-                for (Plot plot : plots)
+                for (Accommodation plot : plots)
                 {
-                        if (plot.getPlotID() == plotID)
+                        if (plot.getAccommodationID() == plotID)
                         {
                                 plotToReturn = (Site) plot;
                         }
@@ -58,18 +58,31 @@ public class PlotHelper
                 return plotToReturn;
         }
 
-        public static Plot searchPlot(int plotID)
+        public static Accommodation searchPlot(int plotID)
         {
-                Plot plotToReturn = null;
-                for (Plot plot : plots)
+                Accommodation plotToReturn = null;
+                for (Accommodation plot : plots)
                 {
-                        if (plot.getPlotID() == plotID)
+                        if (plot.getAccommodationID() == plotID)
                         {
                                 plotToReturn = plot;
                         }
                 }
 
                 return plotToReturn;
+        }
+
+        public boolean checkAccommodationID(int nID)
+        {
+                for(Accommodation plot : plots)
+                {
+                        if(plot.getAccommodationID() == nID)
+                        {
+                                return true;
+                        }
+                }
+
+                return false;
         }
 }
 

@@ -1,11 +1,7 @@
 package campground_ui;
 
-import campground_data.Address;
 import campground_data.Guest;
 import campground_data.GuestHelper;
-import campground_data.PaymentType;
-import campground_data.*;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,10 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -109,8 +103,8 @@ public class GuestManagerWindow extends Stage
         btnSearchClicked();
         btnRefreshClicked();
         btnAddGuest.setOnAction(e -> {
-            AddGuestWindow addGuestWindow = new AddGuestWindow();
-            addGuestWindow.initModality(Modality.WINDOW_MODAL);
+            AddGuestWindow addGuestWindow = new AddGuestWindow(parent);
+            addGuestWindow.initModality(Modality.APPLICATION_MODAL);
             addGuestWindow.initOwner(parent);
             addGuestWindow.show();
         });
@@ -123,7 +117,7 @@ public class GuestManagerWindow extends Stage
         this.setScene(new Scene(borderPane, 800, 600));
         this.setTitle("Guest Manager");
         this.initOwner(parent);
-        this.initModality(Modality.WINDOW_MODAL);
+        this.initModality(Modality.APPLICATION_MODAL);
         //Event handler to allow you to open information on guest to edit
         btnEditGuest.setOnAction(e -> {
             int nIndex = guestList.getSelectionModel().getSelectedIndex();
@@ -131,7 +125,7 @@ public class GuestManagerWindow extends Stage
             {
                 Guest obGuest = guests.get(guestList.getSelectionModel().getSelectedIndex());
                 EditGuestWindow guestWindow = new EditGuestWindow(obGuest, nIndex);
-                guestWindow.initModality(Modality.WINDOW_MODAL);
+                guestWindow.initModality(Modality.APPLICATION_MODAL);
                 guestWindow.initOwner(parent);
 
                 guestWindow.show();

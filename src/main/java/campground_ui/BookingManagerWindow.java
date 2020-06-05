@@ -97,7 +97,8 @@ public class BookingManagerWindow extends Stage {
 
         //Event Handlers
         btnAddBooking.setOnAction(e -> {
-
+            NewBookingWindow newBookingWindow = new NewBookingWindow(parent);
+            newBookingWindow.showAndWait();
         });
 
         btnRemoveBooking.setOnAction(e -> {
@@ -107,6 +108,8 @@ public class BookingManagerWindow extends Stage {
 
         btnModifyBooking.setOnAction(e -> {
 
+            EditBookingWindow editBookingWindow = new EditBookingWindow(parent);
+            editBookingWindow.show();
         });
 
         btnCurrentBookings.setOnAction(e -> {

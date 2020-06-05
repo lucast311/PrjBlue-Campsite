@@ -8,7 +8,7 @@ public class Booking implements Serializable
 	private static int nBookingIDCount = 1;
 	private int nBookingID;
 	private static final long serialVersionUID = 1L;
-	private int sGuestID;
+	private int nGuestID;
 	private int nPlotID;
 	private Date startDate;
 	private Date endDate;
@@ -21,7 +21,7 @@ public class Booking implements Serializable
 	public Booking(int plotID, int guestID, Date startDate, Date endDate, BookingType type, int memberCount)
 	{
 		this.nBookingID = nBookingIDCount++;
-		this.sGuestID=guestID;
+		this.nGuestID =guestID;
 		this.nPlotID=plotID;
 		this.startDate=startDate;
 		this.endDate=endDate;
@@ -35,7 +35,7 @@ public class Booking implements Serializable
 	public Booking()
 	{
 		this.nBookingID = nBookingIDCount++;
-		this.sGuestID=0;
+		this.nGuestID =0;
 		this.nPlotID=0;
 		this.startDate=new Date();
 		this.endDate=new Date();
@@ -46,7 +46,7 @@ public class Booking implements Serializable
 		this.nMemberCount=1;
 	}
 
-    public void changeStart(Date newStart)
+    public boolean changeStart(Date newStart)
 	{
 		Date currentDate=new Date(); //Actual current date at the time of running this method
 		int nYear=1900+currentDate.getYear();
@@ -60,29 +60,51 @@ public class Booking implements Serializable
 		else
 		{
 			this.startDate=newStart;
+			return true;
 		}
+
+		return false;
 	}
 	
-	public void changeEnd(Date newEnd)
+	public boolean changeEnd(Date newEnd)
 	{
 		//Check for end not being equal or before the start date
-		if(newEnd==this.startDate)
+		if(newEnd.equals(this.startDate))
 		{
 			System.out.println("Invalid End Date! Choose a later date");
+			return false;
 		}
 		if(newEnd.before(this.startDate))
 		{
 			System.out.println("Invalid End Date! Choose a later date");
+			return false;
 		}
 		else
 		{
 			this.endDate=newEnd;
+			return true;
 		}
 	}
 	
+	public boolean setType(String type)
+	{
+		if(type.equalsIgnoreCase("Cabin"))
+		{
+			this.type = BookingType.Cabin;
+			return true;
+		}
+		if(type.equalsIgnoreCase("Site"))
+		{
+			this.type = BookingType.Site;
+			return true;
+		}
+
+		return false;
+	}
+
 	public void setType(BookingType type)
 	{
-		this.type=type;
+		this.type = type;
 	}
 	
 	public void setPaid(boolean bPaid)
@@ -90,30 +112,41 @@ public class Booking implements Serializable
 		this.bPaid=bPaid;
 	}
 	
-	public void setMemberCount(int nMemberCount)
+	public boolean setMemberCount(int nMemberCount)
 	{
-		if(nMemberCount<=0)
+		if(nMemberCount<=0 || nMemberCount > 8)
 		{
 			System.out.println("That member count is invalid");
 		}
 		else
 		{
 			this.nMemberCount=nMemberCount;
+			return true;
 		}
 
+		return false;
+	}
+
+	public boolean setGuestID(int nGuestID)
+	{
+		GuestHelper guestHelper = new GuestHelper();
+		if(guestHelper.checkGuestId(nGuestID))
+		{
+			this.nGuestID = nGuestID;
+			return true;
+		}
+
+		return false;
 	}
 	
-	public void setPlotID(int nPlotID)
+	public boolean setAccommodationID(int nAccommodationID)
 	{
-		if(nPlotID<=0 || nPlotID>=5)
+		if(BusinessManager.plotHelper.checkAccommodationID(nAccommodationID))
 		{
-			System.out.println("That plot ID is invalid");
-		}
-		else
-		{
-			this.nPlotID=nPlotID;
+			return true;
 		}
 
+		return false;
 	}
 	
 	public void setTotal(double dTotal)
@@ -141,6 +174,7 @@ public class Booking implements Serializable
 		{
 			this.dDiscountRate=dDiscount;
 			setTotal(dTotal*(1-(dDiscount/100))); //automatically adjusts total based on set discount
+
 		}
 
 	}
@@ -152,7 +186,7 @@ public class Booking implements Serializable
 
 	public int getGuestID()
 	{
-		return this.sGuestID;
+		return this.nGuestID;
 	}
 	
 	public Date getStartDate()
@@ -198,8 +232,8 @@ public class Booking implements Serializable
 	@Override
 	public String toString()
 	{
-		return String.format("BookingID: %d, GuestID: %d, Accommodation ID: %d, Type: %s, Paid?: %b, Total: %f, Members: %d Start Date: %s %d End Date: %s %d\n",
-				this.nBookingID, this.sGuestID, this.nPlotID, this.type.toString(), this.bPaid, this.dTotal, this.nMemberCount,
+		return String.format("BookingID: %d, GuestID: %d, Plot ID: %d, Paid?: %b, Total: %f, Members: %d Start Date: %s %d End Date: %s %d\n",
+				this.nBookingID, this.nGuestID, this.nPlotID, this.bPaid, this.dTotal, this.nMemberCount,
 				this.startDate.toString(),this.startDate.getYear(),this.endDate.toString(),this.endDate.getYear());
 	}
 }

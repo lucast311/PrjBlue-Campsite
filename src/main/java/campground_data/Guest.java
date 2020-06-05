@@ -117,11 +117,22 @@ public class Guest  implements Serializable {
      */
     public String maskCreditCardNumber(String creditCardNum)
     {
-
         String sRet = "";
+
+        if (creditCardNum.equalsIgnoreCase("0000 0000 0000 0000"))
+        {
+           sRet += "N/A";
+           return sRet;
+        }
+
         for (int i=0; i < creditCardNum.length(); i++)
         {
-            if (i >= 0 && i < creditCardNum.length() - 4)
+            if (creditCardNum.charAt(i) == ' ')
+            {
+                sRet += "";
+            }
+
+            if (i >= 0 && i < creditCardNum.length() - 4 && creditCardNum.charAt(i) != ' ')
             {
                 sRet += "*";
             }
@@ -137,7 +148,7 @@ public class Guest  implements Serializable {
 
     @Override
     public String toString() {
-        return "Name:" + this.firstName + " " + this.lastName +" \n"+ "Email: " + this.email +" \n" + "Phone Number: " + this.phoneNumber +" \n"+ "Payment Method: " + this.paymentMethod +" \n" + "Credit Card Number: " + maskCreditCardNumber(this.creditCardNum)
+        return "Name:" + this.firstName + " " + this.lastName +" \n"+ "Email: " + this.email +" \n" + "Phone Number: " + this.phoneNumber +" \n"+ "Payment Method: " + this.paymentMethod +" \n" + "Credit Card Number: " + maskCreditCardNumber(this.creditCardNum) + "\n"
                     + "Address: " + (this.address.getAptNum() > 0 ? String.valueOf(this.address.getAptNum()) + " " : "") + this.address.getStreetNum() + " " + this.address.getStreetName() + " " + this.address.getCity_Town() +
                     " " + this.address.getProvince() + " " + this.address.getCountry() + " " + this.address.getPostalCode();
 

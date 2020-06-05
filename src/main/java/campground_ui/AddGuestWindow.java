@@ -1,5 +1,6 @@
-package campground_data;
+package campground_ui;
 
+import campground_data.*;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -82,7 +83,7 @@ public class AddGuestWindow extends Stage {
     /**
      * Constructor that puts together the window, as well as the event handlers for the buttons.
      */
-    public AddGuestWindow()
+    public AddGuestWindow(Stage parent)
     {
 
         //Assigning labels to the buttons
@@ -192,7 +193,7 @@ public class AddGuestWindow extends Stage {
         btnSaveChanges.setOnAction(e -> {
 
             //Create dummy address
-            Address dummyAddress = new Address(Integer.parseInt(streetNumField.getText()), Integer.parseInt(aptNumField.getText()),
+            Address dummyAddress = new Address(Integer.parseInt(streetNumField.getText().equals("") ? "0" : streetNumField.getText()), Integer.parseInt(aptNumField.getText().equals("") ? "-1" : aptNumField.getText()),
                     streetNameField.getText(), cityTownField.getText(), provinceField.getText(), countryField.getText(), postalCodeField.getText());
 
             //Create dummy guest with dummyAddress assigned
