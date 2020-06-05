@@ -104,7 +104,7 @@ public class SiteTest {
      */
     @Test
     public void testSiteNumLowerBound() {
-        site.setPlotID(1);
+        site.setAccommodationID(1);
 
         assertEquals(0, validator.validate(site).size());
 
@@ -116,9 +116,9 @@ public class SiteTest {
      */
     @Test
     public void testSiteNumIsLessThanOne() {
-        site.setPlotID(0);
+        site.setAccommodationID(0);
 
-        assertInvalid(site, "plotID", "ID must be greater than or equal to 1", 0);
+        assertInvalid(site, "AccommodationID", "ID must be greater than or equal to 1", 0);
 
     }
 

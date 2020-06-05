@@ -168,6 +168,8 @@ public class Booking implements Serializable
 		else
 		{
 			this.dDiscountRate=dDiscount;
+			setTotal(dTotal*(1-(dDiscount/100))); //automatically adjusts total based on set discount
+
 		}
 
 	}

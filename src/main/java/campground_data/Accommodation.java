@@ -4,10 +4,10 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
 
-public abstract class Plot implements Serializable {
+public class Accommodation implements Serializable {
 
     @Min(value = 1, message = "ID must be greater than or equal to 1")
-    private int plotID;
+    private int AccommodationID;
 
     @Min(value = 1, message = "Occupancy must be greater than or equal to 1")
     @Max(value = 8, message = "Occupancy must be less than or equal to 8")
@@ -21,8 +21,8 @@ public abstract class Plot implements Serializable {
     private boolean booked;
 
 
-    public Plot(int plotID, int occupancy, double price, boolean underReno, boolean booked) {
-        this.plotID = plotID;
+    public Accommodation(int AccommodationID, int occupancy, double price, boolean underReno, boolean booked) {
+        this.AccommodationID = AccommodationID;
         this.occupancy = occupancy;
         this.price = price;
         this.underReno = underReno;
@@ -30,16 +30,16 @@ public abstract class Plot implements Serializable {
 
     }
 
-    public Plot() {
+    public Accommodation() {
 
     }
 
-    public int getPlotID() {
-        return plotID;
+    public int getAccommodationID() {
+        return AccommodationID;
     }
 
-    public void setPlotID(int plotID) {
-        this.plotID = plotID;
+    public void setAccommodationID(int accommodationID) {
+        this.AccommodationID = accommodationID;
     }
 
     public int getOccupancy() {
@@ -73,7 +73,7 @@ public abstract class Plot implements Serializable {
     @Override
     public String toString() {
         return String.format("PlotID: %s\nOccupancy: %d\nPrice: %f\nUnder Maintenance: %s\nBooked: %s",
-                this.plotID, this.occupancy, this.price, this.underReno ? "True" : "False", this.booked ? "True" : "False");
+                this.AccommodationID, this.occupancy, this.price, this.underReno ? "True" : "False", this.booked ? "True" : "False");
     }
 
 }

@@ -2,7 +2,7 @@ package campground_data;
 
 import java.io.Serializable;
 
-public class Cabin extends Plot implements Serializable {
+public class Cabin extends Accommodation implements Serializable {
     private CabinType type;
 
     public enum CabinType {

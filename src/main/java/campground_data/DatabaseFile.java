@@ -67,15 +67,15 @@ public class DatabaseFile
 		return obOwnerList;
 	}
 	
-	public ArrayList<Plot> readPlots()
+	public ArrayList<Accommodation> readPlots()
 	{
-		ArrayList<Plot> obPlotList=new ArrayList<>();
+		ArrayList<Accommodation> obAccommodationList =new ArrayList<>();
 		try(ObjectInputStream obIn=new ObjectInputStream(new FileInputStream(filePathPlots)))
 		{
 			while(true)
 			{
-				Plot obPlot=(Plot) obIn.readObject();
-				obPlotList.add(obPlot);
+				Accommodation obAccommodation =(Accommodation) obIn.readObject();
+				obAccommodationList.add(obAccommodation);
 			}
 		}
 		catch(EOFException exp)
@@ -90,7 +90,7 @@ public class DatabaseFile
 		{
 			//exp.printStackTrace();
 		}
-		return obPlotList;
+		return obAccommodationList;
 	}
 	
 	public ArrayList<Booking> readBookings()
@@ -101,6 +101,10 @@ public class DatabaseFile
 			while(true)
 			{
 				Booking obBooking=(Booking) obIn.readObject();
+				if(obBooking==null)
+				{
+					continue;
+				}
 				obBookingList.add(obBooking);
 			}
 		}
@@ -127,6 +131,10 @@ public class DatabaseFile
 		}
 		else
 		{
+			while(list.contains(null))
+			{
+				list.remove(null);
+			}
 			Object obFirst=list.get(0);
 			if(obFirst instanceof Guest)
 			{
@@ -158,7 +166,7 @@ public class DatabaseFile
 					exp.printStackTrace();
 				}
 			}
-			if(obFirst instanceof Plot)
+			if(obFirst instanceof Accommodation)
 			{
 				try(ObjectOutputStream obOut=new ObjectOutputStream(new FileOutputStream(filePathPlots)))
 				{
