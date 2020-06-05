@@ -247,7 +247,7 @@ public class BusinessManager {
             case "2":
                 System.out.println("Enter a year to view all bookings for that year:");
                 int nYear=obIn.nextInt();
-                obBookingList=bookingHelper.getBookingList(nYear);
+                obBookingList=bookingHelper.getBookingListByYear(nYear);
                 for(Booking obVal: obBookingList)
                 {
                     System.out.println(obVal.toString());
@@ -631,7 +631,7 @@ public class BusinessManager {
             //ADD PLOT ID LIST FOR CRITERIA, AND PLOT ID VERIFICATION
             if( plotHelper.searchPlot(nVal) != null){
                 bookingplotID = nVal;
-                searchbooking.setPlotID(bookingplotID);
+                searchbooking.setAccommodationID(bookingplotID);
                 bPlotID = true;
             }else{
                 System.out.println("invalid plotID");
@@ -748,7 +748,7 @@ public class BusinessManager {
             {
                 case "1":
                     System.out.println("Please enter a new cabin number: ");
-                    obFound.setPlotID(Integer.parseInt(obIn.next()));
+                    obFound.setAccommodationID(Integer.parseInt(obIn.next()));
                     //print toString to display changes
                     System.out.println("Changes made:");
                     System.out.println(obFound.toString());
@@ -872,7 +872,7 @@ public class BusinessManager {
             {
                 case "1":
                     System.out.println("Please enter a new site number: ");
-                    obFound.setPlotID(Integer.parseInt(obIn.next()));
+                    obFound.setAccommodationID(Integer.parseInt(obIn.next()));
                     //print toString to display changes
                     System.out.println("Changes made:");
                     System.out.println(obFound.toString());

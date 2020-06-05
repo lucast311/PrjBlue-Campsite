@@ -121,6 +121,8 @@ public class MainWindow extends Application {
         });
 
         btnOwnerManager.setOnAction(e -> {
+            ManageOwnerWindow mw = new ManageOwnerWindow(primaryStage, currUser);
+            mw.showAndWait();
 
         });
 
@@ -137,8 +139,6 @@ public class MainWindow extends Application {
         primaryStage.setTitle("Cest Lake - Main Window");
         primaryStage.show();
 
-        ManageOwnerWindow mw = new ManageOwnerWindow(primaryStage, currUser);
-        mw.showAndWait();
 
 
     }
