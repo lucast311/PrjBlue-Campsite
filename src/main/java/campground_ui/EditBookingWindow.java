@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class EditBookingWindow extends Application{
+public class EditBookingWindow extends Stage{
 
     //window stuff
     private BorderPane obBPane;
@@ -344,34 +344,35 @@ public class EditBookingWindow extends Application{
         });
 
 
+        this.setScene(new Scene(obBPane, 1000, 500));
+        this.setTitle("Cest Lake - Edit Booking");
+        this.setOnShowing(e -> {
+            loadAllBookings();
+        });
+        //obStage.show();
+        this.initOwner(obStage);
+        this.initModality(Modality.WINDOW_MODAL);
 
         btnClose.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
 
                 //go back to menu
-                obStage.close();
+                close();
 
 
             }
         });
-
-        obStage.setScene(new Scene(obBPane, 800, 500));
-        obStage.setTitle("Cest Lake - Edit Booking");
-        obStage.setOnShowing(e -> {
-            loadAllBookings();
-        });
-        obStage.show();
-        //this.initOwner(parent);
-        //this.initModality(Modality.WINDOW_MODAL);
     }
 
 
+    /*
     public static void main(String[] args) {
         // TODO Auto-generated method stub
 
         Application.launch(args);
     }
+
 
     @Override
     public void start(Stage obStage) throws Exception {
@@ -379,6 +380,8 @@ public class EditBookingWindow extends Application{
 
 
     }
+
+     */
 
 
     private void refundwindow() {

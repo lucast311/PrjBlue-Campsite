@@ -70,7 +70,7 @@ import javafx.stage.Stage;
             btnModifyBooking.setOnAction(e -> {
 
                 EditBookingWindow editBookingWindow = new EditBookingWindow(parent);
-                //editBookingWindow.showAndWait();
+                editBookingWindow.showAndWait();
 
             });
 
