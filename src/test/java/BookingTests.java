@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import campground_data.BookingHelper;
 import campground_data.BookingType;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import campground_data.Booking;
@@ -31,24 +30,36 @@ public class BookingTests
 	@Test
 	public void testRemoveBooking()
 	{
-		BookingHelper helper = new BookingHelper();
-		ArrayList<Booking> obBookingList = new ArrayList<>();
-		Booking booking1 = new Booking(1,1, new Date(2020,5,25), new Date(2020,5,27), BookingType.Cabin, 3);
-		Booking booking2 = new Booking(2,1, new Date(2020,6,4), new Date(2020,6,7), BookingType.Site, 2);
-
-		helper.addBooking(booking1);
-		helper.addBooking(booking2);
-
-		helper.removeBooking(booking1);
-
-		assertFalse(obBookingList.contains(booking1));
+//		BookingHelper helper = new BookingHelper();
+//		ArrayList<Booking> obBookingList = new ArrayList<>();
+//		Booking booking1 = new Booking(1,1, new Date(2020,5,25), new Date(2020,5,27), BookingType.Cabin, 3);
+//		Booking booking2 = new Booking(2,1, new Date(2020,6,4), new Date(2020,6,7), BookingType.Site, 2);
+//
+//		helper.addBooking(booking1);
+//		helper.addBooking(booking2);
+//
+//		helper.removeBooking(booking1);
+//
+//		assertFalse(obBookingList.contains(booking1));
 
 	}
 	
 	@Test
-	public void testChangeBookingDate()
+	public void testChangeBookingDate() //helps story 2o
 	{
-		
+		Date startDate= new Date(2020,7,20);
+		Date endDate= new Date(2020,7,25);
+
+		Booking obBooking=new Booking(2,1,startDate, endDate, BookingType.Cabin,4);
+		Date endDate2 = new Date(2020, 7,24 );
+		Date startDate2 = new Date(2020, 7,21 );
+
+		obBooking.changeEnd(endDate2);
+		obBooking.changeStart(startDate2);
+
+		assertEquals(endDate2, obBooking.getEndDate());
+		assertEquals(startDate2, obBooking.getStartDate());
+
 	}
 	
 	@Test
@@ -86,7 +97,7 @@ public class BookingTests
 
 		helper.addBooking(obNew2019);
 		helper.addBooking(obNew2020);
-		obBookingList=helper.getBookingList(2019);
+		obBookingList=helper.getBookingListByYear(2019);
 
 		assertEquals(obBookingList.contains(obNew2019),true);
 	}
@@ -159,8 +170,8 @@ public class BookingTests
 				endDate, BookingType.Cabin,4);
 
 		//valid values
-		obBooking.setType(BookingType.Site);
-		obBooking.setPlotID(2);
+		obBooking.setType("Site");
+		obBooking.setAccommodationID(2);
 		obBooking.setPaid(true);
 		obBooking.setDiscount(50);
 		obBooking.setMemberCount(6);
@@ -174,10 +185,10 @@ public class BookingTests
 		assertEquals(50,obBooking.getDiscount(),0.001);
 
 
-		obBooking.setType(BookingType.Cabin);
+		obBooking.setType("Cabin");
 		obBooking.setPaid(false);
 		//invalid values
-		obBooking.setPlotID(0);
+		obBooking.setAccommodationID(0);
 		obBooking.setDiscount(-1);
 		obBooking.setMemberCount(0);
 		obBooking.setTotal(-1);
