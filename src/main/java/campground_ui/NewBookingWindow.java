@@ -203,7 +203,7 @@ public class NewBookingWindow extends Stage {
      * confirmation and if confirmed will try to add the booking to the system
      * returning a success or fail message
      */
-    private static void addButton()
+    private void addButton()
     {
         if(bStartDateGood && bEndDateGood && bAccommodationTypeGood && bMemberCountGood && bAccommodationIDGood && bGuestIDGood)
         {
@@ -217,7 +217,7 @@ public class NewBookingWindow extends Stage {
                         Alert obSuccess = new Alert(Alert.AlertType.INFORMATION, "Successfully added the booking!", ButtonType.OK);
                         obSuccess.show();
                         obSuccess.setOnCloseRequest(x->{
-                            obStage.close();
+                            this.close();
                         });
                     }
                     else

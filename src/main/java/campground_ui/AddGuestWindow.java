@@ -83,7 +83,7 @@ public class AddGuestWindow extends Stage {
     /**
      * Constructor that puts together the window, as well as the event handlers for the buttons.
      */
-    public AddGuestWindow()
+    public AddGuestWindow(Stage parent)
     {
 
         //Assigning labels to the buttons

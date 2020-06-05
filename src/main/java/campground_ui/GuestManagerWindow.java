@@ -103,7 +103,7 @@ public class GuestManagerWindow extends Stage
         btnSearchClicked();
         btnRefreshClicked();
         btnAddGuest.setOnAction(e -> {
-            AddGuestWindow addGuestWindow = new AddGuestWindow();
+            AddGuestWindow addGuestWindow = new AddGuestWindow(parent);
             addGuestWindow.initModality(Modality.APPLICATION_MODAL);
             addGuestWindow.initOwner(parent);
             addGuestWindow.show();
