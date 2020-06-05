@@ -1,6 +1,5 @@
 package campground_ui;
 
-import campground_data.BookingType;
 import campground_data.*;
 import campground_data.OwnerHelper;
 import javafx.geometry.Insets;
@@ -15,11 +14,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
-import java.util.concurrent.TimeoutException;
 
 public class ManageOwnerWindow extends Stage {
 
@@ -94,6 +91,7 @@ public class ManageOwnerWindow extends Stage {
         btnCancelPass = new Button("Cancel");
         btnOK = new Button("Save");
 
+        //populating the buttons on the main window
         obButtonBox.getChildren().addAll(btnPass, btnNew, btnEdit, btnRemove, btnClose);
 
         obBPane.setTop(lvOwnerList);
@@ -101,7 +99,7 @@ public class ManageOwnerWindow extends Stage {
         obBPane.setCenter(obButtonBox);
         obBPane.setRight(obPassBox);
 
-        //Layout parameters
+        //Layout parameters and styles
         obBPane.setPadding(new Insets(10));
         this.setMinWidth(900);
         this.setMinHeight(510);
@@ -151,7 +149,7 @@ public class ManageOwnerWindow extends Stage {
         obGPane.add(lblOnsite, 0, 6);
         obGPane.add(cbOnSite, 1, 6);
 
-        //Create event handlers
+        //Create event handlers section
         lvOwnerList.getSelectionModel().selectedItemProperty().addListener(e -> {
             populateFields();
         });
@@ -180,62 +178,7 @@ public class ManageOwnerWindow extends Stage {
         });
 
         btnSave.setOnAction(e -> {
-            String password= "";
-            if(selectedOwner != null) {
-                password = selectedOwner.getPassword();
-            }
-            if(password == null || password.equals(""))
-            {
-                password = "Pa$$word";
-            }
-
-            String tempPermission = "";
-            for(int i=0; i<txtPermissions.getText().length(); i++)
-            {
-                if(txtPermissions.getText().isEmpty())
-                {
-                    break;
-                }
-                char temp= txtPermissions.getText().charAt(i);
-                if(temp>='1' && temp<='9')
-                {
-                    tempPermission+=temp;
-                }
-                else
-                {
-                    continue;
-                }
-            }
-            Owner newOwner = null;
-            if(tempPermission != "")
-            {
-                newOwner = new Owner(txtFirstName.getText(), txtLastName.getText(), password, txtPhoneNum.getText(),
-                        txtEmail.getText(), Integer.parseInt(tempPermission), cbOnSite.isSelected());
-                if(vh.isValid(newOwner)) {
-                    ownerHelper.removeOwner(selectedOwner);
-                    ownerHelper.addOwner(newOwner);
-                    toggleTextfields();
-                    showAllOwners();
-                    obButtonBox.getChildren().removeAll(btnSave, btnCancel);
-                    obButtonBox.getChildren().addAll(btnPass, btnNew, btnRemove, btnEdit, btnClose);
-                }
-                else {
-                    Text obText = new Text("");
-                    String sVal = "";
-
-                    HashMap<String, String> errors = vh.getErrors(newOwner);
-                    //This will print out all the errors in the guest object
-                    for (String error : errors.values())
-                    {
-                        sVal += error + "\n";
-                    }
-
-                    obText.setText(sVal);
-                    obAlertMain = new Alert(Alert.AlertType.ERROR);
-                    obAlertMain.setHeaderText(sVal);
-                    obAlertMain.showAndWait();
-                }
-            }
+            saveClicked();
 
         });
 
@@ -265,6 +208,7 @@ public class ManageOwnerWindow extends Stage {
             removeOwner(owner);
         });
 
+        //set up window size and settings
         this.setScene(new Scene(obBPane, 900, 450));
         this.setTitle("Cest Lake - Employee Manager");
         this.setOnShowing(e -> {
@@ -273,6 +217,69 @@ public class ManageOwnerWindow extends Stage {
         });
         this.initOwner(parent);
         this.initModality(Modality.APPLICATION_MODAL);
+    }
+
+    /**
+     * save a new or edited owner to the database file
+     */
+    private void saveClicked()
+    {
+        String password= "";
+        if(selectedOwner != null) {
+            password = selectedOwner.getPassword();
+        }
+        if(password == null || password.equals(""))
+        {
+            password = "Pa$$word";
+        }
+
+        String tempPermission = "";
+        for(int i=0; i<txtPermissions.getText().length(); i++)
+        {
+            if(txtPermissions.getText().isEmpty())
+            {
+                break;
+            }
+            char temp= txtPermissions.getText().charAt(i);
+            if(temp>='1' && temp<='9')
+            {
+                tempPermission+=temp;
+            }
+            else
+            {
+                continue;
+            }
+        }
+        Owner newOwner = null;
+        if(tempPermission != "")
+        {
+            newOwner = new Owner(txtFirstName.getText(), txtLastName.getText(), password, txtPhoneNum.getText(),
+                    txtEmail.getText(), Integer.parseInt(tempPermission), cbOnSite.isSelected());
+            if(vh.isValid(newOwner)) {
+                ownerHelper.removeOwner(selectedOwner);
+                ownerHelper.addOwner(newOwner);
+                toggleTextfields();
+                showAllOwners();
+                obButtonBox.getChildren().removeAll(btnSave, btnCancel);
+                obButtonBox.getChildren().addAll(btnPass, btnNew, btnRemove, btnEdit, btnClose);
+            }
+            else {
+                Text obText = new Text("");
+                String sVal = "";
+
+                HashMap<String, String> errors = vh.getErrors(newOwner);
+                //This will print out all the errors in the guest object
+                for (String error : errors.values())
+                {
+                    sVal += error + "\n";
+                }
+
+                obText.setText(sVal);
+                obAlertMain = new Alert(Alert.AlertType.ERROR);
+                obAlertMain.setHeaderText(sVal);
+                obAlertMain.showAndWait();
+            }
+        }
     }
 
     /**
