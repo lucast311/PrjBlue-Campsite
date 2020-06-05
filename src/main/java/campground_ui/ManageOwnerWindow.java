@@ -19,6 +19,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.concurrent.TimeoutException;
 
 public class ManageOwnerWindow extends Stage {
 
@@ -28,8 +29,8 @@ public class ManageOwnerWindow extends Stage {
     private VBox obButtonBox;
 
     private ListView<Owner> lvOwnerList;
-    private TextField txtFirstName, txtLastName, txtPhoneNum, txtEmail, txtPermissions, txtPass1, txtPass2;
-    private Label lblFirst, lblLast, lblPhone, lblEmail, lblPermissions, lblUserId, lblOnsite, lblPass1, lblPass2;
+    private TextField txtFirstName, txtLastName, txtPhoneNum, txtEmail, txtPermissions, txtCurPass, txtPass1, txtPass2;
+    private Label lblFirst, lblLast, lblPhone, lblEmail, lblPermissions, lblUserId, lblOnsite, lblCurPass, lblPass1, lblPass2;
     private Text txtuserId;
     private CheckBox cbOnSite;
     private Alert obAlertMain;
@@ -66,6 +67,7 @@ public class ManageOwnerWindow extends Stage {
         txtEmail = new TextField();
         txtPermissions = new TextField();
         txtuserId = new Text();
+        txtCurPass = new TextField();
         txtPass1 = new TextField();
         txtPass2 = new TextField();
         cbOnSite = new CheckBox();
@@ -76,6 +78,7 @@ public class ManageOwnerWindow extends Stage {
         lblUserId = new Label("UserID");
         lblPermissions = new Label("Permissions");
         lblOnsite = new Label("On Site");
+        lblCurPass = new Label("Current Password");
         lblPass1 = new Label("New Password");
         lblPass2 = new Label("Confirm Password");
 
@@ -109,6 +112,7 @@ public class ManageOwnerWindow extends Stage {
 
         obButtonBox.setSpacing(5);
         obButtonBox.setPadding(new Insets(15, 0, 0, 15));
+        obPassBox.setSpacing(5);
 
         obGPane.add(lblFirst, 0, 0);
         obGPane.add(txtFirstName, 1, 0);
@@ -131,6 +135,7 @@ public class ManageOwnerWindow extends Stage {
         });
 
         btnNew.setOnAction(e -> {
+            selectedOwner = null;
             clearAllFields();
             toggleTextfields();
             obButtonBox.getChildren().removeAll(btnPass, btnRemove, btnNew, btnClose, btnEdit);
@@ -153,33 +158,62 @@ public class ManageOwnerWindow extends Stage {
         });
 
         btnSave.setOnAction(e -> {
-            Owner newOwner = new Owner(txtFirstName.getText(), txtLastName.getText(), "Pa$$w0rd", txtPhoneNum.getText(),
-                    txtEmail.getText(), Integer.parseInt(txtPermissions.getText()), cbOnSite.isSelected());
-
-            if(vh.isValid(newOwner)) {
-                ownerHelper.removeOwner(selectedOwner);
-                ownerHelper.addOwner(newOwner);
-                toggleTextfields();
-                showAllOwners();
-                obButtonBox.getChildren().removeAll(btnSave, btnCancel);
-                obButtonBox.getChildren().addAll(btnPass, btnNew, btnRemove, btnEdit, btnClose);
+            String password= "";
+            if(selectedOwner != null) {
+                password = selectedOwner.getPassword();
             }
-            else {
-                Text obText = new Text("");
-                String sVal = "";
+            if(password == null || password.equals(""))
+            {
+                password = "Pa$$word";
+            }
 
-                HashMap<String, String> errors = vh.getErrors(newOwner);
-                //This will print out all the errors in the guest object
-                for (String error : errors.values())
+            String tempPermission = "";
+            for(int i=0; i<txtPermissions.getText().length(); i++)
+            {
+                if(txtPermissions.getText().isEmpty())
                 {
-                    sVal += error + "\n";
+                    break;
                 }
-
-                obText.setText(sVal);
-                Alert errorWindow = new Alert(Alert.AlertType.ERROR, sVal);
-                errorWindow.show();
+                char temp= txtPermissions.getText().charAt(i);
+                if(temp>='1' && temp<='9')
+                {
+                    tempPermission+=temp;
+                }
+                else
+                {
+                    continue;
+                }
             }
+            Owner newOwner = null;
+            if(tempPermission != "")
+            {
+                newOwner = new Owner(txtFirstName.getText(), txtLastName.getText(), password, txtPhoneNum.getText(),
+                        txtEmail.getText(), Integer.parseInt(tempPermission), cbOnSite.isSelected());
+                if(vh.isValid(newOwner)) {
+                    ownerHelper.removeOwner(selectedOwner);
+                    ownerHelper.addOwner(newOwner);
+                    toggleTextfields();
+                    showAllOwners();
+                    obButtonBox.getChildren().removeAll(btnSave, btnCancel);
+                    obButtonBox.getChildren().addAll(btnPass, btnNew, btnRemove, btnEdit, btnClose);
+                }
+                else {
+                    Text obText = new Text("");
+                    String sVal = "";
 
+                    HashMap<String, String> errors = vh.getErrors(newOwner);
+                    //This will print out all the errors in the guest object
+                    for (String error : errors.values())
+                    {
+                        sVal += error + "\n";
+                    }
+
+                    obText.setText(sVal);
+                    obAlertMain = new Alert(Alert.AlertType.ERROR);
+                    obAlertMain.setHeaderText(sVal);
+                    obAlertMain.showAndWait();
+                }
+            }
 
         });
 
@@ -188,7 +222,10 @@ public class ManageOwnerWindow extends Stage {
         });
 
         btnPass.setOnAction(e -> {
-            obPassBox.getChildren().addAll(lblPass1, txtPass1, lblPass2, txtPass2, btnOK, btnCancelPass);
+            obPassBox.getChildren().addAll(lblCurPass, txtCurPass, lblPass1, txtPass1, lblPass2, txtPass2, btnOK, btnCancelPass);
+            txtCurPass.setText("");
+            txtPass1.setText("");
+            txtPass2.setText("");
             toggleTextfields();
         });
 
@@ -197,7 +234,7 @@ public class ManageOwnerWindow extends Stage {
         });
 
         btnCancelPass.setOnAction(e -> {
-            obPassBox.getChildren().removeAll(lblPass1, txtPass1, lblPass2, txtPass2, btnOK, btnCancelPass);
+            obPassBox.getChildren().removeAll(lblCurPass, txtCurPass, lblPass1, txtPass1, lblPass2, txtPass2, btnOK, btnCancelPass);
             toggleTextfields();
         });
 
@@ -216,22 +253,42 @@ public class ManageOwnerWindow extends Stage {
         this.initModality(Modality.NONE);
     }
 
+    /**
+     * validation logic for change password function. Should be in ownerhelper but I was having problems passing
+     * the objects correctly and ran out of time.
+     */
     private void changePass()
     {
-        boolean bRequest = ownerHelper.changePassword(current, txtPass1.getText(), txtPass2.getText());
+        selectedOwner = lvOwnerList.getSelectionModel().getSelectedItem();
+        if(txtCurPass.getText().equals(selectedOwner.getPassword())) //check the user entered the correct password for the owner selected
+        {
+            if(txtPass1.getText().equals(txtPass2.getText())) //check that the new passwords match
+            {
+                Owner newOwner = new Owner(txtFirstName.getText(), txtLastName.getText(), txtPass1.getText(), txtPhoneNum.getText(),
+                        txtEmail.getText(), Integer.parseInt(txtPermissions.getText()), cbOnSite.isSelected());
 
-        if(bRequest) {
-            obAlertMain = new Alert(Alert.AlertType.INFORMATION);
-            obAlertMain.setTitle("Success");
-            obAlertMain.setHeaderText("Your password has been changed");
-            obPassBox.getChildren().removeAll(lblPass1, txtPass1, lblPass2, txtPass2, btnOK, btnCancelPass);
-            toggleTextfields();
+                if(vh.isValid(newOwner)) { //run the validation helper to make sure the new owner has all valid fields
+                    ownerHelper.removeOwner(selectedOwner);
+                    ownerHelper.addOwner(newOwner);
+                    obAlertMain = new Alert(Alert.AlertType.INFORMATION);
+                    obAlertMain.setTitle("Success");
+                    obAlertMain.setHeaderText("Your password has been changed");
+                    obPassBox.getChildren().removeAll(lblCurPass, txtCurPass, lblPass1, txtPass1, lblPass2, txtPass2, btnOK, btnCancelPass);
+                    toggleTextfields();
+                }
+            }else { //display error if the passwords don't match
+                obAlertMain = new Alert(Alert.AlertType.ERROR);
+                obAlertMain.setTitle("Password Error");
+                obAlertMain.setHeaderText("Password not changed");
+                obAlertMain.setContentText("Please ensure the passwords are at least 8 characters and that they match");
+            }
+
         }
-        else {
+        else { //display error if the password is incorrect for the selected owner
             obAlertMain = new Alert(Alert.AlertType.ERROR);
             obAlertMain.setTitle("Password Error");
             obAlertMain.setHeaderText("Password not changed");
-            obAlertMain.setContentText("Please ensure the passwords are at least 8 characters and that they match");
+            obAlertMain.setContentText("The current password is incorrect");
         }
         obAlertMain.showAndWait();
         showAllOwners();
@@ -255,6 +312,9 @@ public class ManageOwnerWindow extends Stage {
         }
     }
 
+    /**
+     * show all owners in the ownerlist in the list view
+     */
     private void showAllOwners()
     {
         lvOwnerList.getItems().clear();
@@ -265,6 +325,9 @@ public class ManageOwnerWindow extends Stage {
         }
     }
 
+    /**
+     * clear all fields to be for new user creation
+     */
     private void clearAllFields()
     {
         txtFirstName.setText("");
@@ -276,6 +339,10 @@ public class ManageOwnerWindow extends Stage {
         cbOnSite.setSelected(false);
     }
 
+    /**
+     * removes an owner from the ownerlist and then saves the new list to database
+     * @param owner
+     */
     private void removeOwner(Owner owner)
     {
         if(owner instanceof Owner)
@@ -310,6 +377,9 @@ public class ManageOwnerWindow extends Stage {
         showAllOwners();
     }
 
+    /**
+     * populates all of the text fields with the data that can be modified in the edit method
+     */
     private void populateFields()
     {
         Owner ownerToDisplay = (Owner) lvOwnerList.getSelectionModel().getSelectedItem();

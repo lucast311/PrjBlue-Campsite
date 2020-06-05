@@ -38,34 +38,6 @@ public class OwnerHelper {
         return bRemoved;
     }
 
-    public boolean changePassword(Owner owner, String pass1, String pass2)
-    {
-        Owner obVal = owner;
-        boolean bRequest = false;
-        if(pass1.equals(pass2))
-        {
-            String first = obVal.getFirstName();
-            String last = obVal.getLastName();
-            String email = obVal.getEmail();
-            String phone = obVal.getPhoneNumber();
-            int permission = obVal.getPermissions();
-            boolean onsite = obVal.getOnSite();
-            Owner test = new Owner(first, last, pass1, phone, email, permission, onsite);
-            if(vh.isValid(test)) {
-                for(Owner obOwner : this.ownerList)
-                {
-                    removeOwner(obOwner);
-
-                    addOwner(test);
-                    bRequest = true;
-                }
-
-
-            }
-        }
-        return bRequest;
-    }
-
     public void editOwner(Owner obj) {
 
     }

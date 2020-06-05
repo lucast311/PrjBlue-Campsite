@@ -48,6 +48,21 @@ public class BusinessManager {
 
     }
 
+    public static void createOwners()
+    {
+        Owner harry = new Owner("harry", "louis", "Mounta1nM@n", "5554445555", "hlouis@cestlake.ca", 3, true);
+        Owner mary = new Owner("mary", "louis", "F1uffyC@ts", "5554445555", "mlouis@cestlake.ca", 3, true);
+        Owner tom = new Owner("tom", "louis", "", "4987727512", "tlouis@cestlake.ca", 2, false);
+        Owner sarah = new Owner("sarah", "louis", "", "8728481480", "slouis@cestlake.ca", 2, false);
+        Owner guest = new Owner("guest", "login", "Pa$$w0rd", "n/a", "info@cestlake.ca", 1, false);
+        ownerList.add(harry);
+        ownerList.add(mary);
+        ownerList.add(tom);
+        ownerList.add(sarah);
+        ownerList.add(guest);
+        dbfile.saveRecords(ownerList);
+    }
+
     public static void homeScreen()
     {
         boolean quit = false;
@@ -1312,20 +1327,7 @@ public class BusinessManager {
         }
 
 
-    public static void createOwners()
-    {
-        Owner harry = new Owner("harry", "louis", "Mounta1nM@n", "5554445555", "hlouis@cestlake.ca", 3, true);
-        Owner mary = new Owner("mary", "louis", "F1uffyC@ts", "5554445555", "mlouis@cestlake.ca", 3, true);
-        Owner tom = new Owner("tom", "louis", "", "4987727512", "tlouis@cestlake.ca", 2, false);
-        Owner sarah = new Owner("sarah", "louis", "", "8728481480", "slouis@cestlake.ca", 2, false);
-        Owner guest = new Owner("guest", "login", "Pa$$w0rd", "n/a", "info@cestlake.ca", 1, false);
-        ownerList.add(harry);
-        ownerList.add(mary);
-        ownerList.add(tom);
-        ownerList.add(sarah);
-        ownerList.add(guest);
-        dbfile.saveRecords(ownerList);
-    }
+
 
     public static void createPlots()
     {

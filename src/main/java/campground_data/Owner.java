@@ -131,8 +131,8 @@ public class Owner implements Serializable {
     @Override
     public String toString()
     {
-        return String.format("USERID: %s, NAME: %s %s, EMAIL: %s, PHONE: %s, PERMISSIONS: %d, ONSITE: %b",
-                this.userId, this.firstName, this.lastName, this.email, this.phoneNumber, this.permissions, this.onSite);
+        return String.format("USERID: %s, NAME: %s %s, EMAIL: %s, PHONE: %s, PERMISSIONS: %d, ONSITE: %b, %s",
+                this.userId, this.firstName, this.lastName, this.email, this.phoneNumber, this.permissions, this.onSite, this.password);
 //        JSONObject jsonObject = new JSONObject();
 //        jsonObject.put("First Name",this.firstName);
 //        jsonObject.put("Last Name",this.lastName);
