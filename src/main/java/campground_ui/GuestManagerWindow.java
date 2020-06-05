@@ -149,16 +149,6 @@ public class GuestManagerWindow extends Stage
     public void txtSearchFieldOnAction()
     {
         txtSearchField.setOnAction(e -> {
-            if (guestHelper.searchGuest(txtSearchField.getText()) == null)
-            {
-                Alert nullError = new Alert(Alert.AlertType.ERROR);
-                nullError.setHeaderText("Guest does not exist");
-                nullError.setContentText("The guest you are searching for is not in the database");
-                nullError.showAndWait();
-                txtSearchField.setText("");
-                return;
-            }
-
             if (txtSearchField.getText().equalsIgnoreCase(""))
             {
                 Alert nullError = new Alert(Alert.AlertType.ERROR);
@@ -175,6 +165,16 @@ public class GuestManagerWindow extends Stage
                 shortStringError.setHeaderText("Phone number too short");
                 shortStringError.setContentText("Phone number must at least 10 digits");
                 shortStringError.showAndWait();
+                txtSearchField.setText("");
+                return;
+            }
+
+            if (guestHelper.searchGuest(txtSearchField.getText()) == null)
+            {
+                Alert nullError = new Alert(Alert.AlertType.ERROR);
+                nullError.setHeaderText("Guest does not exist");
+                nullError.setContentText("The guest you are searching for is not in the database");
+                nullError.showAndWait();
                 txtSearchField.setText("");
                 return;
             }
@@ -204,16 +204,6 @@ public class GuestManagerWindow extends Stage
     public void btnSearchClicked()
     {
         btnSearch.setOnAction(e -> {
-            if (guestHelper.searchGuest(txtSearchField.getText()) == null)
-            {
-                Alert nullError = new Alert(Alert.AlertType.ERROR);
-                nullError.setHeaderText("Guest does not exist");
-                nullError.setContentText("The guest you are searching for is not in the database");
-                nullError.showAndWait();
-                txtSearchField.setText("");
-                return;
-            }
-
             if (txtSearchField.getText().equalsIgnoreCase(""))
             {
                 Alert nullError = new Alert(Alert.AlertType.ERROR);
@@ -230,6 +220,16 @@ public class GuestManagerWindow extends Stage
                 shortStringError.setHeaderText("Phone number too short");
                 shortStringError.setContentText("Phone number must at least 10 digits");
                 shortStringError.showAndWait();
+                txtSearchField.setText("");
+                return;
+            }
+
+            if (guestHelper.searchGuest(txtSearchField.getText()) == null)
+            {
+                Alert nullError = new Alert(Alert.AlertType.ERROR);
+                nullError.setHeaderText("Guest does not exist");
+                nullError.setContentText("The guest you are searching for is not in the database");
+                nullError.showAndWait();
                 txtSearchField.setText("");
                 return;
             }
