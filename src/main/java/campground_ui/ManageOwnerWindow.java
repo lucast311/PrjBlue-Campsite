@@ -84,7 +84,7 @@ public class ManageOwnerWindow extends Stage {
 
 
         //initialize buttons that will allow window functionality
-        btnPass = new Button("Change Password");
+        btnPass = new Button("Change\nPassword");
         btnNew = new Button("New");
         btnRemove = new Button("Remove");
         btnEdit = new Button("Edit");
@@ -94,7 +94,7 @@ public class ManageOwnerWindow extends Stage {
         btnCancelPass = new Button("Cancel");
         btnOK = new Button("Save");
 
-        obButtonBox.getChildren().addAll(btnPass, btnNew, btnRemove, btnEdit, btnClose);
+        obButtonBox.getChildren().addAll(btnPass, btnNew, btnEdit, btnRemove, btnClose);
 
         obBPane.setTop(lvOwnerList);
         obBPane.setLeft(obGPane);
@@ -114,6 +114,28 @@ public class ManageOwnerWindow extends Stage {
         obButtonBox.setPadding(new Insets(15, 0, 0, 15));
         obPassBox.setSpacing(5);
 
+        btnRemove.setStyle("-fx-background-color:indianred");
+        btnCancel.setStyle("-fx-background-color:indianred");
+        btnCancelPass.setStyle("-fx-background-color:indianred");
+        btnEdit.setStyle("-fx-background-color:limegreen");
+        btnSave.setStyle("-fx-background-color:limegreen");
+        btnOK.setStyle("-fx-background-color:limegreen");
+        btnPass.setStyle("-fx-background-color:gold");
+        btnClose.setStyle("-fx-background-color:tomato");
+        btnNew.setStyle("-fx-background-color:mediumslateblue");
+
+        btnRemove.setPrefSize(70, 25);
+        btnNew.setPrefSize(70, 25);
+        btnEdit.setPrefSize(70, 25);
+        btnCancel.setPrefSize(70, 25);
+        btnClose.setPrefSize(70, 25);
+        btnOK.setPrefSize(70, 25);
+        btnCancelPass.setPrefSize(70, 25);
+        btnSave.setPrefSize(70, 25);
+        btnPass.setPrefSize(70, 45);
+
+
+        // setting up the grid pane to display the attributes of the selected
         obGPane.add(lblFirst, 0, 0);
         obGPane.add(txtFirstName, 1, 0);
         obGPane.add(lblLast, 0, 1);
@@ -226,7 +248,7 @@ public class ManageOwnerWindow extends Stage {
             txtCurPass.setText("");
             txtPass1.setText("");
             txtPass2.setText("");
-            toggleTextfields();
+            obButtonBox.getChildren().removeAll(btnPass, btnNew, btnRemove, btnEdit, btnClose);
         });
 
         btnOK.setOnAction(e -> {
@@ -235,7 +257,7 @@ public class ManageOwnerWindow extends Stage {
 
         btnCancelPass.setOnAction(e -> {
             obPassBox.getChildren().removeAll(lblCurPass, txtCurPass, lblPass1, txtPass1, lblPass2, txtPass2, btnOK, btnCancelPass);
-            toggleTextfields();
+            obButtonBox.getChildren().addAll(btnPass, btnNew, btnRemove, btnEdit, btnClose);
         });
 
         btnRemove.setOnAction(e -> {
@@ -250,7 +272,7 @@ public class ManageOwnerWindow extends Stage {
             toggleTextfields();
         });
         this.initOwner(parent);
-        this.initModality(Modality.NONE);
+        this.initModality(Modality.APPLICATION_MODAL);
     }
 
     /**
@@ -274,7 +296,7 @@ public class ManageOwnerWindow extends Stage {
                     obAlertMain.setTitle("Success");
                     obAlertMain.setHeaderText("Your password has been changed");
                     obPassBox.getChildren().removeAll(lblCurPass, txtCurPass, lblPass1, txtPass1, lblPass2, txtPass2, btnOK, btnCancelPass);
-                    toggleTextfields();
+                    obButtonBox.getChildren().addAll(btnPass, btnNew, btnRemove, btnEdit, btnClose);
                 }
             }else { //display error if the passwords don't match
                 obAlertMain = new Alert(Alert.AlertType.ERROR);
