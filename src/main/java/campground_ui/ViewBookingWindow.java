@@ -16,6 +16,12 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
+/**
+ * This class is in charge of showing the window that allows the user to view the list of bookings.
+ * This also includes a bunch of filters a user can select to filter the results they are shown
+ * @param
+ */
 public class ViewBookingWindow extends Stage
 {
     private BookingHelper bookingHelper=new BookingHelper();
