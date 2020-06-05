@@ -52,6 +52,7 @@ public class EditBookingWindow extends Stage{
 
 
 
+    //this is for javaFx window for editing window booking
     public EditBookingWindow(Stage obStage) {
 
 
@@ -355,26 +356,6 @@ public class EditBookingWindow extends Stage{
             }
         });
     }
-
-
-    /*
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
-
-        Application.launch(args);
-    }
-
-
-    @Override
-    public void start(Stage obStage) throws Exception {
-
-
-
-    }
-
-     */
-
-
 
 
     //Loads all the bookings onto the GUI text area

@@ -84,7 +84,7 @@ public class Booking implements Serializable
 	{
 		this.type=type;
 	}
-	
+
 	public void setPaid(boolean bPaid)
 	{
 		this.bPaid=bPaid;
@@ -105,7 +105,7 @@ public class Booking implements Serializable
 	
 	public void setPlotID(int nPlotID)
 	{
-		if(nPlotID<=0 || nPlotID>=5)
+		if(nPlotID<=0)
 		{
 			System.out.println("That plot ID is invalid");
 		}

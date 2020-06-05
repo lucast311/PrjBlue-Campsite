@@ -40,6 +40,8 @@ public class refundWindow extends Stage {
     ArrayList<Booking> allBookings = helper.getBookingList();
     //private DatabaseFile dbfile = new DatabaseFile();
 
+
+    //this method will show the javafx window for refunding
     public refundWindow(Stage primaryStage, Booking searchbooking, Date newEnddate, DatabaseFile dbfile) {
         //Stage primaryStage = new Stage();
         primaryStage.setTitle("Modify Booking Refund");
@@ -239,7 +241,7 @@ public class refundWindow extends Stage {
         });
     }
 
-    //for getting refund for remaining days
+    //for getting a refund for remaining days
     public int refundConfirmInt(Booking searchbooking2, Date newEnddate, double price, TimeUnit timeUnit) {
 
         Date newDate = newEnddate;
