@@ -6,9 +6,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Set;
-import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -17,10 +15,11 @@ public class OwnerTest {
     private static ValidatorFactory vf;
     private static Validator validator;
 
-    private ArrayList<Owner> owners;
+    private ArrayList<Owner> ownersTest;
     private Owner owner1;
     private Owner owner2;
-
+    private Owner owner3;
+    private OwnerHelper ownerHelper = new OwnerHelper();
 
     /***
      * Run once at class creation to set up validator
@@ -50,12 +49,12 @@ public class OwnerTest {
     @Before
     public void setUpValidOwner()
     {
-        owners = new ArrayList<>();
-        owner1 = new Owner("harry", "louis", "Pa$$w0rd", "555-555-5555", "testaccount@gmail.com", 3, false);
-        owner2 = new Owner("mary", "louis", "f1uffyCat$", "555-555-5555", "testaccount@hotmail.com", 3, true);
-
-        owners.add(owner1);
-        owners.add(owner2);
+        ownersTest = new ArrayList<>();
+        owner1 = new Owner("harry", "louis", "Mounta1nM@n", "555-555-5555", "hlouis@cestlake.ca", 3, true);
+        owner2 = new Owner("mary", "louis", "F1uffyC@ts", "555-555-5555", "mlouis@cestlake.ca", 3, true);
+        owner3 = new Owner("guest", "login", "Pa$$w0rd", "n/a", "info@cestlake.ca", 1, false);
+        ownersTest.add(owner1);
+        ownersTest.add(owner2);
 
     }
 
@@ -78,35 +77,26 @@ public class OwnerTest {
 
         String userInput = "harrylouis";
 
-        boolean validUser = false;
-        for(Owner user : owners)
-        {
-            if(user.getUserId().compareTo(userInput) == 0)
-            {
-                validUser = true;
-            }
-        }
-        assertEquals(validUser, false);
+        assertEquals(ownerHelper.validateUser(userInput, "Mounta1nM@n"), null);
 
     }
 
     /***
-     * INVALID: UserId entered does exist in the system
+     * VALID: UserId entered does exist in the system
      */
     @Test
     public void testUserIdExists() {
 
-        String userInput = "harry.louis";
+        String userInput = "guest.login";
+        Owner testUser = ownerHelper.validateUser(userInput, "Pa$$w0rd");
+        assertEquals(testUser.getPassword(), owner3.getPassword());
+        assertEquals(testUser.getFirstName(), owner3.getFirstName());
+        assertEquals(testUser.getLastName(), owner3.getLastName());
+        assertEquals(testUser.getEmail(), owner3.getEmail());
+        assertEquals(testUser.getPermissions(), owner3.getPermissions());
+        assertEquals(testUser.getPhoneNumber(), owner3.getPhoneNumber());
+        assertEquals(testUser.getOnSite(), owner3.getOnSite());
 
-        boolean validUser = false;
-        for(Owner user : owners)
-        {
-            if(user.getUserId().compareTo(userInput) == 0)
-            {
-                validUser = true;
-            }
-        }
-        assertTrue(validUser);
 
     }
 
@@ -115,77 +105,41 @@ public class OwnerTest {
      */
     @Test
     public void testPasswordExists() {
-        String userInput = "Pa$$w0rd";
-        boolean validPass = false;
-        for (Owner owner : owners) {
-            if (owner.getUserId().equalsIgnoreCase("harry.louis")) {
-                if (userInput.equals(owner.getPassword())) {
-                    validPass = true;
+        String userInput = "Mounta1nM@n";
+        System.out.println("hithere");
+        Owner testUser = ownerHelper.validateUser("harry.louis", userInput);
+        assertEquals(testUser.getPassword(), owner1.getPassword());
+        assertEquals(testUser.getFirstName(), owner1.getFirstName());
+        assertEquals(testUser.getLastName(), owner1.getLastName());
+        assertEquals(testUser.getEmail(), owner1.getEmail());
+        assertEquals(testUser.getPermissions(), owner1.getPermissions());
+        assertEquals(testUser.getPhoneNumber(), owner1.getPhoneNumber());
+        assertEquals(testUser.getOnSite(), owner1.getOnSite());
 
-                } else {
-                    validPass = false;
-                }
-            }
-            assertTrue(validPass);
-        }
+
     }
 
     /***
-     * VALID: password exists in the Owner object that is logging in
+     * INVALID: password does not exists in the Owner object that is logging in
      */
     @Test
     public void testPasswordInvalid() {
         String userInput = "Pa$$w0rd";
-        boolean validPass = false;
-        for (Owner owner : owners) {
-            if (owner.getUserId().equalsIgnoreCase("mary.louis")) {
-                if (userInput.equals(owner.getPassword())) {
-                    validPass = true;
+        Owner testUser = ownerHelper.validateUser("harry.louis", userInput);
+        assertEquals(testUser, null);
 
-                } else {
-                    validPass = false;
-                }
-            }
-            assertFalse(validPass);
-        }
     }
 
-    /***
-     * VALID: password 8 characters lower bound
-     */
     @Test
-    public void testPasswordLowerBound() {
-        boolean validPass = false;
-        for(Owner owner : owners)
-        {
-            if(owner.getPassword().length() > 7)
-            {
-                validPass = true;
-            } else {
-                validPass = false;
-            }
-        }
-
-        assertTrue(validPass);
+    public void testUserIdIsNotBlank() {
+        Owner testUser = ownerHelper.validateUser("", "Pa$$w0rd");
+                assertEquals(testUser, null);
     }
 
-    /***
-     * VALID: password 30 character upperbound
-     */
     @Test
-    public void testPasswordUpperBound() {
-        owner1.changePassword(repeatM(30));
-        boolean validPass = false;
-        for(Owner owner : owners)
-        {
-            if(owner.getPassword().length() < 31)
-            {
-                validPass = true;
-            } else {
-                validPass = false;
-            }
-        }
-        assertTrue(validPass);
+    public void testPasswordIsNotBlank() {
+        Owner testUser = ownerHelper.validateUser("harry.louis", "");
+        assertEquals(testUser, null);
     }
 
     /***

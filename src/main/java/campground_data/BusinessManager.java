@@ -1,22 +1,21 @@
 package campground_data;
 
-//import java.awt.print.Book;
+import java.awt.print.Book;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public class BusinessManager {
 
     private static Owner currUser;
     private static BookingHelper bookingHelper = new BookingHelper();
-    private static AccommodationHelper accommodationHelper = new AccommodationHelper();
+    private static PlotHelper plotHelper = new PlotHelper();
     private static OwnerHelper ownerHelper = new OwnerHelper();
     private static GuestHelper guestHelper = new GuestHelper();
     private static DatabaseFile dbfile = new DatabaseFile();
     private static ArrayList<Owner> ownerList = ownerHelper.getOwnerList();
-    private static ArrayList<Accommodation> sites = accommodationHelper.getAccommodationList();
+    private static ArrayList<Plot> sites = plotHelper.getPlotList();
 
     private static Scanner obIn = new Scanner(System.in);
 
@@ -40,10 +39,10 @@ public class BusinessManager {
         guestHelper.addGuest(new Guest("Test", "Mctester", "mctester@gmail.com", "3060203345", PaymentType.Credit, "1563 1222 1589 5489", new Address(121, 0, "Test Cres.", "Saskatoon", "Saskatchewan", "Canada", "S1N2P3")));
 
         //adding site for testing
-        accommodationHelper.addAccommodation(new Site(2, 4, 50, Site.SiteType.Group, true, true));
+        plotHelper.addPlot(new Site(2, 4, 50, Site.SiteType.Group, true, true));
 
         //adding cabin for testing
-        accommodationHelper.addAccommodation(new Cabin(1, 4, Cabin.CabinType.Deluxe, 100, false));
+        plotHelper.addPlot(new Cabin(1, 4, Cabin.CabinType.Deluxe, 100, false));
 
         homeScreen();
 
@@ -238,7 +237,7 @@ public class BusinessManager {
             case "2":
                 System.out.println("Enter a year to view all bookings for that year:");
                 int nYear=obIn.nextInt();
-                obBookingList=bookingHelper.getBookingList(nYear);
+                obBookingList=bookingHelper.getBookingListByYear(nYear);
                 for(Booking obVal: obBookingList)
                 {
                     System.out.println(obVal.toString());
@@ -455,7 +454,7 @@ public class BusinessManager {
                     refundendDate = searchbooking.getEndDate();
                     bookingtype = searchbooking.getType();
                     bookingmemberCount = searchbooking.getMemberCount();
-                    bookingplotID = searchbooking.getAccommodationID();
+                    bookingplotID = searchbooking.getPlotID();
 
                     //int plotID, int guestID, Date startDate, Date endDate, BookingType type, int memberCount
                     System.out.println("Modify which? ");
@@ -620,9 +619,9 @@ public class BusinessManager {
             System.out.println("Please enter the PlotID:");
             int nVal = Integer.parseInt(obIn.next());
             //ADD PLOT ID LIST FOR CRITERIA, AND PLOT ID VERIFICATION
-            if( accommodationHelper.searchAccommodation(nVal) != null){
+            if( plotHelper.searchPlot(nVal) != null){
                 bookingplotID = nVal;
-                searchbooking.setnAccommodationID(bookingplotID);
+                searchbooking.setPlotID(bookingplotID);
                 bPlotID = true;
             }else{
                 System.out.println("invalid plotID");
@@ -729,7 +728,7 @@ public class BusinessManager {
     {
         System.out.println("Please enter a Cabin Number:");
         int nCabinNum=Integer.parseInt(obIn.next());
-        Cabin obFound= accommodationHelper.searchCabin(nCabinNum); //Needs to be changed to Cabin
+        Cabin obFound=plotHelper.searchCabin(nCabinNum); //Needs to be changed to Cabin
         if(obFound!=null)
         {
             System.out.println("Cabin Found!");
@@ -739,7 +738,7 @@ public class BusinessManager {
             {
                 case "1":
                     System.out.println("Please enter a new cabin number: ");
-                    obFound.setAccommodationID(Integer.parseInt(obIn.next()));
+                    obFound.setPlotID(Integer.parseInt(obIn.next()));
                     //print toString to display changes
                     System.out.println("Changes made:");
                     System.out.println(obFound.toString());
@@ -852,7 +851,7 @@ public class BusinessManager {
     {
         System.out.println("Please enter a Site Number:");
         int nSiteNum=Integer.parseInt(obIn.next());
-        Site obFound= accommodationHelper.searchSite(nSiteNum);
+        Site obFound=plotHelper.searchSite(nSiteNum);
         if(obFound!=null)
         {
             System.out.println("Site Found!");
@@ -863,7 +862,7 @@ public class BusinessManager {
             {
                 case "1":
                     System.out.println("Please enter a new site number: ");
-                    obFound.setAccommodationID(Integer.parseInt(obIn.next()));
+                    obFound.setPlotID(Integer.parseInt(obIn.next()));
                     //print toString to display changes
                     System.out.println("Changes made:");
                     System.out.println(obFound.toString());
@@ -1227,7 +1226,7 @@ public class BusinessManager {
 
     public static AccommodationHelper getAccommodationHelper()
     {
-        return accommodationHelper;
+        return plotHelper;
     }
 }
 

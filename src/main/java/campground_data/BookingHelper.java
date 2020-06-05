@@ -9,7 +9,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class BookingHelper {
@@ -33,21 +32,28 @@ public class BookingHelper {
         return this.bookings.contains(booking);
     }
 
-    public boolean removeBooking(Booking booking)
+    public boolean removeBooking(Booking booking) //seems to be creating null pointers with previous implementation
     {
         boolean bRemoved = false;
 
-        Iterator<Booking> it = bookings.iterator();
-        while (it.hasNext())
+        if(booking!=null)
         {
-            Booking args = it.next();
-            if (args.getBookingID() == booking.getBookingID())
-            {
-                it.remove();
-                DBFile.saveRecords(bookings);
-                bRemoved = true;
-            }
+            this.bookings.remove(booking);
+            bRemoved=true;
+            DBFile.saveRecords(this.bookings);
         }
+
+//        Iterator<Booking> it = bookings.iterator();
+//        while (it.hasNext())
+//        {
+//            Booking args = it.next();
+//            if (args.getBookingID() == booking.getBookingID())
+//            {
+//                it.remove();
+//                DBFile.saveRecords(bookings);
+//                bRemoved = true;
+//            }
+//        }
 
         return bRemoved;
 
@@ -111,62 +117,20 @@ public class BookingHelper {
         }
 
 
-       updateBookingDate(bookings, bookingID, newStartDate, newEndDate, "src/main/java/database/bookings.obj");
+        updateBookingDate(bookings, bookingID, newStartDate, newEndDate, "src/main/java/database/bookings.obj");
         System.out.println("The booking dates have been changed.");
         return true;
     }
 
-    //validation and setting for booking date changes
-   /* public void updateBookingDate2(ArrayList<Booking> bookings, int bookingID, Date newStartDate, Date newEndDate, String sFile) //help
+    public void updateBookingDate(ArrayList<Booking> bookings, int bookingID, Date newStartDate, Date newEndDate, String sFile) //Why does this exist? This functionality already exists
     {
         List<Booking> obBookingList = bookings.stream()
                 .map(x -> {
                     if (x.getBookingID() == bookingID)
                     {
-
-                        List<Booking> obBookingList2 = bookings.stream()
-                                .map(y -> {
-                                    if(y.getAccommodationID() == x.getAccommodationID()){ //for validation
-                                        Date date4 = newEndDate;
-                                        Date date5 = y.getStartDate();
-                                        long startTime3 = date5.getTime(); // diff old start and old end
-                                        long endTime3 = date4.getTime();
-                                        long diffTime3 = endTime3 - startTime3;
-                                        long diffDays3 = diffTime3 / (1000 * 60 * 60 * 24);
-                                        Date date6 = newStartDate;
-                                        Date date7 = y.getEndDate();
-                                        long startTime4 = date6.getTime(); // diff old start and old end
-                                        long endTime4 = date7.getTime();
-                                        long diffTime4 = endTime4 - startTime4;
-                                        long diffDays4 = diffTime4 / (1000 * 60 * 60 * 24);
-                                        if(diffDays3 > 0 && diffDays4 < 0){
-                                            //error cause its over a startdate or enddate of a booking with the same accommodationID
-                                        }else{
-                                            return new Booking(x.getAccommodationID(), x.getGuestID(),newStartDate,newEndDate,x.getType(), x.getMemberCount());
-                                        }
-                                    }
-
-                                    return x;
-                               }).collect(Collector.toList()); //help
-
-                        try
-                        {
-                            FileOutputStream fileOut = new FileOutputStream(sFile);
-                            ObjectOutputStream obOut = new ObjectOutputStream(fileOut);
-                            for (Booking booking : obBookingList2)
-                            {
-                                obOut.writeObject(booking);
-                            }
-                        }
-                        catch (IOException e)
-                        {
-                            e.printStackTrace();
-                        }
-
-
-
+                        return new Booking(x.getPlotID(), x.getGuestID(),newStartDate,newEndDate,x.getType(), x.getMemberCount());
                     }
-                    return null; //what
+                    return x;
                 })
                 .collect(Collectors.toList());
 
@@ -185,44 +149,32 @@ public class BookingHelper {
         }
     }
 
-    */
-
-    public void updateBookingDate(ArrayList<Booking> bookings, int bookingID, Date newStartDate, Date newEndDate, String sFile)
+    public ArrayList<Booking> getCurrentBookings() //All bookings currently in progress or haven't started yet
     {
-        List<Booking> obBookingList = bookings.stream()
-                .map(x -> {
-                    if (x.getBookingID() == bookingID)
-                    {
-                        return new Booking(x.getAccommodationID(), x.getGuestID(),newStartDate,newEndDate,x.getType(), x.getMemberCount());
-                    }
-                    return x;
-                })
-                .collect(Collectors.toList());
-
-        try
+        ArrayList<Booking> obReturn=new ArrayList<>();
+        Date todayFull=new Date(); //Actual current date at the time of running this method
+        int nYear=1900+todayFull.getYear();
+        int nMonth=todayFull.getMonth();
+        int nDay=todayFull.getDate();
+        Date today=new Date(nYear,nMonth,nDay); //Stripped down version of current date without the time, and proper year
+        for(Booking obVal: bookings)
         {
-            FileOutputStream fileOut = new FileOutputStream(sFile);
-            ObjectOutputStream obOut = new ObjectOutputStream(fileOut);
-            for (Booking booking : obBookingList)
+            if((obVal.getStartDate().before(today) && obVal.getEndDate().after(today)) || obVal.getStartDate().after(today))
             {
-                obOut.writeObject(booking);
+                obReturn.add(obVal);
+                //System.out.println(obVal); //un-comment to have list print on console
             }
         }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        return obReturn;
     }
 
-
-    public ArrayList<Booking> getBookingList() //help
+    public ArrayList<Booking> getBookingList()
     {
-        ArrayList<Booking> BookingTemp= this.bookings;
-        return BookingTemp;
+        return this.bookings;
     }
 
 
-    public ArrayList<Booking> getBookingList(int year)
+    public ArrayList<Booking> getBookingListByYear(int year)
     {
         ArrayList<Booking> BookingTemp=new ArrayList<>();
         for(Booking obVal:bookings)
@@ -233,6 +185,133 @@ public class BookingHelper {
             }
         }
         return BookingTemp;
+    }
+
+    public ArrayList<Booking> getBookingListByYear(ArrayList<Booking> list,int year)
+    {
+        ArrayList<Booking> BookingTemp=new ArrayList<>();
+        for(Booking obVal:list)
+        {
+            if(obVal.getStartDate().getYear()==year)
+            {
+                BookingTemp.add(obVal);
+            }
+        }
+        return BookingTemp;
+    }
+
+    public ArrayList<Booking> getBookingListByMonth(int month)
+    {
+        ArrayList<Booking> BookingTemp=new ArrayList<>();
+        for(Booking obVal:bookings)
+        {
+            if(obVal.getStartDate().getMonth()==month)
+            {
+                BookingTemp.add(obVal);
+            }
+        }
+        return BookingTemp;
+    }
+
+    public ArrayList<Booking> getBookingListByMonth(ArrayList<Booking> list,int month)
+    {
+        ArrayList<Booking> BookingTemp=new ArrayList<>();
+        for(Booking obVal:list)
+        {
+            if(obVal.getStartDate().getMonth()==month)
+            {
+                BookingTemp.add(obVal);
+            }
+        }
+        return BookingTemp;
+    }
+
+    public ArrayList<Booking> getBookingList(int year,int month)
+    {
+        ArrayList<Booking> BookingTemp=new ArrayList<>();
+        for(Booking obVal:bookings)
+        {
+            if(obVal.getStartDate().getYear()==year)
+            {
+                if(obVal.getStartDate().getMonth()==month)
+                {
+                    BookingTemp.add(obVal);
+                }
+            }
+        }
+        return BookingTemp;
+    }
+
+    public ArrayList<Booking> getBookingList(ArrayList<Booking> list,int year,int month)
+    {
+        ArrayList<Booking> BookingTemp=new ArrayList<>();
+        for(Booking obVal:bookings)
+        {
+            if(obVal.getStartDate().getYear()==year)
+            {
+                if(obVal.getStartDate().getMonth()==month)
+                {
+                    BookingTemp.add(obVal);
+                }
+            }
+        }
+        return BookingTemp;
+    }
+
+    public ArrayList<Booking> getCabinOnly(ArrayList<Booking> bookingList)
+    {
+        ArrayList<Booking> bookingTemp=new ArrayList<>();
+        for(Booking obVal: bookingList)
+        {
+            if(obVal.getType()==BookingType.Cabin)
+            {
+                bookingTemp.add(obVal);
+                //System.out.println(obVal); //un-comment to have list print on console
+            }
+        }
+        return bookingTemp;
+    }
+
+    public ArrayList<Booking> getCabinOnly()
+    {
+        ArrayList<Booking> bookingTemp=new ArrayList<>();
+        for(Booking obVal: this.bookings)
+        {
+            if(obVal.getType()==BookingType.Cabin)
+            {
+                bookingTemp.add(obVal);
+                //System.out.println(obVal); //un-comment to have list print on console
+            }
+        }
+        return bookingTemp;
+    }
+
+    public ArrayList<Booking> getSiteOnly(ArrayList<Booking> bookingList)
+    {
+        ArrayList<Booking> bookingTemp=new ArrayList<>();
+        for(Booking obVal: bookingList)
+        {
+            if(obVal.getType()==BookingType.Site)
+            {
+                bookingTemp.add(obVal);
+                //System.out.println(obVal); //un-comment to have list print on console
+            }
+        }
+        return bookingTemp;
+    }
+
+    public ArrayList<Booking> getSiteOnly()
+    {
+        ArrayList<Booking> bookingTemp=new ArrayList<>();
+        for(Booking obVal: this.bookings)
+        {
+            if(obVal.getType()==BookingType.Site)
+            {
+                bookingTemp.add(obVal);
+                //System.out.println(obVal); //un-comment to have list print on console
+            }
+        }
+        return bookingTemp;
     }
 
     public Booking searchGuestID(int guestID)
@@ -304,12 +383,6 @@ public class BookingHelper {
             }
         }
 
-//        for(int i=0;i < getBookingList().size(); i++) {
-//            if ((getBookingList().get(i).getGuestID()) == guestID) {
-//                return getBookingList().get(i);
-//
-//            }
-//        }
         return null;
     }
 
