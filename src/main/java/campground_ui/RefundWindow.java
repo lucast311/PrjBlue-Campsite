@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class refundWindow extends Stage {
+public class RefundWindow extends Stage {
 
     //refund stuff
     private Booking searchbooking; //grab from edit window
@@ -42,7 +42,7 @@ public class refundWindow extends Stage {
 
 
     //this method will show the javafx window for refunding
-    public refundWindow(Stage primaryStage, Booking searchbooking, Date newEnddate, DatabaseFile dbfile) {
+    public RefundWindow(Stage primaryStage, Booking searchbooking, Date newEnddate, DatabaseFile dbfile) {
         //Stage primaryStage = new Stage();
         primaryStage.setTitle("Modify Booking Refund");
 

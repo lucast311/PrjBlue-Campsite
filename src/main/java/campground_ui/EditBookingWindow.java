@@ -1,28 +1,22 @@
 package campground_ui;
 
 import campground_data.*;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 //import javafx.scene.Node;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public class EditBookingWindow extends Stage{
 
@@ -247,7 +241,7 @@ public class EditBookingWindow extends Stage{
 
                             //EditBookingWindow editBookingWindow = new EditBookingWindow(parent);
                             //            editBookingWindow.showAndWait();
-                             refundWindow RefundWindow = new refundWindow(obStage, obBooking, newendDate, dbfile);
+                             RefundWindow RefundWindow = new RefundWindow(obStage, obBooking, newendDate, dbfile);
                              RefundWindow.show();
 
 
