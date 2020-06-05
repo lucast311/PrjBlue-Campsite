@@ -39,7 +39,7 @@ public class Booking implements Serializable
 		this.nPlotID=0;
 		this.startDate=new Date();
 		this.endDate=new Date();
-		this.type=null;
+		this.type=BookingType.Site;
 		this.bPaid=false;
 		this.dTotal=0;
 		this.dDiscountRate=0;

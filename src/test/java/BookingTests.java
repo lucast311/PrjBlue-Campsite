@@ -135,7 +135,7 @@ public class BookingTests
 		assertEquals(0,obBooking.getGuestID());
 		assertEquals(new Date(),obBooking.getStartDate());
 		assertEquals(new Date(),obBooking.getEndDate());
-		assertNull(null,obBooking.getType());
+		assertEquals(BookingType.Site.toString(),obBooking.getType().toString());
 		assertEquals(1,obBooking.getMemberCount());
 	}
 	

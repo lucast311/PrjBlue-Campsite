@@ -64,7 +64,6 @@ public class Story2hTest
    @Test
    public void testViewAll()
    {
-       //This test BREAKS if all tests are run at once, run this test only after deleting bookings.obj
        ArrayList<Booking> allBookings=obList;
        for(Booking obVal: obList)
        {
