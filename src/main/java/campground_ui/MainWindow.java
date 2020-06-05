@@ -19,19 +19,19 @@ public class MainWindow extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-//        while (currUser.getPermissions() < 1)
-//        {
-//            LoginWindow lw = new LoginWindow(primaryStage);
-//            lw.showAndWait();
-//        }
+        while (currUser.getPermissions() < 1)
+        {
+            LoginWindow lw = new LoginWindow(primaryStage);
+            lw.showAndWait();
+        }
 
-        ManageOwnerWindow mw = new ManageOwnerWindow(primaryStage, currUser);
-        mw.showAndWait();
 
         BorderPane obPane = new BorderPane();
         primaryStage.setScene(new Scene(obPane, 600, 600));
         primaryStage.show();
 
+        ManageOwnerWindow mw = new ManageOwnerWindow(primaryStage, currUser);
+        mw.showAndWait();
 
     }
 
