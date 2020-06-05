@@ -107,7 +107,7 @@ public class MainWindow extends Application {
         //Event Handlers
         btnBookingManager.setOnAction(e -> {
             BookingManagerWindow bookingManagerWindow = new BookingManagerWindow(primaryStage);
-            bookingManagerWindow.showAndWait();
+            bookingManagerWindow.show();
         });
 
         btnGuestManager.setOnAction(e -> {

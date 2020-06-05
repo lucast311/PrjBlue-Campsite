@@ -9,10 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
+//this class test certain methods pertaining to this story
 public class story2otest {
-    //old will work on it
-    //tests bad and should use console
-
+    //for testing
     static Guest guest1 = new Guest("Jo", "wow", "jowow@gmail.com", "3069999999", PaymentType.Credit, "44567777", new Address());
     static Guest guest2 = new Guest("greg", "pop", "gregpop@gmail.com", "3068888888", PaymentType.Cash, "44565555", new Address());
     static Booking booking1 = new Booking(2,1, new Date(2020,5,19), new Date(2020,5,27), BookingType.Cabin, 3);
@@ -25,7 +24,7 @@ public class story2otest {
 
     static Booking obBooking=new Booking(2,1,startDate, endDate, BookingType.Cabin,4);
     static Date endDate2 = new Date(2020, Calendar.AUGUST,24 );
-    static Date startDate2 = new Date(2020, Calendar.AUGUST,21 );
+    //static Date startDate2 = new Date(2020, Calendar.AUGUST,21 );
     static Accommodation acc1 = new Accommodation(2, 4, 30, false, true);
 
 
@@ -57,8 +56,7 @@ public class story2otest {
         ArrayList<Accommodation> accommodations = new ArrayList<>();
         accommodations.add(acc1);
 
-        BookingHelper bookingHelper = new BookingHelper();
-        AccommodationHelper accommodationHelper = new AccommodationHelper();
+
 
         assertEquals(acc1.getAccommodationID(), booking1.getPlotID());
 
@@ -71,8 +69,6 @@ public class story2otest {
         BusinessManager businessManager = new BusinessManager();
         ArrayList<Accommodation> accommodations = new ArrayList<>();
         accommodations.add(acc1);
-        //Accommodation priceacc;
-         //priceacc = plothelper.searchAccommodation(obBooking.getPlotID());
         double price = acc1.getPrice();
         int result = businessManager.refundConfirmInt(obBooking,endDate2, price, TimeUnit.DAYS);
 
