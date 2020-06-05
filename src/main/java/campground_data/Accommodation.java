@@ -72,7 +72,7 @@ public class Accommodation implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("PlotID: %s\nOccupancy: %d\nPrice: %f\nUnder Maintenance: %s\nBooked: %s",
+        return String.format("AccommodationID: %s\nOccupancy: %d\nPrice: %f\nUnder Maintenance: %s\nBooked: %s",
                 this.AccommodationID, this.occupancy, this.price, this.underReno ? "True" : "False", this.booked ? "True" : "False");
     }
 

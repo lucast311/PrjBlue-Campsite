@@ -101,7 +101,7 @@ public class RefundWindow extends Stage {
                 if(searchbooking.getPaid()) {
                     //gotta do that
                     double price;
-                    int Accommodationid = searchbooking.getPlotID();
+                    int Accommodationid = searchbooking.getAccommodationID();
                     Accommodation priceAccommodation2;
                     if(AccHelper.searchAccommodation(Accommodationid) == null){
                         System.out.println("no plot or accommodation");
@@ -126,7 +126,7 @@ public class RefundWindow extends Stage {
                 }else{
 
                     double price;
-                    int Accommodationid = searchbooking.getPlotID();
+                    int Accommodationid = searchbooking.getAccommodationID();
                     //System.out.println(Accommodationid);
                     Accommodation priceAccommodation2;
                     if(AccHelper.searchAccommodation(Accommodationid) == null){
@@ -161,7 +161,7 @@ public class RefundWindow extends Stage {
                     nothingclicked = false;
                 }else {
                     Accommodation priceAccommodation2;
-                    int Accommodationid = searchbooking.getPlotID();
+                    int Accommodationid = searchbooking.getAccommodationID();
                     if(AccHelper.searchAccommodation(Accommodationid) == null){
                         System.out.println("no plot or accommodation");
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -207,14 +207,14 @@ public class RefundWindow extends Stage {
                     searchbooking.setTotal((searchbooking.getTotal() - ratething));
                     searchbooking.changeEnd(newEnddate);
                     dbfile.saveRecords(allBookings);
-                    primaryStage.close();
+                    close();
 
                 }else if(yesclicked == false){
                     //message success for refund no and changed end date
                     //gotta do that
                     searchbooking.changeEnd(newEnddate);
                     dbfile.saveRecords(allBookings);
-                    primaryStage.close();
+                    close();
 
                 }
 

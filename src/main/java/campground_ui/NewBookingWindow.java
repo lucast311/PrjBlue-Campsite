@@ -1,7 +1,6 @@
 package campground_ui;
 
 import campground_data.*;
-import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -217,6 +216,7 @@ public class NewBookingWindow extends Stage {
                         Alert obSuccess = new Alert(Alert.AlertType.INFORMATION, "Successfully added the booking!", ButtonType.OK);
                         obSuccess.show();
                         obSuccess.setOnCloseRequest(x->{
+                            clearButton();
                             this.close();
                         });
                     }
@@ -281,9 +281,9 @@ public class NewBookingWindow extends Stage {
         {
             try {
                 Date date = new Date();
-                date.setYear(dpStartDate.getValue().getYear());
-                date.setMonth(dpStartDate.getValue().getMonthValue()-1);
-                date.setDate(dpStartDate.getValue().getDayOfMonth());
+                date.setYear(dpEndDate.getValue().getYear());
+                date.setMonth(dpEndDate.getValue().getMonthValue()-1);
+                date.setDate(dpEndDate.getValue().getDayOfMonth());
                 if (obBooking.changeEnd(date)) {
                     dpEndDate.setStyle("-fx-background-color: green");
                     bEndDateGood = true;
@@ -429,7 +429,6 @@ public class NewBookingWindow extends Stage {
     {
         if(bStartDateGood && bEndDateGood && bAccommodationTypeGood && bMemberCountGood)
         {
-            PlotHelper plotHelper = new PlotHelper();
             List availableAccommodations = accommodationHelper.getAccommodationList().stream()
                     .filter(x->{
 
@@ -444,7 +443,7 @@ public class NewBookingWindow extends Stage {
                                 {
                                     for(Booking booking : bookingHelper.getBookingList())//for loop to check each booking for conflicting dates
                                     {
-                                        if(booking.getPlotID() == ((Accommodation)  x).getAccommodationID())
+                                        if(booking.getAccommodationID() == ((Accommodation)  x).getAccommodationID())
                                         {
                                             if(booking.getStartDate().after(obBooking.getEndDate()))
                                             {
@@ -469,7 +468,7 @@ public class NewBookingWindow extends Stage {
                                 {
                                     for(Booking booking : bookingHelper.getBookingList()) //for loop to check each booking for conflicting dates
                                     {
-                                        if(booking.getPlotID() == x.getAccommodationID())
+                                        if(booking.getAccommodationID() == x.getAccommodationID())
                                         {
                                             if(booking.getStartDate().after(obBooking.getEndDate()))
                                             {
@@ -493,7 +492,7 @@ public class NewBookingWindow extends Stage {
                         {
                             for(Booking booking : bookingHelper.getBookingList())
                             {
-                                if(booking.getPlotID() == x.getAccommodationID())
+                                if(booking.getAccommodationID() == x.getAccommodationID())
                                 {
                                     if(booking.getStartDate().after(obBooking.getEndDate()))
                                     {
@@ -514,6 +513,7 @@ public class NewBookingWindow extends Stage {
                     })
                     .collect(Collectors.toList());
 
+            cbAccommodationID.getItems().clear();
             cbAccommodationID.getItems().addAll(availableAccommodations);
             cbAccommodationID.setVisibleRowCount(4);
         }

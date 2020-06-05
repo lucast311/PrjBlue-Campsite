@@ -4,9 +4,6 @@ package campground_data;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -128,7 +125,7 @@ public class BookingHelper {
                 .map(x -> {
                     if (x.getBookingID() == bookingID)
                     {
-                        return new Booking(x.getPlotID(), x.getGuestID(),newStartDate,newEndDate,x.getType(), x.getMemberCount());
+                        return new Booking(x.getAccommodationID(), x.getGuestID(),newStartDate,newEndDate,x.getType(), x.getMemberCount());
                     }
                     return x;
                 })

@@ -52,7 +52,7 @@ public class BusinessManager {
         //adding cabin for testing
         //plotHelper.addPlot(new Cabin(1, 4, Cabin.CabinType.Deluxe, 100, false));
 
-        homeScreen();
+//        homeScreen();
 
 
 
@@ -464,7 +464,7 @@ public class BusinessManager {
                     refundendDate = searchbooking.getEndDate();
                     bookingtype = searchbooking.getType();
                     bookingmemberCount = searchbooking.getMemberCount();
-                    bookingplotID = searchbooking.getPlotID();
+                    bookingplotID = searchbooking.getAccommodationID();
 
                     //int plotID, int guestID, Date startDate, Date endDate, BookingType type, int memberCount
                     System.out.println("Modify which? ");

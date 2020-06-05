@@ -9,7 +9,7 @@ public class Booking implements Serializable
 	private int nBookingID;
 	private static final long serialVersionUID = 1L;
 	private int nGuestID;
-	private int nPlotID;
+	private int nAccommodationID;
 	private Date startDate;
 	private Date endDate;
 	private BookingType type;
@@ -22,7 +22,7 @@ public class Booking implements Serializable
 	{
 		this.nBookingID = nBookingIDCount++;
 		this.nGuestID =guestID;
-		this.nPlotID=plotID;
+		this.nAccommodationID =plotID;
 		this.startDate=startDate;
 		this.endDate=endDate;
 		this.type=type;
@@ -36,7 +36,7 @@ public class Booking implements Serializable
 	{
 		this.nBookingID = nBookingIDCount++;
 		this.nGuestID =0;
-		this.nPlotID=0;
+		this.nAccommodationID =0;
 		this.startDate=new Date();
 		this.endDate=new Date();
 		this.type=BookingType.Site;
@@ -143,6 +143,7 @@ public class Booking implements Serializable
 	{
 		if(BusinessManager.plotHelper.checkAccommodationID(nAccommodationID))
 		{
+			this.nAccommodationID = nAccommodationID;
 			return true;
 		}
 
@@ -224,16 +225,16 @@ public class Booking implements Serializable
 		return this.nMemberCount;
 	}
 	
-	public int getPlotID()
+	public int getAccommodationID()
 	{
-		return this.nPlotID;
+		return this.nAccommodationID;
 	}
 	
 	@Override
 	public String toString()
 	{
 		return String.format("BookingID: %d, GuestID: %d, Accommodation ID: %d, Type: %s, Paid?: %b, Total: %f, Members: %d Start Date: %s %d End Date: %s %d\n",
-				this.nBookingID, this.nGuestID, this.nPlotID, this.type.toString(), this.bPaid, this.dTotal, this.nMemberCount,
+				this.nBookingID, this.nGuestID, this.nAccommodationID, this.type.toString(), this.bPaid, this.dTotal, this.nMemberCount,
 				this.startDate.toString(),this.startDate.getYear(),this.endDate.toString(),this.endDate.getYear());
 	}
 }

@@ -58,7 +58,7 @@ public class story2otest {
 
 
 
-        assertEquals(acc1.getAccommodationID(), booking1.getPlotID());
+        assertEquals(acc1.getAccommodationID(), booking1.getAccommodationID());
 
     }
 

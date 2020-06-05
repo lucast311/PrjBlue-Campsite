@@ -169,28 +169,29 @@ public class GuestManagerWindow extends Stage
                 return;
             }
 
-            Guest guest = guestHelper.searchGuest(txtSearchField.getText());
-
-            if (guest == null)
-            {
-                Alert nullError = new Alert(Alert.AlertType.ERROR);
-                nullError.setHeaderText("Guest does not exist");
-                nullError.setContentText("The guest you are searching for is not in the database");
-                nullError.showAndWait();
-                txtSearchField.setText("");
-                return;
-            }
-
             //clear the listview first
             guestList.getItems().clear();
-            //add guest to the listview
-            guestList.getItems().add(guest);
 
-            //reset the text field
+            for (Guest guest : guests)
+            {
+                if (!guest.getPhoneNumber().equals(txtSearchField.getText()))
+                {
+                    Alert nullError = new Alert(Alert.AlertType.ERROR);
+                    nullError.setHeaderText("Guest does not exist");
+                    nullError.setContentText("The guest you are searching for is not in the database");
+                    nullError.showAndWait();
+                    txtSearchField.setText("");
+                    return;
+                }
+
+                if(guest.getPhoneNumber().equals(txtSearchField.getText()))
+                {
+                    //add the guest info to the list view
+                    guestList.getItems().add(guest);
+                }
+            }
+
             txtSearchField.setText("");
-
-
-
         });
     }
 
@@ -223,23 +224,29 @@ public class GuestManagerWindow extends Stage
                 return;
             }
 
-            Guest guest = guestHelper.searchGuest(txtSearchField.getText());
-
-            if (guest == null)
-            {
-                Alert nullError = new Alert(Alert.AlertType.ERROR);
-                nullError.setHeaderText("Guest does not exist");
-                nullError.setContentText("The guest you are searching for is not in the database");
-                nullError.showAndWait();
-                txtSearchField.setText("");
-                return;
-            }
-
             //clear the listview first
             guestList.getItems().clear();
-            //add the guest info to the list view
-            guestList.getItems().add(guest);
 
+            for (Guest guest : guests)
+            {
+                if (!guest.getPhoneNumber().equals(txtSearchField.getText()))
+                {
+                    Alert nullError = new Alert(Alert.AlertType.ERROR);
+                    nullError.setHeaderText("Guest does not exist");
+                    nullError.setContentText("The guest you are searching for is not in the database");
+                    nullError.showAndWait();
+                    txtSearchField.setText("");
+                    return;
+                }
+
+                if(guest.getPhoneNumber().equals(txtSearchField.getText()))
+                {
+                    //add the guest info to the list view
+                    guestList.getItems().add(guest);
+                }
+            }
+
+            txtSearchField.setText("");
         });
     }
 

@@ -118,7 +118,7 @@ public class BookingTests
 		Booking obBooking=new Booking(2,1,startDate,
 				endDate, BookingType.Cabin,4);
 
-		assertEquals(2,obBooking.getPlotID());
+		assertEquals(2,obBooking.getAccommodationID());
 		assertEquals(1,obBooking.getGuestID());
 		assertEquals(startDate,obBooking.getStartDate());
 		assertEquals(endDate,obBooking.getEndDate());
@@ -131,7 +131,7 @@ public class BookingTests
 	{
 		Booking obBooking=new Booking();
 
-		assertEquals(0,obBooking.getPlotID());
+		assertEquals(0,obBooking.getAccommodationID());
 		assertEquals(0,obBooking.getGuestID());
 		assertEquals(new Date(),obBooking.getStartDate());
 		assertEquals(new Date(),obBooking.getEndDate());
@@ -148,7 +148,7 @@ public class BookingTests
 
 		//Actually passes, when bookings are made there is no way to check which booking ID is given to "obBooking"
 //		assertEquals(2,obBooking.getBookingID());
-		assertEquals(2,obBooking.getPlotID());
+		assertEquals(2,obBooking.getAccommodationID());
 		assertEquals(1,obBooking.getGuestID());
 		assertEquals(startDate,obBooking.getStartDate());
 		assertEquals(endDate,obBooking.getEndDate());
@@ -177,7 +177,7 @@ public class BookingTests
 		obBooking.setMemberCount(6);
 		obBooking.setTotal(100.0);
 
-		assertEquals(2,obBooking.getPlotID());
+		assertEquals(2,obBooking.getAccommodationID());
 		assertEquals(BookingType.Site,obBooking.getType());
 		assertEquals(6,obBooking.getMemberCount());
 		assertEquals(true,obBooking.getPaid());
@@ -193,7 +193,7 @@ public class BookingTests
 		obBooking.setMemberCount(0);
 		obBooking.setTotal(-1);
 
-		assertEquals(2,obBooking.getPlotID());
+		assertEquals(0,obBooking.getAccommodationID());
 		assertEquals(BookingType.Cabin,obBooking.getType());
 		assertEquals(6,obBooking.getMemberCount());
 		assertEquals(false,obBooking.getPaid());

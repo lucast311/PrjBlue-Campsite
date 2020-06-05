@@ -228,7 +228,7 @@ public class RemoveBookingWindow extends Stage {
 
         txtGuestID.setText(Integer.toString(obBookingToDisplay.getGuestID()));
         txtBookingID.setText(Integer.toString(obBookingToDisplay.getBookingID()));
-        txtAccommodationID.setText(Integer.toString(obBookingToDisplay.getPlotID()));
+        txtAccommodationID.setText(Integer.toString(obBookingToDisplay.getAccommodationID()));
 
         DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d");
         int nYearStart = obBookingToDisplay.getStartDate().getYear();

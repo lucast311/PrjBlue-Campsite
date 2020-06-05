@@ -113,7 +113,7 @@ public class EditBookingWindow extends Stage{
                     //Setting default text to the text fields from the passed in guest
                     txtBookingID.setText(String.valueOf(obBooking.getBookingID()));
                     txtGuestID.setText(String.valueOf(obBooking.getGuestID()));
-                    txtAccommodationID.setText(String.valueOf(obBooking.getPlotID()));
+                    txtAccommodationID.setText(String.valueOf(obBooking.getAccommodationID()));
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                     String startDate= formatter.format(obBooking.getStartDate());
                     String endDate= formatter.format(obBooking.getEndDate());
@@ -220,7 +220,12 @@ public class EditBookingWindow extends Stage{
                 //need to validate everything then
                 //change everything that was inputted
 
-                obBooking.setAccommodationID(Integer.parseInt(txtAccommodationID.getText()));
+                txtError.setText("");
+
+                if(!obBooking.setAccommodationID(Integer.parseInt(txtAccommodationID.getText())))
+                {
+                    txtError.setText("Accommodation ID is invalid");
+                }
 
                 SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
                 String sFields = txtEndDate.getText();
