@@ -278,7 +278,7 @@ public class OwnerTest {
         String pass1 = "Pa$$w0rd";
         String pass2 = "Pa$$w0rd";
         boolean success = ownerHelper.changePassword(owner, pass1, pass2);
-
+        assertTrue(success);
     }
 
     /**

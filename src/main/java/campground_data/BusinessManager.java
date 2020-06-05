@@ -32,18 +32,18 @@ public class BusinessManager {
     public static void main(String[] args) {
 
         createOwners();
-        LogIn();
-
-        //Guest added for testing, ID will be 1
-        guestHelper.addGuest(new Guest("Test", "Mctester", "mctester@gmail.com", "3060203345", PaymentType.Credit, "1563 1222 1589 5489", new Address(121, 0, "Test Cres.", "Saskatoon", "Saskatchewan", "Canada", "S1N2P3")));
-
-        //adding site for testing
-        plotHelper.addPlot(new Site(2, 4, 50, Site.SiteType.Group, true, true));
-
-        //adding cabin for testing
-        plotHelper.addPlot(new Cabin(1, 4, Cabin.CabinType.Deluxe, 100, false));
-
-        homeScreen();
+//        LogIn();
+//
+//        //Guest added for testing, ID will be 1
+//        guestHelper.addGuest(new Guest("Test", "Mctester", "mctester@gmail.com", "3060203345", PaymentType.Credit, "1563 1222 1589 5489", new Address(121, 0, "Test Cres.", "Saskatoon", "Saskatchewan", "Canada", "S1N2P3")));
+//
+//        //adding site for testing
+//        plotHelper.addPlot(new Site(2, 4, 50, Site.SiteType.Group, true, true));
+//
+//        //adding cabin for testing
+//        plotHelper.addPlot(new Cabin(1, 4, Cabin.CabinType.Deluxe, 100, false));
+//
+//        homeScreen();
 
 
     }
@@ -1314,10 +1314,10 @@ public class BusinessManager {
 
     public static void createOwners()
     {
-        Owner harry = new Owner("harry", "louis", "Mounta1nM@n", "555-555-5555", "hlouis@cestlake.ca", 3, true);
-        Owner mary = new Owner("mary", "louis", "F1uffyC@ts", "555-555-5555", "mlouis@cestlake.ca", 3, true);
-        Owner tom = new Owner("tom", "louis", "", "498-2772-7512", "tlouis@cestlake.ca", 2, false);
-        Owner sarah = new Owner("sarah", "louis", "", "872-848-1480", "slouis@cestlake.ca", 2, false);
+        Owner harry = new Owner("harry", "louis", "Mounta1nM@n", "5554445555", "hlouis@cestlake.ca", 3, true);
+        Owner mary = new Owner("mary", "louis", "F1uffyC@ts", "5554445555", "mlouis@cestlake.ca", 3, true);
+        Owner tom = new Owner("tom", "louis", "", "4987727512", "tlouis@cestlake.ca", 2, false);
+        Owner sarah = new Owner("sarah", "louis", "", "8728481480", "slouis@cestlake.ca", 2, false);
         Owner guest = new Owner("guest", "login", "Pa$$w0rd", "n/a", "info@cestlake.ca", 1, false);
         ownerList.add(harry);
         ownerList.add(mary);

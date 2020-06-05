@@ -5,10 +5,12 @@ import javafx.scene.control.PasswordField;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+
 public class OwnerHelper {
 
     private static ArrayList<Owner> ownerList;
     private static DatabaseFile DBFile;
+    private ValidationHelper vh = new ValidationHelper();
 
     public OwnerHelper() {
         DBFile=new DatabaseFile();
@@ -25,13 +27,43 @@ public class OwnerHelper {
         return ownerList;
     }
 
-    public void removeOwner(Owner obj) {
-
+    public boolean removeOwner(Owner obj) {
+        boolean bRemoved = false;
+        if(obj!=null)
+        {
+            this.ownerList.remove(obj);
+            bRemoved=true;
+            DBFile.saveRecords(this.ownerList);
+        }
+        return bRemoved;
     }
 
     public boolean changePassword(Owner owner, String pass1, String pass2)
     {
-        return false;
+        Owner obVal = owner;
+        boolean bRequest = false;
+        if(pass1.equals(pass2))
+        {
+            String first = obVal.getFirstName();
+            String last = obVal.getLastName();
+            String email = obVal.getEmail();
+            String phone = obVal.getPhoneNumber();
+            int permission = obVal.getPermissions();
+            boolean onsite = obVal.getOnSite();
+            Owner test = new Owner(first, last, pass1, phone, email, permission, onsite);
+            if(vh.isValid(test)) {
+                for(Owner obOwner : this.ownerList)
+                {
+                    removeOwner(obOwner);
+
+                    addOwner(test);
+                    bRequest = true;
+                }
+
+
+            }
+        }
+        return bRequest;
     }
 
     public void editOwner(Owner obj) {

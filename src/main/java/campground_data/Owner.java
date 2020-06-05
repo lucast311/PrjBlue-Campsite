@@ -30,7 +30,8 @@ public class Owner implements Serializable {
     @Pattern(regexp = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$", message = "Email addresses must be in the format example@test.ca")
     private String email;
 
-//    @Max(value = 1, max = 3, message = "User permissions can be 1-3, 1 being read-only; 3 being full-control")
+    @Min(value = 1, message = "User permissions can be 1-3, 1 being read-only; 3 being full-control")
+    @Max(value = 3, message = "User permissions can be 1-3, 1 being read-only; 3 being full-control")
     private int permissions;
     private Boolean onSite;
 
@@ -130,14 +131,17 @@ public class Owner implements Serializable {
     @Override
     public String toString()
     {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("firstName",this.firstName);
-        jsonObject.put("lastName",this.lastName);
-        jsonObject.put("userId",this.userId);
-        jsonObject.put("phoneNumber",this.phoneNumber);
-        jsonObject.put("email",this.email);
-        jsonObject.put("permissions",this.permissions);
-        jsonObject.put("onSite",this.onSite);
-        return jsonObject.toString();
+        return String.format("USERID: %s, NAME: %s %s, EMAIL: %s, PHONE: %s, PERMISSIONS: %d, ONSITE: %b",
+                this.userId, this.firstName, this.lastName, this.email, this.phoneNumber, this.permissions, this.onSite);
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("First Name",this.firstName);
+//        jsonObject.put("Last Name",this.lastName);
+//        jsonObject.put("UserID",this.userId);
+//        jsonObject.put("Phone Number",this.phoneNumber);
+//        jsonObject.put("Email",this.email);
+//        jsonObject.put("Permissions",this.permissions);
+//        jsonObject.put("OnSite",this.onSite);
+//        return jsonObject.toString();
     }
+
 }
