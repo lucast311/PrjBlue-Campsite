@@ -101,13 +101,22 @@ public class refundWindow extends Stage {
                     double price;
                     int Accommodationid = searchbooking.getPlotID();
                     Accommodation priceAccommodation2;
-                    priceAccommodation2 = AccHelper.searchAccommodation(Accommodationid);
-                    price = priceAccommodation2.getPrice();
-                    System.out.println(price);
-                    ratething = refundConfirmInt(searchbooking,newEnddate, price, TimeUnit.DAYS);
-                    double paid = searchbooking.getTotal();
+                    if(AccHelper.searchAccommodation(Accommodationid) == null){
+                        System.out.println("no plot or accommodation");
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Information Dialog");
+                        alert.setHeaderText(null);
+                        alert.setContentText("You have an invalid accommodation connected");
+                        alert.showAndWait();
+                    }else {
+                        priceAccommodation2 = AccHelper.searchAccommodation(Accommodationid);
+                        price = priceAccommodation2.getPrice();
+                        //System.out.println(price);
+                        ratething = refundConfirmInt(searchbooking, newEnddate, price, TimeUnit.DAYS);
+                        double paid = searchbooking.getTotal();
 
-                    inputtext.setText( paid + " - " + ratething + "$");
+                        inputtext.setText(paid + " - " + ratething + "$");
+                    }
 
 
 
@@ -116,15 +125,25 @@ public class refundWindow extends Stage {
 
                     double price;
                     int Accommodationid = searchbooking.getPlotID();
-                    System.out.println(Accommodationid);
+                    //System.out.println(Accommodationid);
                     Accommodation priceAccommodation2;
-                    priceAccommodation2 = AccHelper.searchAccommodation(Accommodationid);
-                    price =  priceAccommodation2.getPrice();
-                    System.out.println(price);
-                    ratething = refundConfirmInt(searchbooking,newEnddate, price, TimeUnit.DAYS);
-                    int resultratething = ratething;
+                    if(AccHelper.searchAccommodation(Accommodationid) == null){
+                        System.out.println("no plot or accommodation");
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Information Dialog");
+                        alert.setHeaderText(null);
+                        alert.setContentText("You have an invalid accommodation connected");
+                        alert.showAndWait();
+                    }else {
+                        priceAccommodation2 = AccHelper.searchAccommodation(Accommodationid);
+                        price =  priceAccommodation2.getPrice();
+                        //System.out.println(price);
 
-                    inputtext.setText(resultratething + "$");
+                        ratething = refundConfirmInt(searchbooking, newEnddate, price, TimeUnit.DAYS);
+                        int resultratething = ratething;
+
+                        inputtext.setText(resultratething + "$");
+                    }
                 }
                 yesclicked = true;
                 nothingclicked = false;
@@ -141,16 +160,25 @@ public class refundWindow extends Stage {
                 }else {
                     Accommodation priceAccommodation2;
                     int Accommodationid = searchbooking.getPlotID();
-                    priceAccommodation2 = AccHelper.searchAccommodation(Accommodationid);
+                    if(AccHelper.searchAccommodation(Accommodationid) == null){
+                        System.out.println("no plot or accommodation");
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Information Dialog");
+                        alert.setHeaderText(null);
+                        alert.setContentText("You have an invalid accommodation connected");
+                        alert.showAndWait();
+                    }else {
+                        priceAccommodation2 = AccHelper.searchAccommodation(Accommodationid);
 
-                    long diffInMillies2 = Math.abs(searchbooking.getEndDate().getTime() - searchbooking.getStartDate().getTime());
+                        long diffInMillies2 = Math.abs(searchbooking.getEndDate().getTime() - searchbooking.getStartDate().getTime());
 
-                    long diff2 = TimeUnit.DAYS.convert(diffInMillies2, TimeUnit.MILLISECONDS);
-                    double dif2 = (double) Math.ceil(diff2/30.00);
+                        long diff2 = TimeUnit.DAYS.convert(diffInMillies2, TimeUnit.MILLISECONDS);
+                        //double dif2 = (double) Math.ceil(diff2 / 30.00);
 
-                    double price =  priceAccommodation2.getPrice();
-                    price = (dif2 * price);
-                    inputtext.setText(price + "$");
+                        double price = priceAccommodation2.getPrice();
+                        price = (diff2 * price);
+                        inputtext.setText(price + "$");
+                    }
 
                 }
 
@@ -228,18 +256,12 @@ public class refundWindow extends Stage {
 
         long diff2 = timeUnit.convert(diffInMillies2, TimeUnit.MILLISECONDS);
 
-
-        double dif1 = (double) Math.ceil(diff1/30.00);
-        double dif2 = (double) Math.ceil(diff2/30.00);
-        System.out.println(dif1 + "days1");
-        System.out.println(dif2 + "days2");
-
-        double pricething = (dif2 * price);
-        double ratething2 =   ((double)dif1 / dif2);
+        double pricething = (diff2 * price);
+        double ratething2 =   ((double)diff1 / diff2);
 
         double ratething3 = (pricething * ratething2);
 
-        System.out.println("got refund");
+        //System.out.println("got refund");
         return (int) ratething3;
     }
 }
