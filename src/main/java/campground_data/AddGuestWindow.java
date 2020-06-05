@@ -192,7 +192,7 @@ public class AddGuestWindow extends Stage {
         btnSaveChanges.setOnAction(e -> {
 
             //Create dummy address
-            Address dummyAddress = new Address(Integer.parseInt(streetNumField.getText()), Integer.parseInt(aptNumField.getText()),
+            Address dummyAddress = new Address(Integer.parseInt(streetNumField.getText().equals("") ? "0" : streetNumField.getText()), Integer.parseInt(aptNumField.getText().equals("") ? "-1" : aptNumField.getText()),
                     streetNameField.getText(), cityTownField.getText(), provinceField.getText(), countryField.getText(), postalCodeField.getText());
 
             //Create dummy guest with dummyAddress assigned
