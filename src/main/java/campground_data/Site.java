@@ -2,7 +2,7 @@ package campground_data;
 
 import java.io.Serializable;
 
-public class Site extends Plot implements Serializable {
+public class Site extends Accommodation implements Serializable {
     private boolean serviced;
     private SiteType type;
 

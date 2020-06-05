@@ -107,6 +107,8 @@ public class BookingManagerWindow extends Stage {
 
         btnModifyBooking.setOnAction(e -> {
 
+            EditBookingWindow editBookingWindow = new EditBookingWindow(parent);
+            editBookingWindow.showAndWait();
         });
 
         btnCurrentBookings.setOnAction(e -> {

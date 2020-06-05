@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import campground_data.BookingHelper;
 import campground_data.BookingType;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import campground_data.Booking;
@@ -46,9 +45,21 @@ public class BookingTests
 	}
 	
 	@Test
-	public void testChangeBookingDate()
+	public void testChangeBookingDate() //helps story 2o
 	{
-		
+		Date startDate= new Date(2020,7,20);
+		Date endDate= new Date(2020,7,25);
+
+		Booking obBooking=new Booking(2,1,startDate, endDate, BookingType.Cabin,4);
+		Date endDate2 = new Date(2020, 7,24 );
+		Date startDate2 = new Date(2020, 7,21 );
+
+		obBooking.changeEnd(endDate2);
+		obBooking.changeStart(startDate2);
+
+		assertEquals(endDate2, obBooking.getEndDate());
+		assertEquals(startDate2, obBooking.getStartDate());
+
 	}
 	
 	@Test

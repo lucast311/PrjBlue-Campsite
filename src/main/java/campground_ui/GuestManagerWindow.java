@@ -110,7 +110,7 @@ public class GuestManagerWindow extends Stage
         btnRefreshClicked();
         btnAddGuest.setOnAction(e -> {
             AddGuestWindow addGuestWindow = new AddGuestWindow();
-            addGuestWindow.initModality(Modality.WINDOW_MODAL);
+            addGuestWindow.initModality(Modality.APPLICATION_MODAL);
             addGuestWindow.initOwner(parent);
             addGuestWindow.show();
         });
@@ -131,7 +131,7 @@ public class GuestManagerWindow extends Stage
             {
                 Guest obGuest = guests.get(guestList.getSelectionModel().getSelectedIndex());
                 EditGuestWindow guestWindow = new EditGuestWindow(obGuest, nIndex);
-                guestWindow.initModality(Modality.WINDOW_MODAL);
+                guestWindow.initModality(Modality.APPLICATION_MODAL);
                 guestWindow.initOwner(parent);
 
                 guestWindow.show();
